@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/custom_time_minutes"
+        android:layout_weight="0.50"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="20dp"
+        android:hint="Minutes"
+        android:inputType="number"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/custom_time_seconds"
+        android:layout_weight="0.50"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="20dp"
+        android:hint="Seconds"
+        android:inputType="number"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" />
+</LinearLayout>

@@ -1,0 +1,60 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:id="@+id/main_layout">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="false"
+        android:fadeScrollbars="true"
+        android:paddingTop="25dp">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".MainActivity"
+            android:visibility="visible"
+            android:id="@+id/input_layout">
+
+
+
+            <TextView android:id="@+id/main_textview"
+                android:layout_width="match_parent"
+                android:layout_height="104dp"
+                android:layout_marginLeft="25dp"
+                android:text="Enter the names of jumpers that are in the show, separated by commas."
+                android:textSize="20dp"
+                android:layout_weight="8"
+                android:layout_marginRight="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_input"
+                android:layout_alignEnd="@+id/main_textview"
+                android:hint="Name1, Name2, Name3, etc"
+                android:layout_below="@+id/main_textview"
+                android:layout_alignStart="@+id/main_textview" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:id="@+id/make_show"
+                android:layout_below="@+id/name_input"
+                android:layout_centerHorizontal="true"
+                android:onClick="selectNames"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="false"
+                android:layout_marginTop="50dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

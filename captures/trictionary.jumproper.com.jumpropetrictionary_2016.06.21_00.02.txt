@@ -1,0 +1,267 @@
+CURRENT STATS:
+System memory usage:
+  SOff/Norm: 1 samples:
+    Cached: 95MB min, 95MB avg, 95MB max
+    Free: 90MB min, 90MB avg, 90MB max
+    ZRam: 46MB min, 46MB avg, 46MB max
+    Kernel: 294MB min, 294MB avg, 294MB max
+    Native: 88MB min, 88MB avg, 88MB max
+  SOn /Norm: 2 samples:
+    Cached: 132MB min, 361MB avg, 590MB max
+    Free: 67MB min, 69MB avg, 71MB max
+    ZRam: 1.1MB min, 21MB avg, 41MB max
+    Kernel: 273MB min, 282MB avg, 290MB max
+    Native: 86MB min, 139MB avg, 192MB max
+       Mod : 1 samples:
+    Cached: 42MB min, 42MB avg, 42MB max
+    Free: 150MB min, 150MB avg, 150MB max
+    ZRam: 29MB min, 29MB avg, 29MB max
+    Kernel: 355MB min, 355MB avg, 355MB max
+    Native: 88MB min, 88MB avg, 88MB max
+
+Per-Package Stats:
+  * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+               TOTAL: 23% (206MB-238MB-355MB/200MB-231MB-333MB over 8)
+                 Top: 23% (206MB-238MB-355MB/200MB-231MB-333MB over 8)
+          (Last Act): 11% (102MB-102MB-102MB/98MB-98MB-98MB over 1)
+            (Cached): 8.8% (293MB-293MB-293MB/271MB-271MB-271MB over 1)
+
+Summary:
+  * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+           TOTAL: 23% (206MB-238MB-355MB/200MB-231MB-333MB over 8)
+             Top: 23% (206MB-238MB-355MB/200MB-231MB-333MB over 8)
+      (Last Act): 11% (102MB-102MB-102MB/98MB-98MB-98MB over 1)
+        (Cached): 8.8% (293MB-293MB-293MB/271MB-271MB-271MB over 1)
+
+Run time Stats:
+  SOff/Norm: +5m10s879ms
+  SOn /Norm: +40m36s727ms (running)
+       Mod : +4m15s336ms
+      TOTAL: +50m2s942ms
+
+Memory usage:
+  Kernel : 303MB (32 samples)
+  Native : 113MB (32 samples)
+  Persist: 407MB (192 samples)
+  Top    : 298MB (325 samples)
+  ImpFg  : 292MB (445 samples)
+  ImpBg  : 39MB (94 samples)
+  Service: 218MB (645 samples)
+  Receivr: 837KB (551 samples)
+  Home   : 68MB (32 samples)
+  LastAct: 48MB (54 samples)
+  CchAct : 329MB (61 samples)
+  CchCAct: 8.9MB (1 samples)
+  CchEmty: 320MB (548 samples)
+  Cached : 215MB (32 samples)
+  Free   : 95MB (32 samples)
+  Z-Ram  : 30MB (32 samples)
+  TOTAL  : 2.7GB
+  ServRst: 432KB (176 samples)
+
+          Start time: 2016-06-20 23:56:17
+  Total elapsed time: +1h7m2s489ms (partial) libart.so
+
+AGGREGATED OVER LAST 24 HOURS:
+System memory usage:
+  SOff/Norm: 24 samples:
+    Cached: 0.00 min, 218MB avg, 610MB max
+    Free: 66MB min, 103MB avg, 231MB max
+    ZRam: 488KB min, 97MB avg, 247MB max
+    Kernel: 261MB min, 296MB avg, 338MB max
+    Native: 80MB min, 107MB avg, 195MB max
+  SOn /Norm: 28 samples:
+    Cached: 0.00 min, 130MB avg, 614MB max
+    Free: 57MB min, 124MB avg, 307MB max
+    ZRam: 1.1MB min, 120MB avg, 245MB max
+    Kernel: 273MB min, 291MB avg, 321MB max
+    Native: 77MB min, 90MB avg, 192MB max
+       Mod : 6 samples:
+    Cached: 0.00 min, 41MB avg, 117MB max
+    Free: 139MB min, 252MB avg, 555MB max
+    ZRam: 29MB min, 106MB avg, 177MB max
+    Kernel: 263MB min, 303MB avg, 355MB max
+    Native: 79MB min, 91MB avg, 119MB max
+       Low : 1 samples:
+    Cached: 0.00 min, 0.00 avg, 0.00 max
+    Free: 394MB min, 394MB avg, 394MB max
+    ZRam: 50MB min, 50MB avg, 50MB max
+    Kernel: 271MB min, 271MB avg, 271MB max
+    Native: 86MB min, 86MB avg, 86MB max
+
+Per-Package Stats:
+  * trictionary.jumproper.com.jumpropetrictionary / u0a241 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a241 / v7:
+               TOTAL: 11% (197MB-243MB-364MB/192MB-236MB-339MB over 40)
+                 Top: 11% (197MB-243MB-364MB/192MB-236MB-339MB over 40)
+          (Last Act): 2.1% (100MB-147MB-196MB/97MB-138MB-184MB over 6)
+            (Cached): 9.1% (58MB-92MB-122MB/56MB-89MB-118MB over 11)
+  * trictionary.jumproper.com.jumpropetrictionary / u0a242 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a242 / v7:
+               TOTAL: 0.73% (184MB-184MB-184MB/178MB-178MB-178MB over 1)
+                 Top: 0.73% (184MB-184MB-184MB/178MB-178MB-178MB over 1)
+          (Last Act): 0.01%
+      * com.google.firebase.iid.FirebaseInstanceIdService:
+        Process: trictionary.jumproper.com.jumpropetrictionary
+            Running count 1 / time 0.00%
+            Started count 1 / time 0.00%
+          Executing count 2 / time 0.00%
+  * trictionary.jumproper.com.jumpropetrictionary / u0a243 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a243 / v7:
+               TOTAL: 1.3% (206MB-247MB-374MB/199MB-241MB-366MB over 7)
+                 Top: 1.3% (206MB-247MB-374MB/199MB-241MB-366MB over 7)
+          (Last Act): 3.2% (119MB-126MB-136MB/114MB-121MB-131MB over 3)
+            (Cached): 0.31%
+      * com.google.firebase.iid.FirebaseInstanceIdService:
+        Process: trictionary.jumproper.com.jumpropetrictionary
+            Running count 3 / time 0.00%
+            Started count 2 / time 0.00%
+          Executing count 3 / time 0.00%
+  * trictionary.jumproper.com.jumpropetrictionary / u0a244 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a244 / v7:
+               TOTAL: 0.14% (217MB-236MB-255MB/209MB-228MB-247MB over 2)
+                 Top: 0.14% (217MB-236MB-255MB/209MB-228MB-247MB over 2)
+          (Last Act): 0.02%
+      * com.google.firebase.iid.FirebaseInstanceIdService:
+        Process: trictionary.jumproper.com.jumpropetrictionary
+            Running count 1 / time 0.00%
+            Started count 1 / time 0.00%
+          Executing count 2 / time 0.00%
+  * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+               TOTAL: 3.2% (199MB-245MB-355MB/196MB-239MB-333MB over 18)
+                 Top: 3.2% (199MB-245MB-355MB/196MB-239MB-333MB over 18)
+              Imp Fg: 0.02%
+          (Last Act): 3.5% (102MB-172MB-226MB/98MB-166MB-215MB over 8)
+            (Cached): 12% (98MB-142MB-293MB/96MB-138MB-271MB over 16)
+      * com.google.firebase.iid.FirebaseInstanceIdService:
+        Process: trictionary.jumproper.com.jumpropetrictionary
+            Running count 1 / time 0.00%
+            Started count 1 / time 0.00%
+          Executing count 2 / time 0.00%
+
+Summary:
+  * trictionary.jumproper.com.jumpropetrictionary / u0a241 / v7:
+           TOTAL: 11% (197MB-243MB-364MB/192MB-236MB-339MB over 40)
+             Top: 11% (197MB-243MB-364MB/192MB-236MB-339MB over 40)
+      (Last Act): 2.1% (100MB-147MB-196MB/97MB-138MB-184MB over 6)
+        (Cached): 9.1% (58MB-92MB-122MB/56MB-89MB-118MB over 11)
+  * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+           TOTAL: 3.2% (199MB-245MB-355MB/196MB-239MB-333MB over 18)
+             Top: 3.2% (199MB-245MB-355MB/196MB-239MB-333MB over 18)
+          Imp Fg: 0.02%
+      (Last Act): 3.5% (102MB-172MB-226MB/98MB-166MB-215MB over 8)
+        (Cached): 12% (98MB-142MB-293MB/96MB-138MB-271MB over 16)
+  * trictionary.jumproper.com.jumpropetrictionary / u0a243 / v7:
+           TOTAL: 1.3% (206MB-247MB-374MB/199MB-241MB-366MB over 7)
+             Top: 1.3% (206MB-247MB-374MB/199MB-241MB-366MB over 7)
+      (Last Act): 3.2% (119MB-126MB-136MB/114MB-121MB-131MB over 3)
+        (Cached): 0.31%
+  * trictionary.jumproper.com.jumpropetrictionary / u0a242 / v7:
+           TOTAL: 0.73% (184MB-184MB-184MB/178MB-178MB-178MB over 1)
+             Top: 0.73% (184MB-184MB-184MB/178MB-178MB-178MB over 1)
+      (Last Act): 0.01%
+  * trictionary.jumproper.com.jumpropetrictionary / u0a244 / v7:
+           TOTAL: 0.14% (217MB-236MB-255MB/209MB-228MB-247MB over 2)
+             Top: 0.14% (217MB-236MB-255MB/209MB-228MB-247MB over 2)
+      (Last Act): 0.02%
+
+Run time Stats:
+  SOff/Norm: +5h48m54s957ms
+       Mod : +5s354ms
+  SOn /Norm: +5h23m20s971ms
+       Mod : +25m29s994ms
+       Low : +1m13s9ms
+       Crit: +7s980ms
+      TOTAL: +11h39m12s265ms
+
+Memory usage:
+  Kernel : 294MB (353 samples)
+  Native : 99MB (353 samples)
+  Persist: 427MB (6655 samples)
+  Top    : 266MB (3382 samples)
+  ImpFg  : 288MB (10015 samples)
+  ImpBg  : 14MB (3851 samples)
+  Service: 278MB (16196 samples)
+  Receivr: 1.1MB (13484 samples)
+  Home   : 61MB (471 samples)
+  LastAct: 53MB (2486 samples)
+  CchAct : 389MB (2103 samples)
+  CchCAct: 31MB (707 samples)
+  CchEmty: 237MB (7758 samples)
+  Cached : 171MB (353 samples)
+  Free   : 118MB (353 samples)
+  Z-Ram  : 108MB (353 samples)
+  TOTAL  : 2.8GB
+  ServRst: 1.3MB (8361 samples)
+
+          Start time: 2016-06-19 19:34:33
+  Total elapsed time: +18h22m2s523ms (partial) libart.so
+
+AGGREGATED OVER LAST 3 HOURS:
+System memory usage:
+  SOff/Norm: 4 samples:
+    Cached: 0.00 min, 238MB avg, 597MB max
+    Free: 66MB min, 120MB avg, 226MB max
+    ZRam: 0.95MB min, 21MB avg, 46MB max
+    Kernel: 276MB min, 288MB avg, 294MB max
+    Native: 88MB min, 124MB avg, 195MB max
+  SOn /Norm: 2 samples:
+    Cached: 132MB min, 361MB avg, 590MB max
+    Free: 67MB min, 69MB avg, 71MB max
+    ZRam: 1.1MB min, 21MB avg, 41MB max
+    Kernel: 273MB min, 282MB avg, 290MB max
+    Native: 86MB min, 139MB avg, 192MB max
+       Mod : 1 samples:
+    Cached: 42MB min, 42MB avg, 42MB max
+    Free: 150MB min, 150MB avg, 150MB max
+    ZRam: 29MB min, 29MB avg, 29MB max
+    Kernel: 355MB min, 355MB avg, 355MB max
+    Native: 88MB min, 88MB avg, 88MB max
+
+Per-Package Stats:
+  * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+      * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+               TOTAL: 16% (199MB-231MB-355MB/196MB-225MB-333MB over 10)
+                 Top: 16% (199MB-231MB-355MB/196MB-225MB-333MB over 10)
+              Imp Fg: 0.01%
+          (Last Act): 17% (102MB-122MB-142MB/98MB-118MB-139MB over 2)
+            (Cached): 17% (138MB-215MB-293MB/132MB-202MB-271MB over 2)
+
+Summary:
+  * trictionary.jumproper.com.jumpropetrictionary / u0a245 / v7:
+           TOTAL: 16% (199MB-231MB-355MB/196MB-225MB-333MB over 10)
+             Top: 16% (199MB-231MB-355MB/196MB-225MB-333MB over 10)
+          Imp Fg: 0.01%
+      (Last Act): 17% (102MB-122MB-142MB/98MB-118MB-139MB over 2)
+        (Cached): 17% (138MB-215MB-293MB/132MB-202MB-271MB over 2)
+
+Run time Stats:
+  SOff/Norm: +15m21s162ms
+  SOn /Norm: +60m0s283ms
+       Mod : +4m15s336ms
+      TOTAL: +1h19m36s781ms
+
+Memory usage:
+  Kernel : 294MB (53 samples)
+  Native : 123MB (53 samples)
+  Persist: 422MB (288 samples)
+  Top    : 274MB (431 samples)
+  ImpFg  : 303MB (755 samples)
+  ImpBg  : 28MB (246 samples)
+  Service: 223MB (1091 samples)
+  Receivr: 1.3MB (1345 samples)
+  Home   : 67MB (46 samples)
+  LastAct: 50MB (81 samples)
+  CchAct : 356MB (92 samples)
+  CchCAct: 11MB (19 samples)
+  CchEmty: 301MB (764 samples)
+  Cached : 244MB (53 samples)
+  Free   : 112MB (53 samples)
+  Z-Ram  : 22MB (53 samples)
+  TOTAL  : 2.8GB
+  ServRst: 424KB (448 samples)
+
+          Start time: 2016-06-20 22:12:06
+  Total elapsed time: +1h38m56s534ms (partial) libart.so

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="trictionary.jumproper.com.jumpropetrictionary.SpeedGraph"
+    android:background="@drawable/background">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/button" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/chart"
+        android:layout_below="@+id/back_arrow"
+        android:layout_marginTop="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/chart">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duration:"
+                android:id="@+id/event_duration_title"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Score:"
+                android:id="@+id/score_title"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="20dp"
+                android:layout_below="@+id/event_duration_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jumps per Second (Avg):"
+                android:id="@+id/avg_jumps_per_second_title"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_below="@+id/score_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jumps per Second (Max):"
+                android:id="@+id/max_jumps_per_second_title"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_below="@+id/avg_jumps_per_second_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estimated Misses:"
+                android:id="@+id/num_misses_title"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_below="@+id/max_jumps_per_second_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estimated Score (No Misses)"
+                android:id="@+id/score_no_misses_title"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_below="@+id/num_misses_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jump Deficit"
+                android:id="@+id/jumps_lost_title"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_below="@+id/score_no_misses_title"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:id="@+id/event_duration"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="20dp"
+                android:layout_alignTop="@+id/event_duration_title"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/score"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd"
+                android:layout_alignTop="@+id/score_title"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/avg_jumps_per_second"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd"
+                android:layout_alignTop="@+id/avg_jumps_per_second_title"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/max_jumps_per_second"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd"
+                android:layout_alignTop="@+id/max_jumps_per_second_title"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/num_misses"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd"
+                android:layout_alignTop="@+id/num_misses_title"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/score_no_misses"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd"
+                android:layout_alignTop="@+id/score_no_misses_title"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/jumps_lost"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="5dp"
+                android:textSize="15dp"
+                android:layout_marginRight="20dp"
+                android:textAlignment="textEnd"
+                android:layout_alignTop="@+id/jumps_lost_title"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/back_arrow"
+        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+
+
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"
+        android:onClick="viewSpeed" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Data"
+        android:id="@+id/button"
+        android:onClick="readData"
+        android:layout_alignTop="@+id/save_data"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Data"
+        android:id="@+id/save_data"
+        android:onClick="saveData"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/chart" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Public Data"
+        android:id="@+id/button3"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewPublicData"
+        android:visibility="gone" />
+
+</RelativeLayout>

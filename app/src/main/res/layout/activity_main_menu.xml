@@ -1,0 +1,173 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="fill_parent"
+    tools:showIn="@layout/main_menu_toolbar_layout"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainMenu">
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:adjustViewBounds="true"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/background"
+        android:alpha=".6"></RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tricktionary"
+            android:id="@+id/view_tricktionary"
+            android:textSize="30sp"
+            android:onClick="viewTricktionary"
+            android:typeface="normal"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="5dp"
+            android:clickable="true"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="20sp"
+            android:layout_marginRight="10sp"
+            android:layout_toLeftOf="@+id/center"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10sp"
+            android:textAlignment="gravity"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed Data"
+            android:id="@+id/speed_data"
+            android:textSize="30sp"
+            android:onClick="loadSpeedData"
+            android:typeface="normal"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="5dp"
+            android:clickable="true"
+            android:layout_marginRight="10sp"
+            android:layout_alignTop="@+id/view_tricktionary"
+            android:layout_alignStart="@+id/view_trick_tree"
+            android:layout_toRightOf="@+id/center"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="gravity"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Writer"
+            android:id="@+id/view_showmaker"
+            android:textSize="30sp"
+            android:onClick="viewShowmaker"
+            android:typeface="normal"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="5dp"
+            android:clickable="true"
+            android:layout_below="@+id/view_tricktionary"
+            android:layout_marginTop="20sp"
+            android:layout_toLeftOf="@+id/center"
+            android:layout_marginRight="10sp"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10sp"
+            android:textAlignment="gravity"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed Timer"
+            android:id="@+id/view_trick_tree"
+            android:textSize="30sp"
+            android:onClick="viewSpeed"
+            android:typeface="normal"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="5dp"
+            android:clickable="true"
+            android:layout_toRightOf="@+id/center"
+            android:layout_below="@+id/view_tricktionary"
+            android:layout_marginTop="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10sp"
+            android:textAlignment="gravity"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings"
+            android:src="@drawable/gear_icon"
+            android:onClick="openSettings"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/view_showmaker"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:clickable="true"
+            android:tint="@color/materialRed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/header"
+            android:layout_gravity="center_horizontal|top"
+            android:src="@drawable/icon_alpha"
+            android:onClick="randomTrick"
+            android:alpha=".75"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20sp"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="75sp"
+            android:layout_marginRight="75sp"
+            android:clickable="true"
+            android:layout_above="@+id/title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jump Rope\nTricktionary"
+            android:id="@+id/title"
+            android:textSize="30sp"
+            android:typeface="normal"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:layout_marginTop="20sp"
+            android:padding="5dp"
+            android:onClick="viewTricktionary"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:textAlignment="gravity"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/center"
+            android:layout_below="@+id/view_tricktionary"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20sp"
+            android:textSize="30sp"
+            android:padding="5dp" />
+
+    </RelativeLayout>
+
+</FrameLayout>

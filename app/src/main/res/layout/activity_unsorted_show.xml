@@ -1,0 +1,56 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="com.jumproper.showmaker.Show">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Events:"
+                android:id="@+id/events"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="30dp"
+                android:alpha="80"
+                android:textColor="#ff353535" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+
+                android:id="@+id/break_events"
+                android:textSize="15dp"
+                android:alpha="80"
+                android:layout_below="@+id/events"
+                android:layout_alignParentStart="true"
+                android:text="Select the first event of the show:" />
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/sorted_show"
+                android:layout_below="@+id/events"
+                android:fadeScrollbars="true"
+                android:fadingEdge="vertical|horizontal"
+                android:fadingEdgeLength="30dp"
+                android:fitsSystemWindows="false"
+                android:smoothScrollbar="true"
+                android:paddingTop="45dp">
+            </ListView>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

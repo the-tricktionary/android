@@ -1,0 +1,128 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:id="@+id/main_layout"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        android:visibility="visible"
+        android:id="@+id/input_layout"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+
+        <TextView android:id="@+id/main_textview"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginLeft="25dp"
+            android:text="Select the names of jumpers doing the event listed below"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Individuals:"
+            android:textSize="18dp"
+            android:id="@+id/event_text"
+            android:layout_below="@+id/main_textview"
+            android:layout_alignStart="@+id/main_textview"
+            android:textColor="#ff000000"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/other_event_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="8"
+            android:hint="Enter event name"
+            android:visibility="invisible"
+            android:layout_margin="5dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Event"
+            android:id="@+id/add_other_event"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="8"
+            android:visibility="gone"
+            android:onClick="addOtherEventToShow" />
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="177dp"
+            android:id="@+id/nameList"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignTop="@+id/event_text"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="30dp"
+            android:clickable="false"
+            android:paddingBottom="0dp"
+            android:stretchMode="columnWidth"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:numColumns="3" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next Event"
+            android:id="@+id/next_event"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/nameList"
+            android:layout_gravity="center_horizontal"
+            android:onClick="nextEvent"
+            android:background="@drawable/rounded_corner_shadow" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Event"
+            android:id="@+id/last_event"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/nameList"
+            android:layout_gravity="center_horizontal"
+            android:onClick="lastEvent"
+            android:background="@drawable/rounded_corner_shadow" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Review Events"
+            android:id="@+id/review_events"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            android:onClick="reviewEvents" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make Show"
+            android:id="@+id/make_show"
+            android:layout_centerHorizontal="true"
+            android:onClick="makeShow"
+            android:layout_below="@+id/next_event"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_corner_shadow" />
+
+    </LinearLayout>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="false"
+        android:fadeScrollbars="true"
+        android:paddingTop="25dp"></ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,257 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    package="trictionary.jumproper.com.jumpropetrictionary"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:showIn="@layout/main_activity_toolbar_layout"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:id="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:name="trictionary.jumproper.com.jumpropetrictionary"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:baselineAligned="false"
+            android:alpha="01"
+            android:padding="8dp"
+            android:weightSum="1"
+            android:background="#8ce8e8e8">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/trick_name"
+                    android:textColor="#ff000000"
+                    android:scaleType="centerCrop"
+                    android:textSize="20dp"
+                    android:typeface="normal"
+                    android:alpha=".5"
+                    android:textAlignment="center"
+                    android:background="@drawable/rounded_corner_shadow"
+                    android:padding="10dp"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView15"
+                    android:src="@drawable/full_screen"
+                    android:tint="#ffffff"
+                    android:alpha=".75"
+                    android:onClick="viewFullscreen"
+                    android:padding="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/toolbar_logo"
+                    android:layout_toEndOf="@+id/toolbar_logo" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView5"
+                    android:src="@drawable/abc_ic_menu_share_mtrl_alpha"
+                    android:layout_marginRight="0dp"
+                    android:clickable="true"
+                    android:onClick="shareTrick"
+                    android:padding="10dp"
+                    android:alpha=".75"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/toolbar_logo"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignBottom="@+id/toolbar_logo" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/toolbar_logo"
+                    android:src="@drawable/icon_alpha"
+                    android:padding="5dp"
+                    android:onClick="mainMenu"
+                    android:visibility="visible"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="3dp" />
+            </RelativeLayout>
+
+            <com.google.android.youtube.player.YouTubePlayerView
+                android:id="@+id/youtube_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:alpha="1" />
+
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:text="@string/trick_description"
+                android:textColor="#ff000000"
+                android:scaleType="centerCrop"
+                android:textSize="16dp"
+                android:alpha=".5"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:layout_gravity="left"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="5px"
+                android:background="?android:attr/listDivider"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/level_label"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:text="Level: 1"
+                android:textColor="#ff000000"
+                android:scaleType="centerCrop"
+                android:textSize="16dp"
+                android:alpha=".5"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="left"
+                android:background="@drawable/rounded_corner_shadow"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="5px"
+                android:background="?android:attr/listDivider"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/type_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Basic"
+                android:textColor="#ff000000"
+                android:scaleType="centerCrop"
+                android:textSize="16dp"
+                android:alpha=".5"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="left|center_horizontal"
+                android:background="@drawable/rounded_corner_shadow"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:name="trictionary.jumproper.com.jumpropetrictionary"
+        android:id="@+id/view_tricks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_shadow"
+        android:text="Progression"
+        android:onClick="viewProgression"
+        android:alpha=".75"
+        android:typeface="normal"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="16dp"
+        android:padding="5dp"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prequisites"
+        android:id="@+id/view_prereqs"
+        android:layout_alignTop="@+id/view_tricks"
+        android:layout_alignStart="@+id/linearLayout"
+        android:background="@drawable/rounded_corner_shadow"
+        android:singleLine="false"
+        android:textSize="16dp"
+        android:padding="5dp"
+        android:alpha=".75"
+        android:onClick="viewPrereqs"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Tricks"
+        android:id="@+id/view_next"
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/view_tricks"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:background="@drawable/rounded_corner_shadow"
+        android:alpha=".75"
+        android:padding="5dp"
+        android:onClick="viewNextTricks"
+        android:clickable="true" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-2959515976305980/2055777865"
+        android:visibility="visible">
+    </com.google.android.gms.ads.AdView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView7"
+        android:layout_gravity="left|top"
+        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+        android:padding="20dp"
+        android:scaleType="fitXY"
+        android:onClick="viewTricktionary"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"
+        android:alpha=".75"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ad_exit"
+        android:layout_above="@+id/adView"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/abc_ic_clear_mtrl_alpha"
+        android:onClick="hideAd"
+        android:visibility="invisible" />
+
+</RelativeLayout>
