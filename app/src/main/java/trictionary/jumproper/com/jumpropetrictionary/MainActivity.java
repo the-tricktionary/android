@@ -37,27 +37,26 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
-    TextView trickName;
-    TextView trickDescription;
-    TextView level, type, prereqs, nextTricks,viewAll;
+    //declare text views
+    TextView level, type, prereqs, nextTricks,viewAll, trickName, trickDescription;
+
+    //declare image views
     ImageView logo,adExit;
+
+    //these are required for the toolbar because MainActivity already extends a class
     private AppCompatActivity appCompatActivity;
     private AppCompatDelegate mDelegate;
 
-
+    //declare YouTube player objects
     private YouTubePlayer youTubePlayer;
     private YouTubePlayerView youTubeView;
-
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
+    //length of tricktionary, used for fetching random tricks
+    public static int len=TrickData.getTricktionary().length;
 
 
-
-
-    public static int len=125;
-
-
-
+    //declare Trick array and index of current trick
     Trick[] tricktionary;
     int trickIndex=TrickList.index;
 
@@ -67,37 +66,34 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();
-
-
         setContentView(R.layout.main_activity_toolbar_layout);
 
-
-
+        //declare, initialize and set toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
+
+        //display trick name
         toolbar.setTitle(tricktionary[trickIndex].getName());
 
+        //initialize YouTube view object
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
 
+        //initialize text views and set them to display trick data
         trickName = (TextView)findViewById(R.id.name);
         logo=(ImageView)findViewById(R.id.toolbar_logo);
         adExit=(ImageView)findViewById(R.id.ad_exit);
         trickName.setText(tricktionary[trickIndex].getName());
         trickDescription = (TextView)findViewById(R.id.description);
-
-
-
         trickDescription.setText(tricktionary[trickIndex].getDescription());
-
         level=(TextView)findViewById(R.id.level_label);
         level.setText("Level " + tricktionary[trickIndex].getDifficulty());
-
         type=(TextView)findViewById(R.id.type_label);
         type.setText(tricktionary[trickIndex].getType());
-
-
         prereqs=(TextView)findViewById(R.id.view_prereqs);
         nextTricks=(TextView)findViewById(R.id.view_next);
         viewAll=(TextView)findViewById(R.id.view_tricks);
@@ -373,11 +369,11 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void viewNextTricks(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, nextTricks);
 
-        for(int j=0;j<tricktionary.length;j++){
-            for (int i=0;i<tricktionary[j].getPrereqs().length;i++){
-                if (tricktionary[j].getPrereqs()[i].equals(tricktionary[trickIndex].getName())){
-                    if (!(tricktionary[j].equals(tricktionary[trickIndex])))
-                        popupMenu.getMenu().add(tricktionary[j].getName());
+        for (Trick aTricktionary : tricktionary) {
+            for (int i = 0; i < aTricktionary.getPrereqs().length; i++) {
+                if (aTricktionary.getPrereqs()[i].equals(tricktionary[trickIndex].getName())) {
+                    if (!(aTricktionary.equals(tricktionary[trickIndex])))
+                        popupMenu.getMenu().add(aTricktionary.getName());
                 }
             }
         }
