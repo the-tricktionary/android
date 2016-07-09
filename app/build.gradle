@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 17
@@ -16,6 +16,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
     productFlavors {
     }
@@ -23,6 +27,14 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
+    }
+    signingConfigs {
+        debug {
+            storeFile file("the-tricktionary.debug.keystore")
+            storePassword "the-tricktionary"
+            keyAlias "debug"
+            keyPassword "the-tricktionary"
+        }
     }
 }
 
