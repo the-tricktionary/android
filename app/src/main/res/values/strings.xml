@@ -2,7 +2,6 @@
     <string name="app_name">Tricktionary</string>
     <string name="app_label">Jump Rope Tricktionary</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="trick_name">Double Bounce</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>

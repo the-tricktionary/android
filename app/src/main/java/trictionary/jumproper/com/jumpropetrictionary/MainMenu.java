@@ -51,10 +51,13 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.main_menu_toolbar_layout);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Jump Rope Tricktionary");
         setSupportActionBar(toolbar);
 
 
 
+
+        TrickData.getTricktionary();
         header=(ImageView)findViewById(R.id.header);
         settingsGear =(ImageView)findViewById(R.id.settings);
         settingsGear.setMaxHeight(settingsGear.getHeight()/2);
@@ -157,6 +160,7 @@ public class MainMenu extends AppCompatActivity {
                     }
                 })
                 .build();
+        toolbar.setTitle("Jump Rope Tricktionary");
 
 
 
@@ -220,10 +224,33 @@ public class MainMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void randomTrick(View v){
+        if(TrickData.tricktionary==null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+            builder.setTitle("Please connect to internet");
+            LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+            final View jackpotDialog=inflater.inflate(R.layout.no_internet_dialog,null);
+            builder.setView(jackpotDialog);
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
 
-        TrickList.index=((int)(Math.random()*MainActivity.getTricktionaryLength()));
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+            builder.show();
+        }
+        else {
+            TrickList.index = ((int) (Math.random() * TrickData.getTricktionary().length));
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
     public void viewTricktionary(View v){
         if(TrickData.tricktionary==null){

@@ -74,6 +74,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
 

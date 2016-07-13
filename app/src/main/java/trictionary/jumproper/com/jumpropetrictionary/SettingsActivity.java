@@ -3,14 +3,24 @@ package trictionary.jumproper.com.jumpropetrictionary;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-public class SettingsActivity extends ActionBarActivity {
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+public class SettingsActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME="Settings";
     public static final String AUTO_PLAY_SETTING="AutoPlay";
@@ -22,7 +32,87 @@ public class SettingsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.settings_toolbar_layout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        new DrawerBuilder().withActivity(this).build();
+        PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
+        PrimaryDrawerItem tricktionaryItem=new PrimaryDrawerItem().withName("Tricktionary");
+        PrimaryDrawerItem speedItem=new PrimaryDrawerItem().withName("Speed Timer");
+        PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
+        PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
+        PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+
+
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.background)
+
+                .addProfiles(
+                        new ProfileDrawerItem()
+                                .withName("Jump Rope Tricktionary")
+                                .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
+                )
+                .withOnlyMainProfileImageVisible(true)
+                .withPaddingBelowHeader(false)
+                .build();
+
+
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .addDrawerItems(
+                        mainMenuItem,
+                        new DividerDrawerItem(),
+                        tricktionaryItem,
+                        new DividerDrawerItem(),
+                        speedItem,
+                        new DividerDrawerItem(),
+                        randomTrickItem,
+                        new DividerDrawerItem(),
+                        showWriterItem,
+                        new DividerDrawerItem(),
+                        settingsItem
+                )
+                .withSelectedItem(-1)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if(position==0){
+                            return true;
+                        }
+                        if(position==1){
+                            Intent intent = new Intent(SettingsActivity.this, MainMenu.class);
+                            startActivity(intent);
+                        }
+                        else if(position==3) {
+                            Intent intent = new Intent(SettingsActivity.this, Tricktionary.class);
+                            startActivity(intent);
+                        }
+                        else if(position==5){
+                            Intent intent = new Intent(SettingsActivity.this, Speed.class);
+                            startActivity(intent);
+                        }
+                        else if(position==7){
+                            TrickList.index=((int)(Math.random()*MainActivity.getTricktionaryLength()));
+                            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==9){
+                            Intent intent = new Intent(SettingsActivity.this, Names.class);
+                            startActivity(intent);
+                        }
+                        else if(position==11){
+                            return true;
+                        }
+                        return true;
+                    }
+                })
+                .build();
+
+
         MainMenu.settings=getSharedPreferences(PREFS_NAME,0);
         autoPlay=MainMenu.settings.getBoolean(AUTO_PLAY_SETTING,true);
         stylePref=MainMenu.settings.getString(PLAYER_STYLE_SETTING,"Minimal");
@@ -30,6 +120,8 @@ public class SettingsActivity extends ActionBarActivity {
         autoPlayCheck.setChecked(MainMenu.settings.getBoolean(AUTO_PLAY_SETTING,true));
         playerStyle=(TextView)findViewById(R.id.style);
         playerStyle.setText(stylePref);
+
+
     }
     public void changeAutoPlay(View v){
         if (autoPlayCheck.isChecked()){
