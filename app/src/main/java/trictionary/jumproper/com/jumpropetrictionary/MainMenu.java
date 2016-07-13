@@ -228,7 +228,7 @@ public class MainMenu extends AppCompatActivity {
     public void viewTricktionary(View v){
         if(TrickData.tricktionary==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
-            builder.setTitle("Connect to Internet");
+            builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
             final View jackpotDialog=inflater.inflate(R.layout.no_internet_dialog,null);
             builder.setView(jackpotDialog);

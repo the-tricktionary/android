@@ -60,7 +60,7 @@ public class TrickData extends Trick{
                                 index,
                                 trick.child("type").getValue().toString(),
                                 trick.child("video").getValue().toString(),
-                                getPrereqs(trick));
+                                getPrereqs(trick),trick.child("irsf").getValue().toString());
                         Log.i("Type",mTrick.getType());
                         tempList.add(mTrick);
                         index++;

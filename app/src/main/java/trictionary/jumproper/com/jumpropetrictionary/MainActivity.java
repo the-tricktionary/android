@@ -38,7 +38,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
     //declare text views
-    TextView level, type, prereqs, nextTricks,viewAll, trickName, trickDescription;
+    TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
 
     //declare image views
     ImageView logo,adExit;
@@ -91,12 +91,18 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         trickDescription = (TextView)findViewById(R.id.description);
         trickDescription.setText(tricktionary[trickIndex].getDescription());
         level=(TextView)findViewById(R.id.level_label);
-        level.setText("Level " + tricktionary[trickIndex].getDifficulty());
+        level.setText("WJR Level: " + tricktionary[trickIndex].getDifficulty());
         type=(TextView)findViewById(R.id.type_label);
         type.setText(tricktionary[trickIndex].getType());
         prereqs=(TextView)findViewById(R.id.view_prereqs);
         nextTricks=(TextView)findViewById(R.id.view_next);
-        viewAll=(TextView)findViewById(R.id.view_tricks);
+        fisacLevel=(TextView)findViewById(R.id.fisac_level);
+        if(tricktionary[trickIndex].getFisacLevel().equals("")) {
+            fisacLevel.setVisibility(View.INVISIBLE);
+        }
+        else{
+            fisacLevel.setText("IRSF Level: " + tricktionary[trickIndex].getFisacLevel());
+        }
 
         if (tricktionary[trickIndex].getPrereqs().length==0){
             prereqs.setVisibility(View.GONE);
@@ -107,10 +113,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         scaleText(trickDescription,7);
         scaleText(trickName,8);
         scaleText(level,7);
+        scaleText(fisacLevel,7);
         scaleText(type,7);
         scaleText(prereqs,7);
         scaleText(nextTricks,7);
-        scaleText(viewAll,7);
 
         new DrawerBuilder().withActivity(this).build();
         PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
@@ -194,9 +200,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
 
 
-        // Initializing video player with developer key
 
-        loadBannerAd();
+        //disable ad for now, it's annnoying and unprofitable
+        //loadBannerAd();
 
     }
 

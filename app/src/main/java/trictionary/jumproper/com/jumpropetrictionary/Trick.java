@@ -12,6 +12,10 @@ public class Trick {
     public String videoCode;
     public String type;
     public String[] prereqs;
+    public String fisacLevel="";
+
+
+
     //constructors
     public Trick(){
         name="";
@@ -37,6 +41,16 @@ public class Trick {
         type=myType;
         videoCode=myVideoCode;
         prereqs=myPrereqs;
+    }
+    public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, String[]myPrereqs, String mFisacLevel){
+        name=myName;
+        description=myDescription;
+        difficulty=myDifficulty;
+        index=myIndex;
+        type=myType;
+        videoCode=myVideoCode;
+        prereqs=myPrereqs;
+        fisacLevel=mFisacLevel;
     }
     //getters and setters
     public String getName(){
@@ -74,6 +88,12 @@ public class Trick {
     }
     public void setIndex(int myIndex){
         index=myIndex;
+    }
+    public String getFisacLevel() {
+        return fisacLevel;
+    }
+    public void setFisacLevel(String fisacLevel) {
+        this.fisacLevel = fisacLevel;
     }
 
 }

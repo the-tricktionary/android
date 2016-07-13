@@ -190,7 +190,7 @@ public class Tricktionary extends ActionBarActivity {
                 int color = 0xFFBDBDBD; // Default
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level1Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = 0xFFD64A28; // Material Red
+                        color = getResources().getColor(R.color.materialRed); // Material Red
                         view.setBackgroundColor(color);
                         view.setClickable(true);
                         view.setVisibility(View.VISIBLE);
@@ -220,7 +220,7 @@ public class Tricktionary extends ActionBarActivity {
                 int color = 0xFFBDBDBD; // Default
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level2Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = 0xFFD64A28; // Opaque Blue
+                        color = getResources().getColor(R.color.materialRed); // Opaque Blue
                         view.setBackgroundColor(color);
                         view.setClickable(true);
                         view.setVisibility(View.VISIBLE);
@@ -249,7 +249,7 @@ public class Tricktionary extends ActionBarActivity {
                 int color = 0xFFBDBDBD; // Default
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level3Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = 0xFFD64A28; // Opaque Blue
+                        color = getResources().getColor(R.color.materialRed); // Opaque Blue
                         view.setBackgroundColor(color);
                         view.setClickable(true);
                         view.setVisibility(View.VISIBLE);
@@ -275,10 +275,10 @@ public class Tricktionary extends ActionBarActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
 
-                int color = 0xFFBDBDBD; // Default
+                int color = getResources().getColor(R.color.materialRed); // Default
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level4Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = 0xFFD64A28; // Opaque Blue
+                        color = getResources().getColor(R.color.materialRed); // Opaque Blue
                         view.setBackgroundColor(color);
                         view.setClickable(true);
                         view.setVisibility(View.VISIBLE);
