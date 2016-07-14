@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView15"
                     android:src="@drawable/full_screen"
-                    android:tint="#ffffff"
+                    android:tint="@color/textColor"
                     android:alpha=".75"
                     android:onClick="viewFullscreen"
                     android:padding="10dp"
@@ -78,7 +78,8 @@
                     android:alpha=".75"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/toolbar_logo"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:tint="@color/textColor" />
 
                 <ImageView
                     android:layout_width="50dp"
@@ -100,7 +101,8 @@
                     android:layout_alignBottom="@+id/toolbar_logo"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="15dp"
-                    android:onClick="viewTricktionary" />
+                    android:onClick="viewTricktionary"
+                    android:tint="@color/textColor" />
             </RelativeLayout>
 
             <com.google.android.youtube.player.YouTubePlayerView
@@ -154,9 +156,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/space"
-                    android:layout_alignBottom="@+id/fisac_level"
-                    android:layout_alignTop="@+id/fisac_level" />
+                    android:layout_toStartOf="@+id/space" />
 
                 <TextView
                     android:id="@+id/fisac_level"
@@ -175,7 +175,21 @@
                     android:paddingBottom="5dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/space" />
+                    android:layout_toEndOf="@+id/space"
+                    android:layout_alignTop="@+id/level_label"
+                    android:layout_alignBottom="@+id/level_label" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fisac_expand"
+                    android:layout_alignRight="@+id/fisac_level"
+                    android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+                    android:layout_alignTop="@+id/fisac_level"
+                    android:layout_alignBottom="@+id/fisac_level"
+                    android:tint="#616161"
+                    android:visibility="gone"
+                    android:onClick="expandFisacLevel" />
 
                 <Space
                     android:layout_width="20px"
@@ -290,7 +304,7 @@
         android:layout_alignBottom="@+id/view_next"
         android:background="@drawable/rounded_corner_shadow"
         android:alpha=".75"
-        android:tint="#616161"
+        android:tint="@color/textColor"
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_toEndOf="@+id/view_next"
         android:onClick="viewNextTricks" />
@@ -306,7 +320,7 @@
         android:layout_toStartOf="@+id/view_prereqs"
         android:background="@drawable/rounded_corner_shadow"
         android:alpha=".75"
-        android:tint="#616161"
+        android:tint="@color/textColor"
         android:onClick="viewPrereqs" />
 
     <Space

@@ -18,7 +18,7 @@
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@android:drawable/stat_sys_warning"
-        android:tint="@color/abc_secondary_text_material_light" />
+        android:tint="#212121" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -41,7 +41,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
 
     //declare image views
-    ImageView logo,adExit;
+    ImageView logo,adExit,fisacExpand;
 
     //these are required for the toolbar because MainActivity already extends a class
     private AppCompatActivity appCompatActivity;
@@ -98,8 +98,14 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         prereqs=(TextView)findViewById(R.id.view_prereqs);
         nextTricks=(TextView)findViewById(R.id.view_next);
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
+        fisacExpand=(ImageView)findViewById(R.id.fisac_expand);
+
         if(tricktionary[trickIndex].getFisacLevel().equals("")) {
             fisacLevel.setVisibility(View.INVISIBLE);
+        }
+        else if(tricktionary[trickIndex].getFisacLevel().length()>5){
+            fisacLevel.setText("IRSF Level: " + tricktionary[trickIndex].getFisacLevel().substring(0,2)+"...");
+            fisacExpand.setVisibility(View.VISIBLE);
         }
         else{
             fisacLevel.setText("IRSF Level: " + tricktionary[trickIndex].getFisacLevel());
@@ -470,6 +476,13 @@ return;
     public void hideAd(View v){
         v.setVisibility(View.INVISIBLE);
         findViewById(R.id.adView).setVisibility(View.INVISIBLE);
+    }
+
+    public void expandFisacLevel(View v){
+        PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
+        //Inflating the Popup using xml file
+        popupMenu.getMenu().add(tricktionary[trickIndex].getFisacLevel());
+        popupMenu.show();
     }
 
 
