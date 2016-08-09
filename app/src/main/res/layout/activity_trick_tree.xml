@@ -131,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView12"
-        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+        android:src="@drawable/abc_ic_ab_back_material"
         android:alpha=".75"
         android:focusable="false"
         android:onClick="mainMenu"
