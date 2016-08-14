@@ -21,7 +21,8 @@
         android:onClick="mainMenu"
         android:clickable="true"
         android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="wrap_content"

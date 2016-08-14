@@ -30,10 +30,11 @@ import java.util.ArrayList;
 
 public class Speed extends ActionBarActivity {
 
-    TextView counter, time, duration, instructions;
-    ImageView plus,dropDownArrow,backArrow;
+    TextView counter, time, duration, instructions, eventSelect;
+    ImageView plus,dropDownArrow,backArrow,eventDropDown;
     Button startButton;
     CheckBox timingTrack;
+    SpeedEvent currentEvent;
     public static int numJumps;
     long starttime = 0L;
     long timeInHundredths = 0L;
@@ -48,12 +49,18 @@ public class Speed extends ActionBarActivity {
     Handler handler = new Handler();
     public static ArrayList<Integer> jumps=new ArrayList<>();
     public static ArrayList<Long> times=new ArrayList<>();
-    private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min, time_1x30, time_1x180, time_beep;
+    private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min,
+                        time_1x30, time_1x180, time_beep,
+
+                        fisac_1x30, fisac_1x180, fisac_4x45, fisac_2x60, fisac_4x30, fisac_10,
+                        fisac_15, fisac_20, fisac_30, fisac_45, fisac_1min, fisac_2min,
+                        fisac_switch, fisac_beep;
     private MediaPlayer click;
     MediaPlayer[] timingTracks={time_10, time_15, time_20, time_30, time_45, time_1min, time_2min, time_1x30, time_1x180, time_beep};
     Vibrator vibrator;
     float x;
     float y;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +74,13 @@ public class Speed extends ActionBarActivity {
         plus=(ImageView)findViewById(R.id.plus);
         dropDownArrow=(ImageView)findViewById(R.id.dropdown_arrow);
         backArrow=(ImageView)findViewById(R.id.back_arrow);
+        eventDropDown=(ImageView)findViewById(R.id.event_dropdown);
         startButton=(Button)findViewById(R.id.start_button);
         timingTrack=(CheckBox)findViewById(R.id.timing_track);
         vibrator=(Vibrator) Speed.this.getSystemService(Context.VIBRATOR_SERVICE);
         instructions=(TextView)findViewById(R.id.instructions);
+        eventSelect=(TextView)findViewById(R.id.event_select);
+        currentEvent=new SpeedEvent(this);
 
         time_10 = MediaPlayer.create(Speed.this,R.raw.time_10);
         time_15 = MediaPlayer.create(Speed.this,R.raw.time_15);
@@ -82,6 +92,21 @@ public class Speed extends ActionBarActivity {
         time_1x30= MediaPlayer.create(this,R.raw.time_1x30);
         time_1x180= MediaPlayer.create(this,R.raw.time_1x180);
         time_beep= MediaPlayer.create(this,R.raw.time_beep);
+
+        fisac_1x30=MediaPlayer.create(Speed.this,R.raw.fisac_1x30);
+        fisac_1x180=MediaPlayer.create(Speed.this,R.raw.fisac_1x180);
+        fisac_4x45=MediaPlayer.create(Speed.this,R.raw.fisac_4x45);
+        fisac_2x60=MediaPlayer.create(Speed.this,R.raw.fisac_2x60);
+        fisac_4x30=MediaPlayer.create(Speed.this,R.raw.fisac_4x30);
+        fisac_10=MediaPlayer.create(Speed.this,R.raw.fisac_10);
+        fisac_15=MediaPlayer.create(Speed.this,R.raw.fisac_15);
+        fisac_20=MediaPlayer.create(Speed.this,R.raw.fisac_20);
+        fisac_30=MediaPlayer.create(Speed.this,R.raw.fisac_30);
+        fisac_45=MediaPlayer.create(Speed.this,R.raw.fisac_45);
+        fisac_1min=MediaPlayer.create(Speed.this,R.raw.fisac_1min);
+        fisac_2min=MediaPlayer.create(Speed.this,R.raw.fisac_2min);
+        fisac_switch=MediaPlayer.create(Speed.this,R.raw.fisac_switch);
+        fisac_beep=MediaPlayer.create(Speed.this,R.raw.fisac_beep);
 
         click = MediaPlayer.create(this,R.raw.click);
 
@@ -143,20 +168,37 @@ public class Speed extends ActionBarActivity {
         if (t == 1) {
 
             MediaPlayer eventTrack=time_1x30;
-            if (timingTrack.isChecked()){
-                if (eventLength==30){
-                    eventTrack=time_1x30;
+            if (currentEvent.getName().length()>0){
+                if (currentEvent.getName().equals("FISAC 1x30")){
+                    eventTrack=fisac_1x30;
                     eventTrack.start();
 
                 }
-                if (eventLength==180){
-                    eventTrack=time_1x180;
+                if (currentEvent.getName().equals("FISAC 1x180")){
+                    eventTrack=fisac_1x180;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("FISAC 4x45")){
+                    eventTrack=fisac_4x45;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("FISAC 2x60")){
+                    eventTrack=fisac_2x60;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("FISAC 4x30")){
+                    eventTrack=fisac_4x30;
                     eventTrack.start();
                 }
                 eventTrack.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        time_beep.start();
+                        if(currentEvent.isWjr()){
+                            time_beep.start();
+                        }
+                        else{
+                            fisac_beep.start();
+                        }
                         startButton.setText("Stop");
                         runTimer();
                     }
@@ -175,7 +217,9 @@ public class Speed extends ActionBarActivity {
             instructions.setVisibility(View.VISIBLE);
             duration.setVisibility(View.VISIBLE);
             backArrow.setVisibility(View.VISIBLE);
-            timingTrack.setVisibility(View.VISIBLE);
+            eventSelect.setVisibility(View.VISIBLE);
+            eventDropDown.setVisibility(View.VISIBLE);
+
             starttime = 0L;
             timeInHundredths = 0L;
             timeSwapBuff = 0L;
@@ -202,7 +246,8 @@ public class Speed extends ActionBarActivity {
         dropDownArrow.setVisibility(View.INVISIBLE);
         duration.setVisibility(View.INVISIBLE);
         backArrow.setVisibility(View.INVISIBLE);
-        timingTrack.setVisibility(View.INVISIBLE);
+        eventSelect.setVisibility(View.INVISIBLE);
+        eventDropDown.setVisibility(View.INVISIBLE);
         startButton.setText("Stop");
         starttime = SystemClock.uptimeMillis();
         t = 0;
@@ -218,9 +263,12 @@ public class Speed extends ActionBarActivity {
             timeInHundredths = (SystemClock.uptimeMillis() - starttime)/10;
             updatedtime = timeSwapBuff + timeInHundredths;
             secs = (int) (updatedtime / 100);
+
+            currentEvent.runCurrentEvent(timeInHundredths);
+
             if (secs==eventLength){
                 handler.removeCallbacks(updateTimer);
-                time_beep.start();
+                //time_beep.start();
                 if (numJumps!=0) {
                     Intent intent = new Intent(Speed.this, SpeedGraph.class);
                     finish();
@@ -231,59 +279,8 @@ public class Speed extends ActionBarActivity {
                 }
                 return;
             }
-            if((eventLength==30)&&(timingTrack.isChecked())){
-                if(timeInHundredths/10==10*10){
-                    time_10.start();
 
-                }
-                if(timeInHundredths/10==20*10){
-                    time_20.start();
-                    time_10.stop();
-                }
 
-            }
-            else if(eventLength>15){
-                if(timeInHundredths/10==15*10){
-                    time_15.start();
-                }
-                if(timeInHundredths/10==30*10){
-                    time_30.start();
-                }
-                if(timeInHundredths/10==45*10){
-                    time_45.start();
-                }
-                if(timeInHundredths/10==60*10){
-                    time_1min.start();
-                }
-                if(timeInHundredths/10==75*10){
-                    time_1min.start();
-                    time_1min.setNextMediaPlayer(time_15);
-                }
-                if(timeInHundredths/10==90*10){
-                    time_1min.setNextMediaPlayer(time_30);
-                    time_1min.start();
-                }
-                if(timeInHundredths/10==105*10){
-                    time_1min.setNextMediaPlayer(time_45);
-                    time_1min.start();
-                }
-                if(timeInHundredths/10==120*10){
-                    time_2min.start();
-                }
-                if(timeInHundredths/10==135*10){
-                    time_2min.setNextMediaPlayer(time_15);
-                    time_2min.start();
-                }
-                if(timeInHundredths/10==150*10){
-                    time_2min.setNextMediaPlayer(time_30);
-                    time_2min.start();
-                }
-                if(timeInHundredths/10==165*10){
-                    time_2min.setNextMediaPlayer(time_45);
-                    time_2min.start();
-                }
-
-            }
 
             mins = secs / 60;
             secs = secs % 60;
@@ -372,6 +369,38 @@ public class Speed extends ActionBarActivity {
         Intent intent = new Intent(this, MainMenu.class);
         finish();
         startActivity(intent);
+    }
+    public String formatDuration(int secs){
+        String duration="";
+        duration+=""+secs/60;
+        duration+=":"+String.format("%02d", secs%60);
+        return duration;
+    }
+
+    public void selectEvent(View v){
+        PopupMenu popupMenu = new PopupMenu(Speed.this, v);
+        //Inflating the Popup using xml file
+
+        popupMenu.getMenu().add("FISAC 1x30");
+        popupMenu.getMenu().add("FISAC 1x180");
+        popupMenu.getMenu().add("FISAC 4x30");
+        popupMenu.getMenu().add("FISAC 2x60");
+        popupMenu.getMenu().add("FISAC 4x45");
+
+
+
+        popupMenu.show();
+        //registering popup with OnMenuItemClickListener
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                currentEvent=new SpeedEvent(Speed.this,  menuItem.getTitle().toString());
+                duration.setText(""+formatDuration(currentEvent.getDuration()));
+                eventSelect.setText(menuItem.getTitle().toString());
+                eventLength=currentEvent.getDuration();
+                return false;
+            }
+        });
     }
 
 
