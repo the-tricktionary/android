@@ -68,7 +68,8 @@
         android:visibility="visible"
         android:layout_below="@+id/duration"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:gravity="bottom" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -50,7 +50,7 @@ public class Speed extends ActionBarActivity {
     public static ArrayList<Integer> jumps=new ArrayList<>();
     public static ArrayList<Long> times=new ArrayList<>();
     private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min,
-                        time_1x30, time_1x180, time_beep,
+                        time_1x30, time_1x180, time_2x30, time_4x30, time_2x60, time_3x40, time_beep,
 
                         fisac_1x30, fisac_1x180, fisac_4x45, fisac_2x60, fisac_4x30, fisac_10,
                         fisac_15, fisac_20, fisac_30, fisac_45, fisac_1min, fisac_2min,
@@ -91,6 +91,10 @@ public class Speed extends ActionBarActivity {
         time_2min = MediaPlayer.create(this,R.raw.time_2min);
         time_1x30= MediaPlayer.create(this,R.raw.time_1x30);
         time_1x180= MediaPlayer.create(this,R.raw.time_1x180);
+        time_2x30= MediaPlayer.create(this,R.raw.time_2x30);
+        time_4x30= MediaPlayer.create(this,R.raw.time_4x30);
+        time_3x40= MediaPlayer.create(this,R.raw.time_3x40);
+        time_2x60= MediaPlayer.create(this,R.raw.time_2x60);
         time_beep= MediaPlayer.create(this,R.raw.time_beep);
 
         fisac_1x30=MediaPlayer.create(Speed.this,R.raw.fisac_1x30);
@@ -190,6 +194,31 @@ public class Speed extends ActionBarActivity {
                     eventTrack=fisac_4x30;
                     eventTrack.start();
                 }
+                if (currentEvent.getName().equals("WJR 1x30")){
+                    eventTrack=time_1x30;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("WJR 1x180")){
+                    eventTrack=time_1x180;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("WJR 2x30")){
+                    eventTrack=time_2x30;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("WJR 4x30")){
+                    eventTrack=time_4x30;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("WJR 3x40")){
+                    eventTrack=time_3x40;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("WJR 2x60")){
+                    eventTrack=time_2x60;
+                    eventTrack.start();
+                }
+
                 eventTrack.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
@@ -266,15 +295,26 @@ public class Speed extends ActionBarActivity {
 
             currentEvent.runCurrentEvent(timeInHundredths);
 
-            if (secs==eventLength){
+
+            if (timeInHundredths/10==eventLength*10){
                 handler.removeCallbacks(updateTimer);
                 //time_beep.start();
                 if (numJumps!=0) {
+                    mins = secs / 60;
+                    secs = secs % 60;
+                    final TextView time= timeRef.get();
+                    time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
+                            + "0");
                     Intent intent = new Intent(Speed.this, SpeedGraph.class);
                     finish();
                     startActivity(intent);
                 }
                 else{
+                    mins = secs / 60;
+                    secs = secs % 60;
+                    final TextView time= timeRef.get();
+                    time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
+                            + "0");
                     startTimer(startButton);
                 }
                 return;
@@ -381,6 +421,13 @@ public class Speed extends ActionBarActivity {
         PopupMenu popupMenu = new PopupMenu(Speed.this, v);
         //Inflating the Popup using xml file
 
+
+        popupMenu.getMenu().add("WJR 1x30");
+        popupMenu.getMenu().add("WJR 1x180");
+        popupMenu.getMenu().add("WJR 2x30");
+        popupMenu.getMenu().add("WJR 4x30");
+        popupMenu.getMenu().add("WJR 3x40");
+        popupMenu.getMenu().add("WJR 2x60");
         popupMenu.getMenu().add("FISAC 1x30");
         popupMenu.getMenu().add("FISAC 1x180");
         popupMenu.getMenu().add("FISAC 4x30");

@@ -102,6 +102,9 @@ public class MainMenu extends AppCompatActivity {
                         new ProfileDrawerItem()
                                 .withName("Jump Rope Tricktionary")
                                 .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
+                                .withNameShown(false)
+                                .withEnabled(true)
+
                 )
                 .withOnlyMainProfileImageVisible(true)
                 .withPaddingBelowHeader(false)
