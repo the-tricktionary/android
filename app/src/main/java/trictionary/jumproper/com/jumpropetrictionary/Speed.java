@@ -150,14 +150,15 @@ public class Speed extends ActionBarActivity {
 
     }
 
-
+    /**begin an event with the audio of the timing track (if selected) or end an event if t==0**/
     public void startTimer(View v){
-        firstTap=false;
-        counter.setText(""+0);
-        if (t == 1) {
+        firstTap=false; //first tap no longer starts the timer
+        counter.setText(""+0); //always start back at zero
+        if (t == 1) { //if an event hasn't already happened
 
-            MediaPlayer eventTrack=time_1x30;
-            if (currentEvent.getName().length()>0){
+            MediaPlayer eventTrack=time_1x30; //default timing track of 1x30
+            if (currentEvent.getName().length()>0){ //if an event is selected, otherwise this will be empty string
+                //play timing track beginning based on selection
                 if (currentEvent.getName().equals("FISAC 1x30")){
                     eventTrack=fisac_1x30;
                     eventTrack.start();
@@ -203,18 +204,18 @@ public class Speed extends ActionBarActivity {
                     eventTrack=time_2x60;
                     eventTrack.start();
                 }
-
+                //on completion listener to start the timer and sound the beep after timing track
                 eventTrack.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        if(currentEvent.isWjr()){
+                        if(currentEvent.isWjr()){ //check if it should be wjr beep
                             time_beep.start();
                         }
-                        else{
+                        else{ //or fisac beep
                             fisac_beep.start();
                         }
-                        startButton.setText("Stop");
-                        runTimer();
+                        startButton.setText("Stop"); //change start button to stop button
+                        runTimer(); //run the timer handler
                     }
                 });
 
