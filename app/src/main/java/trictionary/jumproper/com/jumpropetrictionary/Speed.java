@@ -19,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -126,9 +125,12 @@ public class Speed extends ActionBarActivity {
         });
 
     }
-    /**whenever the clicker is tapped animate a button press of the clicker and increment the
+    /**
+     * whenever the clicker is tapped animate a button press of the clicker and increment the
      * score.  Only works if the timer is running or can be activated by a non-timing track
-     * first tap.**/
+     * first tap.
+     * @param v the view being clicked, plus
+     * */
     public void addJump(View v){
         //check if timer is running
         if(startButton.getText().equals("Start")){
@@ -150,7 +152,10 @@ public class Speed extends ActionBarActivity {
 
     }
 
-    /**begin an event with the audio of the timing track (if selected) or end an event if t==0**/
+    /**
+     * begin an event with the audio of the timing track (if selected) or end an event if t==0
+     * @param v the view being clicked, almost always startButton or plus
+     */
     public void startTimer(View v){
         firstTap=false; //first tap no longer starts the timer
         counter.setText(""+0); //always start back at zero
@@ -220,21 +225,22 @@ public class Speed extends ActionBarActivity {
                 });
 
             }
-            else {
+            else { //start the timer without a timing track otherwise
                 startButton.setText("Stop");
                 runTimer();
             }
-        } else {
-            jumps.clear();
-            times.clear();
-            time.setTextSize(TypedValue.COMPLEX_UNIT_DIP,40);
+        } else { //if the event is being stopped
+            jumps.clear(); //clear the score list
+            times.clear(); //clear the times list
+            time.setTextSize(TypedValue.COMPLEX_UNIT_DIP,40); //resize timer text to default of 40dp
+            //make all timer components visible again
             dropDownArrow.setVisibility(View.VISIBLE);
             instructions.setVisibility(View.VISIBLE);
             duration.setVisibility(View.VISIBLE);
             backArrow.setVisibility(View.VISIBLE);
             eventSelect.setVisibility(View.VISIBLE);
             eventDropDown.setVisibility(View.VISIBLE);
-
+            //reset the timer
             starttime = 0L;
             timeInHundredths = 0L;
             timeSwapBuff = 0L;
@@ -248,15 +254,20 @@ public class Speed extends ActionBarActivity {
             numJumps=0;
             timeSwapBuff += timeInHundredths;
             handler.removeCallbacks(updateTimer);
-
         }
 
     }
+
+    /**
+     * Hides all irrelevant timer components and starts the timer runnable
+     */
     public void runTimer(){
+        //reset scores and times
         numJumps=0;
         jumps.clear();
         times.clear();
-        time.setTextSize(TypedValue.COMPLEX_UNIT_DIP,50);
+        time.setTextSize(TypedValue.COMPLEX_UNIT_DIP,50); //resize timer text to 50dp
+        //make components invisible
         instructions.setVisibility(View.INVISIBLE);
         dropDownArrow.setVisibility(View.INVISIBLE);
         duration.setVisibility(View.INVISIBLE);
@@ -266,26 +277,27 @@ public class Speed extends ActionBarActivity {
         startButton.setText("Stop");
         starttime = SystemClock.uptimeMillis();
         t = 0;
-        handler.postDelayed(updateTimer, 100);
+        handler.postDelayed(updateTimer, 100); //delay of 100ms between timer updates
 
     }
-    public Runnable updateTimer = new Runnable() {
+
+    public Runnable updateTimer = new Runnable() { //the Runnable pbject for the timer
         public void run() {
 
             final WeakReference<TextView> timeRef;
-            timeRef= new WeakReference<TextView>(time);
+            timeRef= new WeakReference<TextView>(time); //use this TextView to update the time display
 
-            timeInHundredths = (SystemClock.uptimeMillis() - starttime)/10;
-            updatedtime = timeSwapBuff + timeInHundredths;
-            secs = (int) (updatedtime / 100);
+            timeInHundredths = (SystemClock.uptimeMillis() - starttime)/10; //calculate current event time
+            updatedtime = timeSwapBuff + timeInHundredths; //new time to display
+            secs = (int) (updatedtime / 100); //current number of seconds for timer display
 
-            currentEvent.runCurrentEvent(timeInHundredths);
+            currentEvent.runCurrentEvent(timeInHundredths); //check if part of a timing track should be played
 
 
-            if (timeInHundredths/10==eventLength*10){
-                handler.removeCallbacks(updateTimer);
-                //time_beep.start();
-                if (numJumps!=0) {
+            if (timeInHundredths/10==eventLength*10){ //check for the end of an event
+                handler.removeCallbacks(updateTimer); //stop
+                if (numJumps!=0) { //make sure jumps were clicked to be displayed in the graph
+                    //make sure the timer displays the last hundredth of a second of the event
                     mins = secs / 60;
                     secs = secs % 60;
                     final TextView time= timeRef.get();
@@ -293,21 +305,21 @@ public class Speed extends ActionBarActivity {
                             + "0");
                     Intent intent = new Intent(Speed.this, SpeedGraph.class);
                     finish();
-                    startActivity(intent);
+                    startActivity(intent); //start graph activity
                 }
-                else{
+                else{ //if no jumps were clicked stay in the timer activity
                     mins = secs / 60;
                     secs = secs % 60;
                     final TextView time= timeRef.get();
                     time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
                             + "0");
-                    startTimer(startButton);
+                    startTimer(startButton); //stop method when t==0
                 }
                 return;
             }
 
 
-
+            //update the timer display based on these calculations
             mins = secs / 60;
             secs = secs % 60;
             hundredths = (int) (updatedtime % 100);
@@ -315,21 +327,25 @@ public class Speed extends ActionBarActivity {
             time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
                     + hundredths/10);
 
-            handler.postDelayed(this,100);
+            handler.postDelayed(this,100); //100 ms delay in update time
 
         }};
 
 
-
+    /**
+     * select event duration.  This is done automatically if an event has already been selected but
+     * must be dont if an event should be run without a timing track.
+     * @param v the view being clicked
+     */
     public void chooseDuration(View v){
         PopupMenu popupMenu = new PopupMenu(Speed.this, v);
-        //Inflating the Popup using xml file
 
+        //populate the menu
         popupMenu.getMenu().add("0:30");
         popupMenu.getMenu().add("1:00");
         popupMenu.getMenu().add("2:00");
         popupMenu.getMenu().add("3:00");
-        popupMenu.getMenu().add("Custom");
+        popupMenu.getMenu().add("Custom"); //we'll handle you later
 
 
 
@@ -337,6 +353,7 @@ public class Speed extends ActionBarActivity {
         //registering popup with OnMenuItemClickListener
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
+                //check item value and set and display new duration
                 if(item.toString().equals("0:30")){
                     duration.setText("0:30");
                     eventLength=30;
@@ -353,26 +370,29 @@ public class Speed extends ActionBarActivity {
                     duration.setText("3:00");
                     eventLength=180;
                 }
-                else{
+                else{ //picking custom time
                     duration.setText("Custom");
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Speed.this);
-                    builder.setTitle("Custom Time");
-                    LayoutInflater inflater = (LayoutInflater)Speed.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-                    final View textBoxes=inflater.inflate(R.layout.custom_time_picker,null);
-                    builder.setView(textBoxes);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Speed.this); //new alert dialog
+                    builder.setTitle("Custom Time"); //dialog title
+                    LayoutInflater inflater = (LayoutInflater)Speed.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+                    final View textBoxes=inflater.inflate(R.layout.custom_time_picker,null); //custom layout file now a view object
+                    builder.setView(textBoxes); //set view to custom layout
                     // Set up the buttons
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            //prompt user for minutes and seconds
                             EditText seconds = (EditText)textBoxes.findViewById(R.id.custom_time_seconds);
                             EditText minutes = (EditText)textBoxes.findViewById(R.id.custom_time_minutes);
+                            //fill empty boxes with zeros
                             if(minutes.getText().toString().equals("")){
                                 minutes.setText("0");
                             }
                             if(seconds.getText().toString().equals("")){
                                 seconds.setText("0");
                             }
+                            //set and display new custom duration
                             eventLength=Integer.parseInt(minutes.getText().toString()) * 60 + Integer.parseInt(seconds.getText().toString());
                             duration.setText(minutes.getText().toString()+":"+String.format("%02d",Integer.parseInt(seconds.getText().toString())));
                         }
@@ -391,11 +411,21 @@ public class Speed extends ActionBarActivity {
         });
     }
 
+    /**
+     * view main menu
+     * @param v back button
+     */
     public void mainMenu(View v){
         Intent intent = new Intent(this, MainMenu.class);
         finish();
         startActivity(intent);
     }
+
+    /**
+     *
+     * @param secs total number of seconds
+     * @return formatted duration String
+     */
     public String formatDuration(int secs){
         String duration="";
         duration+=""+secs/60;
@@ -403,11 +433,15 @@ public class Speed extends ActionBarActivity {
         return duration;
     }
 
+    /**
+     * choose an event with a corresponding timing track
+     * @param v event selector
+     */
     public void selectEvent(View v){
         PopupMenu popupMenu = new PopupMenu(Speed.this, v);
         //Inflating the Popup using xml file
 
-
+        //all event options
         popupMenu.getMenu().add("WJR 1x30");
         popupMenu.getMenu().add("WJR 1x180");
         popupMenu.getMenu().add("WJR 2x30");
@@ -427,10 +461,11 @@ public class Speed extends ActionBarActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
+                //initialize new SpeedEvent object for selection
                 currentEvent=new SpeedEvent(Speed.this,  menuItem.getTitle().toString());
-                duration.setText(""+formatDuration(currentEvent.getDuration()));
-                eventSelect.setText(menuItem.getTitle().toString());
-                eventLength=currentEvent.getDuration();
+                duration.setText(""+formatDuration(currentEvent.getDuration())); //display new duration
+                eventSelect.setText(menuItem.getTitle().toString()); //display event name
+                eventLength=currentEvent.getDuration(); //set new duration
                 return false;
             }
         });
