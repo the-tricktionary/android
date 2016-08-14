@@ -29,59 +29,55 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class Speed extends ActionBarActivity {
-
-    TextView counter, time, duration, instructions, eventSelect;
-    ImageView plus,dropDownArrow,backArrow,eventDropDown;
-    Button startButton;
-    CheckBox timingTrack;
-    SpeedEvent currentEvent;
-    public static int numJumps;
-    long starttime = 0L;
-    long timeInHundredths = 0L;
-    long timeSwapBuff = 0L;
-    long updatedtime = 0L;
-    int t = 1;
-    int secs = 0;
-    int mins = 0;
-    int hundredths = 0;
-    boolean firstTap=true;
-    public static int eventLength=30;
-    Handler handler = new Handler();
-    public static ArrayList<Integer> jumps=new ArrayList<>();
-    public static ArrayList<Long> times=new ArrayList<>();
+    TextView counter, time, duration, instructions, eventSelect; //textviews
+    ImageView plus,dropDownArrow,backArrow,eventDropDown; //imageviews
+    Button startButton;  //bottom of screen start button
+    SpeedEvent currentEvent;//speed event object used for timing tracks
+    public static int numJumps;  //score of event being clicked
+    //timer
+    long starttime = 0L; //start time in seconds
+    long timeInHundredths = 0L; //current time in hundredths
+    long timeSwapBuff = 0L; //buffer between time updates
+    long updatedtime = 0L; //new time after update
+    int t = 1; //has timer been run yet?
+    int secs = 0; //timer seconds
+    int mins = 0; //timer minutes
+    int hundredths = 0; //first digit of timeInHundredths for timer display
+    boolean firstTap=true; //will first click start the timer?
+    public static int eventLength=30; //current event length in seconds
+    Handler handler = new Handler(); //handler for the timer
+    public static ArrayList<Integer> jumps=new ArrayList<>(); //list of jumps to update score
+    public static ArrayList<Long> times=new ArrayList<>(); //list of times of jumps in ms for graph
+    //declaring all timing tracks
     private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min,
                         time_1x30, time_1x180, time_2x30, time_4x30, time_2x60, time_3x40, time_beep,
 
                         fisac_1x30, fisac_1x180, fisac_4x45, fisac_2x60, fisac_4x30, fisac_10,
                         fisac_15, fisac_20, fisac_30, fisac_45, fisac_1min, fisac_2min,
                         fisac_switch, fisac_beep;
-    private MediaPlayer click;
-    MediaPlayer[] timingTracks={time_10, time_15, time_20, time_30, time_45, time_1min, time_2min, time_1x30, time_1x180, time_beep};
-    Vibrator vibrator;
-    float x;
-    float y;
+    Vibrator vibrator; //no not that kind
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_speed);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        numJumps=0;
-        counter=(TextView)findViewById(R.id.counter);
-        time=(TextView)findViewById(R.id.timer);
-        duration=(TextView)findViewById(R.id.duration);
-        plus=(ImageView)findViewById(R.id.plus);
-        dropDownArrow=(ImageView)findViewById(R.id.dropdown_arrow);
-        backArrow=(ImageView)findViewById(R.id.back_arrow);
-        eventDropDown=(ImageView)findViewById(R.id.event_dropdown);
-        startButton=(Button)findViewById(R.id.start_button);
-        timingTrack=(CheckBox)findViewById(R.id.timing_track);
-        vibrator=(Vibrator) Speed.this.getSystemService(Context.VIBRATOR_SERVICE);
-        instructions=(TextView)findViewById(R.id.instructions);
-        eventSelect=(TextView)findViewById(R.id.event_select);
-        currentEvent=new SpeedEvent(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); //dont let screen sleep
+        numJumps=0; //always reset score
+        counter=(TextView)findViewById(R.id.counter); //current score display
+        time=(TextView)findViewById(R.id.timer); //timer display
+        duration=(TextView)findViewById(R.id.duration); //duration selection
+        plus=(ImageView)findViewById(R.id.plus); //middle of screen cicker
+        dropDownArrow=(ImageView)findViewById(R.id.dropdown_arrow); //duration dropdown arrow
+        backArrow=(ImageView)findViewById(R.id.back_arrow); //return to main menu
+        eventDropDown=(ImageView)findViewById(R.id.event_dropdown); //event dropdown arrow
+        startButton=(Button)findViewById(R.id.start_button); //bottom of screen start button
+        vibrator=(Vibrator) Speed.this.getSystemService(Context.VIBRATOR_SERVICE); //requesting vibrator services
+        instructions=(TextView)findViewById(R.id.instructions); //tiny text below timer
+        eventSelect=(TextView)findViewById(R.id.event_select); //event selection
+        currentEvent=new SpeedEvent(this); //intitialize empty event in case of no timing track
 
+        //wjr timing tracks
         time_10 = MediaPlayer.create(Speed.this,R.raw.time_10);
         time_15 = MediaPlayer.create(Speed.this,R.raw.time_15);
         time_20= MediaPlayer.create(this,R.raw.time_20);
@@ -96,7 +92,7 @@ public class Speed extends ActionBarActivity {
         time_3x40= MediaPlayer.create(this,R.raw.time_3x40);
         time_2x60= MediaPlayer.create(this,R.raw.time_2x60);
         time_beep= MediaPlayer.create(this,R.raw.time_beep);
-
+        //fisac timing tracks
         fisac_1x30=MediaPlayer.create(Speed.this,R.raw.fisac_1x30);
         fisac_1x180=MediaPlayer.create(Speed.this,R.raw.fisac_1x180);
         fisac_4x45=MediaPlayer.create(Speed.this,R.raw.fisac_4x45);
@@ -112,56 +108,45 @@ public class Speed extends ActionBarActivity {
         fisac_switch=MediaPlayer.create(Speed.this,R.raw.fisac_switch);
         fisac_beep=MediaPlayer.create(Speed.this,R.raw.fisac_beep);
 
-        click = MediaPlayer.create(this,R.raw.click);
-
+        //on touch listener for only tap down because it is much faster
         plus.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                //only down tap
                 if(event.getAction()==MotionEvent.ACTION_DOWN) {
-                    if(firstTap){
+                    if(firstTap){ //start timer if it is the first click
                         startTimer(startButton);
                         firstTap=false;
                     }
-
-                    //if(click.isPlaying()){
-                        //click.stop();
-                    //}
-                    //click.start();
-                    vibrator.vibrate(75);
-                    addJump(plus);
+                    vibrator.vibrate(75); //75ms vibration
+                    addJump(plus); //increment score and animate clicker
                 }
-
-
                 return true;
             }
         });
 
-
-
-
-
-
-
-
     }
+    /**whenever the clicker is tapped animate a button press of the clicker and increment the
+     * score.  Only works if the timer is running or can be activated by a non-timing track
+     * first tap.**/
     public void addJump(View v){
-
+        //check if timer is running
         if(startButton.getText().equals("Start")){
             return;
         }
-        plus.setAlpha(.75f);
+        plus.setAlpha(.75f); //don't need to animate the fade out
+        //maybe one day if latency isn't such a huge issue
         //playClick();
         //new DownloadFilesTask().execute();
 
-        ValueAnimator fadeIn = ObjectAnimator.ofFloat(plus, "alpha", .75f, 1f);
-        fadeIn.setDuration(25);
+        ValueAnimator fadeIn = ObjectAnimator.ofFloat(plus, "alpha", .75f, 1f); //fade back to full
+        fadeIn.setDuration(25); //25ms
         fadeIn.start();
 
-        numJumps++;
-        counter.setText(""+numJumps);
-        jumps.add(numJumps);
-        //System.out.println("current time= "+times.toString());
-        times.add(timeInHundredths);
+        numJumps++; //increase score
+        counter.setText(""+numJumps); //display new score
+        jumps.add(numJumps); //add score to list of jumps
+        times.add(timeInHundredths); //add current time is ms to list of times
 
     }
 
