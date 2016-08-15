@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class SpeedGraph extends AppCompatActivity {
     String jumperName;
     String finalDate;
     public static boolean loadingData=false;
-    SpeedData data;
+    public static SpeedData data;
     Button saveData;
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
@@ -70,8 +71,6 @@ public class SpeedGraph extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_speed_graph);
 
         // Configure Google Sign In
@@ -123,9 +122,20 @@ public class SpeedGraph extends AppCompatActivity {
         saveData = (Button)findViewById(R.id.save_data);
 
         if(loadingData){
-            //readData(loadData);
             saveData.setVisibility(View.INVISIBLE);
             loadingData=false;
+        }
+        else if(data!=null){
+            saveData.setVisibility(View.INVISIBLE);
+            duration.setText(""+formatDuration(data.getTime()));
+            score.setText(""+data.getScore());
+            avgJumps.setText(""+data.getAvgJumps());
+            maxJumps.setText(""+data.getMaxJumps());
+            numMisses.setText(""+data.getMisses());
+            estimatedScore.setText(""+data.getNoMissScore());
+            jumpsLost.setText(""+data.getJumpsLost());
+            drawGraph();
+            //data=null;
         }
         else {
             chart = (LineChart) findViewById(R.id.chart);
@@ -162,6 +172,7 @@ public class SpeedGraph extends AppCompatActivity {
             System.out.println("RAW DATA" + scrubbedTimes.toString());
             drawGraph();
         }
+        SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
     }
 
     public void signInButtonClick(View v){
@@ -210,6 +221,7 @@ public class SpeedGraph extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+                SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
@@ -381,17 +393,46 @@ public class SpeedGraph extends AppCompatActivity {
         else{
             Log.e("Auth","Current user: "+mAuth.getCurrentUser().getEmail().toString());
         }
-        Toast.makeText(getApplicationContext(),
-                "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
-                .show();
+
+
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
 
 
-                myRef.child(mAuth.getCurrentUser().getUid().toString()).child(mAuth.getCurrentUser().getDisplayName().toString());
-                setJumperName(mAuth.getCurrentUser().getDisplayName().toString());
-                saveData.setVisibility(View.INVISIBLE);
-                formatData();
+                myRef.child(mAuth.getCurrentUser().getUid().toString());
+        AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
+        builder.setTitle("Score Information"); //dialog title
+        LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+        final View textBoxes=inflater.inflate(R.layout.score_info_dialog,null); //custom layout file now a view object
+        builder.setView(textBoxes); //set view to custom layout
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //prompt user for name
+                EditText name = (EditText)textBoxes.findViewById(R.id.enter_jumper_name);
+                if(name.getText().toString().equals("")){
+                    return;
+                }
+                else{
+                    setJumperName(name.getText().toString());
+                    formatData();
+                    Toast.makeText(getApplicationContext(),
+                            "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+        saveData.setVisibility(View.INVISIBLE);
+
 
 
 
@@ -406,17 +447,8 @@ public class SpeedGraph extends AppCompatActivity {
     public void formatData(){
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
-
-
-        /*String date=""+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"
-                            +Calendar.getInstance().get(Calendar.DATE)+"-"
-                            +Calendar.getInstance().get(Calendar.YEAR)+"--"
-                            +Calendar.getInstance().get(Calendar.HOUR)+":"
-                            +Calendar.getInstance().get(Calendar.MINUTE);
-        date=""+Calendar.getInstance().getTime().toString();
-        */
         String date=""+System.currentTimeMillis()/1000;
-        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(jumperName).child(date).setValue(data);
+        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(date).child(jumperName + " " + Speed.getEventName()).setValue(data);
 
         return;
     }
@@ -424,6 +456,9 @@ public class SpeedGraph extends AppCompatActivity {
 
 
     public void readData(View v){
+        Intent intent = new Intent(this, SpeedDataSelect.class);
+        finish();
+        startActivity(intent);
         if(mAuth.getCurrentUser()==null){
             Log.e("Auth","Current user null");
             signInButtonClick(signInButton);
@@ -436,43 +471,8 @@ public class SpeedGraph extends AppCompatActivity {
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
 
-        /*
-        AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this);
-        builder.setTitle("Jumper Name");
-        LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View textBoxes=inflater.inflate(R.layout.jumper_name_edit_text_load_data,null);
-        builder.setView(textBoxes);
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText jumperNameEditText = (EditText)textBoxes.findViewById(R.id.jumper_first_name);
-                EditText jumperLastNameEditText = (EditText)textBoxes.findViewById(R.id.jumper_last_name);
-                String jumperName=jumperNameEditText.getText().toString()+" "+jumperLastNameEditText.getText().toString();
-
-                setJumperName(jumperName);
-                selectDate(jumperName);
-
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-        */
-
         setJumperName(mAuth.getCurrentUser().getDisplayName());
         selectDate(jumperName);
-
-
-
-
-
     }
 
     public void selectDate(String name){
@@ -554,7 +554,7 @@ public class SpeedGraph extends AppCompatActivity {
         });
 
         builder.create();
-        dateSelect=builder.show();
+        //dateSelect=builder.show();
         dates.refreshDrawableState();
         textBoxes.refreshDrawableState();
     }

@@ -44,6 +44,7 @@ public class Speed extends ActionBarActivity {
     int hundredths = 0; //first digit of timeInHundredths for timer display
     boolean firstTap=true; //will first click start the timer?
     public static int eventLength=30; //current event length in seconds
+    public static String eventName="";//name of the event to be displayed in the graph
     Handler handler = new Handler(); //handler for the timer
     public static ArrayList<Integer> jumps=new ArrayList<>(); //list of jumps to update score
     public static ArrayList<Long> times=new ArrayList<>(); //list of times of jumps in ms for graph
@@ -277,11 +278,12 @@ public class Speed extends ActionBarActivity {
         startButton.setText("Stop");
         starttime = SystemClock.uptimeMillis();
         t = 0;
+        SpeedGraph.data=null;
         handler.postDelayed(updateTimer, 100); //delay of 100ms between timer updates
 
     }
 
-    public Runnable updateTimer = new Runnable() { //the Runnable pbject for the timer
+    public Runnable updateTimer = new Runnable() { //the Runnable object for the timer
         public void run() {
 
             final WeakReference<TextView> timeRef;
@@ -334,7 +336,7 @@ public class Speed extends ActionBarActivity {
 
     /**
      * select event duration.  This is done automatically if an event has already been selected but
-     * must be dont if an event should be run without a timing track.
+     * must be done if an event should be run without a timing track.
      * @param v the view being clicked
      */
     public void chooseDuration(View v){
@@ -464,12 +466,19 @@ public class Speed extends ActionBarActivity {
                 //initialize new SpeedEvent object for selection
                 currentEvent=new SpeedEvent(Speed.this,  menuItem.getTitle().toString());
                 duration.setText(""+formatDuration(currentEvent.getDuration())); //display new duration
+                eventName=currentEvent.getName(); //set event name in global variable
                 eventSelect.setText(menuItem.getTitle().toString()); //display event name
                 eventLength=currentEvent.getDuration(); //set new duration
                 return false;
             }
         });
     }
+
+    public static String getEventName(){
+        return eventName;
+    }
+
+
 
 
 
