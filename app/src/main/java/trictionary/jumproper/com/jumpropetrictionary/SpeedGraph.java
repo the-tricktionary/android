@@ -424,6 +424,10 @@ public class SpeedGraph extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
                             .show();
+                    Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
+                    finish();
+                    startActivity(intent);
+
                 }
             }
         });

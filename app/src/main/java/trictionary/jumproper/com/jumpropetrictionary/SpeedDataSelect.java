@@ -109,7 +109,7 @@ public class SpeedDataSelect extends AppCompatActivity {
     }
 
     public String formatEpoch(String str){
-        String date = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (Long.parseLong(str)*1000));
+        String date = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date (Long.parseLong(str)*1000));
         return date;
     }
     public String formatDuration(int secs){
@@ -125,6 +125,8 @@ public class SpeedDataSelect extends AppCompatActivity {
         startActivity(intent);
     }
     public void backToGraph(View v){
+        SpeedGraph.data=null;
+        SpeedGraph.loadingData=true;
         Intent intent = new Intent(this, SpeedGraph.class);
         finish();
         startActivity(intent);

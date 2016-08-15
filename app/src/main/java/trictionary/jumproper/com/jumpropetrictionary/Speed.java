@@ -278,7 +278,7 @@ public class Speed extends ActionBarActivity {
         startButton.setText("Stop");
         starttime = SystemClock.uptimeMillis();
         t = 0;
-        SpeedGraph.data=null;
+
         handler.postDelayed(updateTimer, 100); //delay of 100ms between timer updates
 
     }
