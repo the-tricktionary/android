@@ -157,7 +157,7 @@ public class SpeedGraph extends AppCompatActivity {
             }
 
             data=new SpeedData(scrubbedTimes,avgJumpsPerSec,maxJumpsPerSec,misses,scoreNoMisses,
-                    jumps,time,jumpDeficit);
+                    jumps,time,jumpDeficit,jumperName); //jumperName, maybe?
 
             duration.setText(formatDuration(data.getTime()));
             score.setText("" + data.getScore());
@@ -174,6 +174,8 @@ public class SpeedGraph extends AppCompatActivity {
         }
         SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
     }
+
+
 
     public void signInButtonClick(View v){
         switch (v.getId()) {
@@ -415,7 +417,9 @@ public class SpeedGraph extends AppCompatActivity {
                     return;
                 }
                 else{
-                    setJumperName(name.getText().toString());
+                    setJumperName(name.getText().toString()+" "+Speed.getEventName());
+                    data=new SpeedData(scrubbedTimes,avgJumpsPerSec,maxJumpsPerSec,misses,scoreNoMisses,
+                            jumps,time,jumpDeficit,jumperName); //jumperName, maybe?
                     formatData();
                     Toast.makeText(getApplicationContext(),
                             "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
@@ -448,7 +452,7 @@ public class SpeedGraph extends AppCompatActivity {
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
         String date=""+System.currentTimeMillis()/1000;
-        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(date).child(jumperName + " " + Speed.getEventName()).setValue(data);
+        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(date).setValue(data);
 
         return;
     }
@@ -563,7 +567,7 @@ public class SpeedGraph extends AppCompatActivity {
         saveData.setVisibility(View.INVISIBLE);
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
-        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(jumperName).child(finalDate).addValueEventListener(new ValueEventListener() {
+        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("Children of "+dataSnapshot.getValue());

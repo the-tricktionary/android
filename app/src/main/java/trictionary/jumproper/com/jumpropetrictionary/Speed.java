@@ -31,7 +31,7 @@ public class Speed extends ActionBarActivity {
     TextView counter, time, duration, instructions, eventSelect; //textviews
     ImageView plus,dropDownArrow,backArrow,eventDropDown; //imageviews
     Button startButton;  //bottom of screen start button
-    SpeedEvent currentEvent;//speed event object used for timing tracks
+    public static SpeedEvent currentEvent;//speed event object used for timing tracks
     public static int numJumps;  //score of event being clicked
     //timer
     long starttime = 0L; //start time in seconds
@@ -428,7 +428,7 @@ public class Speed extends ActionBarActivity {
      * @param secs total number of seconds
      * @return formatted duration String
      */
-    public String formatDuration(int secs){
+    public static String formatDuration(int secs){
         String duration="";
         duration+=""+secs/60;
         duration+=":"+String.format("%02d", secs%60);
@@ -466,7 +466,7 @@ public class Speed extends ActionBarActivity {
                 //initialize new SpeedEvent object for selection
                 currentEvent=new SpeedEvent(Speed.this,  menuItem.getTitle().toString());
                 duration.setText(""+formatDuration(currentEvent.getDuration())); //display new duration
-                eventName=currentEvent.getName(); //set event name in global variable
+                eventName = currentEvent.getName(); //set event name in global variable
                 eventSelect.setText(menuItem.getTitle().toString()); //display event name
                 eventLength=currentEvent.getDuration(); //set new duration
                 return false;
@@ -475,6 +475,12 @@ public class Speed extends ActionBarActivity {
     }
 
     public static String getEventName(){
+        if(currentEvent.getName().equals("")){
+            eventName=formatDuration(eventLength);
+        }
+        else {
+            eventName = currentEvent.getName(); //set event name in global variable
+        }
         return eventName;
     }
 

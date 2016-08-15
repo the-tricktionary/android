@@ -61,16 +61,15 @@ public class SpeedDataSelect extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot date:dataSnapshot.getChildren()) {
-                            for (DataSnapshot name : date.getChildren()) {
-                                if(name.getKey().equals(events.get(pos))){
+                                if(date.child("name").getValue().toString().equals(events.get(pos))){
                                     GenericTypeIndicator<SpeedData> sd = new GenericTypeIndicator<SpeedData>() {
                                     };
-                                    SpeedGraph.data=name.getValue(sd);
+                                    SpeedGraph.data=date.getValue(sd);
                                     Intent intent = new Intent(SpeedDataSelect.this, SpeedGraph.class);
                                     finish();
                                     startActivity(intent);
                                 }
-                            }
+
                         }
                     }
 
@@ -90,13 +89,11 @@ public class SpeedDataSelect extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("snapshot children " + dataSnapshot.getValue());
                 for(DataSnapshot date:dataSnapshot.getChildren()){
-                    for(DataSnapshot name:date.getChildren()) {
                         Map<String, String> data = new HashMap<String, String>(2);
-                        events.add(name.getKey());
-                        data.put("event",name.getKey()+ "  (" + name.child("score").getValue().toString()+")");
+                        events.add(date.child("name").getValue().toString());
+                        data.put("event",date.child("name").getValue().toString()+ "  (" + date.child("score").getValue().toString()+")");
                         data.put("date",formatEpoch(date.getKey()));
                         list.add(data);
-                    }
                 }
 
                 return;

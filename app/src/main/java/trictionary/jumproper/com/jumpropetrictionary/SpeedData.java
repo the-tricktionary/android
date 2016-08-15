@@ -14,6 +14,7 @@ public class SpeedData {
     int score;
     int time;
     int jumpsLost;
+    String name;
 
 
     public SpeedData(){
@@ -36,6 +37,18 @@ public class SpeedData {
         score=mScore;
         time=mTime;
         jumpsLost=mJumpsLost;
+    }
+    public SpeedData(ArrayList<Long> mGraphData, double mAvgJumps, double mMaxJumps, int mMisses,
+                     int mNoMissScore, int mScore, int mTime, int mJumpsLost, String mName){
+        graphData=mGraphData;
+        avgJumps=mAvgJumps;
+        maxJumps=mMaxJumps;
+        misses=mMisses;
+        noMissScore=mNoMissScore;
+        score=mScore;
+        time=mTime;
+        jumpsLost=mJumpsLost;
+        name=mName;
     }
 
     public ArrayList<Long> getGraphData() {
@@ -100,6 +113,14 @@ public class SpeedData {
 
     public void setJumpsLost(int jumpsLost) {
         this.jumpsLost = jumpsLost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String toString(){
