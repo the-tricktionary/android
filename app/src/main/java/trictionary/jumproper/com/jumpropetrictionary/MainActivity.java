@@ -27,6 +27,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -60,6 +61,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     Trick[] tricktionary;
     int trickIndex=TrickList.index;
 
+    //analytic object for event logging
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
 
     @Override
@@ -74,9 +78,14 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
+
+        //initialize analytic object and log an event
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("trick_name",tricktionary[trickIndex].getName());
+        mFirebaseAnalytics.logEvent("view_trick", bundle);
 
         //display trick name
         toolbar.setTitle(tricktionary[trickIndex].getName());
