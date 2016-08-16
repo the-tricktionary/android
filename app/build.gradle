@@ -21,7 +21,7 @@ android {
         release {
             keyAlias 'TricktionaryKey'
             keyPassword 'dplummer36'
-            storeFile file('C:/Users/jumpr/keystore.jks')
+            storeFile file('C:/Users/jumpr_000/keystore.jks')
             storePassword 'dplummer36'
         }
     }

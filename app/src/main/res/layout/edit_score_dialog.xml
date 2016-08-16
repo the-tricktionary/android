@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit the display name for this score or delete it forever."
+        android:id="@+id/textView10"
+        android:padding="20dp"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_score_name"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp"
+        android:hint="Enter new name" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete_score"
+        android:layout_gravity="center_horizontal"
+        android:src="@android:drawable/ic_menu_delete"
+        android:padding="10dp"
+        android:onClick="deleteScore" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/delete_dialog"
+        android:visibility="gone">
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/space3"
+            android:layout_below="@+id/textView11" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:id="@+id/textView12"
+            android:layout_alignParentTop="false"
+            android:layout_toEndOf="@+id/space3"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:layout_below="@+id/textView11"
+            android:onClick="yesDelete" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:id="@+id/textView13"
+            android:layout_alignParentTop="false"
+            android:layout_toStartOf="@+id/space3"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:layout_below="@+id/textView11"
+            android:onClick="noDontDelete" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete? Are you sure?"
+            android:id="@+id/textView11"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</LinearLayout>

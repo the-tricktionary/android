@@ -107,6 +107,7 @@ public class Speed extends ActionBarActivity {
         fisac_2min=MediaPlayer.create(Speed.this,R.raw.fisac_2min);
         fisac_switch=MediaPlayer.create(Speed.this,R.raw.fisac_switch);
         fisac_beep=MediaPlayer.create(Speed.this,R.raw.fisac_beep);
+        SpeedGraph.data=null;
 
         //on touch listener for only tap down because it is much faster
         plus.setOnTouchListener(new View.OnTouchListener() {

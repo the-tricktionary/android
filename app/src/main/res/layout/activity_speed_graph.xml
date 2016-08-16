@@ -264,7 +264,8 @@
         android:id="@+id/save_data"
         android:onClick="saveData"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/chart" />
+        android:layout_alignEnd="@+id/chart"
+        android:visibility="visible" />
 
     <Button
         android:layout_width="wrap_content"
@@ -275,5 +276,16 @@
         android:layout_centerHorizontal="true"
         android:onClick="viewPublicData"
         android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_score"
+        android:src="@android:drawable/ic_menu_edit"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/save_data"
+        android:visibility="invisible"
+        android:onClick="editData" />
 
 </RelativeLayout>

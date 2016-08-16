@@ -65,6 +65,7 @@ public class SpeedDataSelect extends AppCompatActivity {
                                     GenericTypeIndicator<SpeedData> sd = new GenericTypeIndicator<SpeedData>() {
                                     };
                                     SpeedGraph.data=date.getValue(sd);
+                                    SpeedGraph.finalDate=date.getKey().toString();
                                     Intent intent = new Intent(SpeedDataSelect.this, SpeedGraph.class);
                                     finish();
                                     startActivity(intent);
@@ -104,7 +105,6 @@ public class SpeedDataSelect extends AppCompatActivity {
                 return;
             }
         });
-        eventList.refreshDrawableState();
 
     }
 

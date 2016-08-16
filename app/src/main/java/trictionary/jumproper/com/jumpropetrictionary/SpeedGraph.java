@@ -14,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +40,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,15 +50,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class SpeedGraph extends AppCompatActivity {
-    AlertDialog dateSelect;
+    AlertDialog dateSelect,editDialog;
+    AlertDialog.Builder editDialogBuilder;
     ArrayList<Long> scrubbedTimes;
     TextView duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost;
+    ImageView editScore;
+    RelativeLayout deleteDialog;
     Button loadData;
     LineChart chart;
     double avgJumpsPerSec,maxJumpsPerSec;
     int time,jumps,misses,scoreNoMisses,jumpDeficit;
     String jumperName;
-    String finalDate;
+    public static String finalDate;
     public static boolean loadingData=false;
     public static SpeedData data;
     Button saveData;
@@ -121,13 +125,18 @@ public class SpeedGraph extends AppCompatActivity {
         estimatedScore = (TextView) findViewById(R.id.score_no_misses);
         jumpsLost = (TextView) findViewById(R.id.jumps_lost);
         saveData = (Button)findViewById(R.id.save_data);
+        editScore = (ImageView)findViewById(R.id.edit_score);
 
         if(loadingData){
             saveData.setVisibility(View.INVISIBLE);
+            editScore.setVisibility(View.INVISIBLE);
             loadingData=false;
         }
         else if(data!=null){
+            if(data.getName()==null)
+                data.setName("");
             saveData.setVisibility(View.INVISIBLE);
+            editScore.setVisibility(View.VISIBLE);
             duration.setText(""+formatDuration(data.getTime()));
             score.setText(""+data.getScore());
             avgJumps.setText(""+data.getAvgJumps());
@@ -165,6 +174,7 @@ public class SpeedGraph extends AppCompatActivity {
             numMisses.setText("" + data.getMisses());
             estimatedScore.setText("" + data.getNoMissScore());
             jumpsLost.setText("" + data.getJumpsLost());
+            editScore.setVisibility(View.INVISIBLE);
             drawGraph();
         }
         if (mAuth.getCurrentUser()!=null){
@@ -260,7 +270,7 @@ public class SpeedGraph extends AppCompatActivity {
         ArrayList<Entry> values=new ArrayList<>();
 
         for(int j=1;j<scrubbedTimes.size();j++){
-            values.add(new Entry(100*(1/((float)scrubbedTimes.get(j)-(float)scrubbedTimes.get(j-1))), j));
+            values.add(new Entry(100*(1/((float)scrubbedTimes.get(j)-(float)scrubbedTimes.get(j-1))), j-1));
         }
 
         LineDataSet set=new LineDataSet(values, "Jumps per second");
@@ -410,22 +420,19 @@ public class SpeedGraph extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 //prompt user for name
                 EditText name = (EditText)textBoxes.findViewById(R.id.enter_jumper_name);
-                if(name.getText().toString().equals("")){
-                    return;
-                }
-                else{
-                    setJumperName(name.getText().toString()+" "+Speed.getEventName());
-                    data=new SpeedData(scrubbedTimes,avgJumpsPerSec,maxJumpsPerSec,misses,scoreNoMisses,
-                            jumps,time,jumpDeficit,jumperName); //jumperName, maybe?
-                    formatData();
-                    Toast.makeText(getApplicationContext(),
-                            "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
-                            .show();
-                    Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
-                    finish();
-                    startActivity(intent);
 
-                }
+                setJumperName(name.getText().toString()+" "+Speed.getEventName());
+                data=new SpeedData(scrubbedTimes,avgJumpsPerSec,maxJumpsPerSec,misses,scoreNoMisses,
+                        jumps,time,jumpDeficit,jumperName); //jumperName, maybe?
+                formatData();
+                Toast.makeText(getApplicationContext(),
+                        "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
+                        .show();
+                Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
+                finish();
+                startActivity(intent);
+
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -603,6 +610,54 @@ public class SpeedGraph extends AppCompatActivity {
     public String formatEpoch(String str){
         String date = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (Long.parseLong(str)*1000));
         return date;
+    }
+
+    public void editData(View v){
+        editDialogBuilder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
+        editDialogBuilder.setTitle("Edit Score"); //dialog title
+        LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+        final View textBoxes=inflater.inflate(R.layout.edit_score_dialog,null); //custom layout file now a view object
+        final EditText name = (EditText)textBoxes.findViewById(R.id.edit_score_name);
+        deleteDialog=(RelativeLayout)textBoxes.findViewById(R.id.delete_dialog);
+        name.setText(data.getName());
+        editDialogBuilder.setView(textBoxes); //set view to custom layout
+        // Set up the buttons
+        editDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //prompt user for name
+                FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                final DatabaseReference myRef=fb.getReference("speed").child("scores");
+                myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).child("name").setValue(name.getText().toString());
+
+            }
+        });
+        editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        editDialogBuilder.create();
+        editDialog=editDialogBuilder.show();
+
+    }
+
+    public void deleteScore(View v){
+        deleteDialog.setVisibility(View.VISIBLE);
+    }
+    public void yesDelete(View v){
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        final DatabaseReference myRef=fb.getReference("speed").child("scores");
+        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).removeValue();
+        deleteDialog.setVisibility(View.GONE);
+        editDialog.cancel();
+    }
+    public void noDontDelete(View v){
+        deleteDialog.setVisibility(View.GONE);
+        editDialog.cancel();
+
     }
 
 
