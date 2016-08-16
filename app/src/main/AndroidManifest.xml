@@ -82,7 +82,9 @@
             android:name=".SpeedGraph"
             android:label="@string/title_activity_speed_graph" />
         <activity android:name=".PublicSpeedData" />
-        <activity android:name=".SpeedDataSelect"></activity>
+        <activity
+            android:name=".SpeedDataSelect"
+        />
     </application>
 
 </manifest>

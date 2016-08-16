@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/button" />
+        android:layout_above="@+id/button"
+        android:layout_marginBottom="10dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +31,6 @@
         android:id="@+id/scrollView"
         android:layout_above="@+id/chart"
         android:layout_below="@+id/back_arrow"
-        android:layout_marginTop="0dp"
         android:scrollIndicators="right">
 
         <RelativeLayout
@@ -50,7 +50,7 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:alpha=".75"
                 android:padding="5dp"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:alpha=".75"
                 android:padding="5dp"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_below="@+id/event_duration_title"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp" />
@@ -125,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jump Deficit"
+                android:text="Jumps Lost"
                 android:id="@+id/jumps_lost_title"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_corner_shadow"
@@ -144,7 +144,7 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:alpha=".75"
                 android:padding="5dp"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_alignTop="@+id/event_duration_title"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="20dp"
@@ -158,7 +158,7 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:alpha=".75"
                 android:padding="5dp"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_marginRight="20dp"
                 android:textAlignment="textEnd"
                 android:layout_alignTop="@+id/score_title"
@@ -287,5 +287,37 @@
         android:layout_alignEnd="@+id/save_data"
         android:visibility="invisible"
         android:onClick="editData" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dylan Plummer WJR 1x30"
+        android:id="@+id/event_name"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        android:layout_below="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:id="@+id/auth_button"
+        android:onClick="beginAuth"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/button"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jumproper36@gmail.com"
+        android:id="@+id/current_user"
+        android:textSize="10dp"
+        android:layout_above="@+id/auth_button"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

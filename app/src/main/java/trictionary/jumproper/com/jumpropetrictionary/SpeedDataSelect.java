@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +30,7 @@ public class SpeedDataSelect extends AppCompatActivity {
     ArrayList<String> dates;
     int pos;
     TextView tryRefresh;
+    ImageView refreshScore;
 
     List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
@@ -41,6 +44,15 @@ public class SpeedDataSelect extends AppCompatActivity {
         scores=new ArrayList<>();
         dates=new ArrayList<>();
         tryRefresh=(TextView)findViewById(R.id.try_refresh);
+        refreshScore=(ImageView)findViewById(R.id.refresh_scores);
+
+        if(mUid==null){
+            Toast.makeText(SpeedDataSelect.this, "Sign in to view saved scores",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SpeedGraph.class);
+            finish();
+            startActivity(intent);
+        }
         getEvents();
 
         SimpleAdapter eventAdapter = new SimpleAdapter(this,list,
@@ -130,5 +142,8 @@ public class SpeedDataSelect extends AppCompatActivity {
         Intent intent = new Intent(this, SpeedGraph.class);
         finish();
         startActivity(intent);
+    }
+    public void signOutAndReturn(View v){
+
     }
 }

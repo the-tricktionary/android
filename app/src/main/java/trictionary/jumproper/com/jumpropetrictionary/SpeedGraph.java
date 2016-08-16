@@ -53,7 +53,7 @@ public class SpeedGraph extends AppCompatActivity {
     AlertDialog dateSelect,editDialog;
     AlertDialog.Builder editDialogBuilder;
     ArrayList<Long> scrubbedTimes;
-    TextView duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost;
+    TextView eventName,duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost,currentUser;
     ImageView editScore;
     RelativeLayout deleteDialog;
     Button loadData;
@@ -64,7 +64,7 @@ public class SpeedGraph extends AppCompatActivity {
     public static String finalDate;
     public static boolean loadingData=false;
     public static SpeedData data;
-    Button saveData;
+    Button saveData,authButton;
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 4236;
@@ -116,7 +116,7 @@ public class SpeedGraph extends AppCompatActivity {
             }
         };
 
-
+        eventName=(TextView)findViewById(R.id.event_name);
         duration = (TextView) findViewById(R.id.event_duration);
         score = (TextView) findViewById(R.id.score);
         avgJumps = (TextView) findViewById(R.id.avg_jumps_per_second);
@@ -124,17 +124,31 @@ public class SpeedGraph extends AppCompatActivity {
         numMisses = (TextView) findViewById(R.id.num_misses);
         estimatedScore = (TextView) findViewById(R.id.score_no_misses);
         jumpsLost = (TextView) findViewById(R.id.jumps_lost);
+        currentUser = (TextView)findViewById(R.id.current_user);
         saveData = (Button)findViewById(R.id.save_data);
         editScore = (ImageView)findViewById(R.id.edit_score);
+        authButton=(Button)findViewById(R.id.auth_button);
+        if(mAuth.getCurrentUser()==null){
+            currentUser.setVisibility(View.INVISIBLE);
+            authButton.setText("Sign In");
+        }
+        else{
+            currentUser.setVisibility(View.VISIBLE);
+            currentUser.setText(mAuth.getCurrentUser().getEmail().toString());
+            authButton.setText("Sign Out");
+        }
 
         if(loadingData){
             saveData.setVisibility(View.INVISIBLE);
             editScore.setVisibility(View.INVISIBLE);
+            eventName.setVisibility(View.INVISIBLE);
             loadingData=false;
         }
         else if(data!=null){
             if(data.getName()==null)
                 data.setName("");
+            eventName.setVisibility(View.VISIBLE);
+            eventName.setText(data.getName());
             saveData.setVisibility(View.INVISIBLE);
             editScore.setVisibility(View.VISIBLE);
             duration.setText(""+formatDuration(data.getTime()));
@@ -175,6 +189,7 @@ public class SpeedGraph extends AppCompatActivity {
             estimatedScore.setText("" + data.getNoMissScore());
             jumpsLost.setText("" + data.getJumpsLost());
             editScore.setVisibility(View.INVISIBLE);
+            eventName.setVisibility(View.INVISIBLE);
             drawGraph();
         }
         if (mAuth.getCurrentUser()!=null){
@@ -248,7 +263,12 @@ public class SpeedGraph extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
-
+                        if(task.isComplete()){
+                            SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
+                            currentUser.setVisibility(View.VISIBLE);
+                            currentUser.setText(mAuth.getCurrentUser().getEmail().toString());
+                            authButton.setText("Sign Out");
+                        }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -266,7 +286,7 @@ public class SpeedGraph extends AppCompatActivity {
     public void drawGraph(){
         chart = (LineChart) findViewById(R.id.chart);
         scrubbedTimes=data.getGraphData();
-        ArrayList<String> jumpLabels=getXAxisValues(scrubbedTimes.size(),data.getTime());
+        ArrayList<String> jumpLabels=getXAxisValues(scrubbedTimes.size()-1,data.getTime());
         ArrayList<Entry> values=new ArrayList<>();
 
         for(int j=1;j<scrubbedTimes.size();j++){
@@ -371,6 +391,7 @@ public class SpeedGraph extends AppCompatActivity {
     }
 
     public void viewSpeed(View v){
+        data=null;
         Intent intent = new Intent(this, Speed.class);
         finish();
         startActivity(intent);
@@ -461,7 +482,10 @@ public class SpeedGraph extends AppCompatActivity {
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
         String date=""+System.currentTimeMillis()/1000;
         myRef.child(mAuth.getCurrentUser().getUid().toString()).child(date).setValue(data);
-
+        data=null;
+        Intent intent = new Intent(this, SpeedDataSelect.class);
+        finish();
+        startActivity(intent);
         return;
     }
 
@@ -472,8 +496,8 @@ public class SpeedGraph extends AppCompatActivity {
         if(mAuth.getCurrentUser()==null){
             Log.e("Auth","Current user null");
             signInButtonClick(signInButton);
-
             return;
+
         }
         else {
             Intent intent = new Intent(this, SpeedDataSelect.class);
@@ -653,11 +677,29 @@ public class SpeedGraph extends AppCompatActivity {
         myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).removeValue();
         deleteDialog.setVisibility(View.GONE);
         editDialog.cancel();
+        Intent intent = new Intent(this, SpeedDataSelect.class);
+        finish();
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(),
+                "Deleted score", Toast.LENGTH_SHORT)
+                .show();
     }
     public void noDontDelete(View v){
         deleteDialog.setVisibility(View.GONE);
         editDialog.cancel();
 
+    }
+    public void beginAuth(View v){
+        if(mAuth.getCurrentUser()==null){
+            signInButtonClick(signInButton);
+            authButton.setText("Sign Out");
+
+        }
+        else{
+            userSignOut(v);
+            authButton.setText("Sign In");
+            currentUser.setVisibility(View.INVISIBLE);
+        }
     }
 
 
