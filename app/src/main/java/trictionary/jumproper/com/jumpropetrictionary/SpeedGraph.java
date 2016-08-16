@@ -38,6 +38,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -139,8 +140,6 @@ public class SpeedGraph extends AppCompatActivity {
         }
         else {
             chart = (LineChart) findViewById(R.id.chart);
-
-
             scrubbedTimes = scrubData(Speed.times);
             time=Speed.eventLength;
             jumps=Speed.numJumps;
@@ -166,13 +165,11 @@ public class SpeedGraph extends AppCompatActivity {
             numMisses.setText("" + data.getMisses());
             estimatedScore.setText("" + data.getNoMissScore());
             jumpsLost.setText("" + data.getJumpsLost());
-
-
-
-            System.out.println("RAW DATA" + scrubbedTimes.toString());
             drawGraph();
         }
-        SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
+        if (mAuth.getCurrentUser()!=null){
+            SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
+        }
     }
 
 
@@ -223,7 +220,7 @@ public class SpeedGraph extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
+
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
@@ -464,23 +461,26 @@ public class SpeedGraph extends AppCompatActivity {
 
 
     public void readData(View v){
-        Intent intent = new Intent(this, SpeedDataSelect.class);
-        finish();
-        startActivity(intent);
+
         if(mAuth.getCurrentUser()==null){
             Log.e("Auth","Current user null");
             signInButtonClick(signInButton);
 
             return;
         }
-        Toast.makeText(getApplicationContext(),
-                "Signed in as "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
-                .show();
-        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        final DatabaseReference myRef=fb.getReference("speed").child("scores");
+        else {
+            Intent intent = new Intent(this, SpeedDataSelect.class);
+            finish();
+            startActivity(intent);
+            Toast.makeText(getApplicationContext(),
+                    "Signed in as " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
+                    .show();
+            FirebaseDatabase fb = FirebaseDatabase.getInstance();
+            final DatabaseReference myRef = fb.getReference("speed").child("scores");
 
-        setJumperName(mAuth.getCurrentUser().getDisplayName());
-        selectDate(jumperName);
+            setJumperName(mAuth.getCurrentUser().getDisplayName());
+            selectDate(jumperName);
+        }
     }
 
     public void selectDate(String name){
