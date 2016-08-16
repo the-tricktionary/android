@@ -400,7 +400,7 @@ public class SpeedGraph extends AppCompatActivity {
 
                 myRef.child(mAuth.getCurrentUser().getUid().toString());
         AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
-        builder.setTitle("Score Information"); //dialog title
+        builder.setTitle("Save Score"); //dialog title
         LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
         final View textBoxes=inflater.inflate(R.layout.score_info_dialog,null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout

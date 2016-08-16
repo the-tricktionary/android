@@ -3,11 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter a name for this score (i.e a jumper&apos;s name or a team) so you can access it later.  This can be changed or deleted at any time."
+        android:id="@+id/textView9"
+        android:padding="20dp" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/enter_jumper_name"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:hint="Enter jumper name" />
+        android:hint="Enter name"
+        android:padding="20dp" />
 </LinearLayout>
