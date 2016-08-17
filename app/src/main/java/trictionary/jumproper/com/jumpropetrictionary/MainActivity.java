@@ -54,7 +54,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
     //length of tricktionary, used for fetching random tricks
-    public static int len=TrickData.getTricktionary().length;
+    public static int len;
 
 
     //declare Trick array and index of current trick
@@ -80,6 +80,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
+        len=TrickData.getTricktionary().length;
 
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
