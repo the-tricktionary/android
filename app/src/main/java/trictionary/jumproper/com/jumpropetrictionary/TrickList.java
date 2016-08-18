@@ -57,7 +57,7 @@ public class TrickList extends ActionBarActivity {
                                 .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
                 )
                 .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(false)
+                .withPaddingBelowHeader(true)
                 .build();
 
 

@@ -154,7 +154,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                                 .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
                 )
                 .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(false)
+                .withPaddingBelowHeader(true)
                 .build();
 
         Drawer result = new DrawerBuilder()

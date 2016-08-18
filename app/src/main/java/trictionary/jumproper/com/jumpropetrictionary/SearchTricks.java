@@ -59,7 +59,7 @@ public class SearchTricks extends AppCompatActivity {
                                 .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
                 )
                 .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(false)
+                .withPaddingBelowHeader(true)
                 .build();
 
 

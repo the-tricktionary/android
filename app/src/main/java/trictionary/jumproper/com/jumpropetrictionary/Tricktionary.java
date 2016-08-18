@@ -68,7 +68,7 @@ public class Tricktionary extends ActionBarActivity {
                                 .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
                 )
                 .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(false)
+                .withPaddingBelowHeader(true)
                 .build();
 
         Drawer result = new DrawerBuilder()
@@ -76,6 +76,7 @@ public class Tricktionary extends ActionBarActivity {
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
+                        new DividerDrawerItem(),
                         mainMenuItem,
                         new DividerDrawerItem(),
                         tricktionaryItem,
