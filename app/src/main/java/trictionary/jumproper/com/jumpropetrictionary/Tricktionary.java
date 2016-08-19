@@ -76,7 +76,6 @@ public class Tricktionary extends ActionBarActivity {
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        new DividerDrawerItem(),
                         mainMenuItem,
                         new DividerDrawerItem(),
                         tricktionaryItem,
