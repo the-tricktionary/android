@@ -505,18 +505,12 @@ public class SpeedGraph extends AppCompatActivity {
             return;
 
         }
+
         else {
+            SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
             Intent intent = new Intent(this, SpeedDataSelect.class);
             finish();
             startActivity(intent);
-            Toast.makeText(getApplicationContext(),
-                    "Signed in as " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
-                    .show();
-            FirebaseDatabase fb = FirebaseDatabase.getInstance();
-            final DatabaseReference myRef = fb.getReference("speed").child("scores");
-
-            setJumperName(mAuth.getCurrentUser().getDisplayName());
-            updateData();
         }
     }
 
