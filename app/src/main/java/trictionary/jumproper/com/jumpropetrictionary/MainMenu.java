@@ -109,7 +109,7 @@ public class MainMenu extends AppCompatActivity {
 
                 )
                 .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(false)
+                .withPaddingBelowHeader(true)
                 .build();
 
 

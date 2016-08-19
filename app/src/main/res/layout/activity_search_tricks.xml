@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView8"
         android:layout_gravity="left|top"
-        android:src="@drawable/abc_ic_ab_back_material"
+        android:src="@drawable/ic_ab_back_material"
         android:alpha=".75"
         android:scaleType="fitXY"
         android:onClick="viewTricktionary"

@@ -33,6 +33,8 @@ public class Tricktionary extends ActionBarActivity {
     TextView sortBy, level1, level2, level3, level4, level5, viewTricks;
     ScrollView type, levels;
 
+    public static Trick[] tricktionary;
+
     public static final String DASHES="  ";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class Tricktionary extends ActionBarActivity {
         TrickList.level=-1;
         TrickList.alphabet=true;
         TrickList.type="all";
+        tricktionary=TrickData.getTricktionary();
 
 
         new DrawerBuilder().withActivity(this).build();
@@ -65,7 +68,7 @@ public class Tricktionary extends ActionBarActivity {
                                 .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
                 )
                 .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(false)
+                .withPaddingBelowHeader(true)
                 .build();
 
         Drawer result = new DrawerBuilder()
@@ -73,6 +76,7 @@ public class Tricktionary extends ActionBarActivity {
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
+                        new DividerDrawerItem(),
                         mainMenuItem,
                         new DividerDrawerItem(),
                         tricktionaryItem,
@@ -147,21 +151,21 @@ public class Tricktionary extends ActionBarActivity {
         final ArrayList<String> level4List = new ArrayList<String>();
 
 
-        for(int j=0;j<TrickData.getTricktionary().length;j++){
-            if(TrickData.getTricktionary()[j].getType().equals("Basics")){
-                basicsList.add(TrickData.getTricktionary()[j].getName());
+        for(int j=0;j<tricktionary.length;j++){
+            if(tricktionary[j].getType().equals("Basics")){
+                basicsList.add(tricktionary[j].getName());
             }
-            else if(TrickData.getTricktionary()[j].getDifficulty()==1){
-                level1List.add(TrickData.getTricktionary()[j].getName());
+            else if(tricktionary[j].getDifficulty()==1){
+                level1List.add(tricktionary[j].getName());
             }
-            else if(TrickData.getTricktionary()[j].getDifficulty()==2){
-                level2List.add(TrickData.getTricktionary()[j].getName());
+            else if(tricktionary[j].getDifficulty()==2){
+                level2List.add(tricktionary[j].getName());
             }
-            else if(TrickData.getTricktionary()[j].getDifficulty()==3){
-                level3List.add(TrickData.getTricktionary()[j].getName());
+            else if(tricktionary[j].getDifficulty()==3){
+                level3List.add(tricktionary[j].getName());
             }
-            else if(TrickData.getTricktionary()[j].getDifficulty()==4){
-                level4List.add(TrickData.getTricktionary()[j].getName());
+            else if(tricktionary[j].getDifficulty()==4){
+                level4List.add(tricktionary[j].getName());
             }
         }
         Collections.sort(basicsList);
@@ -317,7 +321,7 @@ public class Tricktionary extends ActionBarActivity {
 
                 // ListView Clicked item value
                 String itemValue = (String) basicsGridView.getItemAtPosition(position);
-                TrickList.index = getTrickFromName(itemValue, TrickData.getTricktionary()).getIndex();
+                TrickList.index = getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -343,7 +347,7 @@ public class Tricktionary extends ActionBarActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level1GridView.getItemAtPosition(position);
-                TrickList.index = getTrickFromName(itemValue, TrickData.getTricktionary()).getIndex();
+                TrickList.index = getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -368,7 +372,7 @@ public class Tricktionary extends ActionBarActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level2GridView.getItemAtPosition(position);
-                TrickList.index = getTrickFromName(itemValue, TrickData.getTricktionary()).getIndex();
+                TrickList.index = getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -393,7 +397,7 @@ public class Tricktionary extends ActionBarActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level3GridView.getItemAtPosition(position);
-                TrickList.index = getTrickFromName(itemValue, TrickData.getTricktionary()).getIndex();
+                TrickList.index = getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -418,7 +422,7 @@ public class Tricktionary extends ActionBarActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level4GridView.getItemAtPosition(position);
-                TrickList.index = getTrickFromName(itemValue, TrickData.getTricktionary()).getIndex();
+                TrickList.index = getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -447,22 +451,22 @@ public class Tricktionary extends ActionBarActivity {
         acc.add(0,"Multiples");
         for(int j=0;j<list.size();j++){
 
-            if(getTrickFromName(list.get(j), TrickData.getTricktionary()).getType().equals("Multiples")){
+            if(getTrickFromName(list.get(j), tricktionary).getType().equals("Multiples")){
                 acc.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(getTrickFromName(list.get(j), TrickData.getTricktionary()).getType().equals("Power")){
+            else if(getTrickFromName(list.get(j), tricktionary).getType().equals("Power")){
                 acc.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(getTrickFromName(list.get(j), TrickData.getTricktionary()).getType().equals("Manipulation")){
+            else if(getTrickFromName(list.get(j), tricktionary).getType().equals("Manipulation")){
                 acc.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(getTrickFromName(list.get(j), TrickData.getTricktionary()).getType().equals("Releases")){
+            else if(getTrickFromName(list.get(j), tricktionary).getType().equals("Releases")){
                 acc.add(releases+1,list.get(j));
             }
 

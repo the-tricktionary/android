@@ -49,11 +49,10 @@ public class SpeedDataSelect extends AppCompatActivity {
         if(mUid==null){
             Toast.makeText(SpeedDataSelect.this, "Sign in to view saved scores",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, SpeedGraph.class);
-            finish();
-            startActivity(intent);
         }
-        getEvents();
+        else{
+            getEvents();
+        }
 
         SimpleAdapter eventAdapter = new SimpleAdapter(this,list,
                                                         android.R.layout.simple_list_item_2,
