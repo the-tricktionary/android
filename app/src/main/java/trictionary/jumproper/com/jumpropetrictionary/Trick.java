@@ -1,9 +1,14 @@
 package trictionary.jumproper.com.jumpropetrictionary;
 
+import android.util.Log;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
 /**
  * Created by jumpr_000 on 4/4/2015.
  */
-public class Trick {
+public class Trick extends FirebaseInstanceIdService {
     //fields
     public String name;
     public String description;
@@ -18,6 +23,7 @@ public class Trick {
 
     //constructors
     public Trick(){
+
         name="";
         description="";
         difficulty=0;
@@ -78,6 +84,7 @@ public class Trick {
         type=myType;
     }
     public String[] getPrereqs(){
+        //getMessageToken();
         return prereqs;
     }
     public void setDescription(String myDescription){
@@ -94,6 +101,9 @@ public class Trick {
     }
     public void setFisacLevel(String fisacLevel) {
         this.fisacLevel = fisacLevel;
+    }
+    public void getMessageToken(){
+        Log.e("Token",FirebaseInstanceId.getInstance().getToken());
     }
 
 }
