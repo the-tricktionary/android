@@ -56,7 +56,6 @@ public class SpeedGraph extends AppCompatActivity {
     TextView eventName,duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost,currentUser;
     ImageView editScore;
     RelativeLayout deleteDialog;
-    Button loadData;
     LineChart chart;
     double avgJumpsPerSec,maxJumpsPerSec;
     int time,jumps,misses,scoreNoMisses,jumpDeficit;
@@ -517,93 +516,11 @@ public class SpeedGraph extends AppCompatActivity {
             final DatabaseReference myRef = fb.getReference("speed").child("scores");
 
             setJumperName(mAuth.getCurrentUser().getDisplayName());
-            selectDate(jumperName);
+            updateData();
         }
     }
 
-    public void selectDate(String name){
 
-        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        final DatabaseReference myRef=fb.getReference("speed").child("scores");
-        final ArrayList<String> scoresList=new ArrayList<>();
-        final ArrayList<String> datesList=new ArrayList<>();
-        System.out.println("name "+name);
-        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(name).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("dates pls work "+dataSnapshot.getChildrenCount());
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    scoresList.add(formatEpoch(snapshot.getKey().toString())+" - "
-                            +formatDuration(Integer.parseInt(snapshot.child("time").getValue().toString()))+" - "
-                            +snapshot.child("score").getValue().toString()+" - "
-                            +snapshot.child("misses").getValue().toString()+" misses");
-                    datesList.add(snapshot.getKey().toString());
-                    System.out.println("date added! "+snapshot.getKey());
-                }
-                return;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Toast.makeText(getApplicationContext(),
-                        "Couldn't connect to the internet.  Please check your connection.", Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
-        });
-        LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View textBoxes=inflater.inflate(R.layout.select_date,null);
-
-
-        final ListView dates=(ListView)textBoxes.findViewById(R.id.dates_list);
-        System.out.println("dates to use "+scoresList.toString());
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(SpeedGraph.this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, scoresList);
-        // Assign adapter to ListView
-        dates.setAdapter(adapter);
-
-        dates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-
-                // ListView Clicked item value
-                finalDate= (String) datesList.get(position);
-                System.out.println(finalDate);
-                dateSelect.dismiss();
-                updateData();
-
-
-            }
-
-        });
-        AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this);
-        builder.setTitle("Select Date");
-
-
-
-        builder.setView(textBoxes);
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.create();
-        //dateSelect=builder.show();
-        dates.refreshDrawableState();
-        textBoxes.refreshDrawableState();
-    }
 
     public void updateData(){
         saveData.setVisibility(View.INVISIBLE);
