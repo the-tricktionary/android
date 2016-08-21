@@ -2,6 +2,7 @@ package trictionary.jumproper.com.jumpropetrictionary;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +62,7 @@ public class TrickData extends Trick{
                                 trick.child("type").getValue().toString(),
                                 trick.child("video").getValue().toString(),
                                 getPrereqs(trick),trick.child("irsf").getValue().toString());
+                        FirebaseCrash.log("The trick that crashed is "+trick.child("name").getValue().toString());
                         Log.i("Type",mTrick.getType());
                         tempList.add(mTrick);
                         index++;
