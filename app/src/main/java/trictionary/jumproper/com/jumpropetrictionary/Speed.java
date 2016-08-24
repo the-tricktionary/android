@@ -54,7 +54,11 @@ public class Speed extends ActionBarActivity {
 
                         fisac_1x30, fisac_1x180, fisac_4x45, fisac_2x60, fisac_4x30, fisac_10,
                         fisac_15, fisac_20, fisac_30, fisac_45, fisac_1min, fisac_2min,
-                        fisac_switch, fisac_beep;
+                        fisac_switch, fisac_beep,
+
+                        usajr_1x30, usajr_1x30d, usajr_1x60, usajr_1x180, usajr_4x30, usajr_2x60, usajr_3x40,
+                        usajr_10, usajr_15, usajr_20, usajr_30, usajr_45, usajr_1min, usajr_2min,
+                        usajr_switch, usajr_beep;
     Vibrator vibrator; //no not that kind
 
     @Override
@@ -107,6 +111,24 @@ public class Speed extends ActionBarActivity {
         fisac_2min=MediaPlayer.create(Speed.this,R.raw.fisac_2min);
         fisac_switch=MediaPlayer.create(Speed.this,R.raw.fisac_switch);
         fisac_beep=MediaPlayer.create(Speed.this,R.raw.fisac_beep);
+
+        usajr_1x30=MediaPlayer.create(Speed.this,R.raw.usajr_1x30);
+        usajr_1x30d=MediaPlayer.create(Speed.this,R.raw.usajr_1x30d);
+        usajr_1x60=MediaPlayer.create(Speed.this,R.raw.usajr_1x60);
+        usajr_1x180=MediaPlayer.create(Speed.this,R.raw.usajr_1x180);
+        usajr_2x60=MediaPlayer.create(Speed.this,R.raw.usajr_2x60);
+        usajr_3x40=MediaPlayer.create(Speed.this,R.raw.usajr_3x40);
+        usajr_4x30=MediaPlayer.create(Speed.this,R.raw.usajr_4x30);
+        usajr_10=MediaPlayer.create(Speed.this,R.raw.usajr_10);
+        usajr_15=MediaPlayer.create(Speed.this,R.raw.usajr_15);
+        usajr_20=MediaPlayer.create(Speed.this,R.raw.usajr_20);
+        usajr_30=MediaPlayer.create(Speed.this,R.raw.usajr_30);
+        usajr_45=MediaPlayer.create(Speed.this,R.raw.usajr_45);
+        usajr_1min=MediaPlayer.create(Speed.this,R.raw.usajr_1min);
+        usajr_2min=MediaPlayer.create(Speed.this,R.raw.usajr_2min);
+        usajr_switch=MediaPlayer.create(Speed.this,R.raw.usajr_switch);
+        usajr_beep=MediaPlayer.create(Speed.this,R.raw.usajr_beep);
+
         SpeedGraph.data=null;
 
         //on touch listener for only tap down because it is much faster
@@ -211,12 +233,43 @@ public class Speed extends ActionBarActivity {
                     eventTrack=time_2x60;
                     eventTrack.start();
                 }
+                if (currentEvent.getName().equals("USAJR 1x30")){
+                    eventTrack=usajr_1x30;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("USAJR 1x30 Power")){
+                    eventTrack=usajr_1x30d;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("USAJR 1x60")){
+                    eventTrack=usajr_1x60;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("USAJR 1x180")){
+                    eventTrack=usajr_1x180;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("USAJR 4x30")){
+                    eventTrack=usajr_4x30;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("USAJR 3x40")){
+                    eventTrack=usajr_3x40;
+                    eventTrack.start();
+                }
+                if (currentEvent.getName().equals("USAJR 2x60")){
+                    eventTrack=usajr_2x60;
+                    eventTrack.start();
+                }
                 //on completion listener to start the timer and sound the beep after timing track
                 eventTrack.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
                         if(currentEvent.isWjr()){ //check if it should be wjr beep
                             time_beep.start();
+                        }
+                        else if(currentEvent.isUsajr()){ //otherwise play USAJR beep
+                            usajr_beep.start();
                         }
                         else{ //or fisac beep
                             fisac_beep.start();
@@ -456,6 +509,13 @@ public class Speed extends ActionBarActivity {
         popupMenu.getMenu().add("FISAC 4x30");
         popupMenu.getMenu().add("FISAC 2x60");
         popupMenu.getMenu().add("FISAC 4x45");
+        popupMenu.getMenu().add("USAJR 1x30");
+        popupMenu.getMenu().add("USAJR 1x30 Power");
+        popupMenu.getMenu().add("USAJR 1x60");
+        popupMenu.getMenu().add("USAJR 1x180");
+        popupMenu.getMenu().add("USAJR 4x30");
+        popupMenu.getMenu().add("USAJR 3x40");
+        popupMenu.getMenu().add("USAJR 2x60");
 
 
 

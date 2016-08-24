@@ -12,7 +12,8 @@ public class SpeedEvent {
 
     private int duration;
     private String name;
-    private boolean wjr;
+    private boolean wjr=false;
+    private boolean usajr=false;
 
     private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min,
             time_1x30, time_1x180, time_2x30, time_4x30, time_2x60, time_3x40, time_beep,
@@ -20,7 +21,11 @@ public class SpeedEvent {
 
     fisac_1x30, fisac_1x180, fisac_4x45, fisac_2x60, fisac_4x30, fisac_10,
             fisac_15, fisac_20, fisac_30, fisac_45, fisac_1min, fisac_2min,
-            fisac_switch, fisac_beep;
+            fisac_switch, fisac_beep,
+
+    usajr_1x30, usajr_1x30d, usajr_1x60, usajr_1x180, usajr_4x30, usajr_2x60, usajr_3x40,
+            usajr_10, usajr_15, usajr_20, usajr_30, usajr_45, usajr_1min, usajr_2min,
+            usajr_switch, usajr_beep;
 
     //constructors
     public SpeedEvent(Context context) {
@@ -76,6 +81,34 @@ public class SpeedEvent {
             wjr=true;
             duration=120;
         }
+        if(mName.equals("USAJR 1x30")){
+            usajr=true;
+            duration=30;
+        }
+        if(mName.equals("USAJR 1x30 Power")){
+            usajr=true;
+            duration=30;
+        }
+        if(mName.equals("USAJR 1x60")){
+            usajr=true;
+            duration=60;
+        }
+        if(mName.equals("USAJR 1x180")){
+            usajr=true;
+            duration=180;
+        }
+        if(mName.equals("USAJR 4x30")){
+            usajr=true;
+            duration=120;
+        }
+        if(mName.equals("USAJR 3x40")){
+            usajr=true;
+            duration=120;
+        }
+        if(mName.equals("USAJR 2x60")){
+            usajr=true;
+            duration=120;
+        }
         initTimingTracks();
     }
 
@@ -102,6 +135,14 @@ public class SpeedEvent {
 
     public void setWjr(boolean wjr) {
         this.wjr = wjr;
+    }
+
+    public boolean isUsajr() {
+        return usajr;
+    }
+
+    public void setUsajr(boolean usajr) {
+        this.usajr = usajr;
     }
 
     //other methods
@@ -136,6 +177,23 @@ public class SpeedEvent {
         fisac_2min=MediaPlayer.create(context,R.raw.fisac_2min);
         fisac_switch=MediaPlayer.create(context,R.raw.fisac_switch);
         fisac_beep=MediaPlayer.create(context,R.raw.fisac_beep);
+
+        usajr_1x30=MediaPlayer.create(context,R.raw.usajr_1x30);
+        usajr_1x30d=MediaPlayer.create(context,R.raw.usajr_1x30d);
+        usajr_1x60=MediaPlayer.create(context,R.raw.usajr_1x60);
+        usajr_1x180=MediaPlayer.create(context,R.raw.usajr_1x180);
+        usajr_2x60=MediaPlayer.create(context,R.raw.usajr_2x60);
+        usajr_3x40=MediaPlayer.create(context,R.raw.usajr_3x40);
+        usajr_4x30=MediaPlayer.create(context,R.raw.usajr_4x30);
+        usajr_10=MediaPlayer.create(context,R.raw.usajr_10);
+        usajr_15=MediaPlayer.create(context,R.raw.usajr_15);
+        usajr_20=MediaPlayer.create(context,R.raw.usajr_20);
+        usajr_30=MediaPlayer.create(context,R.raw.usajr_30);
+        usajr_45=MediaPlayer.create(context,R.raw.usajr_45);
+        usajr_1min=MediaPlayer.create(context,R.raw.usajr_1min);
+        usajr_2min=MediaPlayer.create(context,R.raw.usajr_2min);
+        usajr_switch=MediaPlayer.create(context,R.raw.usajr_switch);
+        usajr_beep=MediaPlayer.create(context,R.raw.usajr_beep);
     }
 
     public void runCurrentEvent(long time){
@@ -406,6 +464,8 @@ public class SpeedEvent {
             time_beep.start();
         }
     }
+
+
 
 
 
