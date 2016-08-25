@@ -237,7 +237,7 @@ public class Speed extends ActionBarActivity {
                     eventTrack=usajr_1x30;
                     eventTrack.start();
                 }
-                if (currentEvent.getName().equals("USAJR 1x30 Power")){
+                if (currentEvent.getName().equals("USAJR Power")){
                     eventTrack=usajr_1x30d;
                     eventTrack.start();
                 }
@@ -510,7 +510,7 @@ public class Speed extends ActionBarActivity {
         popupMenu.getMenu().add("FISAC 2x60");
         popupMenu.getMenu().add("FISAC 4x45");
         popupMenu.getMenu().add("USAJR 1x30");
-        popupMenu.getMenu().add("USAJR 1x30 Power");
+        popupMenu.getMenu().add("USAJR Power");
         popupMenu.getMenu().add("USAJR 1x60");
         popupMenu.getMenu().add("USAJR 1x180");
         popupMenu.getMenu().add("USAJR 4x30");

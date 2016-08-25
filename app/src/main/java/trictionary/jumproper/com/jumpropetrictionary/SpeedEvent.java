@@ -85,7 +85,7 @@ public class SpeedEvent {
             usajr=true;
             duration=30;
         }
-        if(mName.equals("USAJR 1x30 Power")){
+        if(mName.equals("USAJR Power")){
             usajr=true;
             duration=30;
         }
@@ -229,6 +229,27 @@ public class SpeedEvent {
         }
         if (this.getName().equals("WJR 2x60")){
             this.runWjr2x60(time);
+        }
+        if (this.getName().equals("USAJR 1x30")){
+            this.runUsajr1x30(time);
+        }
+        if (this.getName().equals("USAJR Power")){
+            this.runUsajr1x30(time);
+        }
+        if (this.getName().equals("USAJR 1x60")){
+            this.runUsajr1x60(time);
+        }
+        if (this.getName().equals("USAJR 1x180")){
+            this.runUsajr1x180(time);
+        }
+        if (this.getName().equals("USAJR 4x30")){
+            this.runUsajr4x30(time);
+        }
+        if (this.getName().equals("USAJR 3x40")){
+            this.runUsajr3x40(time);
+        }
+        if (this.getName().equals("USAJR 2x60")){
+            this.runUsajr2x60(time);
         }
 
     }
@@ -465,6 +486,154 @@ public class SpeedEvent {
         }
     }
 
+    public void runUsajr1x30(long time){
+        if(time/10==10*10){
+            usajr_10.start();
+
+        }
+        if(time/10==20*10){
+            usajr_20.start();
+        }
+        if(time/10==30*10){
+            usajr_beep.start();
+        }
+    }
+    public void runUsajr1x60(long time){
+        if((time/10==15*10)||(time/10==75*10)){
+            usajr_15.start();
+        }
+        if((time/10==30*10)||(time/10==90*10)){
+            usajr_30.start();
+        }
+        if((time/10==45*10)||(time/10==105*10)){
+            usajr_45.start();
+        }
+        if(time/10==60*10){
+            usajr_beep.start();
+        }
+    }
+    public void runUsajr1x180(long time){
+        if(time/10==15*10){
+            usajr_15.start();
+        }
+        if(time/10==30*10){
+            usajr_30.start();
+        }
+        if(time/10==45*10){
+            usajr_45.start();
+        }
+        if(time/10==60*10){
+            usajr_1min.start();
+        }
+        if(time/10==75*10){
+            usajr_1min.start();
+            usajr_1min.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    usajr_15.start();
+                }
+            });
+        }
+        if(time/10==90*10){
+            usajr_1min.start();
+            usajr_1min.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    usajr_30.start();
+                }
+            });
+        }
+        if(time/10==105*10){
+            usajr_1min.start();
+            usajr_1min.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    usajr_45.start();
+                }
+            });
+        }
+        if(time/10==120*10){
+            usajr_2min.start();
+        }
+        if(time/10==135*10){
+            usajr_2min.start();
+            usajr_2min.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    usajr_15.start();
+                }
+            });
+        }
+        if(time/10==150*10){
+            usajr_2min.start();
+            usajr_2min.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    usajr_30.start();
+                }
+            });
+        }
+        if(time/10==165*10){
+            usajr_2min.start();
+            usajr_2min.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    usajr_45.start();
+                }
+            });
+        }
+        if(time/10==180*10){
+            usajr_beep.start();
+        }
+    }
+    public void runUsajr4x30(long time){
+        if((time/10==10*10)||(time/10==40*10)||(time/10==70*10)||(time/10==100*10)){
+            usajr_10.start();
+        }
+        if((time/10==20*10)||(time/10==50*10)||(time/10==80*10)||(time/10==110*10)){
+            usajr_20.start();
+        }
+        if((time/10==30*10)||(time/10==60*10)||(time/10==90*10)){
+            usajr_switch.start();
+        }
+        if(time/10==120*10){
+            usajr_beep.start();
+        }
+    }
+    public void runUsajr3x40(long time){
+        if((time/10==10*10)||(time/10==50*10)||(time/10==90*10)){
+            usajr_10.start();
+        }
+        if((time/10==20*10)||(time/10==60*10)||(time/10==100*10)){
+            usajr_20.start();
+        }
+        if((time/10==30*10)||(time/10==70*10)||(time/10==110*10)){
+            usajr_30.start();
+        }
+        if((time/10==40*10)||(time/10==80*10)){
+            usajr_switch.start();
+        }
+        if(time/10==120*10){
+            usajr_beep.start();
+        }
+    }
+    public void runUsajr2x60(long time){
+        if((time/10==15*10)||(time/10==75*10)){
+            usajr_15.start();
+        }
+        if((time/10==30*10)||(time/10==90*10)){
+            usajr_30.start();
+        }
+        if((time/10==45*10)||(time/10==105*10)){
+            usajr_45.start();
+        }
+        if(time/10==60*10){
+            usajr_switch.start();
+        }
+        if(time/10==120*10){
+            usajr_beep.start();
+        }
+    }
 
 
 
