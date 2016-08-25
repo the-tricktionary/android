@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,6 +93,7 @@ public class MainMenu extends AppCompatActivity {
         PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
         PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
         PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -128,7 +128,9 @@ public class MainMenu extends AppCompatActivity {
                         new DividerDrawerItem(),
                         showWriterItem,
                         new DividerDrawerItem(),
-                        settingsItem
+                        settingsItem,
+                        new DividerDrawerItem(),
+                        rafikiItem
                 )
                 .withSelectedItem(-1)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -159,6 +161,10 @@ public class MainMenu extends AppCompatActivity {
                         }
                         else if(position==11){
                             Intent intent = new Intent(MainMenu.this, SettingsActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==13){
+                            Intent intent = new Intent(MainMenu.this, Rafiki.class);
                             startActivity(intent);
                         }
                         return true;

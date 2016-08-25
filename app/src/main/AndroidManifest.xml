@@ -22,7 +22,7 @@
             android:name=".MainActivity"
             android:label="@string/app_label"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Tricktionary"
             android:label="@string/title_activity_tricktionary"
@@ -83,9 +83,8 @@
             android:name=".SpeedGraph"
             android:label="@string/title_activity_speed_graph" />
         <activity android:name=".PublicSpeedData" />
-        <activity
-            android:name=".SpeedDataSelect"
-        />
+        <activity android:name=".SpeedDataSelect" />
+        <activity android:name=".Rafiki"></activity>
     </application>
 
 </manifest>
