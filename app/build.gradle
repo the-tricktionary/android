@@ -18,12 +18,6 @@ android {
             keyAlias "debug"
             keyPassword 'the-tricktionary'
         }
-        release {
-            keyAlias 'TricktionaryKey'
-            keyPassword 'dplummer36'
-            storeFile file('C:/Users/jumpr_000/keystore.jks')
-            storePassword 'dplummer36'
-        }
     }
     buildTypes {
         release {
@@ -33,7 +27,7 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
         }
     }
     productFlavors {
