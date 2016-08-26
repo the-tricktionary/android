@@ -56,6 +56,7 @@ public class Tricktionary extends ActionBarActivity {
         PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
         PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
         PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -86,7 +87,9 @@ public class Tricktionary extends ActionBarActivity {
                         new DividerDrawerItem(),
                         showWriterItem,
                         new DividerDrawerItem(),
-                        settingsItem
+                        settingsItem,
+                        new DividerDrawerItem(),
+                        rafikiItem
                 )
                 .withSelectedItem(-1)
 
@@ -119,6 +122,10 @@ public class Tricktionary extends ActionBarActivity {
                         }
                         else if(position==11){
                             Intent intent = new Intent(Tricktionary.this, SettingsActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==13){
+                            Intent intent = new Intent(Tricktionary.this, Rafiki.class);
                             startActivity(intent);
                         }
                         return true;

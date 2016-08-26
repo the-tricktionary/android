@@ -47,6 +47,7 @@ public class SearchTricks extends AppCompatActivity {
         PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
         PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
         PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -78,7 +79,9 @@ public class SearchTricks extends AppCompatActivity {
                         new DividerDrawerItem(),
                         showWriterItem,
                         new DividerDrawerItem(),
-                        settingsItem
+                        settingsItem,
+                        new DividerDrawerItem(),
+                        rafikiItem
                 )
                 .withSelectedItem(-1)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -107,8 +110,13 @@ public class SearchTricks extends AppCompatActivity {
                             Intent intent = new Intent(SearchTricks.this, Names.class);
                             startActivity(intent);
                         }
+
                         else if(position==11){
                             Intent intent = new Intent(SearchTricks.this, SettingsActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==13){
+                            Intent intent = new Intent(SearchTricks.this, Rafiki.class);
                             startActivity(intent);
                         }
                         return true;

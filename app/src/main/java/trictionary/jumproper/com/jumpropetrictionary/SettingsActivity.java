@@ -43,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
         PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
         PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -74,7 +75,9 @@ public class SettingsActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         showWriterItem,
                         new DividerDrawerItem(),
-                        settingsItem
+                        settingsItem,
+                        new DividerDrawerItem(),
+                        rafikiItem
                 )
                 .withSelectedItem(-1)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -106,6 +109,10 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         else if(position==11){
                             return true;
+                        }
+                        else if(position==13){
+                            Intent intent = new Intent(SettingsActivity.this, Rafiki.class);
+                            startActivity(intent);
                         }
                         return true;
                     }

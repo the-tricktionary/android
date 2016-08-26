@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rafiki is always interested in donations, especially rope donations.  All types, sizes, colors, and conditions of ropes are welcome.  If you are on a team, please talk to your coaches about gathering old team ropes to donate.  Contact rhodyropers@gmail.com for more information or to start sending your ropes!"
+                android:text="Rafiki is always interested in donations of shoes, gym equipment, and especially ropes.  All types, sizes, colors, and conditions of ropes are welcome.  If you are on a team, please talk to your coaches about gathering old team ropes to donate.  Contact rhodyropers@gmail.com for more information or to start sending your ropes!"
                 android:id="@+id/textView14"
                 android:padding="10dp"
                 android:layout_alignParentBottom="false"

@@ -142,6 +142,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
         PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
         PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -172,7 +173,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                         new DividerDrawerItem(),
                         showWriterItem,
                         new DividerDrawerItem(),
-                        settingsItem
+                        settingsItem,
+                        new DividerDrawerItem(),
+                        rafikiItem
 
                 )
                 .withSelectedItem(-1)
@@ -207,6 +210,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                         }
                         else if(position==11){
                             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==13){
+                            Intent intent = new Intent(MainActivity.this, Rafiki.class);
                             startActivity(intent);
                         }
                         return true;
