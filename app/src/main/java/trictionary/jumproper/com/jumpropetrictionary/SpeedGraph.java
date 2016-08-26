@@ -10,12 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +32,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +68,8 @@ public class SpeedGraph extends AppCompatActivity {
     SignInButton signInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    //analytic object for event logging
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -194,6 +194,12 @@ public class SpeedGraph extends AppCompatActivity {
         if (mAuth.getCurrentUser()!=null){
             SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
         }
+        //initialize analytic object and log an event
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SCORE,""+data.getScore());
+        bundle.putString("duration",""+data.getTime());
+        mFirebaseAnalytics.logEvent("score_clicked", bundle);
     }
 
 

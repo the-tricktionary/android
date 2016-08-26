@@ -85,7 +85,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
-        bundle.putString("trick_name",tricktionary[trickIndex].getName());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
         mFirebaseAnalytics.logEvent("view_trick", bundle);
 
         //display trick name
