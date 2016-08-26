@@ -149,7 +149,9 @@ public class Tricktionary extends ActionBarActivity {
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
         final ArrayList<String> level4List = new ArrayList<String>();
 
-
+        if(tricktionary==null){
+            tricktionary=TrickData.getTricktionary();
+        }
         for(int j=0;j<tricktionary.length;j++){
             if(tricktionary[j].getType().equals("Basics")){
                 basicsList.add(tricktionary[j].getName());
