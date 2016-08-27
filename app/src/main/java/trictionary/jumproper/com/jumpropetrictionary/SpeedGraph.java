@@ -190,16 +190,16 @@ public class SpeedGraph extends AppCompatActivity {
             editScore.setVisibility(View.INVISIBLE);
             eventName.setVisibility(View.INVISIBLE);
             drawGraph();
+            //initialize analytic object and log an event
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.SCORE,""+data.getScore());
+            bundle.putString("duration",""+data.getTime());
+            mFirebaseAnalytics.logEvent("score_clicked", bundle);
         }
         if (mAuth.getCurrentUser()!=null){
             SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
         }
-        //initialize analytic object and log an event
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.SCORE,""+data.getScore());
-        bundle.putString("duration",""+data.getTime());
-        mFirebaseAnalytics.logEvent("score_clicked", bundle);
     }
 
 
