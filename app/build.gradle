@@ -18,6 +18,7 @@ android {
             keyAlias "debug"
             keyPassword 'the-tricktionary'
         }
+
     }
     buildTypes {
         release {

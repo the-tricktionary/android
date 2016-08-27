@@ -66,6 +66,7 @@ public class TrickData extends Trick{
                         Log.i("Type",mTrick.getType());
                         tempList.add(mTrick);
                         index++;
+                        Log.e("Trickionary",mTrick.getName()+"is in "+index);
                     }
                 }
                 tricktionary=new Trick[tempList.size()];
@@ -79,8 +80,8 @@ public class TrickData extends Trick{
                 tricktionary=getTricktionaryOffline();
             }
         });
-
         return tricktionary;
+
 
     }
 
@@ -88,7 +89,9 @@ public class TrickData extends Trick{
         if(tricktionary==null){
             return getTricktionaryData();
         }
-        return tricktionary;
+        else {
+            return tricktionary;
+        }
     }
 
     public static String[] getPrereqs(DataSnapshot trick){

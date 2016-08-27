@@ -29,11 +29,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class Tricktionary extends ActionBarActivity {
+public class Tricktionary extends ActionBarActivity{
     TextView sortBy, level1, level2, level3, level4, level5, viewTricks;
     ScrollView type, levels;
-
-    public static Trick[] tricktionary;
+    public static Trick[] tricktionary=TrickData.getTricktionary();
 
     public static final String DASHES="  ";
     @Override
@@ -42,12 +41,11 @@ public class Tricktionary extends ActionBarActivity {
         setContentView(R.layout.tricktionary_toolbar_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        TrickData.getTricktionaryData();
 
         TrickList.level=-1;
         TrickList.alphabet=true;
         TrickList.type="all";
-        tricktionary=TrickData.getTricktionary();
-
 
         new DrawerBuilder().withActivity(this).build();
         PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
@@ -134,12 +132,9 @@ public class Tricktionary extends ActionBarActivity {
                 .build();
 
 
-
-
-
-
-
-
+        if(tricktionary==null){
+            tricktionary=TrickData.getTricktionary();
+        }
 
         final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view);
         final ArrayList<String> basicsList = new ArrayList<String>();
@@ -156,9 +151,7 @@ public class Tricktionary extends ActionBarActivity {
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
         final ArrayList<String> level4List = new ArrayList<String>();
 
-        if(tricktionary==null){
-            tricktionary=TrickData.getTricktionary();
-        }
+
         for(int j=0;j<tricktionary.length;j++){
             if(tricktionary[j].getType().equals("Basics")){
                 basicsList.add(tricktionary[j].getName());
@@ -443,6 +436,8 @@ public class Tricktionary extends ActionBarActivity {
         });
 
     }
+
+
 
     public static ArrayList<String> sortTrickList(ArrayList<String> list, int level){
         ArrayList<String>acc= new ArrayList<>();
