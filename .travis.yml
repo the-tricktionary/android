@@ -1,0 +1,20 @@
+language: android
+jdk: oraclejdk8
+android:
+  components:
+  - platform-tools
+  - tools
+  - build-tools-24.0.0
+  - android-24
+  - extra
+before_script:
+- chmod +x ./gradlew
+script:
+- ./gradlew -q assembleDebug
+after_success:
+- openssl aes-256-cbc -K $deploy_key_pass -iv $deploy_key_iv -in deploy.key.enc -out deploy.key -d && chmod go-rwx deploy.key || true
+- chmod +x ./deploy.sh
+- ./deploy.sh
+notifications:
+  email: false
+  slack: the-tricktionary:VdZSlFi4J1AHCcQY96RU5dDZ
