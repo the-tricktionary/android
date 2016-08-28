@@ -87,7 +87,17 @@
         <activity
             android:name=".Speed"
             android:label="@string/title_activity_speed"
-            android:noHistory="true" />
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="tricks.jumpropejam.com"
+                    android:pathPrefix="/speed"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SpeedGraph"
             android:label="@string/title_activity_speed_graph" />
