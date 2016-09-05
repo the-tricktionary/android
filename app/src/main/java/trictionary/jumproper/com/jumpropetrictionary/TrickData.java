@@ -11,7 +11,9 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by jumpr_000 on 6/9/2016.
@@ -33,7 +35,6 @@ public class TrickData extends Trick{
     private static boolean offline=true;
 
 
-
     public static Trick[]getTricktionaryData(){
 
         tempList=new ArrayList<>();
@@ -49,9 +50,6 @@ public class TrickData extends Trick{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tempList.clear();
-                GenericTypeIndicator<List<String>> sl = new GenericTypeIndicator<List<String>>() {
-
-                };
                 int index=0;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
@@ -62,27 +60,28 @@ public class TrickData extends Trick{
                                 trick.child("type").getValue().toString(),
                                 trick.child("video").getValue().toString(),
                                 getPrereqs(trick),trick.child("irsf").getValue().toString());
-                        FirebaseCrash.log("The trick that crashed is "+trick.child("name").getValue().toString());
                         Log.i("Type",mTrick.getType());
                         tempList.add(mTrick);
                         index++;
-                        Log.e("Trickionary",mTrick.getName()+"is in "+index);
+
                     }
                 }
+
                 tricktionary=new Trick[tempList.size()];
                 for(int j=0;j<tempList.size();j++){
                     tricktionary[j]=tempList.get(j);
+                    Log.e("Indexing Test",tricktionary[j].getName() +" is in "+j);
                 }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 tricktionary=getTricktionaryOffline();
             }
         });
+
         return tricktionary;
-
-
     }
 
     public static Trick[]getTricktionary(){

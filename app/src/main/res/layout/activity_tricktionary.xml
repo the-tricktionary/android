@@ -5,7 +5,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:visibility="visible"
     tools:showIn="@layout/tricktionary_toolbar_layout"
-    tools:context=".Tricktionary">
+    tools:context=".Tricktionary"
+    android:id="@+id/tricktionary_layout">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -257,6 +258,15 @@
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:tint="#ffffff"
                 android:onClick="startSearch" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/loading_tricks"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:padding="50dp"
+                android:visibility="gone" />
 
         </RelativeLayout>
     </ScrollView>

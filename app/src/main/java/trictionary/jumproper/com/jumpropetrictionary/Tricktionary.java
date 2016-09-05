@@ -2,9 +2,12 @@ package trictionary.jumproper.com.jumpropetrictionary;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +32,15 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class Tricktionary extends ActionBarActivity{
-    TextView sortBy, level1, level2, level3, level4, level5, viewTricks;
-    ScrollView type, levels;
-    public static Trick[] tricktionary=TrickData.getTricktionary();
+    public static Trick[] tricktionary;
+    ProgressBar loadingTricks;
+    FrameLayout tricktionaryLayout;
+    int delay = 100; //milliseconds
+    Handler h;
 
     public static final String DASHES="  ";
     @Override
@@ -40,12 +48,15 @@ public class Tricktionary extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tricktionary_toolbar_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        loadingTricks = (ProgressBar)findViewById(R.id.loading_tricks);
+        tricktionaryLayout=(FrameLayout)findViewById(R.id.tricktionary_layout);
         setSupportActionBar(toolbar);
-        TrickData.getTricktionaryData();
+        //new loadingTask().execute("Get Tricks");
 
         TrickList.level=-1;
         TrickList.alphabet=true;
         TrickList.type="all";
+        tricktionary=TrickData.getTricktionary();
 
         new DrawerBuilder().withActivity(this).build();
         PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
@@ -131,10 +142,32 @@ public class Tricktionary extends ActionBarActivity{
                 })
                 .build();
 
-
-        if(tricktionary==null){
-            tricktionary=TrickData.getTricktionary();
+        h = new Handler();
+        h.postDelayed(r, delay);
+    }
+    public Runnable r=new Runnable() {
+        @Override
+        public void run() {
+            //do something
+            if(tricktionary==null){
+                loadingTricks.setVisibility(View.VISIBLE);
+                Log.e("TrickCheck","Array is null");
+                tricktionary=TrickData.getTricktionary();
+            }
+            else{
+                Log.e("TrickCheck","Array is full!");
+                populateLists();
+                loadingTricks.setVisibility(View.GONE);
+                tricktionaryLayout.refreshDrawableState();
+                delay=60000; //change update time to 1 minute
+                h.removeCallbacks(r);
+            }
+            h.postDelayed(this, delay);
         }
+    };
+
+    public void populateLists(){
+
 
         final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view);
         final ArrayList<String> basicsList = new ArrayList<String>();
@@ -434,7 +467,8 @@ public class Tricktionary extends ActionBarActivity{
             }
 
         });
-
+        tricktionaryLayout.refreshDrawableState();
+        h.removeCallbacks(r);
     }
 
 
