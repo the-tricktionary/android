@@ -73,4 +73,11 @@
     <string name="title_activity_tree_visual">TreeVisual</string>
     <string name="title_activity_speed">Speed</string>
     <string name="title_activity_speed_graph">SpeedGraph</string>
+
+    <string-array name="contact_types">
+        <item>General</item>
+        <item>Incorrect Level</item>
+        <item>Inaccurate Name</item>
+        <item>Inaccurate Description</item>
+    </string-array>
 </resources>
