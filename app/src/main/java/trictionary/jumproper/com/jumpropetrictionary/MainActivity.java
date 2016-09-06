@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +42,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -80,6 +83,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //auth object for contact dialog
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    //contact type
+    String contactTypeName="General";
 
 
 
@@ -568,23 +574,46 @@ return;
                     }
                 });
         //Set up dialog
+        if(mAuth.getCurrentUser()==null){
+            Toast.makeText(MainActivity.this, "Could not sign in...", Toast.LENGTH_LONG).show();
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //new alert dialog
         builder.setTitle("Submit feeback on "+tricktionary[trickIndex].getName()); //dialog title
         LayoutInflater inflater = (LayoutInflater)MainActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
         final View textBoxes=inflater.inflate(R.layout.contact_dialog,null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout
-        EditText comment = (EditText)textBoxes.findViewById(R.id.contact_comment);
-        Spinner contactType=(Spinner)textBoxes.findViewById(R.id.contact_type);
+        final EditText comment = (EditText)textBoxes.findViewById(R.id.contact_comment);
+        final Spinner contactType=(Spinner)textBoxes.findViewById(R.id.contact_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.contact_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         contactType.setAdapter(adapter);
+        contactType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                contactTypeName=adapterView.getItemAtPosition(i).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView){
+                return;
+            }
+        });
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //prompt user for name
+                if(comment.getText().toString().length()>0){
+                    FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                    DatabaseReference myRef=fb.getReference("contact");
+                    myRef.child(mAuth.getCurrentUser().getUid())
+                            .child(""+System.currentTimeMillis())
+                            .setValue(new Contact(mAuth.getCurrentUser().getDisplayName(),
+                                                  contactTypeName,
+                                                  comment.getText().toString()));
+                    Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
+                }
 
 
 
