@@ -1,6 +1,9 @@
 
 package trictionary.jumproper.com.jumpropetrictionary;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,22 +15,32 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -64,6 +77,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //analytic object for event logging
     private FirebaseAnalytics mFirebaseAnalytics;
 
+    //auth object for contact dialog
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
 
     @Override
@@ -87,6 +104,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
         mFirebaseAnalytics.logEvent("view_trick", bundle);
+
+        //initialize auth object
+        mAuth = FirebaseAuth.getInstance();
 
         //display trick name
         toolbar.setTitle(tricktionary[trickIndex].getName());
@@ -221,6 +241,22 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 })
                 .build();
 
+        //add auth listener
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("Auth", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
 
 
 
@@ -234,6 +270,14 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void onStart(){
         super.onStart();
         youTubeView.initialize(Config.DEVELOPER_KEY, this);
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
     public void setSupportActionBar(@Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
@@ -500,6 +544,61 @@ return;
         //Inflating the Popup using xml file
         popupMenu.getMenu().add(tricktionary[trickIndex].getFisacLevel());
         popupMenu.show();
+    }
+
+    public void openContactDialog(View v){
+        //Anonymous auth
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("Auth", "signInAnonymously:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w("Auth", "signInAnonymously", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // ...
+                    }
+                });
+        //Set up dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //new alert dialog
+        builder.setTitle("Submit feeback on "+tricktionary[trickIndex].getName()); //dialog title
+        LayoutInflater inflater = (LayoutInflater)MainActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+        final View textBoxes=inflater.inflate(R.layout.contact_dialog,null); //custom layout file now a view object
+        builder.setView(textBoxes); //set view to custom layout
+        EditText comment = (EditText)textBoxes.findViewById(R.id.contact_comment);
+        Spinner contactType=(Spinner)textBoxes.findViewById(R.id.contact_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.contact_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        contactType.setAdapter(adapter);
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //prompt user for name
+
+
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
 
