@@ -584,6 +584,7 @@ return;
         final View textBoxes=inflater.inflate(R.layout.contact_dialog,null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout
         final EditText comment = (EditText)textBoxes.findViewById(R.id.contact_comment);
+        final EditText contactName = (EditText)textBoxes.findViewById(R.id.contact_name);
         final Spinner contactType=(Spinner)textBoxes.findViewById(R.id.contact_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.contact_types, android.R.layout.simple_spinner_item);
@@ -607,11 +608,16 @@ return;
                 if(comment.getText().toString().length()>0){
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     DatabaseReference myRef=fb.getReference("contact");
+                    Contact data=new Contact(contactName.getText().toString(),
+                            contactTypeName,
+                            tricktionary[trickIndex].getName()+" - "+comment.getText().toString());
                     myRef.child(mAuth.getCurrentUser().getUid())
-                            .child(""+System.currentTimeMillis())
-                            .setValue(new Contact(mAuth.getCurrentUser().getDisplayName(),
-                                                  contactTypeName,
-                                                  comment.getText().toString()));
+                            .child(myRef.push().getKey())
+                            .setValue(data);
+                    mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                    mFirebaseAnalytics.logEvent("contact_submit", bundle);
                     Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
                 }
 

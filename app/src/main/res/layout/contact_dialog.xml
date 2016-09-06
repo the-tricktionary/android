@@ -10,13 +10,21 @@
         android:id="@+id/contact_type"
         android:layout_gravity="center_horizontal"
         android:spinnerMode="dropdown"
-        android:padding="20dp" />
+        android:padding="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_name"
+        android:layout_gravity="center_horizontal"
+        android:hint="Your name (optional)"
+        android:padding="10dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/contact_comment"
         android:layout_gravity="center_horizontal"
-        android:padding="20dp"
+        android:padding="10dp"
         android:hint="Please provide more info" />
 </LinearLayout>
