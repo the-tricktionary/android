@@ -8,12 +8,14 @@ public class Contact {
     private String type;
     private String desc;
     private String[]replies;
+    private String id1;
+    private String id0;
+    private String org;
 
     public Contact(){
         this.name="Test";
         this.type="General";
         this.desc="This is a test";
-        replies=new String[0];
     }
 
     public Contact(String name, String type, String desc) {
@@ -25,7 +27,19 @@ public class Contact {
         }
         this.type = type;
         this.desc = desc;
-        replies=new String[0];
+    }
+    public Contact(String name, String type, String desc, String id1, String id0, String org) {
+        if(name.length()>0) {
+            this.name = name;
+        }
+        else{
+            this.name="Anonymous";
+        }
+        this.type = type;
+        this.desc = desc;
+        this.id1=id1;
+        this.id0=id0;
+        this.org=org;
     }
 
     public String getName() {
@@ -50,5 +64,41 @@ public class Contact {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String[] getReplies() {
+        return replies;
+    }
+
+    public void setReplies(String[] replies) {
+        this.replies = replies;
+    }
+
+    public String getId1() {
+        return id1;
+    }
+
+    public void setId1(String id1) {
+        this.id1 = id1;
+    }
+
+    public String getId0() {
+        return id0;
+    }
+
+    public void setId0(String id0) {
+        this.id0 = id0;
+    }
+
+    public String getOrg() {
+        return org;
+    }
+
+    public void setOrg(String org) {
+        this.org = org;
+    }
+
+    public String toString(){
+        return this.name+this.id0+this.id1;
     }
 }

@@ -2,18 +2,13 @@ package trictionary.jumproper.com.jumpropetrictionary;
 
 import android.util.Log;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.Semaphore;
 
 /**
  * Created by jumpr_000 on 6/9/2016.
@@ -59,8 +54,9 @@ public class TrickData extends Trick{
                                 index,
                                 trick.child("type").getValue().toString(),
                                 trick.child("video").getValue().toString(),
-                                getPrereqs(trick),trick.child("irsf").getValue().toString());
-                        Log.i("Type",mTrick.getType());
+                                getPrereqs(trick),trick.child("irsf").getValue().toString(),
+                                trick.child("id1").getValue().toString());
+                        Log.i("id1",mTrick.getId1());
                         tempList.add(mTrick);
                         index++;
 
