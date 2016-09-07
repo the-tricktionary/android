@@ -671,7 +671,9 @@ return;
                     DatabaseReference myRef=fb.getReference("contact");
                     Contact data=new Contact(contactName.getText().toString(),
                             contactTypeName,
-                            tricktionary[trickIndex].getName()+" - "+comment.getText().toString());
+                            tricktionary[trickIndex].getName()+" - "+comment.getText().toString(),
+                            tricktionary[trickIndex].getId1(),
+                            tricktionary[trickIndex].getId0());
                     myRef.child(mAuth.getCurrentUser().getUid())
                             .child(myRef.push().getKey())
                             .setValue(data);

@@ -28,6 +28,18 @@ public class Contact {
         this.type = type;
         this.desc = desc;
     }
+    public Contact(String name, String type, String desc, String id1, String id0) {
+        if(name.length()>0) {
+            this.name = name;
+        }
+        else{
+            this.name="Anonymous";
+        }
+        this.type = type;
+        this.desc = desc;
+        this.id1=id1;
+        this.id0=id0;
+    }
     public Contact(String name, String type, String desc, String id1, String id0, String org) {
         if(name.length()>0) {
             this.name = name;
