@@ -23,7 +23,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +88,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     //contact type
     String contactTypeName="General";
+    String levelCorrection;
+    String organization;
 
 
 
@@ -585,19 +589,49 @@ return;
         builder.setView(textBoxes); //set view to custom layout
         final EditText comment = (EditText)textBoxes.findViewById(R.id.contact_comment);
         final EditText contactName = (EditText)textBoxes.findViewById(R.id.contact_name);
+        final EditText correctLevel = (EditText)textBoxes.findViewById(R.id.correct_level);
+        final TextView trickName=(TextView)textBoxes.findViewById(R.id.trick_name);
         final Spinner contactType=(Spinner)textBoxes.findViewById(R.id.contact_type);
+        final Spinner orgSpinner=(Spinner)textBoxes.findViewById(R.id.org_spinner);
+        final LinearLayout contactGeneral=(LinearLayout)textBoxes.findViewById(R.id.contact_general);
+        final RelativeLayout incorrectLevel=(RelativeLayout)textBoxes.findViewById(R.id.contact_incorrect_level);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.contact_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         contactType.setAdapter(adapter);
         contactType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 contactTypeName=adapterView.getItemAtPosition(i).toString();
+                if(contactTypeName.equals("Incorrect Level")){
+                    contactGeneral.setVisibility(View.GONE);
+                    incorrectLevel.setVisibility(View.VISIBLE);
+                    trickName.setText(tricktionary[trickIndex].getName());
+                }
+                else{
+                    contactGeneral.setVisibility(View.VISIBLE);
+                    incorrectLevel.setVisibility(View.GONE);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView){
+                return;
+            }
+        });
+
+        ArrayAdapter<CharSequence> orgAdapter = ArrayAdapter.createFromResource(this,
+                R.array.organizations, android.R.layout.simple_spinner_item);
+        orgAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orgSpinner.setAdapter(orgAdapter);
+        orgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                organization=adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
             }
         });
@@ -605,7 +639,26 @@ return;
         builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(comment.getText().toString().length()>0){
+                if((contactTypeName.equals("Incorrect Level"))&&(correctLevel.getText().toString().length()>0)){
+                    FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                    DatabaseReference myRef=fb.getReference("contact");
+                    Contact data=new Contact(contactName.getText().toString(),
+                            contactTypeName,
+                            tricktionary[trickIndex].getName(),
+                            tricktionary[trickIndex].getId1(),
+                            tricktionary[trickIndex].getId0(),
+                            organization);
+                    myRef.child(mAuth.getCurrentUser().getUid())
+                            .child(myRef.push().getKey())
+                            .setValue(data);
+                    mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                    mFirebaseAnalytics.logEvent("contact_submit", bundle);
+                    Toast.makeText(MainActivity.this, "Feedback on incorrect level submitted, thank you!", Toast.LENGTH_LONG).show();
+                    Log.e("Incorrect Level",data.toString());
+                }
+                else if(comment.getText().toString().length()>0){
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     DatabaseReference myRef=fb.getReference("contact");
                     Contact data=new Contact(contactName.getText().toString(),
@@ -619,6 +672,9 @@ return;
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
                     mFirebaseAnalytics.logEvent("contact_submit", bundle);
                     Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    return;
                 }
 
 

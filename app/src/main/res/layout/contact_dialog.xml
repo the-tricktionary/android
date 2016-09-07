@@ -12,19 +12,97 @@
         android:spinnerMode="dropdown"
         android:padding="10dp" />
 
-    <EditText
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_name"
+        android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal"
-        android:hint="Your name (optional)"
-        android:padding="10dp" />
+        android:id="@+id/contact_incorrect_level"
+        android:visibility="visible">
 
-    <EditText
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trick Name"
+            android:id="@+id/trick_name"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Should be level: "
+            android:id="@+id/textView16"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/trick_name"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In"
+            android:id="@+id/textView17"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/textView16"
+            android:layout_alignEnd="@+id/textView16" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:layout_below="@+id/trick_name"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/space5" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/correct_level"
+            android:layout_below="@+id/trick_name"
+            android:layout_toEndOf="@+id/textView16"
+            android:hint="(1-6)"
+            android:layout_marginLeft="20dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/org_spinner"
+            android:layout_below="@+id/correct_level"
+            android:layout_toEndOf="@+id/textView17"
+            android:layout_alignBottom="@+id/textView17"
+            android:layout_marginLeft="20dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_comment"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:hint="Please provide more info" />
+        android:layout_height="match_parent"
+        android:id="@+id/contact_general"
+        android:visibility="gone">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contact_name"
+            android:layout_gravity="center_horizontal"
+            android:hint="Your name (optional)"
+            android:padding="10dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contact_comment"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:hint="Please provide more info" />
+    </LinearLayout>
+
 </LinearLayout>

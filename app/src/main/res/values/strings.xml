@@ -80,4 +80,8 @@
         <item>Inaccurate Name</item>
         <item>Inaccurate Description</item>
     </string-array>
+    <string-array name="organizations">
+        <item>WJR</item>
+        <item>FISAC/IRSF</item>
+    </string-array>
 </resources>
