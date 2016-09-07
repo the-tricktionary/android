@@ -127,7 +127,7 @@ public class SpeedGraph extends AppCompatActivity {
         saveData = (Button)findViewById(R.id.save_data);
         editScore = (ImageView)findViewById(R.id.edit_score);
         authButton=(Button)findViewById(R.id.auth_button);
-        if(mAuth.getCurrentUser()==null){
+        if((mAuth.getCurrentUser()==null)||(mAuth.getCurrentUser().getEmail()==null)){
             currentUser.setVisibility(View.INVISIBLE);
             authButton.setText("Sign In");
         }
