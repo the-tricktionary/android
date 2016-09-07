@@ -132,7 +132,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         trickDescription = (TextView)findViewById(R.id.description);
         trickDescription.setText(tricktionary[trickIndex].getDescription());
         level=(TextView)findViewById(R.id.level_label);
-        level.setText("WJR Level: " + tricktionary[trickIndex].getDifficulty());
+        level.setText("WJR Level: " + tricktionary[trickIndex].getWjrLevel());
         type=(TextView)findViewById(R.id.type_label);
         type.setText(tricktionary[trickIndex].getType());
         prereqs=(TextView)findViewById(R.id.view_prereqs);
@@ -558,25 +558,27 @@ return;
 
     public void openContactDialog(View v){
         //Anonymous auth
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("Auth", "signInAnonymously:onComplete:" + task.isSuccessful());
+        if(mAuth.getCurrentUser()==null) {
+            mAuth.signInAnonymously()
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d("Auth", "signInAnonymously:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w("Auth", "signInAnonymously", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Log.w("Auth", "signInAnonymously", task.getException());
+                                Toast.makeText(MainActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            // ...
                         }
-
-                        // ...
-                    }
-                });
+                    });
+        }
         //Set up dialog
         if(mAuth.getCurrentUser()==null){
             Toast.makeText(MainActivity.this, "Could not sign in...", Toast.LENGTH_LONG).show();
@@ -608,17 +610,23 @@ return;
                     contactGeneral.setVisibility(View.GONE);
                     incorrectLevel.setVisibility(View.VISIBLE);
                     trickName.setText(tricktionary[trickIndex].getName());
+
                 }
                 else{
                     contactGeneral.setVisibility(View.VISIBLE);
                     incorrectLevel.setVisibility(View.GONE);
+
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView){
                 return;
             }
         });
+        if(mAuth.getCurrentUser().getDisplayName()!=null){
+            contactName.setText(mAuth.getCurrentUser().getDisplayName());
+        }
 
         ArrayAdapter<CharSequence> orgAdapter = ArrayAdapter.createFromResource(this,
                 R.array.organizations, android.R.layout.simple_spinner_item);
@@ -674,7 +682,7 @@ return;
                     Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    return;
+                    Toast.makeText(MainActivity.this, "You must provide more information please.", Toast.LENGTH_LONG).show();
                 }
 
 

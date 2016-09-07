@@ -18,6 +18,7 @@ public class Trick extends FirebaseInstanceIdService {
     public String type;
     public String[] prereqs;
     public String fisacLevel="";
+    public String wjrLevel="";
     public String id1;
 
 
@@ -59,7 +60,7 @@ public class Trick extends FirebaseInstanceIdService {
         prereqs=myPrereqs;
         fisacLevel=mFisacLevel;
     }
-    public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, String[]myPrereqs, String mFisacLevel,String mId1){
+    public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, String[]myPrereqs, String mFisacLevel, String mWjrLevel,String mId1){
         name=myName;
         description=myDescription;
         difficulty=myDifficulty;
@@ -68,6 +69,7 @@ public class Trick extends FirebaseInstanceIdService {
         videoCode=myVideoCode;
         prereqs=myPrereqs;
         fisacLevel=mFisacLevel;
+        wjrLevel=mWjrLevel;
         id1=mId1;
     }
     //getters and setters
@@ -125,6 +127,14 @@ public class Trick extends FirebaseInstanceIdService {
 
     public String getId0(){
         return ""+(difficulty-1);
+    }
+
+    public String getWjrLevel() {
+        return wjrLevel;
+    }
+
+    public void setWjrLevel(String wjrLevel) {
+        this.wjrLevel = wjrLevel;
     }
 
     public void getMessageToken(){

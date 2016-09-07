@@ -55,6 +55,7 @@ public class TrickData extends Trick{
                                 trick.child("type").getValue().toString(),
                                 trick.child("video").getValue().toString(),
                                 getPrereqs(trick),trick.child("irsf").getValue().toString(),
+                                trick.child("wjr").getValue().toString(),
                                 trick.child("id1").getValue().toString());
                         Log.i("id1",mTrick.getId1());
                         tempList.add(mTrick);
