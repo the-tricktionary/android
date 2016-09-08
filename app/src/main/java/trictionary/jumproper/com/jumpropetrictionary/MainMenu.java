@@ -35,7 +35,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainMenu extends AppCompatActivity {
     private VideoView myVideoView;
-    ImageView header, settingsGear;
+    ImageView header, settingsGear,webApp,contact;
     TextView title, viewTricktionary;
     TextView viewShowmaker,viewTrickTree,viewSpeedData;
 
@@ -61,6 +61,8 @@ public class MainMenu extends AppCompatActivity {
         TrickData.getTricktionary();
         header=(ImageView)findViewById(R.id.header);
         settingsGear =(ImageView)findViewById(R.id.settings);
+        webApp=(ImageView)findViewById(R.id.view_webapp);
+        contact=(ImageView)findViewById(R.id.view_contact);
         settingsGear.setMaxHeight(settingsGear.getHeight()/2);
         settingsGear.setMaxWidth(settingsGear.getWidth()/2);
         title=(TextView)findViewById(R.id.title);
@@ -197,9 +199,13 @@ public class MainMenu extends AppCompatActivity {
         fadeTrickTreeIn.setDuration(2500);
         ValueAnimator fadeSpeedData = ObjectAnimator.ofFloat(viewSpeedData, "alpha", 0f, .75f);
         fadeSpeedData.setDuration(2500);
+        ValueAnimator fadeWebApp = ObjectAnimator.ofFloat(webApp, "alpha", 0f, .75f);
+        fadeWebApp.setDuration(2500);
+        ValueAnimator fadeContact = ObjectAnimator.ofFloat(contact, "alpha", 0f, .75f);
+        fadeContact.setDuration(2500);
 
         AnimatorSet anim=new AnimatorSet();
-        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData);
+        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp);
         anim.start();
 
         TrickData.getTricktionaryData();
@@ -311,7 +317,7 @@ public class MainMenu extends AppCompatActivity {
 
         int dpi = metrics.densityDpi;
 
-        v.setTextSize(width/dpi*20);
+        v.setTextSize(width/dpi*18);
     }
    public void scaleText(TextView v){
        DisplayMetrics metrics = new DisplayMetrics();
