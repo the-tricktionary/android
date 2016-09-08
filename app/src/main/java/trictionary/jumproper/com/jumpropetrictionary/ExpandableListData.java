@@ -42,7 +42,8 @@ public class ExpandableListData extends ContactActivity {
                         replies.add(r.getValue(reply).toString());
                         Log.d("Replies",r.getValue(reply).toString());
                     }
-                    expandableListDetail.put(contact.child("type").getValue().toString(),
+                    expandableListDetail.put(contact.child("type").getValue().toString()+"\n\t"
+                                            +contact.child("desc").getValue().toString(),
                                              replies);
                 }
             }
