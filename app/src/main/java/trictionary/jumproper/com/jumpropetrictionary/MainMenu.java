@@ -12,17 +12,25 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -40,6 +48,10 @@ public class MainMenu extends AppCompatActivity {
     TextView viewShowmaker,viewTrickTree,viewSpeedData;
 
     public static SharedPreferences settings;
+
+    //auth object for contact dialog
+    private static FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
 
@@ -59,6 +71,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         TrickData.getTricktionary();
+        mAuth=FirebaseAuth.getInstance();
         header=(ImageView)findViewById(R.id.header);
         settingsGear =(ImageView)findViewById(R.id.settings);
         webApp=(ImageView)findViewById(R.id.view_webapp);
@@ -210,6 +223,22 @@ public class MainMenu extends AppCompatActivity {
 
         TrickData.getTricktionaryData();
 
+        //add auth listener
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("Auth", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
 
 
 
@@ -337,5 +366,65 @@ public class MainMenu extends AppCompatActivity {
         SpeedGraph.loadingData=true;
         Intent intent = new Intent(this, SpeedGraph.class);
         startActivity(intent);
+    }
+    public void viewWeb(View v){
+        String url = "https://tricks.jumpropejam.com/";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+    public void viewContact(View v){
+        if(mAuth.getCurrentUser()!=null){
+            Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
+            startActivity(intent);
+        }
+
+        signIn();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                    Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
+                    startActivity(intent);
+                } else {
+                    // User is signed out
+                    Log.d("Auth", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
+    }
+    public void signIn(){
+        //Anonymous auth
+        if(mAuth.getCurrentUser()==null) {
+            mAuth.signInAnonymously()
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d("Auth", "signInAnonymously:onComplete:" + task.isSuccessful());
+
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Log.w("Auth", "signInAnonymously", task.getException());
+                                Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            // ...
+                        }
+                    });
+        }
+        //Set up dialog
+        if(mAuth.getCurrentUser()==null){
+            Toast.makeText(getApplicationContext(), "Could not sign in...", Toast.LENGTH_LONG).show();
+            return;
+        }
     }
 }

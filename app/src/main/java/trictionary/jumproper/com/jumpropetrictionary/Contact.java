@@ -7,7 +7,7 @@ public class Contact {
     private String name;
     private String type;
     private String desc;
-    private String[]replies;
+    private Reply[]replies;
     private String id1;
     private String id0;
     private String org;
@@ -78,11 +78,11 @@ public class Contact {
         this.desc = desc;
     }
 
-    public String[] getReplies() {
+    public Reply[] getReplies() {
         return replies;
     }
 
-    public void setReplies(String[] replies) {
+    public void setReplies(Reply[] replies) {
         this.replies = replies;
     }
 
