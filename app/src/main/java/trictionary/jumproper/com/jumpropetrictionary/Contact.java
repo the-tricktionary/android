@@ -11,6 +11,7 @@ public class Contact {
     private String id1;
     private String id0;
     private String org;
+    private String level;
 
     public Contact(){
         this.name="Test";
@@ -40,7 +41,7 @@ public class Contact {
         this.id1=id1;
         this.id0=id0;
     }
-    public Contact(String name, String type, String desc, String id1, String id0, String org) {
+    public Contact(String name, String type, String desc, String id1, String id0, String org, String level) {
         if(name.length()>0) {
             this.name = name;
         }
@@ -52,6 +53,7 @@ public class Contact {
         this.id1=id1;
         this.id0=id0;
         this.org=org;
+        this.level=level;
     }
 
     public String getName() {
@@ -108,6 +110,14 @@ public class Contact {
 
     public void setOrg(String org) {
         this.org = org;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String toString(){

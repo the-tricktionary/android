@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
@@ -11,6 +11,6 @@
         android:textColor="@android:color/black"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:text="Incorrect Level"
-        android:textSize="16dp" />
-</LinearLayout>
+        android:text="Incorrect Level" />
+
+</RelativeLayout>

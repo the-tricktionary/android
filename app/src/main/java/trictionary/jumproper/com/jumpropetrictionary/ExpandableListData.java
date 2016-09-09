@@ -37,14 +37,20 @@ public class ExpandableListData extends ContactActivity {
 
                 for(DataSnapshot contact:dataSnapshot.getChildren()){
                     GenericTypeIndicator<Reply> reply=new GenericTypeIndicator<Reply>(){};
-                    replies =new ArrayList<String>();
+                    replies = new ArrayList<String>();
                     for(DataSnapshot r:contact.child("replies").getChildren()){
                         replies.add(r.getValue(reply).toString());
                         Log.d("Replies",r.getValue(reply).toString());
+
                     }
-                    expandableListDetail.put(contact.child("type").getValue().toString()+"\n\t"
+
+                    expandableListDetail.put(contact.child("type").getValue().toString()+"\n\n\t"
                                             +contact.child("desc").getValue().toString(),
-                                             replies);
+                                            replies);
+
+                    ContactActivity.contactIds.put(contact.child("type").getValue().toString()+"\n\n\t"
+                                            +contact.child("desc").getValue().toString(),
+                                            contact.getKey());
                 }
             }
 

@@ -3,12 +3,14 @@ package trictionary.jumproper.com.jumpropetrictionary;
 /**
  * Created by jumpr_000 on 9/8/2016.
  */
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -20,11 +22,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
 
+
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
                                        HashMap<String, List<String>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+
     }
 
     @Override
@@ -32,6 +36,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition);
     }
+
 
     @Override
     public long getChildId(int listPosition, int expandedListPosition) {
@@ -50,6 +55,14 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         TextView expandedListTextView = (TextView) convertView
                 .findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
+        ImageView reply=(ImageView) convertView
+                .findViewById(R.id.reply_button);
+        if(isLastChild){
+            reply.setVisibility(View.VISIBLE);
+        }
+        else{
+            reply.setVisibility(View.GONE);
+        }
         return convertView;
     }
 

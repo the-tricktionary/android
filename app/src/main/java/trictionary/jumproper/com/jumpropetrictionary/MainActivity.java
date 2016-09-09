@@ -655,7 +655,8 @@ return;
                             tricktionary[trickIndex].getName(),
                             tricktionary[trickIndex].getId1(),
                             tricktionary[trickIndex].getId0(),
-                            organization);
+                            organization,
+                            correctLevel.getText().toString());
                     myRef.child(mAuth.getCurrentUser().getUid())
                             .child(myRef.push().getKey())
                             .setValue(data);

@@ -34,7 +34,15 @@ public class Reply {
         this.reply = reply;
     }
 
+    public String underline(String name){
+        String line="";
+        for(int j=0;j<name.length();j++){
+            line=line+"_";
+        }
+        return line;
+    }
+
     public String toString(){
-        return this.getName()+"\n\n\t"+this.getReply();
+        return this.getName()+"\n"+underline(this.getName())+"\n\n\t\t"+this.getReply();
     }
 }

@@ -5,9 +5,22 @@
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/expandedListItem"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:paddingRight="?android:attr/expandableListPreferredChildPaddingLeft" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/reply_button"
+        android:layout_gravity="right"
+        android:src="@drawable/reply"
+        android:padding="20dp"
+        android:alpha=".75"
+        android:onClick="newReply"
+        android:visibility="visible" />
+
 </LinearLayout>
