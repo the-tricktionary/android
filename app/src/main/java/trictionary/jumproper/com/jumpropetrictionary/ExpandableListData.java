@@ -43,14 +43,27 @@ public class ExpandableListData extends ContactActivity {
                         Log.d("Replies",r.getValue(reply).toString());
 
                     }
-
-                    expandableListDetail.put(contact.child("type").getValue().toString()+"\n\n\t"
-                                            +contact.child("desc").getValue().toString(),
-                                            replies);
-
-                    ContactActivity.contactIds.put(contact.child("type").getValue().toString()+"\n\n\t"
-                                            +contact.child("desc").getValue().toString(),
-                                            contact.getKey());
+                    Log.d("Contact","type "+contact.child("type"));
+                    if(contact.child("type").getValue().toString().equals("Incorrect Level")){
+                        expandableListDetail.put(contact.child("type").getValue().toString()+"\n\n\t"
+                                        +contact.child("desc").getValue().toString()
+                                        +" should be "+contact.child("org").getValue().toString()
+                                        +" level "+contact.child("level").getValue().toString(),
+                                        replies);
+                        ContactActivity.contactIds.put(contact.child("type").getValue().toString()+"\n\n\t"
+                                        +contact.child("desc").getValue().toString()
+                                        +" should be "+contact.child("org").getValue().toString()
+                                        +" level "+contact.child("level").getValue().toString(),
+                                        contact.getKey());
+                    }
+                    else {
+                        expandableListDetail.put(contact.child("type").getValue().toString() + "\n\n\t"
+                                        + contact.child("desc").getValue().toString(),
+                                        replies);
+                        ContactActivity.contactIds.put(contact.child("type").getValue().toString() + "\n\n\t"
+                                        + contact.child("desc").getValue().toString(),
+                                        contact.getKey());
+                    }
                 }
             }
 

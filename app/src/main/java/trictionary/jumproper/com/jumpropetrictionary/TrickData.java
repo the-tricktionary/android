@@ -67,7 +67,6 @@ public class TrickData extends Trick{
                 tricktionary=new Trick[tempList.size()];
                 for(int j=0;j<tempList.size();j++){
                     tricktionary[j]=tempList.get(j);
-                    Log.e("Indexing Test",tricktionary[j].getName() +" is in "+j);
                 }
             }
 

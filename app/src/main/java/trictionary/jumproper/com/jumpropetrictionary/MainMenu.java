@@ -281,13 +281,6 @@ public class MainMenu extends AppCompatActivity {
 
 
     }
-    public void signInButtonClick(View v){
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -485,6 +478,7 @@ public class MainMenu extends AppCompatActivity {
                         if(task.isComplete()){
                             Toast.makeText(MainMenu.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
                                     Toast.LENGTH_SHORT).show();
+                            viewContact(contact);
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the

@@ -116,7 +116,8 @@ public class ContactActivity extends AppCompatActivity {
                             return true;
                         }
                         if(position==1){
-                            return true;
+                            Intent intent = new Intent(ContactActivity.this, MainMenu.class);
+                            startActivity(intent);
                         }
                         else if(position==3) {
                             Intent intent = new Intent(ContactActivity.this, Tricktionary.class);
@@ -155,11 +156,11 @@ public class ContactActivity extends AppCompatActivity {
         public void run() {
             //do something
             if(expandableListDetail.isEmpty()){
-                Log.e("Contact","List is empty");
+                Log.i("Contact","List is empty");
                 expandableListDetail=ExpandableListData.getData();
             }
             else{
-                Log.e("Contact","List is full!");
+                Log.i("Contact","List is full!");
                 populateData();
                 expandableListView.refreshDrawableState();
                 delay=60000; //change update time to 1 minute
