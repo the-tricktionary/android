@@ -182,9 +182,6 @@ public class ContactActivity extends AppCompatActivity {
                 currentId=contactIds.get(expandableListTitle.get(groupPosition));
                 replyIndex=expandableListDetail.get(expandableListTitle.get(groupPosition)).size();
                 expandIndex=groupPosition;
-                if(expandIndex==0){
-
-                }
             }
         });
 
@@ -252,6 +249,8 @@ public class ContactActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
+
+
 
 
 }

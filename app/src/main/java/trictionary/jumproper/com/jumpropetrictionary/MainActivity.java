@@ -104,7 +104,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     String levelCorrection;
     String organization;
     EditText contactName;
-    AlertDialog mDialog;
+
 
 
 
@@ -797,7 +797,7 @@ return;
             }
         });
 
-        mDialog=builder.show();
+        builder.show();
     }
     public void signIn(View v){
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -819,9 +819,6 @@ return;
 
                             signInButton.setVisibility(View.GONE);
                             contactName.setText(mAuth.getCurrentUser().getDisplayName());
-                            if(mDialog!=null){
-                                mDialog.cancel();
-                            }
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
