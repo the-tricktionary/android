@@ -98,13 +98,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 4236;
     Button signInButton;
-    TextView signInInfo;
 
     //contact type
     String contactTypeName="General";
     String levelCorrection;
     String organization;
     EditText contactName;
+    AlertDialog mDialog;
 
 
 
@@ -266,21 +266,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 })
                 .build();
 
-        //add auth listener
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("Auth", "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
@@ -300,6 +285,22 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                     }
                 })
                 .build();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+
+                } else {
+                    // User is signed out
+                    Log.d("Auth", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
 
 
 
@@ -463,20 +464,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 // Google Sign In failed, update UI appropriately
                 // ...
             }
-            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user != null) {
-                        // User is signed in
-                        Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
-                    } else {
-                        // User is signed out
-                        Log.d("Auth", "onAuthStateChanged:signed_out");
-                    }
-                    // ...
-                }
-            };
+
         }
     }
 
@@ -622,29 +610,6 @@ return;
     }
 
     public void openContactDialog(View v){
-        //Anonymous auth
-        if(mAuth.getCurrentUser()==null) {
-            mAuth.signInAnonymously()
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("Auth", "signInAnonymously:onComplete:" + task.isSuccessful());
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Log.w("Auth", "signInAnonymously", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            // ...
-                        }
-                    });
-        }
-
         //Set up dialog
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //new alert dialog
@@ -661,7 +626,6 @@ return;
         final LinearLayout contactGeneral=(LinearLayout)textBoxes.findViewById(R.id.contact_general);
         final RelativeLayout incorrectLevel=(RelativeLayout)textBoxes.findViewById(R.id.contact_incorrect_level);
         signInButton=(Button)textBoxes.findViewById(R.id.sign_in_button);
-        signInInfo=(TextView)textBoxes.findViewById(R.id.sign_in_instructions);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.contact_types, android.R.layout.simple_spinner_item);
@@ -692,7 +656,6 @@ return;
         if(mAuth.getCurrentUser()!=null){
             if(mAuth.getCurrentUser().getDisplayName()!=null) {
                 signInButton.setVisibility(View.GONE);
-                signInInfo.setVisibility(View.GONE);
                 contactName.setText(mAuth.getCurrentUser().getDisplayName());
             }
         }
@@ -717,7 +680,70 @@ return;
         builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if((contactTypeName.equals("Incorrect Level"))&&(correctLevel.getText().toString().length()>0)){
+                //Anonymous auth
+                if(mAuth.getCurrentUser()==null) {
+                    mAuth.signInAnonymously()
+                            .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    Log.d("Auth", "signInAnonymously:onComplete:" + task.isSuccessful());
+                                    if((contactTypeName.equals("Incorrect Level"))&&(correctLevel.getText().toString().length()>0)){
+                                        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                                        DatabaseReference myRef=fb.getReference("contact");
+                                        Contact data=new Contact(contactName.getText().toString(),
+                                                contactTypeName,
+                                                tricktionary[trickIndex].getName(),
+                                                tricktionary[trickIndex].getId1(),
+                                                tricktionary[trickIndex].getId0(),
+                                                organization,
+                                                correctLevel.getText().toString());
+                                        myRef.child(mAuth.getCurrentUser().getUid())
+                                                .child(myRef.push().getKey())
+                                                .setValue(data);
+                                        mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                                        mFirebaseAnalytics.logEvent("contact_submit", bundle);
+                                        Toast.makeText(MainActivity.this, "Feedback on incorrect level submitted, thank you!", Toast.LENGTH_LONG).show();
+
+                                    }
+                                    else if(comment.getText().toString().length()>0){
+                                        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                                        DatabaseReference myRef=fb.getReference("contact");
+                                        Contact data=new Contact(contactName.getText().toString(),
+                                                contactTypeName,
+                                                tricktionary[trickIndex].getName()+" - "+comment.getText().toString(),
+                                                tricktionary[trickIndex].getId1(),
+                                                tricktionary[trickIndex].getId0());
+                                        myRef.child(mAuth.getCurrentUser().getUid())
+                                                .child(myRef.push().getKey())
+                                                .setValue(data);
+                                        mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                                        mFirebaseAnalytics.logEvent("contact_submit", bundle);
+                                        Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
+                                        Log.d("Contact","UID: "+mAuth.getCurrentUser().getUid());
+                                    }
+                                    else{
+                                        Toast.makeText(MainActivity.this, "You must provide more information please.", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    // If sign in fails, display a message to the user. If sign in succeeds
+                                    // the auth state listener will be notified and logic to handle the
+                                    // signed in user can be handled in the listener.
+                                    if (!task.isSuccessful()) {
+                                        Log.w("Auth", "signInAnonymously", task.getException());
+                                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    // ...
+                                }
+                            });
+                }
+                else if((contactTypeName.equals("Incorrect Level"))&&(correctLevel.getText().toString().length()>0)){
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     DatabaseReference myRef=fb.getReference("contact");
                     Contact data=new Contact(contactName.getText().toString(),
@@ -771,13 +797,11 @@ return;
             }
         });
 
-        builder.show();
+        mDialog=builder.show();
     }
     public void signIn(View v){
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent,RC_SIGN_IN);
-
-
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("Auth", "firebaseAuthWithGoogle:" + acct.getId());
@@ -790,11 +814,14 @@ return;
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
-                            Toast.makeText(MainActivity.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
+                            Toast.makeText(MainActivity.this, "Signed in as "+mAuth.getCurrentUser().getEmail()+", you may now submit feedback.",
                                     Toast.LENGTH_SHORT).show();
+
                             signInButton.setVisibility(View.GONE);
-                            signInInfo.setVisibility(View.GONE);
                             contactName.setText(mAuth.getCurrentUser().getDisplayName());
+                            if(mDialog!=null){
+                                mDialog.cancel();
+                            }
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -807,6 +834,13 @@ return;
                         // ...
                     }
                 });
+    }
+    public void signInButtonClick(View v){
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn(signInButton);
+                break;
+        }
     }
 
 

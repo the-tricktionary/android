@@ -111,15 +111,6 @@
         android:id="@+id/sign_in_button"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:onClick="signIn" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="If you sign in you will be able to view your feedback, see our replies, and reply yourself.  If not we will still see your feedback, but you will not have access to it."
-        android:id="@+id/sign_in_instructions"
-        android:layout_gravity="center_horizontal"
-        android:textSize="16dp"
-        android:layout_marginTop="10dp" />
+        android:onClick="signInButtonClick" />
 
 </LinearLayout>
