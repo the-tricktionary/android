@@ -3,15 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/background"
-    android:id="@+id/main_layout">
+    android:id="@+id/main_layout"
+    android:orientation="vertical">
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="false"
         android:fadeScrollbars="true"
-        android:paddingTop="25dp">
+        android:padding="10dp"
+        android:foregroundGravity="center">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,17 +22,32 @@
             android:id="@+id/input_layout">
 
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/imageView30"
+                android:src="@drawable/icon_alpha"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="false"
+                android:layout_centerHorizontal="true"
+                android:onClick="back"
+                android:layout_marginTop="10dp" />
 
             <TextView android:id="@+id/main_textview"
                 android:layout_width="match_parent"
-                android:layout_height="104dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:text="Enter the names of jumpers that are in the show, separated by commas."
                 android:textSize="20dp"
                 android:layout_weight="8"
                 android:layout_marginRight="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/imageView30"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:layout_marginBottom="10dp"
+                android:padding="30dp" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -39,7 +56,8 @@
                 android:layout_alignEnd="@+id/main_textview"
                 android:hint="Name1, Name2, Name3, etc"
                 android:layout_below="@+id/main_textview"
-                android:layout_alignStart="@+id/main_textview" />
+                android:layout_alignStart="@+id/main_textview"
+                android:padding="20dp" />
 
 
             <Button
@@ -53,6 +71,19 @@
                 android:layout_alignParentEnd="false"
                 android:layout_alignParentStart="false"
                 android:layout_marginTop="50dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView29"
+                android:src="@drawable/ic_ab_back_material"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/imageView30"
+                android:layout_alignBottom="@+id/imageView30"
+                android:layout_toStartOf="@+id/make_show"
+                android:padding="5dp"
+                android:layout_marginRight="40dp"
+                android:onClick="back" />
 
         </RelativeLayout>
     </ScrollView>

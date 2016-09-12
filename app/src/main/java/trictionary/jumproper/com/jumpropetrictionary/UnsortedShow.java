@@ -68,4 +68,7 @@ public class UnsortedShow extends ActionBarActivity {
         ShowMainActivity.showReviewed=true;
         finish();
     }
+    public void backToWriter(View v){
+        finish();
+    }
 }

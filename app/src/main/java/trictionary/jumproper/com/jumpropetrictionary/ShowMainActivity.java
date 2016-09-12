@@ -45,13 +45,13 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     int numNames = 0;
     String temp = "";
     String tempEvent = "";
-    Button addOtherEvent,newEventButton;
-    Button lastEvent,nextEventButton;
+    Button addOtherEvent, newEventButton;
+    Button lastEvent, nextEventButton;
     ShareActionProvider mShareActionProvider;
     GridView currentNames;
-    ArrayList<String> currentNameList=new ArrayList<>();
+    ArrayList<String> currentNameList = new ArrayList<>();
     ArrayAdapter<String> listAdapter;
-    public static boolean showReviewed=false;
+    public static boolean showReviewed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,8 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         newEventButton = (Button) findViewById(R.id.new_event_button);
         addOtherEvent = (Button) findViewById(R.id.add_other_event);
         lastEvent = (Button) findViewById(R.id.last_event);
-        currentNames = (GridView)findViewById(R.id.current_names);
-        nextEventButton=(Button)findViewById(R.id.next_event);
+        currentNames = (GridView) findViewById(R.id.current_names);
+        nextEventButton = (Button) findViewById(R.id.next_event);
         ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, nameArray);
         listAdapter = new ArrayAdapter<String>(this,
@@ -82,27 +82,29 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
 
                 if (eventName.getText().equals("Individuals:")) {
                     individualObjects.add(new Individual(nameArray[position]));
-                    currentNameList.add(individualObjects.get(individualObjects.size()-1).toString());
+                    currentNameList.add(individualObjects.get(individualObjects.size() - 1).toString());
                     listAdapter.notifyDataSetChanged();
                     listAdapter.notifyDataSetInvalidated();
-                    temp="";
+                    currentNames.setSelection(position);
+                    temp = "";
                 }
                 if (eventName.getText().equals("Pairs:")) {
                     if (numNames == 0) {
                         temp = nameArray[position];
-                        Log.d("nameArray",nameArray[position]);
+                        Log.d("nameArray", nameArray[position]);
                         numNames++;
                     } else {
-                        Log.d("Pairs2",temp);
+                        Log.d("Pairs2", temp);
                         pairsObjects.add(new Pairs(temp + " " + nameArray[position]));
                         temp = "";
-                        currentNameList.add(pairsObjects.get(pairsObjects.size()-1).toString());
+                        currentNameList.add(pairsObjects.get(pairsObjects.size() - 1).toString());
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
-                        numNames=0;
+                        currentNames.setSelection(position);
+                        numNames = 0;
                     }
 
-                    Log.d("PairsNameArray",nameArray[position]);
+                    Log.d("PairsNameArray", nameArray[position]);
 
                 }
                 if (eventName.getText().equals("Double Dutch Singles:")) {
@@ -113,9 +115,10 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                         dd3Objects.add(new DD3(temp + " " + nameArray[position]));
                         numNames = 0;
                         temp = "";
-                        currentNameList.add(dd3Objects.get(dd3Objects.size()-1).toString());
+                        currentNameList.add(dd3Objects.get(dd3Objects.size() - 1).toString());
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
                     }
 
                 }
@@ -127,9 +130,10 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                         dd4Objects.add(new DD4(temp + " " + nameArray[position]));
                         numNames = 0;
                         temp = "";
-                        currentNameList.add(dd4Objects.get(dd4Objects.size()-1).toString());
+                        currentNameList.add(dd4Objects.get(dd4Objects.size() - 1).toString());
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
                     }
 
                 }
@@ -141,9 +145,10 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                         wheelObjects.add(new Wheel(temp + " " + nameArray[position]));
                         numNames = 0;
                         temp = "";
-                        currentNameList.add(wheelObjects.get(wheelObjects.size()-1).toString());
+                        currentNameList.add(wheelObjects.get(wheelObjects.size() - 1).toString());
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
                     }
 
                 }
@@ -155,31 +160,49 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                         threeWheelObjects.add(new ThreeWheel(temp + " " + nameArray[position]));
                         numNames = 0;
                         temp = "";
-                        currentNameList.add(threeWheelObjects.get(threeWheelObjects.size()-1).toString());
+                        currentNameList.add(threeWheelObjects.get(threeWheelObjects.size() - 1).toString());
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
                     }
 
-                }
-                else if((newEventButton.getVisibility()==View.VISIBLE)||(addOtherEvent.getVisibility()==View.VISIBLE)){
+                } else if ((newEventButton.getVisibility() == View.VISIBLE) || (addOtherEvent.getVisibility() == View.VISIBLE)) {
                     temp += " " + nameArray[position];
+                    currentNameList.add(nameArray[position]);
+                    listAdapter.notifyDataSetChanged();
+                    listAdapter.notifyDataSetInvalidated();
+                    currentNames.setSelection(position);
                 }
 
             }
         });
+        currentNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,final int i, long l) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ShowMainActivity.this);
+                alertDialogBuilder
+                        .setTitle("Remove Event")
+                        .setMessage("Would you like to remove "+adapterView.getItemAtPosition(i).toString()+"?")
+                        .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentNameList.remove(i);
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+            }
+        });
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(showReviewed){
+        if (showReviewed) {
             run();
-        }
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-        if(showReviewed){
-            run();
+            showReviewed = false;
         }
     }
 
@@ -289,7 +312,6 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
 
 
     }
-
 
 
     /**
@@ -450,12 +472,12 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
 
     public void nextEvent(View v) {
         currentNameList.clear();
-        temp="";
-        if(eventIndex==events.length-1){
+        temp = "";
+        if (eventIndex == events.length - 1) {
             return;
-        }
-        else {
+        } else {
             eventName.setText(events[eventIndex + 1]);
+            populateNameList(events[eventIndex + 1]);
             eventIndex++;
             if (eventName.getText().equals("Others:")) {
                 newEventButton.setVisibility(View.VISIBLE);
@@ -464,22 +486,60 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     }
 
     public void lastEvent(View v) {
+        currentNameList.clear();
+        temp = "";
         if (eventIndex == 0)
             return;
-        else
+        else {
             eventName.setText(events[eventIndex - 1]);
+            populateNameList(events[eventIndex - 1]);
+            newEventButton.setVisibility(View.INVISIBLE);
+            addOtherEvent.setVisibility(View.INVISIBLE);
+            eventIndex--;
+        }
+    }
+
+    public void populateNameList(String event){
+        ArrayList<? extends Event> objects=new ArrayList<>();
+        if(event.equals("Individuals:")){
+            objects=individualObjects;
+        }
+        else if(event.equals("Pairs:")){
+            objects=pairsObjects;
+        }
+        else if(event.equals("Double Dutch Singles:")){
+            objects=dd3Objects;
+        }
+        else if(event.equals("Double Dutch Pairs:")){
+            objects=dd4Objects;
+        }
+        else if(event.equals("Wheels:")){
+            objects=wheelObjects;
+        }
+        else if(event.equals("Three Wheels:")){
+            objects=threeWheelObjects;
+        }
+        for(int j=0;j<objects.size();j++){
+            currentNameList.add(objects.get(j).toString());
+        }
+        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetInvalidated();
+
     }
 
     public void addOtherEventToShow(View v) {
+        currentNameList.clear();
         tempEvent = eventName.getText().toString();
         otherEventObjects.add(new Other(temp, tempEvent));
         tempEvent = "";
         temp = "";
         v.setVisibility(View.INVISIBLE);
         newEventButton.setVisibility(View.VISIBLE);
-        currentNameList.add(otherEventObjects.get(otherEventObjects.size()-1).toString());
+        currentNameList.add(otherEventObjects.get(otherEventObjects.size() - 1).toString());
         listAdapter.notifyDataSetChanged();
         listAdapter.notifyDataSetInvalidated();
+        currentNames.setSelection(otherEventObjects.size() - 1);
+        eventName.setText("Others:");
     }
 
     public void reviewEvents(View v) {
@@ -487,17 +547,18 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         Intent intent = new Intent(this, UnsortedShow.class);
         startActivity(intent);
     }
-    public void newEvent(View v){
+
+    public void newEvent(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this); //new alert dialog
         builder.setTitle("New Event"); //dialog title
-        LayoutInflater inflater = (LayoutInflater)ShowMainActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
-        final View textBoxes=inflater.inflate(R.layout.new_event,null); //custom layout file now a view object
+        LayoutInflater inflater = (LayoutInflater) ShowMainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+        final View textBoxes = inflater.inflate(R.layout.new_event, null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText newEventName=(EditText)textBoxes.findViewById(R.id.event_name);
+                EditText newEventName = (EditText) textBoxes.findViewById(R.id.event_name);
                 eventName.setText(newEventName.getText().toString());
                 newEventButton.setVisibility(View.INVISIBLE);
                 addOtherEvent.setVisibility(View.VISIBLE);
@@ -512,5 +573,8 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         });
 
         builder.show();
+    }
+    public void back(View v){
+        finish();
     }
 }

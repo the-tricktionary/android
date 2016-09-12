@@ -71,6 +71,18 @@
                 android:layout_marginTop="10dp"
                 android:onClick="makeShow" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView27"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_ab_back_material"
+                android:layout_above="@+id/break_events"
+                android:layout_toStartOf="@+id/events"
+                android:padding="10dp"
+                android:onClick="backToWriter" />
+
 
         </RelativeLayout>
     </ScrollView>
