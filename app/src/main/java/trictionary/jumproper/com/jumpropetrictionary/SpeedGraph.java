@@ -397,16 +397,7 @@ public class SpeedGraph extends AppCompatActivity {
 
     public void viewSpeed(View v){
         data=null;
-        if(eventName.getVisibility()==View.VISIBLE){
-            Intent intent = new Intent(this, SpeedDataSelect.class);
-            finish();
-            startActivity(intent);
-        }
-        else {
-            Intent intent = new Intent(this, Speed.class);
-            finish();
-            startActivity(intent);
-        }
+        finish();
     }
 
     public void viewPublicData(View v){
