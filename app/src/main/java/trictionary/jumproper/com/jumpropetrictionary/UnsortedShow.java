@@ -1,5 +1,6 @@
 package trictionary.jumproper.com.jumpropetrictionary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class UnsortedShow extends ActionBarActivity {
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
+                Toast.makeText(UnsortedShow.this,"First event is "+sortedShow2.get(position).toString(),Toast.LENGTH_LONG).show();
                 sortedShow2.get(position).setName("*" + sortedShow2.get(position).getName());
             }
         });
@@ -61,5 +64,11 @@ public class UnsortedShow extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void makeShow(View v) {
+        ShowMainActivity dummy=new ShowMainActivity();
+        dummy.run();
+        Intent intent = new Intent(this, Show.class);
+        startActivity(intent);
     }
 }

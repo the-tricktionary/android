@@ -24,31 +24,52 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:textSize="30dp"
-                android:alpha="80"
-                android:textColor="#ff353535" />
+                android:alpha=".75"
+                android:textColor="#ff353535"
+                android:autoText="false"
+                android:background="@drawable/rounded_corner_shadow"
+                android:padding="10dp" />
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
 
                 android:id="@+id/break_events"
                 android:textSize="15dp"
                 android:alpha="80"
+                android:text="Select the first event of the show:"
                 android:layout_below="@+id/events"
-                android:layout_alignParentStart="true"
-                android:text="Select the first event of the show:" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp" />
             <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:id="@+id/sorted_show"
-                android:layout_below="@+id/events"
                 android:fadeScrollbars="true"
                 android:fadingEdge="vertical|horizontal"
                 android:fadingEdgeLength="30dp"
                 android:fitsSystemWindows="false"
                 android:smoothScrollbar="true"
-                android:paddingTop="45dp">
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:layout_below="@+id/break_events"
+                android:layout_marginTop="10dp"
+                android:layout_above="@+id/button2">
             </ListView>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Make Show"
+                android:id="@+id/button2"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:onClick="makeShow" />
 
 
         </RelativeLayout>
