@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Process;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
@@ -47,11 +46,12 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     String temp = "";
     String tempEvent = "";
     Button addOtherEvent,newEventButton;
-    Button lastEvent;
+    Button lastEvent,nextEventButton;
     ShareActionProvider mShareActionProvider;
     GridView currentNames;
     ArrayList<String> currentNameList=new ArrayList<>();
     ArrayAdapter<String> listAdapter;
+    public static boolean showReviewed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         addOtherEvent = (Button) findViewById(R.id.add_other_event);
         lastEvent = (Button) findViewById(R.id.last_event);
         currentNames = (GridView)findViewById(R.id.current_names);
+        nextEventButton=(Button)findViewById(R.id.next_event);
         ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, nameArray);
         listAdapter = new ArrayAdapter<String>(this,
@@ -89,16 +90,19 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                 if (eventName.getText().equals("Pairs:")) {
                     if (numNames == 0) {
                         temp = nameArray[position];
+                        Log.d("nameArray",nameArray[position]);
                         numNames++;
                     } else {
+                        Log.d("Pairs2",temp);
                         pairsObjects.add(new Pairs(temp + " " + nameArray[position]));
-                        numNames = 0;
                         temp = "";
                         currentNameList.add(pairsObjects.get(pairsObjects.size()-1).toString());
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
+                        numNames=0;
                     }
-                    Log.d("Pairs: ",temp);
+
+                    Log.d("PairsNameArray",nameArray[position]);
 
                 }
                 if (eventName.getText().equals("Double Dutch Singles:")) {
@@ -157,12 +161,26 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                     }
 
                 }
-                else{
+                else if((newEventButton.getVisibility()==View.VISIBLE)||(addOtherEvent.getVisibility()==View.VISIBLE)){
                     temp += " " + nameArray[position];
                 }
 
             }
         });
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(showReviewed){
+            run();
+        }
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(showReviewed){
+            run();
+        }
     }
 
     @Override
@@ -217,14 +235,11 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick(View v) {
-
-    }
 
     public void run() {
 
         // Moves the current Thread into the background
-        Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
+        //Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
 
       /*  individuals = getNames("*Dylan, Ridge, Drew, Sarah, Olivia, Ally,Tobin, Alex, Max, Katie, Brittany, Jeress, Adam,");
         pairs = getNames("Dylan Ridge, Drew Sarah, Olivia Ally, Chris Ryan,Nick Jeff,Brittany Alex, Adam Lindsey, Sean Singyi, Katie Jeress,");
@@ -266,8 +281,11 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         CharSequence text = "It only took " + totalNumRestarts + " tries to sort this show!";
         int duration = Toast.LENGTH_LONG;
 
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(ShowMainActivity.this, text, duration);
         toast.show();
+
+        Intent intent = new Intent(this, Show.class);
+        startActivity(intent);
 
 
     }

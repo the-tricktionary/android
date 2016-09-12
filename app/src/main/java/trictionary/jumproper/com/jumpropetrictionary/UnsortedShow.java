@@ -1,6 +1,5 @@
 package trictionary.jumproper.com.jumpropetrictionary;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -66,9 +65,7 @@ public class UnsortedShow extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     public void makeShow(View v) {
-        ShowMainActivity dummy=new ShowMainActivity();
-        dummy.run();
-        Intent intent = new Intent(this, Show.class);
-        startActivity(intent);
+        ShowMainActivity.showReviewed=true;
+        finish();
     }
 }
