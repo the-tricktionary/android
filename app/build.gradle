@@ -6,8 +6,8 @@ android {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 19
-        versionName "2.13"
+        versionCode 20
+        versionName "2.14"
         multiDexEnabled false
 
     }
