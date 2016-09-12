@@ -245,9 +245,7 @@ public class ContactActivity extends AppCompatActivity {
         builder.show();
     }
     public void viewMainMenu(View v){
-        Intent intent = new Intent(this, MainMenu.class);
         finish();
-        startActivity(intent);
     }
 
 

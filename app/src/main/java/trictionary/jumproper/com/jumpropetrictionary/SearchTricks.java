@@ -212,8 +212,7 @@ public class SearchTricks extends AppCompatActivity {
         startActivity(intent);
     }
     public void viewTricktionary(View v){
-        Intent intent = new Intent(this, Tricktionary.class);
-        startActivity(intent);
+        finish();
     }
 
 }

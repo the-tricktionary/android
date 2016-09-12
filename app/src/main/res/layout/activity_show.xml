@@ -62,7 +62,7 @@
         android:src="@drawable/ic_ab_back_material"
         android:layout_above="@+id/break_events"
         android:layout_toStartOf="@+id/events"
-        android:padding="10dp"
+        android:padding="15dp"
         android:onClick="backToWriter" />
 
     <TextView

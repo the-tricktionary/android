@@ -472,10 +472,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
     }
     public void viewTricktionary(View view){
-
-        Intent intent = new Intent(this, Tricktionary.class);
         finish();
-        startActivity(intent);
     }
     public void mainMenu(View v){
         Intent intent = new Intent(this, MainMenu.class);
@@ -568,11 +565,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         v.setTextSize(width/dpi*scale);
     }
 
-    public void viewProgression(View v){
-        TrickTree.viewedTrick=tricktionary[trickIndex];
-        Intent intent = new Intent(getApplicationContext(), TrickTree.class);
-        startActivity(intent);
-    }
 
     public void viewFullscreen(View v){
         youTubePlayer.setFullscreen(true);

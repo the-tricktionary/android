@@ -54,7 +54,7 @@
                 android:src="@drawable/ic_ab_back_material"
                 android:layout_alignBottom="@+id/event_text"
                 android:layout_toLeftOf="@+id/event_text"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:onClick="back" />
         </RelativeLayout>
 

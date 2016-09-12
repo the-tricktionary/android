@@ -26,7 +26,6 @@ public class Rafiki extends AppCompatActivity {
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
     public void viewMainMenu(View v){
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
+        finish();
     }
 }
