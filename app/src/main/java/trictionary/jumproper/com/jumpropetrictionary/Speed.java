@@ -472,9 +472,7 @@ public class Speed extends ActionBarActivity {
      * @param v back button
      */
     public void mainMenu(View v){
-        Intent intent = new Intent(this, MainMenu.class);
         finish();
-        startActivity(intent);
     }
 
     /**

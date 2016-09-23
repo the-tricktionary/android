@@ -177,8 +177,6 @@ public class SettingsActivity extends AppCompatActivity {
         return stylePref;
     }
     public void mainMenu(View v){
-        Intent intent = new Intent(this, MainMenu.class);
         finish();
-        startActivity(intent);
     }
 }

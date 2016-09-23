@@ -77,4 +77,8 @@ public class Names extends ActionBarActivity {
         return names;
     }
 
+    public void back(View v){
+        finish();
+    }
+
 }

@@ -50,14 +50,14 @@ public class Show extends ActionBarActivity {
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                if (breakEvents.getText().equals("Which event should this be after?")) {
+                if (breakEvents.getText().equals("Which event should this be after?\n")) {
                     ShowMainActivity.sortedShow.add(position+1, ShowMainActivity.sortedShow.remove(pos));
                     firstTap = false;
                     breakEvents.setText("Each jumper has a minimum of " + ShowMainActivity.getBreakEvents() + " breaks between events.");
                     mArrayAdapter.notifyDataSetChanged();
                     showList.refreshDrawableState();
                 } else {
-                    breakEvents.setText("Which event should this be after?");
+                    breakEvents.setText("Which event should this be after?\n");
                     pos = position;
                 }
 
@@ -122,5 +122,8 @@ public class Show extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void backToWriter(View v){
+        finish();
     }
 }

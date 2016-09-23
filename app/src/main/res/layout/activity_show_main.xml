@@ -8,16 +8,16 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         tools:context=".MainActivity"
         android:visibility="visible"
         android:id="@+id/input_layout"
         android:orientation="vertical"
-        android:layout_marginTop="30dp">
+        android:padding="10dp">
 
         <TextView android:id="@+id/main_textview"
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:text="Select the names of jumpers doing the event listed below"
             android:textSize="16sp"
@@ -25,104 +25,169 @@
             android:layout_marginRight="25dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_textview"
+            android:layout_alignStart="@+id/main_textview">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Individuals:"
             android:textSize="18dp"
             android:id="@+id/event_text"
-            android:layout_below="@+id/main_textview"
-            android:layout_alignStart="@+id/main_textview"
+
             android:textColor="#ff000000"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/other_event_name"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="8"
-            android:hint="Enter event name"
-            android:visibility="invisible"
-            android:layout_margin="5dp" />
+            android:background="@drawable/rounded_corner_shadow"
+            android:alpha=".75"
+            android:padding="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Event"
-            android:id="@+id/add_other_event"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="8"
-            android:visibility="gone"
-            android:onClick="addOtherEventToShow" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView28"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_ab_back_material"
+                android:layout_alignBottom="@+id/event_text"
+                android:layout_toLeftOf="@+id/event_text"
+                android:padding="8dp"
+                android:onClick="back" />
+        </RelativeLayout>
 
         <GridView
             android:layout_width="match_parent"
-            android:layout_height="177dp"
+            android:layout_height="200dp"
             android:id="@+id/nameList"
             android:layout_alignParentEnd="false"
             android:layout_alignParentStart="false"
             android:layout_alignTop="@+id/event_text"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             android:clickable="false"
             android:paddingBottom="0dp"
             android:stretchMode="columnWidth"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:numColumns="3" />
+            android:numColumns="3"
+            android:background="@drawable/rounded_corner_shadow"
+            android:alpha=".75"
+            android:layout_marginTop="10dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next Event"
-            android:id="@+id/next_event"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/nameList"
-            android:layout_gravity="center_horizontal"
-            android:onClick="nextEvent"
-            android:background="@drawable/rounded_corner_shadow" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Last Event"
-            android:id="@+id/last_event"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/nameList"
-            android:layout_gravity="center_horizontal"
-            android:onClick="lastEvent"
-            android:background="@drawable/rounded_corner_shadow" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:id="@+id/next_event"
+                android:layout_gravity="center_horizontal"
+                android:onClick="nextEvent"
+                android:background="@drawable/rounded_corner_shadow"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/new_event_button"
+                android:layout_marginLeft="10dp"
+                android:alpha=".75" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Review Events"
-            android:id="@+id/review_events"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            android:onClick="reviewEvents" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous"
+                android:id="@+id/last_event"
+                android:layout_gravity="center_horizontal"
+                android:onClick="lastEvent"
+                android:background="@drawable/rounded_corner_shadow"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/new_event_button"
+                android:layout_marginRight="10dp"
+                android:alpha=".75" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Make Show"
-            android:id="@+id/make_show"
-            android:layout_centerHorizontal="true"
-            android:onClick="makeShow"
-            android:layout_below="@+id/next_event"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/rounded_corner_shadow" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Review Events"
+                android:id="@+id/review_events"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                android:onClick="reviewEvents"
+                android:background="@drawable/rounded_corner_shadow"
+                android:padding="5dp"
+                android:alpha=".75"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Event"
+                android:id="@+id/new_event_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="8"
+                android:visibility="invisible"
+                android:onClick="newEvent"
+                android:background="@drawable/rounded_corner_shadow"
+                android:layout_alignEnd="@+id/review_events"
+                android:layout_alignStart="@+id/review_events"
+                android:alpha=".75" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to Show"
+                android:id="@+id/add_other_event"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="8"
+                android:visibility="gone"
+                android:onClick="addOtherEventToShow"
+                android:background="@drawable/rounded_corner_shadow"
+                android:layout_alignEnd="@+id/review_events"
+                android:layout_alignStart="@+id/review_events"
+                android:alpha=".75" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView24"
+                android:layout_alignBottom="@+id/next_event"
+                android:layout_toRightOf="@+id/next_event"
+                android:src="@drawable/forward"
+                android:background="@drawable/rounded_corner_shadow"
+                android:tint="@color/textColor"
+                android:onClick="nextEvent"
+                android:layout_alignTop="@+id/next_event"
+                android:alpha=".75" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView25"
+                android:layout_alignBottom="@+id/last_event"
+                android:layout_toLeftOf="@+id/last_event"
+                android:src="@drawable/ic_ab_back_material"
+                android:layout_alignTop="@+id/last_event"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/rounded_corner_shadow"
+                android:onClick="lastEvent"
+                android:alpha=".75" />
+
+            <GridView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/current_names"
+                android:layout_below="@+id/new_event_button"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/review_events"
+                android:background="@drawable/rounded_corner_shadow"
+                android:alpha=".75"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:numColumns="2" />
+        </RelativeLayout>
 
     </LinearLayout>
-
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="false"
-        android:fadeScrollbars="true"
-        android:paddingTop="25dp"></ScrollView>
 
 </LinearLayout>

@@ -12,17 +12,34 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -35,11 +52,20 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainMenu extends AppCompatActivity {
     private VideoView myVideoView;
-    ImageView header, settingsGear;
+    ImageView header, settingsGear,webApp,contact;
     TextView title, viewTricktionary;
     TextView viewShowmaker,viewTrickTree,viewSpeedData;
 
     public static SharedPreferences settings;
+
+    //auth object for contact dialog
+    private static FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    GoogleSignInOptions gso;
+    GoogleApiClient mGoogleApiClient;
+    private static final int RC_SIGN_IN = 4236;
+    SignInButton signInButton;
 
 
 
@@ -59,8 +85,12 @@ public class MainMenu extends AppCompatActivity {
 
 
         TrickData.getTricktionary();
+        mAuth=FirebaseAuth.getInstance();
+        signInButton=(SignInButton)findViewById(R.id.sign_in_button);
         header=(ImageView)findViewById(R.id.header);
         settingsGear =(ImageView)findViewById(R.id.settings);
+        webApp=(ImageView)findViewById(R.id.view_webapp);
+        contact=(ImageView)findViewById(R.id.view_contact);
         settingsGear.setMaxHeight(settingsGear.getHeight()/2);
         settingsGear.setMaxWidth(settingsGear.getWidth()/2);
         title=(TextView)findViewById(R.id.title);
@@ -197,12 +227,51 @@ public class MainMenu extends AppCompatActivity {
         fadeTrickTreeIn.setDuration(2500);
         ValueAnimator fadeSpeedData = ObjectAnimator.ofFloat(viewSpeedData, "alpha", 0f, .75f);
         fadeSpeedData.setDuration(2500);
+        ValueAnimator fadeWebApp = ObjectAnimator.ofFloat(webApp, "alpha", 0f, .75f);
+        fadeWebApp.setDuration(2500);
+        ValueAnimator fadeContact = ObjectAnimator.ofFloat(contact, "alpha", 0f, .75f);
+        fadeContact.setDuration(2500);
 
         AnimatorSet anim=new AnimatorSet();
-        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData);
+        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp);
         anim.start();
 
         TrickData.getTricktionaryData();
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
+                .requestIdToken(getString(R.string.google_sign_in_auth_id))
+                .requestEmail()
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Log.e("Auth","Connection Failed");
+                    }
+                })
+                .build();
+
+        //add auth listener
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("Auth", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
 
 
 
@@ -311,7 +380,7 @@ public class MainMenu extends AppCompatActivity {
 
         int dpi = metrics.densityDpi;
 
-        v.setTextSize(width/dpi*20);
+        v.setTextSize(width/dpi*18);
     }
    public void scaleText(TextView v){
        DisplayMetrics metrics = new DisplayMetrics();
@@ -331,5 +400,96 @@ public class MainMenu extends AppCompatActivity {
         SpeedGraph.loadingData=true;
         Intent intent = new Intent(this, SpeedGraph.class);
         startActivity(intent);
+    }
+    public void viewWeb(View v){
+        String url = "https://tricks.jumpropejam.com/";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+    public void viewContact(View v){
+        if(mAuth.getCurrentUser()!=null){
+            Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
+            startActivity(intent);
+            return;
+        }
+        else {
+            signIn();
+        }
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                    Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
+                    startActivity(intent);
+                } else {
+                    // User is signed out
+                    Log.d("Auth", "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
+    }
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Log.e("Auth","Intent: "+signInIntent.toString());
+        startActivityForResult(signInIntent,RC_SIGN_IN);
+    }
+    public void userSignOut(View v){
+        FirebaseAuth.getInstance().signOut();
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //data=Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Log.e("Auth","Intent data: "+data.toString());
+        Log.e("Auth","Request Code: "+requestCode);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.e("Auth","result success: "+result.isSuccess());
+            Log.e("Auth","result: "+result.getStatus().toString());
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+
+            } else {
+                // Google Sign In failed, update UI appropriately
+                // ...
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d("Auth", "firebaseAuthWithGoogle:" + acct.getId());
+        Log.d("Auth", "firebaseAuthWithGoogleToken:" + acct.getIdToken());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
+                        if(task.isComplete()){
+                            Toast.makeText(MainMenu.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
+                                    Toast.LENGTH_SHORT).show();
+                            viewContact(contact);
+                        }
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w("Auth", "signInWithCredential", task.getException());
+                            Toast.makeText(MainMenu.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
     }
 }

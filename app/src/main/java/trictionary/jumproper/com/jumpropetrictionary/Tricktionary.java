@@ -2,7 +2,6 @@ package trictionary.jumproper.com.jumpropetrictionary;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +30,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 
 public class Tricktionary extends ActionBarActivity{
@@ -609,9 +606,7 @@ public class Tricktionary extends ActionBarActivity{
 
     }
     public void mainMenu(View v){
-        Intent intent = new Intent(this, MainMenu.class);
         finish();
-        startActivity(intent);
     }
 
     public void startSearch(View v){

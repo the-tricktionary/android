@@ -103,6 +103,18 @@
                     android:layout_marginLeft="15dp"
                     android:onClick="viewTricktionary"
                     android:tint="@color/textColor" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView22"
+                    android:layout_alignBottom="@+id/toolbar_logo"
+                    android:layout_toStartOf="@+id/toolbar_logo"
+                    android:src="@drawable/comment"
+                    android:tint="@color/textColor"
+                    android:alpha=".75"
+                    android:padding="10dp"
+                    android:onClick="openContactDialog" />
             </RelativeLayout>
 
             <com.google.android.youtube.player.YouTubePlayerView

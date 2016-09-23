@@ -1,12 +1,14 @@
 package trictionary.jumproper.com.jumpropetrictionary;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Process;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,164 +24,186 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-
 public class ShowMainActivity extends ActionBarActivity implements Runnable {
     TextView eventName;
     Context context;
-    Button makeShow;
-
     static ArrayList<Event> showTemp;
-    TextView breaks;
     GridView showList;
-    ArrayAdapter mArrayAdapter;
     static int breakEvents;
     static ArrayList<Event> sortedShow;
-    String[]nameArray=new String[Names.showNames.size()];
-    ArrayList<Individual> individualObjects=new ArrayList<Individual>();
-    ArrayList<Pairs> pairsObjects=new ArrayList<Pairs>();
-    ArrayList<DD3> dd3Objects=new ArrayList<DD3>();
-    ArrayList<DD4> dd4Objects=new ArrayList<DD4>();
-    ArrayList<Wheel> wheelObjects=new ArrayList<Wheel>();
-    ArrayList<ThreeWheel> threeWheelObjects=new ArrayList<ThreeWheel>();
-    ArrayList<Other> otherEventObjects=new ArrayList<Other>();
-    String[]events={"Individuals:","Pairs:","Double Dutch Singles:","Double Dutch Pairs:","Wheels:","Three Wheels:","Others:"};
-    int eventIndex=0;
+    String[] nameArray = new String[Names.showNames.size()];
+    ArrayList<Individual> individualObjects = new ArrayList<Individual>();
+    ArrayList<Pairs> pairsObjects = new ArrayList<Pairs>();
+    ArrayList<DD3> dd3Objects = new ArrayList<DD3>();
+    ArrayList<DD4> dd4Objects = new ArrayList<DD4>();
+    ArrayList<Wheel> wheelObjects = new ArrayList<Wheel>();
+    ArrayList<ThreeWheel> threeWheelObjects = new ArrayList<ThreeWheel>();
+    ArrayList<Other> otherEventObjects = new ArrayList<Other>();
+    String[] events = {"Individuals:", "Pairs:", "Double Dutch Singles:", "Double Dutch Pairs:", "Wheels:", "Three Wheels:", "Others:"};
+    int eventIndex = 0;
     static ArrayList<Event> show;
-    int numNames=0;
-    String temp="";
-    String tempEvent="";
-    EditText otherEventName;
-    Button addOtherEvent;
-    Button lastEvent;
+    int numNames = 0;
+    String temp = "";
+    String tempEvent = "";
+    Button addOtherEvent, newEventButton;
+    Button lastEvent, nextEventButton;
     ShareActionProvider mShareActionProvider;
-    SharedPreferences mSharedPreferences;
+    GridView currentNames;
+    ArrayList<String> currentNameList = new ArrayList<>();
+    ArrayAdapter<String> listAdapter;
+    public static boolean showReviewed = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_main);
-        for(int j=0;j<Names.showNames.size();j++){
-            nameArray[j]=Names.showNames.get(j);
+        for (int j = 0; j < Names.showNames.size(); j++) {
+            nameArray[j] = Names.showNames.get(j);
         }
 
-        context=getApplicationContext();
-        eventName=(TextView)findViewById(R.id.event_text);
+        context = getApplicationContext();
+        eventName = (TextView) findViewById(R.id.event_text);
         eventName.setText(events[eventIndex]);
-        otherEventName=(EditText)findViewById(R.id.other_event_name);
         showList = (GridView) findViewById(R.id.nameList);
-        addOtherEvent=(Button)findViewById(R.id.add_other_event);
-        lastEvent=(Button)findViewById(R.id.last_event);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        newEventButton = (Button) findViewById(R.id.new_event_button);
+        addOtherEvent = (Button) findViewById(R.id.add_other_event);
+        lastEvent = (Button) findViewById(R.id.last_event);
+        currentNames = (GridView) findViewById(R.id.current_names);
+        nextEventButton = (Button) findViewById(R.id.next_event);
+        ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, nameArray);
-        showList.setAdapter(adapter);
+        listAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, currentNameList);
+        currentNames.setAdapter(listAdapter);
+        showList.setAdapter(gridAdapter);
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                if(eventName.getText().equals("Individuals:")){
+                if (eventName.getText().equals("Individuals:")) {
                     individualObjects.add(new Individual(nameArray[position]));
-                    CharSequence text = "Added "+nameArray[position]+" to the show.";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+                    currentNameList.add(individualObjects.get(individualObjects.size() - 1).toString());
+                    listAdapter.notifyDataSetChanged();
+                    listAdapter.notifyDataSetInvalidated();
+                    currentNames.setSelection(position);
+                    temp = "";
                 }
-                if(eventName.getText().equals("Pairs:")){
-                    if(numNames==0) {
+                if (eventName.getText().equals("Pairs:")) {
+                    if (numNames == 0) {
+                        temp = nameArray[position];
+                        Log.d("nameArray", nameArray[position]);
+                        numNames++;
+                    } else {
+                        Log.d("Pairs2", temp);
+                        pairsObjects.add(new Pairs(temp + " " + nameArray[position]));
+                        temp = "";
+                        currentNameList.add(pairsObjects.get(pairsObjects.size() - 1).toString());
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
+                        numNames = 0;
+                    }
+
+                    Log.d("PairsNameArray", nameArray[position]);
+
+                }
+                if (eventName.getText().equals("Double Dutch Singles:")) {
+                    if (numNames < 2) {
+                        temp += " " + nameArray[position];
+                        numNames++;
+                    } else {
+                        dd3Objects.add(new DD3(temp + " " + nameArray[position]));
+                        numNames = 0;
+                        temp = "";
+                        currentNameList.add(dd3Objects.get(dd3Objects.size() - 1).toString());
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
+                    }
+
+                }
+                if (eventName.getText().equals("Double Dutch Pairs:")) {
+                    if (numNames < 3) {
+                        temp += " " + nameArray[position];
+                        numNames++;
+                    } else {
+                        dd4Objects.add(new DD4(temp + " " + nameArray[position]));
+                        numNames = 0;
+                        temp = "";
+                        currentNameList.add(dd4Objects.get(dd4Objects.size() - 1).toString());
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
+                    }
+
+                }
+                if (eventName.getText().equals("Wheels:")) {
+                    if (numNames == 0) {
                         temp = nameArray[position];
                         numNames++;
-                    }
-                    else{
-                        pairsObjects.add(new Pairs(temp+" "+nameArray[position]));
-
-                        CharSequence text = "Added "+pairsObjects.get(pairsObjects.size()-1).getName()+" to the show.";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        numNames=0;
-                        temp="";
+                    } else {
+                        wheelObjects.add(new Wheel(temp + " " + nameArray[position]));
+                        numNames = 0;
+                        temp = "";
+                        currentNameList.add(wheelObjects.get(wheelObjects.size() - 1).toString());
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
                     }
 
                 }
-                if(eventName.getText().equals("Double Dutch Singles:")){
-                    if(numNames<2) {
-                        temp += " "+nameArray[position];
+                if (eventName.getText().equals("Three Wheels:")) {
+                    if (numNames < 2) {
+                        temp += " " + nameArray[position];
                         numNames++;
-                    }
-                    else{
-                        dd3Objects.add(new DD3(temp+" "+nameArray[position]));
-
-                        CharSequence text = "Added "+dd3Objects.get(dd3Objects.size()-1).getName()+" to the show.";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        numNames=0;
-                        temp="";
+                    } else {
+                        threeWheelObjects.add(new ThreeWheel(temp + " " + nameArray[position]));
+                        numNames = 0;
+                        temp = "";
+                        currentNameList.add(threeWheelObjects.get(threeWheelObjects.size() - 1).toString());
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                        currentNames.setSelection(position);
                     }
 
-                }
-                if(eventName.getText().equals("Double Dutch Pairs:")){
-                    if(numNames<3) {
-                        temp += " "+nameArray[position];
-                        numNames++;
-                    }
-                    else{
-                        dd4Objects.add(new DD4(temp+" "+nameArray[position]));
-
-                        CharSequence text = "Added "+dd4Objects.get(dd4Objects.size()-1).getName()+" to the show.";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        numNames=0;
-                        temp="";
-                    }
-
-                }
-                if(eventName.getText().equals("Wheels:")){
-                    if(numNames==0) {
-                        temp=nameArray[position];
-                        numNames++;
-                    }
-                    else{
-                        wheelObjects.add(new Wheel(temp+" "+nameArray[position]));
-
-                        CharSequence text = "Added "+wheelObjects.get(wheelObjects.size()-1).getName()+" to the show.";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        numNames=0;
-                        temp="";
-                    }
-
-                }
-                if(eventName.getText().equals("Three Wheels:")){
-                    if(numNames<2) {
-                        temp+=" "+nameArray[position];
-                        numNames++;
-                    }
-                    else{
-                        threeWheelObjects.add(new ThreeWheel(temp+" "+nameArray[position]));
-
-                        CharSequence text = "Added "+threeWheelObjects.get(threeWheelObjects.size()-1).getName()+" to the show.";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        numNames=0;
-                        temp="";
-                    }
-
-                }
-                if(eventName.getText().equals("Others:")){
-                    temp+=" "+nameArray[position];
-
+                } else if ((newEventButton.getVisibility() == View.VISIBLE) || (addOtherEvent.getVisibility() == View.VISIBLE)) {
+                    temp += " " + nameArray[position];
+                    currentNameList.add(nameArray[position]);
+                    listAdapter.notifyDataSetChanged();
+                    listAdapter.notifyDataSetInvalidated();
+                    currentNames.setSelection(position);
                 }
 
             }
         });
+        currentNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,final int i, long l) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ShowMainActivity.this);
+                alertDialogBuilder
+                        .setTitle("Remove Event")
+                        .setMessage("Would you like to remove "+adapterView.getItemAtPosition(i).toString()+"?")
+                        .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentNameList.remove(i);
+                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetInvalidated();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (showReviewed) {
+            run();
+            showReviewed = false;
+        }
     }
 
     @Override
@@ -194,7 +218,7 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         // Access the object responsible for
         // putting together the sharing submenu
         //if (shareItem != null) {
-            //mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        //mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
         //}
 
         // Create an Intent to share your content
@@ -202,6 +226,7 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
 
         return true;
     }
+
     private void setShareIntent() {
 
         if (mShareActionProvider != null) {
@@ -232,13 +257,12 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
 
         return super.onOptionsItemSelected(item);
     }
-    public void onClick(View v){
 
-    }
-    public void run(){
+
+    public void run() {
 
         // Moves the current Thread into the background
-        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
+        //Process.setThreadPriority(Process.THREAD_PRIORITY_MORE_FAVORABLE);
 
       /*  individuals = getNames("*Dylan, Ridge, Drew, Sarah, Olivia, Ally,Tobin, Alex, Max, Katie, Brittany, Jeress, Adam,");
         pairs = getNames("Dylan Ridge, Drew Sarah, Olivia Ally, Chris Ryan,Nick Jeff,Brittany Alex, Adam Lindsey, Sean Singyi, Katie Jeress,");
@@ -250,23 +274,23 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
 */
 
         int numRestarts = 0;
-        int totalNumRestarts=0;
+        int totalNumRestarts = 0;
         showTemp = fillShowArray(individualObjects, pairsObjects, dd3Objects, dd4Objects, wheelObjects, threeWheelObjects, otherEventObjects); //returned if sortShow fails to find a show
-        breakEvents=3;
-        int firstEventIndex=0;
-        for(int i=0;i<showTemp.size();i++){
-            if(showTemp.get(i).toString().contains("*")){
+        breakEvents = 3;
+        int firstEventIndex = 0;
+        for (int i = 0; i < showTemp.size(); i++) {
+            if (showTemp.get(i).toString().contains("*")) {
                 showTemp.get(i).setName(showTemp.get(i).getName().substring(1));
-                firstEventIndex=i;
+                firstEventIndex = i;
             }
         }
         while (showTemp.equals(fillShowArray(individualObjects, pairsObjects, dd3Objects, dd4Objects, wheelObjects, threeWheelObjects, otherEventObjects))) { //runs until sortShow can make a show
-            if(showTemp.size()<3){
+            if (showTemp.size() < 3) {
                 break;
             }
             show = new ArrayList<Event>();
-            show = sortShow(individualObjects, pairsObjects, dd3Objects, dd4Objects, wheelObjects, threeWheelObjects, otherEventObjects, breakEvents,context, firstEventIndex);
-            showTemp=show;
+            show = sortShow(individualObjects, pairsObjects, dd3Objects, dd4Objects, wheelObjects, threeWheelObjects, otherEventObjects, breakEvents, context, firstEventIndex);
+            showTemp = show;
             if (numRestarts > 10) { //number of times to try to make a show before reducing breakEvents
                 breakEvents--;
                 numRestarts = 0;
@@ -276,24 +300,21 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                 totalNumRestarts++;
             }
         }
-        sortedShow=show;
-        CharSequence text = "It only took "+totalNumRestarts+" tries to sort this show!";
+        sortedShow = show;
+        CharSequence text = "It only took " + totalNumRestarts + " tries to sort this show!";
         int duration = Toast.LENGTH_LONG;
 
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(ShowMainActivity.this, text, duration);
         toast.show();
-
-
-    }
-    public void makeShow(View v){
-
-        run();
 
         Intent intent = new Intent(this, Show.class);
         startActivity(intent);
+
+
     }
+
+
     /**
-     *
      * @param input, a String consisting of names
      * @return an ArrayList<String> containing the names each in different positions
      */
@@ -318,13 +339,12 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     }
 
     /**
-     *
      * @param individuals A List of Individual objects
-     * @param pairs A list of Pairs objects
-     * @param dd3 A list of DD3 objects
-     * @param dd4 A list of DD4 objects
-     * @param wheel A list of Wheel objects
-     * @param threeWheel A list of ThreeWheel objects
+     * @param pairs       A list of Pairs objects
+     * @param dd3         A list of DD3 objects
+     * @param dd4         A list of DD4 objects
+     * @param wheel       A list of Wheel objects
+     * @param threeWheel  A list of ThreeWheel objects
      * @param otherEvents A list of Other objects
      * @param breakEvents The minimum amount of break events any jumper will have in the final show
      * @return An ArrayList<Event> containing Event objects in an order so that no Event objects is within breakEvent indexes from an Event of the same type or containing the same people.
@@ -354,7 +374,7 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                 showSorted.add(show.remove(random.nextInt(show.size()))); //adds the first element of show to showSorted
             }
             temp = show.remove(random.nextInt(show.size()));
-            if (isSameEvent(numBreakEvents, temp, showSorted)){ //if temp is not the same event type, and does not have the same people in it as the events before it
+            if (isSameEvent(numBreakEvents, temp, showSorted)) { //if temp is not the same event type, and does not have the same people in it as the events before it
                 showSorted.add(temp); //add it to showSorted
             } else {
                 show.add(temp); //otherwise add it back to show
@@ -364,13 +384,12 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     }
 
     /**
-     *
      * @param individuals A List of Individual objects
-     * @param pairs A list of Pairs objects
-     * @param dd3 A list of DD3 objects
-     * @param dd4 A list of DD4 objects
-     * @param wheel A list of Wheel objects
-     * @param threeWheel A list of ThreeWheel objects
+     * @param pairs       A list of Pairs objects
+     * @param dd3         A list of DD3 objects
+     * @param dd4         A list of DD4 objects
+     * @param wheel       A list of Wheel objects
+     * @param threeWheel  A list of ThreeWheel objects
      * @param otherEvents A list of Other objects
      * @return A List containing all of the events in the parameter lists in the order that they appear in those lists
      */
@@ -404,11 +423,10 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     }
 
     /**
-     *
      * @param a The current event being sorted
      * @param b The event that comes before a that it will be compared to
      * @return True if Events a and b do not contain any of the same people.
-     *         False if Event a and b contain any of the same people.
+     * False if Event a and b contain any of the same people.
      */
     public static boolean haveSameNames(Event a, Event b) {
         ArrayList<String> aList = a.separateNames();
@@ -425,12 +443,11 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
     }
 
     /**
-     *
-     * @param n amount of previous indexes in showSorted to compare temp to
-     * @param temp current event being sorted in show into showSorted
+     * @param n          amount of previous indexes in showSorted to compare temp to
+     * @param temp       current event being sorted in show into showSorted
      * @param showSorted the sorted show so far
      * @return True if temp and all of the Events checked in showSorted are different events
-     *        False if temp and any of the Events checked in showSorted contain any of the same names, or are of the same event type
+     * False if temp and any of the Events checked in showSorted contain any of the same names, or are of the same event type
      */
     public static boolean isSameEvent(int n, Event temp, ArrayList<Event> showSorted) {
         int i;
@@ -447,44 +464,117 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
         }
         return acc;
     }
-    public static String getBreakEvents(){
-        String breaks=""+(breakEvents);
+
+    public static String getBreakEvents() {
+        String breaks = "" + (breakEvents);
         return breaks;
     }
-    public void nextEvent(View v){
-        eventName.setText(events[eventIndex+1]);
-        if(eventIndex!=0){
-            lastEvent.setVisibility(View.VISIBLE);
+
+    public void nextEvent(View v) {
+        currentNameList.clear();
+        temp = "";
+        if (eventIndex == events.length - 1) {
+            return;
+        } else {
+            eventName.setText(events[eventIndex + 1]);
+            populateNameList(events[eventIndex + 1]);
+            eventIndex++;
+            if (eventName.getText().equals("Others:")) {
+                newEventButton.setVisibility(View.VISIBLE);
+            }
         }
-        if (eventName.getText().equals("Others:")){
-            otherEventName.setVisibility(View.VISIBLE);
-            addOtherEvent.setVisibility(View.VISIBLE);
-            findViewById(R.id.next_event).setVisibility(View.GONE);
-            findViewById(R.id.review_events).setVisibility(View.VISIBLE);
-        }
-        eventIndex++;
     }
-    public void lastEvent(View v){
-        eventName.setText(events[eventIndex - 1]);
-        if (eventIndex==0)
-            lastEvent.setVisibility(View.GONE);
+
+    public void lastEvent(View v) {
+        currentNameList.clear();
+        temp = "";
+        if (eventIndex == 0)
+            return;
+        else {
+            eventName.setText(events[eventIndex - 1]);
+            populateNameList(events[eventIndex - 1]);
+            newEventButton.setVisibility(View.INVISIBLE);
+            addOtherEvent.setVisibility(View.INVISIBLE);
+            eventIndex--;
+        }
+    }
+
+    public void populateNameList(String event){
+        ArrayList<? extends Event> objects=new ArrayList<>();
+        if(event.equals("Individuals:")){
+            objects=individualObjects;
+        }
+        else if(event.equals("Pairs:")){
+            objects=pairsObjects;
+        }
+        else if(event.equals("Double Dutch Singles:")){
+            objects=dd3Objects;
+        }
+        else if(event.equals("Double Dutch Pairs:")){
+            objects=dd4Objects;
+        }
+        else if(event.equals("Wheels:")){
+            objects=wheelObjects;
+        }
+        else if(event.equals("Three Wheels:")){
+            objects=threeWheelObjects;
+        }
+        for(int j=0;j<objects.size();j++){
+            currentNameList.add(objects.get(j).toString());
+        }
+        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetInvalidated();
 
     }
-    public void addOtherEventToShow(View v){
-        tempEvent=otherEventName.getText().toString();
-        otherEventObjects.add(new Other(temp,tempEvent));
-        CharSequence text = "Added "+otherEventObjects.get(otherEventObjects.size()-1).toString()+" to the show.";
-        int duration = Toast.LENGTH_SHORT;
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-        tempEvent="";
-        temp="";
-        otherEventName.setText("");
+    public void addOtherEventToShow(View v) {
+        currentNameList.clear();
+        tempEvent = eventName.getText().toString();
+        otherEventObjects.add(new Other(temp, tempEvent));
+        tempEvent = "";
+        temp = "";
+        v.setVisibility(View.INVISIBLE);
+        newEventButton.setVisibility(View.VISIBLE);
+        currentNameList.add(otherEventObjects.get(otherEventObjects.size() - 1).toString());
+        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetInvalidated();
+        currentNames.setSelection(otherEventObjects.size() - 1);
+        eventName.setText("Others:");
     }
-    public void reviewEvents(View v){
-        show=fillShowArray(individualObjects, pairsObjects, dd3Objects, dd4Objects, wheelObjects, threeWheelObjects, otherEventObjects);
+
+    public void reviewEvents(View v) {
+        show = fillShowArray(individualObjects, pairsObjects, dd3Objects, dd4Objects, wheelObjects, threeWheelObjects, otherEventObjects);
         Intent intent = new Intent(this, UnsortedShow.class);
         startActivity(intent);
+    }
+
+    public void newEvent(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this); //new alert dialog
+        builder.setTitle("New Event"); //dialog title
+        LayoutInflater inflater = (LayoutInflater) ShowMainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+        final View textBoxes = inflater.inflate(R.layout.new_event, null); //custom layout file now a view object
+        builder.setView(textBoxes); //set view to custom layout
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText newEventName = (EditText) textBoxes.findViewById(R.id.event_name);
+                eventName.setText(newEventName.getText().toString());
+                newEventButton.setVisibility(View.INVISIBLE);
+                addOtherEvent.setVisibility(View.VISIBLE);
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+    public void back(View v){
+        finish();
     }
 }

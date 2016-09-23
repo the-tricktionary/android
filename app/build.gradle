@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0" //check for newest
+    buildToolsVersion "24.0.1" //check for newest
     defaultConfig {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 17
-        versionName "2.11"
+        versionCode 20
+        versionName "2.14"
         multiDexEnabled false
 
     }
@@ -47,11 +47,11 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.2.9@aar') {
         transitive = true
     }
-    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:support-v4:24.2.0'
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
     compile 'com.google.firebase:firebase-core:9.4.0'
     compile 'com.google.firebase:firebase-database:9.4.0'
     compile 'com.google.firebase:firebase-ads:9.4.0'
