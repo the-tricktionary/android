@@ -251,6 +251,11 @@ public class Submit extends AppCompatActivity {
             Toast.makeText(Submit.this,"You must select a video first.",Toast.LENGTH_SHORT).show();
             return;
         }
+        else if (mAuth.getCurrentUser()==null){
+            Intent intent = new Intent(this, SignIn.class);
+            startActivity(intent);
+            return;
+        }
         name=trickName.getText().toString();
         description=trickDescription.getText().toString();
         level=trickLevel.getText().toString();

@@ -15,7 +15,9 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="23" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
 
     <application
@@ -113,10 +115,10 @@
         <activity android:name=".SpeedDataSelect" />
         <activity android:name=".Rafiki" />
         <activity android:name=".ContactActivity" />
-        <activity android:name=".Submit"
-                  android:windowSoftInputMode="stateHidden">
-
-        </activity>
+        <activity
+            android:name=".Submit"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".SignIn"></activity>
     </application>
 
 </manifest>
