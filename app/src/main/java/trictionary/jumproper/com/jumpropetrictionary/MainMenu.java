@@ -77,9 +77,9 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.main_menu_toolbar_layout);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TrickData.getTricktionaryData();
         toolbar.setTitle("Jump Rope Tricktionary");
         setSupportActionBar(toolbar);
+        TrickData.getTricktionaryData();
 
 
 

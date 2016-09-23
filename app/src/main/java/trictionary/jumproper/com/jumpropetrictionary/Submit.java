@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,9 +31,18 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class Submit extends AppCompatActivity {
     static final int REQUEST_VIDEO_CAPTURE = 1;
+    static final int REQUEST_GALLERY_VIDEO = 2;
     private VideoView myVideoView;
     EditText trickName,trickDescription,trickLevel;
     private Uri videoUri;
@@ -52,7 +62,10 @@ public class Submit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_submit);
+        setContentView(R.layout.submit_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Submit Tricks");
+        setSupportActionBar(toolbar);
         //make sure device has a camera
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             Toast.makeText(this,"Sorry, you need a camera to submit tricks!", Toast.LENGTH_SHORT).show();
@@ -91,6 +104,95 @@ public class Submit extends AppCompatActivity {
         mBuilder.setContentTitle("Uploading Trick")
                 .setContentText("Upload in progress...")
                 .setSmallIcon(R.drawable.icon_notify);
+
+        new DrawerBuilder().withActivity(this).build();
+        PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
+        PrimaryDrawerItem tricktionaryItem=new PrimaryDrawerItem().withName("Tricktionary");
+        PrimaryDrawerItem speedItem=new PrimaryDrawerItem().withName("Speed Timer");
+        PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
+        PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
+        PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
+        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
+
+
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.background)
+
+                .addProfiles(
+                        new ProfileDrawerItem()
+                                .withName("Jump Rope Tricktionary")
+                                .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
+                                .withNameShown(false)
+                                .withEnabled(true)
+
+                )
+                .withOnlyMainProfileImageVisible(true)
+                .withPaddingBelowHeader(true)
+                .build();
+
+
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .addDrawerItems(
+                        mainMenuItem,
+                        new DividerDrawerItem(),
+                        tricktionaryItem,
+                        new DividerDrawerItem(),
+                        speedItem,
+                        new DividerDrawerItem(),
+                        randomTrickItem,
+                        new DividerDrawerItem(),
+                        showWriterItem,
+                        new DividerDrawerItem(),
+                        settingsItem,
+                        new DividerDrawerItem(),
+                        rafikiItem
+                )
+                .withSelectedItem(-1)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if(position==0){
+                            Intent intent = new Intent(Submit.this, MainMenu.class);
+                            startActivity(intent);
+                        }
+                        if(position==1){
+                            Intent intent = new Intent(Submit.this, MainMenu.class);
+                            startActivity(intent);
+                        }
+                        else if(position==3) {
+                            Intent intent = new Intent(Submit.this, Tricktionary.class);
+                            startActivity(intent);
+                        }
+                        else if(position==5){
+                            Intent intent = new Intent(Submit.this, Speed.class);
+                            startActivity(intent);
+                        }
+                        else if(position==7){
+                            TrickList.index=((int)(Math.random()*MainActivity.getTricktionaryLength()));
+                            Intent intent = new Intent(Submit.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==9){
+                            Intent intent = new Intent(Submit.this, Names.class);
+                            startActivity(intent);
+                        }
+                        else if(position==11){
+                            Intent intent = new Intent(Submit.this, SettingsActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(position==13){
+                            Intent intent = new Intent(Submit.this, Rafiki.class);
+                            startActivity(intent);
+                        }
+                        return true;
+                    }
+                })
+                .build();
+        toolbar.setTitle("Submit Tricks");
     }
     private void dispatchTakeVideoIntent() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -98,9 +200,35 @@ public class Submit extends AppCompatActivity {
             startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }
+    private void dispatchVideoFromGalleryIntent(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("video/*");
+
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_GALLERY_VIDEO);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            myVideoView.setVisibility(View.VISIBLE);
+            videoUri = data.getData();
+            myVideoView.setVideoURI(videoUri);
+            myVideoView.requestFocus();
+            //we also set an setOnPreparedListener in order to know when the video file is ready for playback
+            myVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    mediaPlayer.setLooping(true);
+                    myVideoView.seekTo((int)(Math.random()*myVideoView.getDuration()));
+                    myVideoView.start();
+
+
+                }
+
+            });
+        }
+        else if (requestCode == REQUEST_GALLERY_VIDEO && resultCode == RESULT_OK) {
+            myVideoView.setVisibility(View.VISIBLE);
             videoUri = data.getData();
             myVideoView.setVideoURI(videoUri);
             myVideoView.requestFocus();
@@ -136,6 +264,15 @@ public class Submit extends AppCompatActivity {
                 .build();
         UploadTask uploadTask=uploadRef.putFile(videoUri,metadata);
         fileSize=uploadTask.getSnapshot().getTotalByteCount();
+        if(fileSize>100*1024*1024){
+            Toast.makeText(Submit.this,"Sorry this video is too large.  The maximum size is 100Mb and your video is "+(fileSize/(1024*1024))+"Mb",Toast.LENGTH_LONG).show();
+            Intent intent = getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            startActivity(intent);
+            return;
+        }
+        Toast.makeText(Submit.this,"Starting upload.  You can see its progress in the notification bar.",Toast.LENGTH_LONG).show();
         mBuilder.setProgress((int)fileSize, 0, false);
         mNotifyManager.notify(notifyId, mBuilder.build()); //display notification
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -166,6 +303,12 @@ public class Submit extends AppCompatActivity {
 
 
     }
+    public void recordVideo(View v){
+        dispatchTakeVideoIntent();
+    }
+    public void selectVideo(View v){
+        dispatchVideoFromGalleryIntent();
+    }
     public void getPermission(){
         // Here, thisActivity is the current activity
         if ((ContextCompat.checkSelfPermission(Submit.this,
@@ -181,7 +324,7 @@ public class Submit extends AppCompatActivity {
                         MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
         else{
-            dispatchTakeVideoIntent();
+            return;
         }
     }
     @Override
@@ -195,7 +338,7 @@ public class Submit extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    dispatchTakeVideoIntent();
+                    return;
 
                 } else {
 
