@@ -113,7 +113,10 @@
         <activity android:name=".SpeedDataSelect" />
         <activity android:name=".Rafiki" />
         <activity android:name=".ContactActivity" />
-        <activity android:name=".Submit"></activity>
+        <activity android:name=".Submit"
+                  android:windowSoftInputMode="stateHidden">
+
+        </activity>
     </application>
 
 </manifest>

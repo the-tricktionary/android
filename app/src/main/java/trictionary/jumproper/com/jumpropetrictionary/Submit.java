@@ -247,10 +247,18 @@ public class Submit extends AppCompatActivity {
         }
     }
     public void startUpload(View v){
-        v.setVisibility(View.INVISIBLE);
+        if(videoUri==null){
+            Toast.makeText(Submit.this,"You must select a video first.",Toast.LENGTH_SHORT).show();
+            return;
+        }
         name=trickName.getText().toString();
         description=trickDescription.getText().toString();
         level=trickLevel.getText().toString();
+        if(name.equals("")){
+            Toast.makeText(Submit.this,"Please enter a name.  The other fields are optional.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        v.setVisibility(View.INVISIBLE);
         Log.e("Upload","URI "+videoUri.getPath()+" "+videoUri.getAuthority());
         StorageReference uploadRef=storageRef.child("submit").child("trick_"+System.currentTimeMillis());
         Log.e("Upload","Path "+uploadRef.getPath());
@@ -298,6 +306,7 @@ public class Submit extends AppCompatActivity {
                 mBuilder.setContentText("Upload complete, thank you!");
                 mNotifyManager.notify(notifyId, mBuilder.build()); //display notification
                 Toast.makeText(Submit.this,"Thank you for your submission! We will review it as soon as possible!",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

@@ -27,7 +27,7 @@
                 android:layout_gravity="center_horizontal|top"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:singleLine="true"
-                android:textSize="30dp"
+                android:textSize="25dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
@@ -243,10 +243,11 @@
                 android:src="@drawable/ic_ab_back_material"
                 android:padding="20dp"
                 android:alpha=".75"
-                android:scaleType="fitXY"
+                android:scaleType="center"
                 android:onClick="mainMenu"
                 android:layout_alignTop="@+id/tricktionary_title"
-                android:layout_toStartOf="@+id/tricktionary_title" />
+                android:layout_above="@+id/textView"
+                android:layout_alignStart="@+id/textView" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -301,7 +302,8 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:padding="2dp" />
+                    android:padding="2dp"
+                    android:singleLine="true" />
             </RelativeLayout>
 
         </RelativeLayout>
