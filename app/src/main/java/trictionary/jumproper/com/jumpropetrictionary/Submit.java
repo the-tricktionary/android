@@ -90,7 +90,7 @@ public class Submit extends AppCompatActivity {
         mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setContentTitle("Uploading Trick")
                 .setContentText("Upload in progress...")
-                .setSmallIcon(R.drawable.icon_alpha);
+                .setSmallIcon(R.drawable.icon_notify);
     }
     private void dispatchTakeVideoIntent() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
