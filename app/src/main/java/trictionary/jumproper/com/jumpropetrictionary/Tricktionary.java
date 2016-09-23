@@ -613,5 +613,9 @@ public class Tricktionary extends ActionBarActivity{
         Intent intent = new Intent(this, SearchTricks.class);
         startActivity(intent);
     }
+    public void submitTrick(View v){
+        Intent intent = new Intent(this, Submit.class);
+        startActivity(intent);
+    }
 }
 

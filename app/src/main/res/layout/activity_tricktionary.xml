@@ -27,7 +27,7 @@
                 android:layout_gravity="center_horizontal|top"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:singleLine="true"
-                android:textSize="40dp"
+                android:textSize="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
@@ -252,12 +252,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView14"
                 android:layout_alignBottom="@+id/textView5"
-                android:layout_toEndOf="@+id/textView5"
                 android:src="@drawable/ic_search_api_material"
                 android:layout_alignTop="@+id/textView5"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:tint="#ffffff"
-                android:onClick="startSearch" />
+                android:onClick="startSearch"
+                android:layout_alignEnd="@+id/relativeLayout"
+                android:layout_toEndOf="@+id/textView5" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -267,6 +268,41 @@
                 android:layout_centerHorizontal="true"
                 android:padding="50dp"
                 android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/tricktionary_title"
+                android:layout_toEndOf="@+id/tricktionary_title"
+                android:layout_alignBottom="@+id/tricktionary_title"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/relativeLayout"
+                android:onClick="submitTrick">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView31"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/upload"
+                    android:tint="@android:color/white"
+                    android:layout_above="@+id/textView20"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:id="@+id/textView20"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:padding="2dp" />
+            </RelativeLayout>
 
         </RelativeLayout>
     </ScrollView>
