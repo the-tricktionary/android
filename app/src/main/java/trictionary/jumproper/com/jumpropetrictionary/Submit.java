@@ -33,14 +33,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class Submit extends AppCompatActivity {
     static final int REQUEST_VIDEO_CAPTURE = 1;
@@ -62,12 +54,14 @@ public class Submit extends AppCompatActivity {
     private NotificationCompat.Builder mBuilder;
     int notifyId = 1;
     private long fileSize;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submit_toolbar);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Submit Tricks");
         setSupportActionBar(toolbar);
         //make sure device has a camera
@@ -110,96 +104,17 @@ public class Submit extends AppCompatActivity {
         mBuilder.setContentTitle("Uploading Trick")
                 .setContentText("Upload in progress...")
                 .setSmallIcon(R.drawable.icon_notify);
+        DrawerCreate drawer=new DrawerCreate();
+        drawer.makeDrawer(this, this, mAuth, toolbar, "Submit tricks");
 
-        new DrawerBuilder().withActivity(this).build();
-        PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
-        PrimaryDrawerItem tricktionaryItem=new PrimaryDrawerItem().withName("Tricktionary");
-        PrimaryDrawerItem speedItem=new PrimaryDrawerItem().withName("Speed Timer");
-        PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
-        PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
-        PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
-        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
-
-
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.background)
-
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withName("Jump Rope Tricktionary")
-                                .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
-                                .withNameShown(false)
-                                .withEnabled(true)
-
-                )
-                .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(true)
-                .build();
-
-
-        Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withAccountHeader(headerResult)
-                .addDrawerItems(
-                        mainMenuItem,
-                        new DividerDrawerItem(),
-                        tricktionaryItem,
-                        new DividerDrawerItem(),
-                        speedItem,
-                        new DividerDrawerItem(),
-                        randomTrickItem,
-                        new DividerDrawerItem(),
-                        showWriterItem,
-                        new DividerDrawerItem(),
-                        settingsItem,
-                        new DividerDrawerItem(),
-                        rafikiItem
-                )
-                .withSelectedItem(-1)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(position==0){
-                            Intent intent = new Intent(Submit.this, MainMenu.class);
-                            startActivity(intent);
-                        }
-                        if(position==1){
-                            Intent intent = new Intent(Submit.this, MainMenu.class);
-                            startActivity(intent);
-                        }
-                        else if(position==3) {
-                            Intent intent = new Intent(Submit.this, Tricktionary.class);
-                            startActivity(intent);
-                        }
-                        else if(position==5){
-                            Intent intent = new Intent(Submit.this, Speed.class);
-                            startActivity(intent);
-                        }
-                        else if(position==7){
-                            TrickList.index=((int)(Math.random()*MainActivity.getTricktionaryLength()));
-                            Intent intent = new Intent(Submit.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else if(position==9){
-                            Intent intent = new Intent(Submit.this, Names.class);
-                            startActivity(intent);
-                        }
-                        else if(position==11){
-                            Intent intent = new Intent(Submit.this, SettingsActivity.class);
-                            startActivity(intent);
-                        }
-                        else if(position==13){
-                            Intent intent = new Intent(Submit.this, Rafiki.class);
-                            startActivity(intent);
-                        }
-                        return true;
-                    }
-                })
-                .build();
-        toolbar.setTitle("Submit Tricks");
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+    }
+
     private void dispatchTakeVideoIntent() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {

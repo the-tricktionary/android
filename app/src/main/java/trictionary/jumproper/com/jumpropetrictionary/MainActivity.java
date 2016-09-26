@@ -31,7 +31,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -53,14 +52,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
     //declare text views
@@ -178,91 +169,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         scaleText(prereqs,7);
         scaleText(nextTricks,7);
 
-        new DrawerBuilder().withActivity(this).build();
-        PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
-        PrimaryDrawerItem tricktionaryItem=new PrimaryDrawerItem().withName("Tricktionary");
-        PrimaryDrawerItem speedItem=new PrimaryDrawerItem().withName("Speed Timer");
-        PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
-        PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
-        PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
-        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
-
-
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.background)
-
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withName("Jump Rope Tricktionary")
-                                .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
-                )
-                .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(true)
-                .build();
-
-        Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withAccountHeader(headerResult)
-                .addDrawerItems(
-                        mainMenuItem,
-                        new DividerDrawerItem(),
-                        tricktionaryItem,
-                        new DividerDrawerItem(),
-                        speedItem,
-                        new DividerDrawerItem(),
-                        randomTrickItem,
-                        new DividerDrawerItem(),
-                        showWriterItem,
-                        new DividerDrawerItem(),
-                        settingsItem,
-                        new DividerDrawerItem(),
-                        rafikiItem
-
-                )
-                .withSelectedItem(-1)
-
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(position==0){
-                            Intent intent = new Intent(MainActivity.this, MainMenu.class);
-                            startActivity(intent);
-                        }
-                        if(position==1){
-                            Intent intent = new Intent(MainActivity.this, MainMenu.class);
-                            startActivity(intent);
-                        }
-                        else if(position==3) {
-                            Intent intent = new Intent(MainActivity.this, Tricktionary.class);
-                            startActivity(intent);
-                        }
-                        else if(position==5){
-                            Intent intent = new Intent(MainActivity.this, Speed.class);
-                            startActivity(intent);
-                        }
-                        else if(position==7){
-                            TrickList.index=((int)(Math.random()*MainActivity.getTricktionaryLength()));
-                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else if(position==9){
-                            Intent intent = new Intent(MainActivity.this, Names.class);
-                            startActivity(intent);
-                        }
-                        else if(position==11){
-                            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                            startActivity(intent);
-                        }
-                        else if(position==13){
-                            Intent intent = new Intent(MainActivity.this, Rafiki.class);
-                            startActivity(intent);
-                        }
-                        return true;
-                    }
-                })
-                .build();
+        DrawerCreate drawer=new DrawerCreate();
+        drawer.makeDrawer(this, this, mAuth, toolbar, tricktionary[trickIndex].getName());
 
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
