@@ -36,16 +36,6 @@
 
     </RelativeLayout>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2959515976305980/8230932268"
-        android:visibility="visible">
-    </com.google.android.gms.ads.AdView>
 
     <ImageView
         android:layout_width="wrap_content"

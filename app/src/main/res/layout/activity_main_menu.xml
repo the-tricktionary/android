@@ -134,10 +134,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/view_trick_tree"
             android:padding="10dp"
-            android:layout_marginTop="20sp"
-            android:layout_marginBottom="20sp" />
+            android:layout_alignTop="@+id/settings"
+            android:layout_alignBottom="@+id/settings"
+            android:layout_marginBottom="20dp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -153,9 +153,9 @@
             android:padding="10dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/view_showmaker"
-            android:layout_marginTop="20sp"
-            android:layout_marginBottom="20sp" />
+            android:layout_marginBottom="20sp"
+            android:layout_alignTop="@+id/settings"
+            android:layout_alignBottom="@+id/settings" />
 
         <ImageView
             android:layout_width="wrap_content"

@@ -9,8 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,13 +20,6 @@ public class TreeVisual extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tree_visual);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("8E77428ECEC6F34EF9CE7FD2B3D942C2")
-                .addTestDevice("9F2CF3A3F15E84C980EF6902242BE25C")
-                .build();
-        mAdView.loadAd(adRequest);
         initTrickTree();
 
     }

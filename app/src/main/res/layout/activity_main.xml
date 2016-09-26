@@ -272,16 +272,6 @@
         android:layout_toEndOf="@+id/space2"
         android:layout_marginLeft="30dp" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2959515976305980/2055777865"
-        android:visibility="gone">
-    </com.google.android.gms.ads.AdView>
 
     <ImageView
         android:layout_width="wrap_content"

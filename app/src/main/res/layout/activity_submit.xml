@@ -13,202 +13,207 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="@drawable/background">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/video_metadata"
+        android:layout_alignParentTop="true"
+        android:id="@+id/submit_info">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ScrollView
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:id="@+id/space6"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scrollView7"
-            android:layout_above="@+id/video_metadata"
-            android:layout_alignParentTop="true">
+            android:text="Record Video"
+            android:id="@+id/textView24"
+            android:background="@drawable/rounded_corner_shadow"
+            android:alpha=".75"
+            android:padding="10dp"
+                android:layout_toEndOf="@+id/space6"
+            android:layout_marginLeft="20dp"
+            android:clickable="true"
+            android:onClick="recordVideo" />
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From Gallery"
+            android:id="@+id/textView25"
+                android:layout_toStartOf="@+id/textView24"
+            android:background="@drawable/rounded_corner_shadow"
+            android:alpha=".75"
+            android:padding="10dp"
+            android:layout_marginRight="20dp"
+            android:clickable="true"
+            android:onClick="selectVideo" />
+
+            <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView32"
+            android:layout_below="@+id/textView25"
+            android:layout_alignStart="@+id/textView25"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_alignEnd="@+id/textView25"
+            android:padding="10dp"
+            android:onClick="selectVideo" />
+
+            <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView33"
+            android:layout_below="@+id/textView24"
+            android:layout_alignStart="@+id/textView24"
+            android:src="@android:drawable/ic_menu_camera"
+            android:layout_alignEnd="@+id/textView24"
+            android:padding="10dp"
+            android:onClick="recordVideo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n-Please record your videos in landscape\n-Your videos can be no larger than 100Mb\n-If you are able to record in slow motion please do!\n-Please keep your recording as stable as possible, or set up your camera\n-Try to find a plain background that contrasts the color of your rope"
+                android:id="@+id/textView26"
+                android:layout_below="@+id/imageView32"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <VideoView
+    android:id="@+id/video_view"
+    android:layout_width="fill_parent"
+    android:layout_alignParentLeft="false"
+    android:layout_alignParentRight="false"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="false"
+        android:layout_above="@+id/video_metadata" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/video_metadata"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/video_view"
+            android:layout_centerHorizontal="true"
+            android:alpha=".75"
+            android:padding="10dp"
+            android:background="@drawable/rounded_corner_shadow">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trick Name:"
+                android:id="@+id/textView21"
+                android:textSize="16dp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/trick_name"
+                android:layout_gravity="center_horizontal"
+                android:hint="Name (Required)"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Decription:"
+                android:id="@+id/textView22"
+                android:textSize="16dp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/trick_description"
+                android:layout_gravity="center_horizontal"
+                android:hint="Description (Optional)" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level:"
+                android:id="@+id/textView23"
+                android:textSize="16dp"
+                android:textColor="@android:color/black" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/trick_level"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/space7"
+                    android:hint="(Optional)"
+                    android:layout_alignTop="@+id/trick_org" />
 
                 <Space
                     android:layout_width="20px"
                     android:layout_height="20px"
-                    android:id="@+id/space6"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Record Video"
-                android:id="@+id/textView24"
-                android:background="@drawable/rounded_corner_shadow"
-                android:alpha=".75"
-                android:padding="10dp"
-                    android:layout_toEndOf="@+id/space6"
-                android:layout_marginLeft="20dp"
-                android:clickable="true"
-                android:onClick="recordVideo" />
-
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="From Gallery"
-                android:id="@+id/textView25"
-                    android:layout_toStartOf="@+id/textView24"
-                android:background="@drawable/rounded_corner_shadow"
-                android:alpha=".75"
-                android:padding="10dp"
-                android:layout_marginRight="20dp"
-                android:clickable="true"
-                android:onClick="selectVideo" />
-
-                <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView32"
-                android:layout_below="@+id/textView25"
-                android:layout_alignStart="@+id/textView25"
-                android:src="@android:drawable/ic_menu_gallery"
-                android:layout_alignEnd="@+id/textView25"
-                android:padding="10dp"
-                android:onClick="selectVideo" />
-
-                <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView33"
-                android:layout_below="@+id/textView24"
-                android:layout_alignStart="@+id/textView24"
-                android:src="@android:drawable/ic_menu_camera"
-                android:layout_alignEnd="@+id/textView24"
-                android:padding="10dp"
-                android:onClick="recordVideo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n\t-Please record your videos in landscape\n\t-Your videos can be no larger than 100Mb\n\t-If you are able to record in slow motion please do!"
-                    android:id="@+id/textView26"
-                    android:layout_below="@+id/imageView32"
-                    android:layout_centerHorizontal="true"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" />
-
-                <VideoView
-                android:id="@+id/video_view"
-                android:layout_width="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:adjustViewBounds="true"
-                android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:layout_alignParentBottom="false"
                     android:layout_alignParentTop="true"
-                    android:layout_alignBottom="@+id/textView26" />
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/space7" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/trick_org"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/space7" />
             </RelativeLayout>
-        </ScrollView>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/video_metadata"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/button5"
+                android:layout_gravity="center_horizontal"
+                android:onClick="startUpload"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/video_view"
-                android:layout_centerHorizontal="true"
-                android:alpha=".75"
-                android:padding="10dp"
-                android:background="@drawable/rounded_corner_shadow">
+        </LinearLayout>
+    </ScrollView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trick Name:"
-                    android:id="@+id/textView21"
-                    android:textSize="16dp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/trick_name"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="Name (Required)"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Decription:"
-                    android:id="@+id/textView22"
-                    android:textSize="16dp"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/trick_description"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="Description (Optional)" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Level:"
-                    android:id="@+id/textView23"
-                    android:textSize="16dp"
-                    android:textColor="@android:color/black" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal">
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:ems="10"
-                        android:id="@+id/trick_level"
-                        android:layout_alignParentTop="false"
-                        android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@+id/space7"
-                        android:hint="(Optional)"
-                        android:layout_alignTop="@+id/trick_org" />
-
-                    <Space
-                        android:layout_width="20px"
-                        android:layout_height="20px"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/space7" />
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/trick_org"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignStart="@+id/space7" />
-                </RelativeLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Submit"
-                    android:id="@+id/button5"
-                    android:layout_gravity="center_horizontal"
-                    android:onClick="startUpload"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" />
-
-            </LinearLayout>
-        </ScrollView>
-
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clear_material"
+        android:layout_above="@+id/video_metadata"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:tint="@color/white"
+        android:alpha=".75"
+        android:onClick="removeVideo"
+        android:id="@+id/clear_video"
+        android:visibility="invisible" />
 
 </RelativeLayout>

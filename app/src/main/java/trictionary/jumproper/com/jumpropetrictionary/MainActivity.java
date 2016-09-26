@@ -31,9 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -308,8 +306,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
 
 
-        //disable ad for now, it's annnoying and unprofitable
-        //loadBannerAd();
 
     }
 
@@ -343,24 +339,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         return getDelegate().getSupportActionBar();
     }
 
-
-
-    public void loadBannerAd(){
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("8E77428ECEC6F34EF9CE7FD2B3D942C2")
-                .addTestDevice("9F2CF3A3F15E84C980EF6902242BE25C")
-                .build();
-        mAdView.loadAd(adRequest);
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                adExit.setVisibility(View.VISIBLE);
-            }
-        });
-    }
 
 
 
@@ -587,11 +565,6 @@ return;
     @Override
     public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
         return null;
-    }
-
-    public void hideAd(View v){
-        v.setVisibility(View.INVISIBLE);
-        findViewById(R.id.adView).setVisibility(View.INVISIBLE);
     }
 
     public void expandFisacLevel(View v){

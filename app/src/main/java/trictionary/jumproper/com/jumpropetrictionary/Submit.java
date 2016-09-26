@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -44,7 +46,9 @@ public class Submit extends AppCompatActivity {
     static final int REQUEST_VIDEO_CAPTURE = 1;
     static final int REQUEST_GALLERY_VIDEO = 2;
     private VideoView myVideoView;
-    EditText trickName,trickDescription,trickLevel;
+    private ImageView clearVideo;
+    private EditText trickName,trickDescription,trickLevel;
+    private ScrollView submitInfo;
     private Uri videoUri;
     Spinner orgSpinner;
     String org;
@@ -77,9 +81,11 @@ public class Submit extends AppCompatActivity {
         getPermission();
 
         myVideoView = (VideoView) findViewById(R.id.video_view);
+        clearVideo = (ImageView) findViewById(R.id.clear_video);
         trickName = (EditText) findViewById(R.id.trick_name);
         trickDescription = (EditText) findViewById(R.id.trick_description);
         trickLevel = (EditText) findViewById(R.id.trick_level);
+        submitInfo = (ScrollView) findViewById(R.id.submit_info);
         orgSpinner=(Spinner)findViewById(R.id.trick_org);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.organizations, android.R.layout.simple_spinner_item);
@@ -211,6 +217,8 @@ public class Submit extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
             myVideoView.setVisibility(View.VISIBLE);
+            clearVideo.setVisibility(View.VISIBLE);
+            submitInfo.setVisibility(View.INVISIBLE);
             videoUri = data.getData();
             myVideoView.setVideoURI(videoUri);
             myVideoView.requestFocus();
@@ -229,6 +237,8 @@ public class Submit extends AppCompatActivity {
         }
         else if (requestCode == REQUEST_GALLERY_VIDEO && resultCode == RESULT_OK) {
             myVideoView.setVisibility(View.VISIBLE);
+            clearVideo.setVisibility(View.VISIBLE);
+            submitInfo.setVisibility(View.INVISIBLE);
             videoUri = data.getData();
             myVideoView.setVideoURI(videoUri);
             myVideoView.requestFocus();
@@ -365,5 +375,10 @@ public class Submit extends AppCompatActivity {
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+    public void removeVideo(View v){
+        v.setVisibility(View.INVISIBLE);
+        submitInfo.setVisibility(View.VISIBLE);
+        myVideoView.setVisibility(View.INVISIBLE);
     }
 }
