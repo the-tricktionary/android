@@ -33,7 +33,7 @@ public class DrawerCreate extends AppCompatActivity{
         PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
         PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
         PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
-        ProfileDrawerItem currentProfile;
+        final ProfileDrawerItem currentProfile;
 
         if(mAuth.getCurrentUser()!=null){
             currentProfile=new ProfileDrawerItem()
@@ -46,19 +46,12 @@ public class DrawerCreate extends AppCompatActivity{
             currentProfile=new ProfileDrawerItem()
                     .withName("Sign in")
                     .withEmail("Tap the icon to sign in")
-                    .withEnabled(false)
-                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                        @Override
-                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                            Intent intent = new Intent(context, SignIn.class);
-                            activity.startActivity(intent);
-                            return false;
-                        }
-                    });
+                    .withEnabled(false);
         }
 
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
+
+        final AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.background)
                 .addProfiles(
@@ -159,6 +152,33 @@ public class DrawerCreate extends AppCompatActivity{
                             activity.startActivity(intent);
                         }
                         return true;
+                    }
+                })
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        if((mAuth.getCurrentUser()!=null)&&(currentProfile.getName().toString().equals("Sign in"))){
+                            headerResult.setActiveProfile(new ProfileDrawerItem()
+                                                            .withEmail(mAuth.getCurrentUser().getEmail())
+                                                            .withName(mAuth.getCurrentUser().getDisplayName())
+                                                            .withIcon(mAuth.getCurrentUser().getPhotoUrl()));
+                        }
+                        else if((mAuth.getCurrentUser()==null)&&!(currentProfile.getName().toString().equals("Sign in"))){
+                            headerResult.setActiveProfile(new ProfileDrawerItem()
+                                    .withName("Sign in")
+                                    .withEmail("Tap the icon to sign in")
+                                    .withEnabled(false));
+                        }
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+
                     }
                 })
                 .build();

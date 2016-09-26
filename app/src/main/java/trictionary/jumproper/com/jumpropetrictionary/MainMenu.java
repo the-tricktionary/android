@@ -172,6 +172,7 @@ public class MainMenu extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                    
                 } else {
                     // User is signed out
                     Log.d("Auth", "onAuthStateChanged:signed_out");
