@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainMenu extends AppCompatActivity {
     private VideoView myVideoView;
-    ImageView header, settingsGear,webApp,contact;
+    ImageView header, settingsGear,webApp,contact,upload;
     TextView title, viewTricktionary;
     TextView viewShowmaker,viewTrickTree,viewSpeedData;
 
@@ -83,6 +84,7 @@ public class MainMenu extends AppCompatActivity {
         settingsGear =(ImageView)findViewById(R.id.settings);
         webApp=(ImageView)findViewById(R.id.view_webapp);
         contact=(ImageView)findViewById(R.id.view_contact);
+        upload=(ImageView)findViewById(R.id.upload);
         settingsGear.setMaxHeight(settingsGear.getHeight()/2);
         settingsGear.setMaxWidth(settingsGear.getWidth()/2);
         title=(TextView)findViewById(R.id.title);
@@ -138,9 +140,11 @@ public class MainMenu extends AppCompatActivity {
         fadeWebApp.setDuration(2500);
         ValueAnimator fadeContact = ObjectAnimator.ofFloat(contact, "alpha", 0f, .75f);
         fadeContact.setDuration(2500);
+        ValueAnimator fadeUpload = ObjectAnimator.ofFloat(upload, "alpha", 0f, .75f);
+        fadeUpload.setDuration(2500);
 
         AnimatorSet anim=new AnimatorSet();
-        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp);
+        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload);
         anim.start();
 
         TrickData.getTricktionaryData();
