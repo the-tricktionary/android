@@ -3,6 +3,8 @@ package trictionary.jumproper.com.jumpropetrictionary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -35,10 +37,11 @@ public class DrawerCreate extends AppCompatActivity{
         PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
         final ProfileDrawerItem currentProfile;
 
+
         if(mAuth.getCurrentUser()!=null){
             currentProfile=new ProfileDrawerItem()
                     .withName(mAuth.getCurrentUser().getDisplayName())
-                    .withIcon(mAuth.getCurrentUser().getPhotoUrl())
+                    .withIcon(R.drawable.icon_alpha)
                     .withEnabled(true)
                     .withEmail(mAuth.getCurrentUser().getEmail());
         }
@@ -47,6 +50,7 @@ public class DrawerCreate extends AppCompatActivity{
                     .withName("Sign in")
                     .withEmail("Tap the icon to sign in")
                     .withEnabled(false);
+
         }
 
 
@@ -173,12 +177,12 @@ public class DrawerCreate extends AppCompatActivity{
 
                     @Override
                     public void onDrawerClosed(View drawerView) {
-
+                        return;
                     }
 
                     @Override
                     public void onDrawerSlide(View drawerView, float slideOffset) {
-
+                        return;
                     }
                 })
                 .build();

@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n-Please record your videos in landscape\n-Your videos can be no larger than 100Mb\n-If you are able to record in slow motion please do!\n-Please keep your recording as stable as possible, or set up your camera\n-Try to find a plain background that contrasts the color of your rope"
+                android:text="-Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n-Please record your videos in landscape\n-Your videos can be no larger than 100Mb\n-If you are able to record in slow motion please do!\n-Please keep your recording as stable as possible, or set up your camera\n-Try to find a plain background that contrasts the color of your rope"
                 android:id="@+id/textView26"
                 android:layout_below="@+id/imageView32"
                 android:layout_centerHorizontal="true"

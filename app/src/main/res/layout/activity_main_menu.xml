@@ -202,6 +202,20 @@
             android:textSize="30sp"
             android:padding="5dp" />
 
+        <ImageView
+            app:srcCompat="@drawable/upload"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="60dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:id="@+id/upload"
+            android:tint="@color/materialRed"
+            android:alpha=".75"
+            android:onClick="submitTrick" />
+
     </RelativeLayout>
 
 </FrameLayout>

@@ -400,4 +400,8 @@ public class MainMenu extends AppCompatActivity {
                     }
                 });
     }
+    public void submitTrick(View v){
+        Intent intent = new Intent(this, Submit.class);
+        startActivity(intent);
+    }
 }
