@@ -287,15 +287,7 @@
         android:alpha=".75"
         android:visibility="gone" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ad_exit"
-        android:layout_above="@+id/adView"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_clear_material"
-        android:onClick="hideAd"
-        android:visibility="invisible" />
+
 
     <ImageView
         android:layout_width="wrap_content"

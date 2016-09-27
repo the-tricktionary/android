@@ -131,7 +131,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //initialize text views and set them to display trick data
         trickName = (TextView)findViewById(R.id.name);
         logo=(ImageView)findViewById(R.id.toolbar_logo);
-        adExit=(ImageView)findViewById(R.id.ad_exit);
         trickName.setText(tricktionary[trickIndex].getName());
         trickDescription = (TextView)findViewById(R.id.description);
         trickDescription.setText(tricktionary[trickIndex].getDescription());
