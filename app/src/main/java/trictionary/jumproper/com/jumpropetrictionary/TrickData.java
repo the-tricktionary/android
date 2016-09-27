@@ -101,6 +101,14 @@ public class TrickData extends Trick{
         }
         return arr;
     }
+    public static int getLen(){
+        if(tricktionary!=null) {
+            return tricktionary.length;
+        }
+        else{
+            return getTricktionaryData().length;
+        }
+    }
 
     public static Trick[] getTricktionaryOffline(){
         Trick doubleBounce=new Trick("Double Bounce","The jumper jumps off of the ground two times for every one turn of the rope.",LEVEL_1,0,BASICS, "ybwRcnfQtIM" );

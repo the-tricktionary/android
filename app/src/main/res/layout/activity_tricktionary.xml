@@ -289,7 +289,9 @@
                     android:layout_alignParentTop="true"
                     android:src="@drawable/upload"
                     android:tint="@android:color/white"
-                    android:layout_above="@+id/textView20" />
+                    android:layout_above="@+id/textView20"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="false" />
 
                 <TextView
                     android:layout_width="wrap_content"

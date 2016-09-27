@@ -48,7 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class SpeedGraph extends AppCompatActivity {
-    AlertDialog dateSelect,editDialog;
+    AlertDialog editDialog;
     AlertDialog.Builder editDialogBuilder;
     ArrayList<Long> scrubbedTimes;
     TextView eventName,duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost,currentUser;
@@ -291,6 +291,9 @@ public class SpeedGraph extends AppCompatActivity {
     public void drawGraph(){
         chart = (LineChart) findViewById(R.id.chart);
         scrubbedTimes=data.getGraphData();
+        if(scrubbedTimes.size()<1){
+            return;//
+        }
         ArrayList<String> jumpLabels=getXAxisValues(scrubbedTimes.size()-1,data.getTime());
         ArrayList<Entry> values=new ArrayList<>();
 

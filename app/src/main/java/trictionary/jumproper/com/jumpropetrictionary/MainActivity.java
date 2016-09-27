@@ -111,7 +111,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
-        len=tricktionary.length;
+        len=TrickData.getLen();
 
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
