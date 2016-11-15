@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ public class Tricktionary extends ActionBarActivity{
     public static ArrayList<Trick> completedTricks;
     ProgressBar loadingTricks;
     FrameLayout tricktionaryLayout;
+    CheckBox showCompletedTricks;
     int delay = 100; //milliseconds
     Handler h;
     private FirebaseAuth mAuth;
@@ -42,6 +45,7 @@ public class Tricktionary extends ActionBarActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         loadingTricks = (ProgressBar)findViewById(R.id.loading_tricks);
         tricktionaryLayout=(FrameLayout)findViewById(R.id.tricktionary_layout);
+        showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
         setSupportActionBar(toolbar);
         mAuth=FirebaseAuth.getInstance();
 
@@ -58,9 +62,61 @@ public class Tricktionary extends ActionBarActivity{
             TrickData.uId=mAuth.getCurrentUser().getUid();
             Log.e("checklist","uId " + TrickData.uId);
         }
+        showCompletedTricks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                h.removeCallbacks(r);
+                if(b){
+                    for(int j=0;j<tricktionary.length;j++){
+                        if(tricktionary[j].isCompleted()){
+                            tricktionary[j].setCompleted(false);
+                        }
+                    }
+                    h.post(r);
+                }
+                else{
+                    Log.e("checklist","length="+tricktionary.length);
+                    for(int j=0;j<tricktionary.length;j++){
+                        Log.e("checklist",tricktionary[j].getName());
+                        for(int i=0;i<completedTricks.size();i++){
+                            if (tricktionary[j].equals(completedTricks.get(i))) {
+                                tricktionary[j].setCompleted(true);
+                            }
+                        }
+                    }
+                    h.post(r);
+                }
+            }
+        });
 
         h = new Handler();
         h.postDelayed(r, delay);
+
+
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(showCompletedTricks.isChecked()){
+            for(int j=0;j<tricktionary.length;j++){
+                if(tricktionary[j].isCompleted()){
+                    tricktionary[j].setCompleted(false);
+                }
+            }
+            h.post(r);
+        }
+        else{
+            Log.e("checklist","length="+tricktionary.length);
+            for(int j=0;j<tricktionary.length;j++){
+                Log.e("checklist",tricktionary[j].getName());
+                for(int i=0;i<completedTricks.size();i++){
+                    if (tricktionary[j].equals(completedTricks.get(i))) {
+                        tricktionary[j].setCompleted(true);
+                    }
+                }
+            }
+            h.post(r);
+        }
     }
     public Runnable r=new Runnable() {
         @Override
@@ -106,7 +162,11 @@ public class Tricktionary extends ActionBarActivity{
 
 
         for(int j=0;j<tricktionary.length;j++){
-            if(tricktionary[j].getType().equals("Basics")){
+            if(tricktionary[j].isCompleted()){
+                Log.e("checklist",j+" is a completed trick.");
+                j++;
+            }
+            else if(tricktionary[j].getType().equals("Basics")){
                 basicsList.add(tricktionary[j].getName());
             }
             else if(tricktionary[j].getDifficulty()==1){
@@ -139,7 +199,7 @@ public class Tricktionary extends ActionBarActivity{
                 if(completedTricks.size()>0) {
                     for(int j=0;j<completedTricks.size();j++) {
                         if (basicsList.get(position).equals(completedTricks.get(j).getName())) {
-                            completedTricks.remove(j);
+                            //completedTricks.remove(j);
                             color = getResources().getColor(R.color.colorAccent); // Material Red
                             view.setBackgroundColor(color);
                             view.setClickable(true);
@@ -150,7 +210,7 @@ public class Tricktionary extends ActionBarActivity{
                         }
                     }
                 }
-                view.setClickable(true);
+                view.setClickable(false);
                 return view;
             }
         };
@@ -163,7 +223,7 @@ public class Tricktionary extends ActionBarActivity{
                 if(completedTricks.size()>0) {
                     for(int j=0;j<completedTricks.size();j++) {
                         if (level1Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            completedTricks.remove(j);
+                            //completedTricks.remove(j);
                             color = getResources().getColor(R.color.colorAccent); // Material Red
                             view.setBackgroundColor(color);
                             view.setClickable(true);
@@ -207,7 +267,7 @@ public class Tricktionary extends ActionBarActivity{
                 if(completedTricks.size()>0) {
                     for(int j=0;j<completedTricks.size();j++) {
                         if (level2Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            completedTricks.remove(j);
+                            //completedTricks.remove(j);
                             color = getResources().getColor(R.color.colorAccent); // Material Red
                             view.setBackgroundColor(color);
                             view.setClickable(true);
@@ -250,7 +310,7 @@ public class Tricktionary extends ActionBarActivity{
                 if(completedTricks.size()>0) {
                     for(int j=0;j<completedTricks.size();j++) {
                         if (level3Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            completedTricks.remove(j);
+                            //completedTricks.remove(j);
                             color = getResources().getColor(R.color.colorAccent); // Material Red
                             view.setBackgroundColor(color);
                             view.setClickable(true);
@@ -293,7 +353,7 @@ public class Tricktionary extends ActionBarActivity{
                 if(completedTricks.size()>0) {
                     for(int j=0;j<completedTricks.size();j++) {
                         if (level4Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            completedTricks.remove(j);
+                            //completedTricks.remove(j);
                             color = getResources().getColor(R.color.colorAccent); // Material Red
                             view.setBackgroundColor(color);
                             view.setClickable(true);

@@ -21,7 +21,7 @@ public class Trick extends FirebaseInstanceIdService {
     public String wjrLevel="";
     public String id1;
     public String id0;
-    public boolean completed;
+    public boolean completed=false;
 
 
     //constructors

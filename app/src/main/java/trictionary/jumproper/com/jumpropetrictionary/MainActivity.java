@@ -224,6 +224,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                             .child(tricktionary[trickIndex].getId0())
                             .child(tricktionary[trickIndex].getId1())
                             .setValue(b);
+                    tricktionary[trickIndex].setCompleted(true);
                     Log.e("checklist","set trick as completed");
                 }
                 else{
@@ -713,9 +714,21 @@ return;
                         if(task.isComplete()){
                             Toast.makeText(MainActivity.this, "Signed in as "+mAuth.getCurrentUser().getEmail()+", you may now submit feedback.",
                                     Toast.LENGTH_SHORT).show();
-
-                            signInButton.setVisibility(View.GONE);
-                            contactName.setText(mAuth.getCurrentUser().getDisplayName());
+                            if(signInButton!=null) {
+                                signInButton.setVisibility(View.GONE);
+                            }
+                            if(contactName!=null) {
+                                contactName.setText(mAuth.getCurrentUser().getDisplayName());
+                            }
+                            if(trickCompleted.isChecked()){
+                                FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                                final DatabaseReference myRef=fb.getReference("checklist");
+                                myRef.child(mAuth.getCurrentUser().getUid())
+                                        .child(tricktionary[trickIndex].getId0())
+                                        .child(tricktionary[trickIndex].getId1())
+                                        .setValue(true);
+                                Log.e("checklist","set trick as completed");
+                            }
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the

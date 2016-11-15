@@ -12,25 +12,29 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
         android:weightSum="1"
         android:id="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp">
+        android:layout_above="@+id/space2"
+        android:gravity="top"
+        android:foregroundGravity="top"
+        android:layout_alignParentTop="true"
+        android:background="#8ce8e8e8"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin">
 
         <LinearLayout
             android:name="trictionary.jumproper.com.jumpropetrictionary"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:baselineAligned="false"
-            android:alpha="01"
             android:padding="8dp"
             android:weightSum="1"
-            android:background="#8ce8e8e8">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"
