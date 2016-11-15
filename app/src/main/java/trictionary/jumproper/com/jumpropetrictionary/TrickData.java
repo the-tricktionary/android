@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by jumpr_000 on 6/9/2016.
@@ -113,6 +115,17 @@ public class TrickData extends Trick{
                 }
             });
         }
+        Collections.sort(Tricktionary.completedTricks, new Comparator<Trick>() {
+            @Override public int compare(Trick p1, Trick p2) {
+                return (int)(p2.getName().compareTo(p1.getName())); // descending
+            }
+        });
+        Collections.sort(Tricktionary.completedTricks, new Comparator<Trick>() {
+            @Override public int compare(Trick p1, Trick p2) {
+                return (int)(p1.getDifficulty() - p2.getDifficulty()); // descending
+
+            }
+        });
 
         return tricktionary;
     }

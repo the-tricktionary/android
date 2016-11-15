@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Tricktionary extends ActionBarActivity{
@@ -34,6 +35,7 @@ public class Tricktionary extends ActionBarActivity{
     FrameLayout tricktionaryLayout;
     CheckBox showCompletedTricks;
     int delay = 100; //milliseconds
+    int completedIndex=0;
     Handler h;
     private FirebaseAuth mAuth;
 
@@ -66,6 +68,7 @@ public class Tricktionary extends ActionBarActivity{
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 h.removeCallbacks(r);
+                completedIndex=0;
                 if(b){
                     for(int j=0;j<tricktionary.length;j++){
                         if(tricktionary[j].isCompleted()){
@@ -78,8 +81,10 @@ public class Tricktionary extends ActionBarActivity{
                     Log.e("checklist","length="+tricktionary.length);
                     for(int j=0;j<tricktionary.length;j++){
                         Log.e("checklist",tricktionary[j].getName());
-                        for(int i=0;i<completedTricks.size();i++){
+                        for(int i=completedIndex;i<completedTricks.size();i++){
+                            Log.e("checklist",i+ ":"+completedTricks.get(i).getName());
                             if (tricktionary[j].equals(completedTricks.get(i))) {
+                                completedIndex++;
                                 tricktionary[j].setCompleted(true);
                             }
                         }
@@ -97,6 +102,7 @@ public class Tricktionary extends ActionBarActivity{
     @Override
     public void onResume(){
         super.onResume();
+        completedIndex=0;
         if(showCompletedTricks.isChecked()){
             for(int j=0;j<tricktionary.length;j++){
                 if(tricktionary[j].isCompleted()){
@@ -109,8 +115,10 @@ public class Tricktionary extends ActionBarActivity{
             Log.e("checklist","length="+tricktionary.length);
             for(int j=0;j<tricktionary.length;j++){
                 Log.e("checklist",tricktionary[j].getName());
-                for(int i=0;i<completedTricks.size();i++){
+                for(int i=completedIndex;i<completedTricks.size();i++){
+                    Log.e("checklist",i+ ":"+completedTricks.get(i).getName());
                     if (tricktionary[j].equals(completedTricks.get(i))) {
+                        completedIndex++;
                         tricktionary[j].setCompleted(true);
                     }
                 }
@@ -199,7 +207,6 @@ public class Tricktionary extends ActionBarActivity{
                 if(completedTricks.size()>0) {
                     for(int j=0;j<completedTricks.size();j++) {
                         if (basicsList.get(position).equals(completedTricks.get(j).getName())) {
-                            //completedTricks.remove(j);
                             color = getResources().getColor(R.color.colorAccent); // Material Red
                             view.setBackgroundColor(color);
                             view.setClickable(true);
