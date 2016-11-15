@@ -27,6 +27,7 @@ import java.util.Collections;
 
 public class Tricktionary extends ActionBarActivity{
     public static Trick[] tricktionary;
+    public static ArrayList<Trick> completedTricks;
     ProgressBar loadingTricks;
     FrameLayout tricktionaryLayout;
     int delay = 100; //milliseconds
@@ -49,8 +50,14 @@ public class Tricktionary extends ActionBarActivity{
         TrickList.type="all";
         tricktionary=TrickData.getTricktionary();
 
+
         DrawerCreate drawer=new DrawerCreate();
         drawer.makeDrawer(this, this, mAuth, toolbar, "Submit tricks");
+
+        if(mAuth.getCurrentUser()!=null){
+            TrickData.uId=mAuth.getCurrentUser().getUid();
+            Log.e("checklist","uId " + TrickData.uId);
+        }
 
         h = new Handler();
         h.postDelayed(r, delay);
@@ -59,6 +66,9 @@ public class Tricktionary extends ActionBarActivity{
         @Override
         public void run() {
             //do something
+            if(mAuth.getCurrentUser()!=null){
+                TrickData.uId=mAuth.getCurrentUser().getUid();
+            }
             if(tricktionary==null){
                 loadingTricks.setVisibility(View.VISIBLE);
                 Log.e("TrickCheck","Array is null");
@@ -125,7 +135,22 @@ public class Tricktionary extends ActionBarActivity{
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                view.setClickable(false);
+                int color;
+                if(completedTricks.size()>0) {
+                    for(int j=0;j<completedTricks.size();j++) {
+                        if (basicsList.get(position).equals(completedTricks.get(j).getName())) {
+                            completedTricks.remove(j);
+                            color = getResources().getColor(R.color.colorAccent); // Material Red
+                            view.setBackgroundColor(color);
+                            view.setClickable(true);
+                            view.setVisibility(View.VISIBLE);
+                            ((TextView) view).setTextColor(Color.WHITE);
+                            ((TextView) view).setGravity(Gravity.CENTER);
+                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+                        }
+                    }
+                }
+                view.setClickable(true);
                 return view;
             }
         };
@@ -134,8 +159,21 @@ public class Tricktionary extends ActionBarActivity{
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-
-                int color = 0xFFBDBDBD; // Default
+                int color;
+                if(completedTricks.size()>0) {
+                    for(int j=0;j<completedTricks.size();j++) {
+                        if (level1Sorted.get(position).equals(completedTricks.get(j).getName())) {
+                            completedTricks.remove(j);
+                            color = getResources().getColor(R.color.colorAccent); // Material Red
+                            view.setBackgroundColor(color);
+                            view.setClickable(true);
+                            view.setVisibility(View.VISIBLE);
+                            ((TextView) view).setTextColor(Color.WHITE);
+                            ((TextView) view).setGravity(Gravity.CENTER);
+                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+                        }
+                    }
+                }
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level1Sorted.get(position).equals(ignoredStrings[j])) {
                         color = getResources().getColor(R.color.materialRed); // Material Red
@@ -166,6 +204,20 @@ public class Tricktionary extends ActionBarActivity{
                 View view = super.getView(position, convertView, parent);
 
                 int color = 0xFFBDBDBD; // Default
+                if(completedTricks.size()>0) {
+                    for(int j=0;j<completedTricks.size();j++) {
+                        if (level2Sorted.get(position).equals(completedTricks.get(j).getName())) {
+                            completedTricks.remove(j);
+                            color = getResources().getColor(R.color.colorAccent); // Material Red
+                            view.setBackgroundColor(color);
+                            view.setClickable(true);
+                            view.setVisibility(View.VISIBLE);
+                            ((TextView) view).setTextColor(Color.WHITE);
+                            ((TextView) view).setGravity(Gravity.CENTER);
+                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+                        }
+                    }
+                }
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level2Sorted.get(position).equals(ignoredStrings[j])) {
                         color = getResources().getColor(R.color.materialRed); // Opaque Blue
@@ -195,6 +247,20 @@ public class Tricktionary extends ActionBarActivity{
                 View view = super.getView(position, convertView, parent);
 
                 int color = 0xFFBDBDBD; // Default
+                if(completedTricks.size()>0) {
+                    for(int j=0;j<completedTricks.size();j++) {
+                        if (level3Sorted.get(position).equals(completedTricks.get(j).getName())) {
+                            completedTricks.remove(j);
+                            color = getResources().getColor(R.color.colorAccent); // Material Red
+                            view.setBackgroundColor(color);
+                            view.setClickable(true);
+                            view.setVisibility(View.VISIBLE);
+                            ((TextView) view).setTextColor(Color.WHITE);
+                            ((TextView) view).setGravity(Gravity.CENTER);
+                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+                        }
+                    }
+                }
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level3Sorted.get(position).equals(ignoredStrings[j])) {
                         color = getResources().getColor(R.color.materialRed); // Opaque Blue
@@ -224,6 +290,20 @@ public class Tricktionary extends ActionBarActivity{
                 View view = super.getView(position, convertView, parent);
 
                 int color = getResources().getColor(R.color.materialRed); // Default
+                if(completedTricks.size()>0) {
+                    for(int j=0;j<completedTricks.size();j++) {
+                        if (level4Sorted.get(position).equals(completedTricks.get(j).getName())) {
+                            completedTricks.remove(j);
+                            color = getResources().getColor(R.color.colorAccent); // Material Red
+                            view.setBackgroundColor(color);
+                            view.setClickable(true);
+                            view.setVisibility(View.VISIBLE);
+                            ((TextView) view).setTextColor(Color.WHITE);
+                            ((TextView) view).setGravity(Gravity.CENTER);
+                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+                        }
+                    }
+                }
                 for(int j=0;j<ignoredStrings.length;j++) {
                     if (level4Sorted.get(position).equals(ignoredStrings[j])) {
                         color = getResources().getColor(R.color.materialRed); // Opaque Blue

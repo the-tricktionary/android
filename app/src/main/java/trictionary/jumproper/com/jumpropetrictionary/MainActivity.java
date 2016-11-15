@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +61,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     //declare image views
     ImageView logo,adExit,fisacExpand;
+
+    //completed trick checkboc
+    CheckBox trickCompleted;
 
     //these are required for the toolbar because MainActivity already extends a class
     private AppCompatActivity appCompatActivity;
@@ -143,6 +148,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
         fisacExpand=(ImageView)findViewById(R.id.fisac_expand);
 
+        trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
+
         if(tricktionary[trickIndex].getFisacLevel().equals("")) {
             fisacLevel.setVisibility(View.INVISIBLE);
         }
@@ -206,6 +213,24 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 // ...
             }
         };
+
+        trickCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(mAuth.getCurrentUser()!=null){
+                    FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef=fb.getReference("checklist");
+                    myRef.child(mAuth.getCurrentUser().getUid())
+                            .child(tricktionary[trickIndex].getId0())
+                            .child(tricktionary[trickIndex].getId1())
+                            .setValue(b);
+                    Log.e("checklist","set trick as completed");
+                }
+                else{
+                    signIn(signInButton);
+                }
+            }
+        });
 
 
 

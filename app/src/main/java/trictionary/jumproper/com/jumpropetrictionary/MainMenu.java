@@ -71,7 +71,6 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Jump Rope Tricktionary");
         setSupportActionBar(toolbar);
-        TrickData.getTricktionaryData();
 
 
 
@@ -146,6 +145,11 @@ public class MainMenu extends AppCompatActivity {
         anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload);
         anim.start();
 
+        if(mAuth.getCurrentUser()!=null){
+            TrickData.uId=mAuth.getCurrentUser().getUid();
+            Log.e("checklist","uId MainMenu" + TrickData.uId);
+        }
+
         TrickData.getTricktionaryData();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -175,14 +179,17 @@ public class MainMenu extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                    TrickData.uId=user.getUid();
                     
                 } else {
                     // User is signed out
                     Log.d("Auth", "onAuthStateChanged:signed_out");
+
                 }
                 // ...
             }
         };
+
 
 
 

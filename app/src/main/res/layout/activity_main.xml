@@ -23,7 +23,7 @@
         <LinearLayout
             android:name="trictionary.jumproper.com.jumpropetrictionary"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:baselineAligned="false"
@@ -240,22 +240,16 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prequisites"
-        android:id="@+id/view_prereqs"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_alignBottom="@+id/view_next"
+        android:id="@+id/space2"
+        android:layout_alignTop="@+id/view_next"
+        android:layout_alignStart="@+id/imageView17"
+        android:layout_alignEnd="@+id/imageView16"
         android:background="@drawable/rounded_corner_shadow"
-        android:singleLine="false"
-        android:textSize="16dp"
-        android:padding="10dp"
-        android:alpha=".75"
-        android:onClick="viewPrereqs"
-        android:clickable="true"
-        android:layout_below="@+id/linearLayout"
-        android:layout_toStartOf="@+id/space2"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="30dp" />
+        android:alpha=".75" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -263,14 +257,15 @@
         android:text="Next Tricks"
         android:id="@+id/view_next"
         android:textSize="16dp"
-        android:background="@drawable/rounded_corner_shadow"
-        android:alpha=".75"
-        android:padding="10dp"
+        android:alpha="1"
         android:onClick="viewNextTricks"
         android:clickable="true"
         android:layout_alignTop="@+id/view_prereqs"
-        android:layout_toEndOf="@+id/space2"
-        android:layout_marginLeft="30dp" />
+        android:layout_toEndOf="@+id/textView28"
+        android:layout_marginLeft="16dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
 
 
     <ImageView
@@ -288,7 +283,6 @@
         android:visibility="gone" />
 
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -296,8 +290,7 @@
         android:src="@drawable/forward"
         android:layout_alignTop="@+id/view_next"
         android:layout_alignBottom="@+id/view_next"
-        android:background="@drawable/rounded_corner_shadow"
-        android:alpha=".75"
+        android:alpha="1"
         android:tint="@color/textColor"
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_toEndOf="@+id/view_next"
@@ -312,16 +305,47 @@
         android:layout_alignBottom="@+id/view_prereqs"
         android:layout_alignStart="@+id/linearLayout"
         android:layout_toStartOf="@+id/view_prereqs"
-        android:background="@drawable/rounded_corner_shadow"
-        android:alpha=".75"
+        android:alpha="1"
         android:tint="@color/textColor"
         android:onClick="viewPrereqs" />
 
-    <Space
-        android:layout_width="20px"
-        android:layout_height="20px"
-        android:layout_alignBottom="@+id/view_next"
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/space2" />
+        android:id="@+id/trick_completed"
+        android:textAlignment="viewStart"
+        android:layout_alignTop="@+id/space2"
+        android:gravity="top" />
+
+    <TextView
+        android:text="Completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/space2"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView28"
+        android:textSize="10sp"
+        android:alpha="1"
+        android:padding="2dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prequisites"
+        android:id="@+id/view_prereqs"
+        android:singleLine="false"
+        android:textSize="16dp"
+        android:alpha="1"
+        android:onClick="viewPrereqs"
+        android:clickable="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/textView28"
+        android:layout_marginEnd="16dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp" />
 
 </RelativeLayout>

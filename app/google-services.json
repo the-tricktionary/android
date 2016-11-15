@@ -8,37 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1048157266079:android:82b4b899eb47b9ca",
-        "android_client_info": {
-          "package_name": "tricktionary.jumproper.com.jumpropetricktionary"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1048157266079-6m9smvmrrs2vagok5b973dqe7cvcf3e9.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD4VlqqGeu0C4TSUGdIadtp3wjHLbAazRo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:1048157266079:android:7963f72c96b2d598",
         "android_client_info": {
           "package_name": "trictionary.jumproper.com.jumpropetrictionary"
@@ -46,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1048157266079-htmir8adv1nfaspcqimpse9a6vm730d1.apps.googleusercontent.com",
+          "client_id": "1048157266079-7fnrcbnllbvsns8ilfbi2db3lr97d3lg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "trictionary.jumproper.com.jumpropetrictionary",
-            "certificate_hash": "A5B738D0E4787CB433A901A7B1ED5E526E763432"
+            "certificate_hash": "86E621020BFC2135A378570DAF4E6E65DC9218FE"
           }
         },
         {

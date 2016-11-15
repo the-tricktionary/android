@@ -20,7 +20,8 @@ public class Trick extends FirebaseInstanceIdService {
     public String fisacLevel="";
     public String wjrLevel="";
     public String id1;
-
+    public String id0;
+    public boolean completed;
 
 
     //constructors
@@ -129,6 +130,8 @@ public class Trick extends FirebaseInstanceIdService {
         return ""+(difficulty-1);
     }
 
+    public void setId0(String id0){ this.id0 = id0; }
+
     public String getWjrLevel() {
         return wjrLevel;
     }
@@ -137,8 +140,18 @@ public class Trick extends FirebaseInstanceIdService {
         this.wjrLevel = wjrLevel;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+/**
     public void getMessageToken(){
         Log.e("Token",FirebaseInstanceId.getInstance().getToken());
     }
+     **/
 
 }

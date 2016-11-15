@@ -2,6 +2,7 @@ package trictionary.jumproper.com.jumpropetrictionary;
 
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
  */
 public class TrickData extends Trick{
     public static Trick[]tricktionary;
+    public static String uId="";
     public static ArrayList<Trick>tempList;
     public static Trick mTrick;
     private static final int LEVEL_1=1;
@@ -29,23 +31,28 @@ public class TrickData extends Trick{
     private static final String RELEASES="Releases";
     private static boolean offline=true;
 
-
     public static Trick[]getTricktionaryData(){
 
         tempList=new ArrayList<>();
+        if(Tricktionary.completedTricks==null) {
+            Tricktionary.completedTricks = new ArrayList<>();
+        }
 
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         if(offline) {
-            fb.setPersistenceEnabled(true);
+            //fb.setPersistenceEnabled(true);
             offline=false;
         }
 
         DatabaseReference myRef=fb.getReference("tricks");
+        DatabaseReference checklist=fb.getReference("checklist");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tempList.clear();
+                Tricktionary.completedTricks.clear();
                 int index=0;
+                Log.e("checklist","uId " + uId);
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
                         mTrick=new Trick(trick.child("name").getValue().toString(),
@@ -58,6 +65,9 @@ public class TrickData extends Trick{
                                 trick.child("wjr").getValue().toString(),
                                 trick.child("id1").getValue().toString());
                         Log.i("id1",mTrick.getId1());
+
+
+
                         tempList.add(mTrick);
                         index++;
 
@@ -73,9 +83,36 @@ public class TrickData extends Trick{
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.e("checklist",databaseError.getMessage().toString()+ " : "+databaseError.getDetails());
                 tricktionary=getTricktionaryOffline();
             }
         });
+        if(uId.length()>0) {
+            checklist.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for(int j=0;j<tricktionary.length;j++) {
+                        if (dataSnapshot.child(uId).hasChild(tricktionary[j].getId0())) {
+                            if (dataSnapshot.child(uId).child(tricktionary[j].getId0()).hasChild(tricktionary[j].getId1())) {
+                                if (dataSnapshot.child(uId)
+                                        .child(tricktionary[j].getId0())
+                                        .child(tricktionary[j].getId1())
+                                        .getValue().toString().equals("true")) {
+
+                                    Tricktionary.completedTricks.add(tricktionary[j]);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
+                }
+            });
+        }
 
         return tricktionary;
     }
@@ -87,6 +124,10 @@ public class TrickData extends Trick{
         else {
             return tricktionary;
         }
+    }
+
+    public static ArrayList<Trick>getCompletedTricks(){
+        return Tricktionary.completedTricks;
     }
 
     public static String[] getPrereqs(DataSnapshot trick){
