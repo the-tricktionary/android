@@ -120,7 +120,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
-        len=TrickData.getLen();
+
         TrickData.fillCompletedTricks();
 
         //initialize analytic object and log an event
@@ -324,6 +324,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer player, boolean wasRestored) {
         youTubePlayer=player;
+        if(tricktionary!=null){
+            len=TrickData.getLen();
+        }
         if(tricktionary[trickIndex].isCompleted()){
             trickCompleted.setChecked(true);
         }
