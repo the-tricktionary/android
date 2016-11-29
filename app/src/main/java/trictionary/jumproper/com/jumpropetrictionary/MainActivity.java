@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,8 +52,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
     //declare text views
@@ -59,6 +64,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     //declare image views
     ImageView logo,adExit,fisacExpand;
+
+    //completed trick checkboc
+    CheckBox trickCompleted;
 
     //these are required for the toolbar because MainActivity already extends a class
     private AppCompatActivity appCompatActivity;
@@ -76,6 +84,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //declare Trick array and index of current trick
     Trick[] tricktionary;
     int trickIndex=TrickList.index;
+    public static boolean complete=false;
 
     //analytic object for event logging
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -111,7 +120,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //populate the tricktionary with the most up to date data from firebase
         tricktionary=TrickData.getTricktionary();
-        len=TrickData.getLen();
+
+        TrickData.fillCompletedTricks();
 
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -143,6 +153,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
         fisacExpand=(ImageView)findViewById(R.id.fisac_expand);
 
+        trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
+
         if(tricktionary[trickIndex].getFisacLevel().equals("")) {
             fisacLevel.setVisibility(View.INVISIBLE);
         }
@@ -156,6 +168,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         if (tricktionary[trickIndex].getPrereqs().length==0){
             prereqs.setVisibility(View.GONE);
+        }
+        if(tricktionary[trickIndex].isCompleted()){
+            trickCompleted.setChecked(true);
         }
 
 
@@ -207,6 +222,47 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             }
         };
 
+        trickCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(mAuth.getCurrentUser()!=null){
+                    FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef=fb.getReference("checklist");
+                    myRef.child(mAuth.getCurrentUser().getUid())
+                            .child(tricktionary[trickIndex].getId0())
+                            .child(tricktionary[trickIndex].getId1())
+                            .setValue(b);
+                    tricktionary[trickIndex].setCompleted(true);
+                }
+                else{
+                    if(mAuth.getCurrentUser()==null){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //new alert dialog
+                        //builder.setTitle("Submit reply"); //dialog title
+                        LayoutInflater inflater = (LayoutInflater)MainActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+                        final View textBoxes=inflater.inflate(R.layout.complete_tricks_dialog,null); //custom layout file now a view object
+                        builder.setView(textBoxes); //set view to custom layout
+                        builder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(MainActivity.this, SignIn.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                        trickCompleted.setChecked(false);
+                    }
+                }
+            }
+        });
+
+
 
 
 
@@ -221,6 +277,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         super.onStart();
         youTubeView.initialize(Config.DEVELOPER_KEY, this);
         mAuth.addAuthStateListener(mAuthListener);
+        if(tricktionary[trickIndex].isCompleted()){
+            trickCompleted.setChecked(true);
+        }
     }
     @Override
     public void onStop() {
@@ -265,6 +324,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer player, boolean wasRestored) {
         youTubePlayer=player;
+        if(tricktionary!=null){
+            len=TrickData.getLen();
+        }
+        if(tricktionary[trickIndex].isCompleted()){
+            trickCompleted.setChecked(true);
+        }
         if (!wasRestored) {
 
             // loadVideo() will auto play video
@@ -355,6 +420,27 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     private YouTubePlayer.Provider getYouTubePlayerProvider() {
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
+    }
+    public void checkTrickComplete(){
+        if(mAuth.getCurrentUser()!=null) {
+            FirebaseDatabase fb = FirebaseDatabase.getInstance();
+            DatabaseReference checklist = fb.getReference("checklist");
+            checklist.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.child(mAuth.getCurrentUser().getUid())
+                            .child(tricktionary[trickIndex].getId0())
+                            .child(tricktionary[trickIndex].getId1()).toString().equals("true")) {
+                        trickCompleted.setChecked(true);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
+                }
+            });
+        }
     }
     public void viewTricktionary(View view){
         finish();
@@ -688,9 +774,20 @@ return;
                         if(task.isComplete()){
                             Toast.makeText(MainActivity.this, "Signed in as "+mAuth.getCurrentUser().getEmail()+", you may now submit feedback.",
                                     Toast.LENGTH_SHORT).show();
-
-                            signInButton.setVisibility(View.GONE);
-                            contactName.setText(mAuth.getCurrentUser().getDisplayName());
+                            if(signInButton!=null) {
+                                signInButton.setVisibility(View.GONE);
+                            }
+                            if(contactName!=null) {
+                                contactName.setText(mAuth.getCurrentUser().getDisplayName());
+                            }
+                            if(trickCompleted.isChecked()){
+                                FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                                final DatabaseReference myRef=fb.getReference("checklist");
+                                myRef.child(mAuth.getCurrentUser().getUid())
+                                        .child(tricktionary[trickIndex].getId0())
+                                        .child(tricktionary[trickIndex].getId1())
+                                        .setValue(true);
+                            }
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
