@@ -42,19 +42,16 @@ public class TrickData extends Trick{
 
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         if(offline) {
-            //fb.setPersistenceEnabled(true);
+            fb.setPersistenceEnabled(true);
             offline=false;
         }
 
         DatabaseReference myRef=fb.getReference("tricks");
-        DatabaseReference checklist=fb.getReference("checklist");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tempList.clear();
-                Tricktionary.completedTricks.clear();
                 int index=0;
-                Log.e("checklist","uId " + uId);
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
                         mTrick=new Trick(trick.child("name").getValue().toString(),
@@ -89,7 +86,16 @@ public class TrickData extends Trick{
                 tricktionary=getTricktionaryOffline();
             }
         });
+
+
+        return tricktionary;
+    }
+
+    public static void fillCompletedTricks(){
         if(uId.length()>0) {
+            Tricktionary.completedTricks.clear();
+            FirebaseDatabase fb=FirebaseDatabase.getInstance();
+            DatabaseReference checklist=fb.getReference("checklist");
             checklist.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -101,8 +107,8 @@ public class TrickData extends Trick{
                                         .child(tricktionary[j].getId0())
                                         .child(tricktionary[j].getId1())
                                         .getValue().toString().equals("true")) {
-
                                     Tricktionary.completedTricks.add(tricktionary[j]);
+                                    tricktionary[j].setCompleted(true);
                                 }
                             }
                         }
@@ -115,19 +121,6 @@ public class TrickData extends Trick{
                 }
             });
         }
-        Collections.sort(Tricktionary.completedTricks, new Comparator<Trick>() {
-            @Override public int compare(Trick p1, Trick p2) {
-                return (int)(p2.getName().compareTo(p1.getName())); // descending
-            }
-        });
-        Collections.sort(Tricktionary.completedTricks, new Comparator<Trick>() {
-            @Override public int compare(Trick p1, Trick p2) {
-                return (int)(p1.getDifficulty() - p2.getDifficulty()); // descending
-
-            }
-        });
-
-        return tricktionary;
     }
 
     public static Trick[]getTricktionary(){

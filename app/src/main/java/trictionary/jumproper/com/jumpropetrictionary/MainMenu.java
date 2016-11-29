@@ -110,7 +110,7 @@ public class MainMenu extends AppCompatActivity {
         DrawerCreate drawer=new DrawerCreate();
         drawer.makeDrawer(this, this, mAuth, toolbar, "Jump Rope Tricktionary");
 
-
+        TrickData.getTricktionary();
 
 
         scaleTitleText(title);
@@ -120,37 +120,13 @@ public class MainMenu extends AppCompatActivity {
         scaleText(viewTrickTree);
         scaleText(viewSpeedData);
 
-        ValueAnimator fadeHeaderIn = ObjectAnimator.ofFloat(header, "alpha", 0f, .75f);
-        fadeHeaderIn.setDuration(2500);
-        ValueAnimator fadeSettingsIn = ObjectAnimator.ofFloat(settingsGear, "alpha", 0f, .75f);
-        fadeSettingsIn.setDuration(2500);
-        ValueAnimator fadeTitleIn = ObjectAnimator.ofFloat(title, "alpha", 0f, .75f);
-        fadeTitleIn.setDuration(2500);
-        ValueAnimator fadeViewIn = ObjectAnimator.ofFloat(viewTricktionary, "alpha", 0f, .75f);
-        fadeViewIn.setDuration(2500);
-        ValueAnimator fadeShowIn = ObjectAnimator.ofFloat(viewShowmaker, "alpha", 0f, .75f);
-        fadeShowIn.setDuration(2500);
-        ValueAnimator fadeTrickTreeIn = ObjectAnimator.ofFloat(viewTrickTree, "alpha", 0f, .75f);
-        fadeTrickTreeIn.setDuration(2500);
-        ValueAnimator fadeSpeedData = ObjectAnimator.ofFloat(viewSpeedData, "alpha", 0f, .75f);
-        fadeSpeedData.setDuration(2500);
-        ValueAnimator fadeWebApp = ObjectAnimator.ofFloat(webApp, "alpha", 0f, .75f);
-        fadeWebApp.setDuration(2500);
-        ValueAnimator fadeContact = ObjectAnimator.ofFloat(contact, "alpha", 0f, .75f);
-        fadeContact.setDuration(2500);
-        ValueAnimator fadeUpload = ObjectAnimator.ofFloat(upload, "alpha", 0f, .75f);
-        fadeUpload.setDuration(2500);
 
-        AnimatorSet anim=new AnimatorSet();
-        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload);
-        anim.start();
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
-            Log.e("checklist","uId MainMenu" + TrickData.uId);
+            TrickData.fillCompletedTricks();
         }
 
-        TrickData.getTricktionaryData();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
@@ -189,6 +165,31 @@ public class MainMenu extends AppCompatActivity {
                 // ...
             }
         };
+
+        ValueAnimator fadeHeaderIn = ObjectAnimator.ofFloat(header, "alpha", 0f, .75f);
+        fadeHeaderIn.setDuration(2500);
+        ValueAnimator fadeSettingsIn = ObjectAnimator.ofFloat(settingsGear, "alpha", 0f, .75f);
+        fadeSettingsIn.setDuration(2500);
+        ValueAnimator fadeTitleIn = ObjectAnimator.ofFloat(title, "alpha", 0f, .75f);
+        fadeTitleIn.setDuration(2500);
+        ValueAnimator fadeViewIn = ObjectAnimator.ofFloat(viewTricktionary, "alpha", 0f, .75f);
+        fadeViewIn.setDuration(2500);
+        ValueAnimator fadeShowIn = ObjectAnimator.ofFloat(viewShowmaker, "alpha", 0f, .75f);
+        fadeShowIn.setDuration(2500);
+        ValueAnimator fadeTrickTreeIn = ObjectAnimator.ofFloat(viewTrickTree, "alpha", 0f, .75f);
+        fadeTrickTreeIn.setDuration(2500);
+        ValueAnimator fadeSpeedData = ObjectAnimator.ofFloat(viewSpeedData, "alpha", 0f, .75f);
+        fadeSpeedData.setDuration(2500);
+        ValueAnimator fadeWebApp = ObjectAnimator.ofFloat(webApp, "alpha", 0f, .75f);
+        fadeWebApp.setDuration(2500);
+        ValueAnimator fadeContact = ObjectAnimator.ofFloat(contact, "alpha", 0f, .75f);
+        fadeContact.setDuration(2500);
+        ValueAnimator fadeUpload = ObjectAnimator.ofFloat(upload, "alpha", 0f, .75f);
+        fadeUpload.setDuration(2500);
+
+        AnimatorSet anim=new AnimatorSet();
+        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload);
+        anim.start();
 
 
 
@@ -320,7 +321,7 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
     public void viewWeb(View v){
-        String url = "https://tricks.jumpropejam.com/";
+        String url = "https://the-tricktionary.com/";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

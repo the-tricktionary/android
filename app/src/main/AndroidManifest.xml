@@ -53,7 +53,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="tricks.jumpropejam.com"
+                    android:host="the-tricktionary.com/"
                     android:pathPrefix="/android"
                     android:scheme="https" />
             </intent-filter>
@@ -103,7 +103,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="tricks.jumpropejam.com"
+                    android:host="the-tricktionary.com/"
                     android:pathPrefix="/speed"
                     android:scheme="https" />
             </intent-filter>

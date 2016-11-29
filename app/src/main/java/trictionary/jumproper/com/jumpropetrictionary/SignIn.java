@@ -58,6 +58,8 @@ public class SignIn extends AppCompatActivity {
                 .build();
         mAuth=FirebaseAuth.getInstance();
 
+
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -65,6 +67,7 @@ public class SignIn extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
+                    TrickData.getTricktionaryData();
                 } else {
                     // User is signed out
                     Log.d("Auth", "onAuthStateChanged:signed_out");
