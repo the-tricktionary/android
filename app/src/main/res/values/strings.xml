@@ -62,7 +62,8 @@
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
-
+    <string name="logo_transition">36420</string>
+    <string name="tricktionary_transition">42036</string>
     <string name="pref_title_new_message_notifications">New message notifications</string>
 
     <string name="pref_title_ringtone">Ringtone</string>
@@ -84,4 +85,5 @@
         <item>WJR</item>
         <item>FISAC/IRSF</item>
     </string-array>
+    <string name="title_activity_stats">Stats</string>
 </resources>

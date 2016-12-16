@@ -186,6 +186,6 @@ public class DrawerCreate extends AppCompatActivity{
                     }
                 })
                 .build();
-        toolbar.setTitle(title);
+        //toolbar.setTitle(title);
     }
 }

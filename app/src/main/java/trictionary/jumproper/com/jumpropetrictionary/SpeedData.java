@@ -12,7 +12,7 @@ public class SpeedData {
     int misses;
     int noMissScore;
     int score;
-    int time;
+    int time=0;
     int jumpsLost;
     String name;
 

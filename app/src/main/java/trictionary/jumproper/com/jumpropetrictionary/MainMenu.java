@@ -3,6 +3,7 @@ package trictionary.jumproper.com.jumpropetrictionary;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,10 +12,15 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -109,8 +115,9 @@ public class MainMenu extends AppCompatActivity {
         });
         DrawerCreate drawer=new DrawerCreate();
         drawer.makeDrawer(this, this, mAuth, toolbar, "Jump Rope Tricktionary");
-
         TrickData.getTricktionary();
+        setupWindowAnimations();
+
 
 
         scaleTitleText(title);
@@ -166,6 +173,29 @@ public class MainMenu extends AppCompatActivity {
             }
         };
 
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        fadeViews();
+    }
+
+    private void setupWindowAnimations() {
+        Fade fade = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            fade = new Fade();
+            fade.setDuration(25);
+            getWindow().setExitTransition(fade);
+            getWindow().setAllowEnterTransitionOverlap(true);
+            getWindow().setAllowReturnTransitionOverlap(true);
+        }
+    }
+
+    private void fadeViews(){
         ValueAnimator fadeHeaderIn = ObjectAnimator.ofFloat(header, "alpha", 0f, .75f);
         fadeHeaderIn.setDuration(2500);
         ValueAnimator fadeSettingsIn = ObjectAnimator.ofFloat(settingsGear, "alpha", 0f, .75f);
@@ -190,15 +220,6 @@ public class MainMenu extends AppCompatActivity {
         AnimatorSet anim=new AnimatorSet();
         anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload);
         anim.start();
-
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -248,7 +269,16 @@ public class MainMenu extends AppCompatActivity {
         else {
             TrickList.index = ((int) (Math.random() * TrickData.getTricktionary().length));
             Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            View sharedView = v;
+            String transitionName = getString(R.string.logo_transition);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainMenu.this, sharedView, transitionName);
+                startActivity(intent,transitionActivityOptions.toBundle());
+            }
+            else {
+                startActivity(intent);
+            }
+
         }
     }
     public void viewTricktionary(View v){
@@ -276,7 +306,15 @@ public class MainMenu extends AppCompatActivity {
         }
         else {
             Intent intent = new Intent(this, Tricktionary.class);
-            startActivity(intent);
+            View sharedView = v;
+            String transitionName = getString(R.string.tricktionary_transition);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainMenu.this, sharedView, transitionName);
+                startActivity(intent,transitionActivityOptions.toBundle());
+            }
+            else {
+                startActivity(intent);
+            }
         }
     }
     public void viewShowmaker(View v){

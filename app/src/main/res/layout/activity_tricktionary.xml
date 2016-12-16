@@ -32,7 +32,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:padding="10dp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:fontFamily="sans-serif"
+                android:transitionName="@string/tricktionary_transition"/>
 
             <trictionary.jumproper.com.jumpropetrictionary.MyGridView
                 android:id="@+id/basics_grid_view"
@@ -223,7 +225,8 @@
                 android:padding="10dp"
                 android:onClick="mainMenu"
                 android:layout_below="@+id/tricktionary_title"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:transitionName="@string/logo_transition"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -323,6 +326,22 @@
                 android:layout_below="@+id/imageView3"
                 android:layout_toStartOf="@+id/textView5"
                 android:layout_marginTop="16dp" />
+
+            <TextView
+                android:text="Stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView32"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_below="@+id/checkBox"
+                android:layout_alignStart="@+id/checkBox"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:textColor="@color/white"
+                android:onClick="viewStats" />
 
         </RelativeLayout>
     </ScrollView>

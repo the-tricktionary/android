@@ -117,8 +117,12 @@
         <activity android:name=".ContactActivity" />
         <activity
             android:name=".Submit"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".SignIn"></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".SignIn" />
+        <activity
+            android:name=".Stats"
+            android:label="@string/title_activity_stats"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

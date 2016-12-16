@@ -291,40 +291,42 @@ public class SpeedGraph extends AppCompatActivity {
     public void drawGraph(){
         chart = (LineChart) findViewById(R.id.chart);
         scrubbedTimes=data.getGraphData();
-        if(scrubbedTimes.size()<1){
+        if(scrubbedTimes.size()<1 || scrubbedTimes==null){
             return;//
         }
-        ArrayList<String> jumpLabels=getXAxisValues(scrubbedTimes.size()-1,data.getTime());
-        ArrayList<Entry> values=new ArrayList<>();
+        else {
+            ArrayList<String> jumpLabels = getXAxisValues(scrubbedTimes.size() - 1, data.getTime());
+            ArrayList<Entry> values = new ArrayList<>();
 
-        for(int j=1;j<scrubbedTimes.size();j++){
-            values.add(new Entry(100*(1/((float)scrubbedTimes.get(j)-(float)scrubbedTimes.get(j-1))), j-1));
+            for (int j = 1; j < scrubbedTimes.size(); j++) {
+                values.add(new Entry(100 * (1 / ((float) scrubbedTimes.get(j) - (float) scrubbedTimes.get(j - 1))), j - 1));
+            }
+
+            LineDataSet set = new LineDataSet(values, "Jumps per second");
+            set.setDrawCubic(true);
+            set.setDrawFilled(true);
+            set.setDrawValues(false);
+            set.setCircleRadius(0);
+
+            LineData totalJumps = new LineData(jumpLabels, set);
+            totalJumps.setDrawValues(false);
+
+            XAxis bottomAxis = chart.getXAxis();
+            bottomAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            bottomAxis.setAvoidFirstLastClipping(true);
+
+            YAxis leftAxis = chart.getAxisLeft();
+            chart.getAxisRight().setEnabled(false);
+
+            leftAxis.setAxisMinValue(0);
+            leftAxis.setAxisMaxValue(6);
+
+
+            chart.setDescription("");
+            chart.setData(totalJumps);
+
+            chart.invalidate();
         }
-
-        LineDataSet set=new LineDataSet(values, "Jumps per second");
-        set.setDrawCubic(true);
-        set.setDrawFilled(true);
-        set.setDrawValues(false);
-        set.setCircleRadius(0);
-
-        LineData totalJumps= new LineData(jumpLabels, set);
-        totalJumps.setDrawValues(false);
-
-        XAxis bottomAxis = chart.getXAxis();
-        bottomAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        bottomAxis.setAvoidFirstLastClipping(true);
-
-        YAxis leftAxis = chart.getAxisLeft();
-        chart.getAxisRight().setEnabled(false);
-
-        leftAxis.setAxisMinValue(0);
-        leftAxis.setAxisMaxValue(6);
-
-
-        chart.setDescription("");
-        chart.setData(totalJumps);
-
-        chart.invalidate();
     }
 
     public ArrayList<Long> scrubData(ArrayList<Long> list){

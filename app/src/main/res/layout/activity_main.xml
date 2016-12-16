@@ -95,7 +95,8 @@
                     android:visibility="visible"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="3dp" />
+                    android:layout_marginBottom="3dp"
+                    android:transitionName="@string/logo_transition"/>
 
                 <ImageView
                     android:layout_width="wrap_content"

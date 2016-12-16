@@ -1,10 +1,12 @@
 
 package trictionary.jumproper.com.jumpropetrictionary;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +16,8 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -113,6 +117,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();
         setContentView(R.layout.main_activity_toolbar_layout);
+        setupWindowAnimations();
 
         //declare, initialize and set toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -262,14 +267,18 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             }
         });
 
+    }
 
-
-
-
-
-
-
-
+    private void setupWindowAnimations() {
+        Fade fade = null;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fade = new Fade();
+            fade.setDuration(25);
+            getWindow().setEnterTransition(fade);
+            getWindow().setExitTransition(fade);
+            getWindow().setAllowEnterTransitionOverlap(true);
+            getWindow().setAllowReturnTransitionOverlap(true);
+        }
     }
 
     @Override
@@ -466,7 +475,15 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
                 TrickList.index = Tricktionary.getTrickFromName(item.getTitle().toString(), tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                View sharedView = logo;
+                String transitionName = getString(R.string.logo_transition);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, sharedView, transitionName);
+                    startActivity(intent,transitionActivityOptions.toBundle());
+                }
+                else {
+                    startActivity(intent);
+                }
                 return true;
             }
         });

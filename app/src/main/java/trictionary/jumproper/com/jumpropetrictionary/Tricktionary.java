@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,17 +54,20 @@ public class Tricktionary extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tricktionary_toolbar_layout);
+        setupWindowAnimations();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         loadingTricks = (ProgressBar)findViewById(R.id.loading_tricks);
         tricktionaryLayout=(FrameLayout)findViewById(R.id.tricktionary_layout);
         showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
+
         setSupportActionBar(toolbar);
         mAuth=FirebaseAuth.getInstance();
-
         TrickList.level=-1;
         TrickList.alphabet=true;
         TrickList.type="all";
         tricktionary=TrickData.getTricktionary();
+
+
 
 
         DrawerCreate drawer=new DrawerCreate();
@@ -125,6 +131,18 @@ public class Tricktionary extends ActionBarActivity{
 
 
     }
+
+    private void setupWindowAnimations() {
+        Fade fade = null;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fade = new Fade();
+            fade.setDuration(25);
+            getWindow().setEnterTransition(fade);
+            getWindow().setAllowEnterTransitionOverlap(true);
+            getWindow().setAllowReturnTransitionOverlap(true);
+        }
+    }
+
     @Override
     public void onResume(){
         super.onResume();
@@ -138,15 +156,17 @@ public class Tricktionary extends ActionBarActivity{
             h.post(r);
         }
         else{
-            for(int j=0;j<tricktionary.length;j++){
-                for(int i=completedIndex;i<completedTricks.size();i++){
-                    if (tricktionary[j].equals(completedTricks.get(i))) {
-                        completedIndex++;
-                        tricktionary[j].setCompleted(true);
+            if(tricktionary!=null && completedTricks!=null) {
+                for (int j = 0; j < tricktionary.length; j++) {
+                    for (int i = completedIndex; i < completedTricks.size(); i++) {
+                        if (tricktionary[j].equals(completedTricks.get(i))) {
+                            completedIndex++;
+                            tricktionary[j].setCompleted(true);
+                        }
                     }
                 }
+                h.post(r);
             }
-            h.post(r);
         }
     }
     public Runnable r=new Runnable() {
@@ -191,7 +211,10 @@ public class Tricktionary extends ActionBarActivity{
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
         final ArrayList<String> level4List = new ArrayList<String>();
 
-
+        if(tricktionary==null){
+            h.postDelayed(r, delay);
+            return;
+        }
         for(int j=0;j<tricktionary.length;j++){
             if(tricktionary[j].isCompleted()){
                 j++;
@@ -697,6 +720,10 @@ public class Tricktionary extends ActionBarActivity{
     }
     public void submitTrick(View v){
         Intent intent = new Intent(this, Submit.class);
+        startActivity(intent);
+    }
+    public void viewStats(View v){
+        Intent intent = new Intent(this, Stats.class);
         startActivity(intent);
     }
 }
