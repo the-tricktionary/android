@@ -24,17 +24,21 @@
                 android:layout_height="wrap_content"
                 android:text="Tricktionary"
                 android:id="@+id/tricktionary_title"
-                android:layout_gravity="center_horizontal|top"
                 android:background="@drawable/rounded_corner_shadow_red"
-                android:singleLine="true"
                 android:textSize="25dp"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:padding="10dp"
+                android:padding="16dp"
                 android:textColor="#ffffff"
                 android:fontFamily="sans-serif"
-                android:transitionName="@string/tricktionary_transition"/>
+                android:transitionName="@string/tricktionary_transition"
+                android:layout_alignEnd="@+id/imageView34"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageView6" />
 
             <trictionary.jumproper.com.jumpropetrictionary.MyGridView
                 android:id="@+id/basics_grid_view"
@@ -198,35 +202,16 @@
                 android:clickable="true"
                 android:textColor="#ffffff" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:id="@+id/textView5"
-                android:background="@drawable/rounded_corner_shadow_red"
-                android:textSize="20dp"
-                android:onClick="startSearch"
-                android:layout_marginRight="0dp"
-                android:layout_marginLeft="16dp"
-                android:padding="10dp"
-                android:layout_below="@+id/tricktionary_title"
-                android:layout_toEndOf="@+id/level_1_title"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:textColor="#ffffff"
-                android:layout_alignBottom="@+id/imageView3"
-                android:gravity="center" />
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80sp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/imageView3"
                 android:src="@drawable/icon_alpha"
-                android:padding="10dp"
                 android:onClick="mainMenu"
-                android:layout_below="@+id/tricktionary_title"
                 android:layout_centerHorizontal="true"
-                android:transitionName="@string/logo_transition"/>
+                android:transitionName="@string/logo_transition"
+                android:layout_alignTop="@+id/textView" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -234,25 +219,14 @@
                 android:id="@+id/imageView6"
                 android:layout_gravity="left|top"
                 android:src="@drawable/ic_ab_back_material"
-                android:padding="20dp"
+                android:padding="16dp"
                 android:alpha=".75"
                 android:scaleType="center"
                 android:onClick="mainMenu"
                 android:layout_alignTop="@+id/tricktionary_title"
-                android:layout_above="@+id/textView"
-                android:layout_alignStart="@+id/textView" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView14"
-                android:layout_alignBottom="@+id/textView5"
-                android:src="@drawable/ic_search_api_material"
-                android:layout_alignTop="@+id/textView5"
-                android:background="@drawable/rounded_corner_shadow_red"
-                android:tint="#ffffff"
-                android:onClick="startSearch"
-                android:layout_alignEnd="@+id/basics_grid_view"
-                android:layout_toEndOf="@+id/textView5" />
+                android:layout_alignStart="@+id/checkBox"
+                android:layout_marginRight="36dp"
+                android:layout_alignBottom="@+id/tricktionary_title" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -271,9 +245,9 @@
                 android:layout_alignBottom="@+id/tricktionary_title"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:id="@+id/relativeLayout"
-                android:onClick="submitTrick">
+                android:onClick="submitTrick"
+                android:layout_marginRight="16dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -304,15 +278,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/checkBox"
-                android:padding="0dp"
+                android:padding="5dp"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:layout_alignTop="@+id/textView"
-                android:layout_alignEnd="@+id/textView"
                 app:buttonTint="#ffffff"
                 android:textColor="@color/white"
                 android:layout_alignBottom="@+id/imageView3"
                 android:layout_alignStart="@+id/basics_grid_view"
-                android:checked="true" />
+                android:checked="true"
+                android:layout_toStartOf="@+id/level_1_title"
+                android:textAlignment="center" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -324,24 +299,37 @@
                 android:padding="10dp"
                 android:textColor="#ffffff"
                 android:layout_below="@+id/imageView3"
-                android:layout_toStartOf="@+id/textView5"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:layout_centerVertical="false"
+                android:layout_centerHorizontal="true" />
 
-            <TextView
-                android:text="Stats"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView32"
-                android:textSize="18sp"
-                android:textAlignment="viewStart"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_below="@+id/checkBox"
-                android:layout_alignStart="@+id/checkBox"
+                android:id="@+id/imageView14"
+                android:src="@drawable/ic_search_api_material"
                 android:background="@drawable/rounded_corner_shadow_red"
-                android:textColor="@color/white"
-                android:onClick="viewStats" />
+                android:tint="#ffffff"
+                android:onClick="startSearch"
+                android:layout_alignEnd="@+id/relativeLayout"
+                android:layout_alignTop="@+id/textView"
+                android:padding="16dp"
+                android:layout_toEndOf="@+id/imageView34"
+                android:layout_alignStart="@+id/relativeLayout"
+                android:layout_alignBottom="@+id/imageView3" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/stats"
+                android:layout_alignTop="@+id/imageView14"
+                android:id="@+id/imageView34"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:tint="#ffffff"
+                android:onClick="viewStats"
+                android:layout_toEndOf="@+id/level_1_title"
+                android:scaleType="fitCenter"
+                android:layout_alignBottom="@+id/imageView3" />
 
         </RelativeLayout>
     </ScrollView>
