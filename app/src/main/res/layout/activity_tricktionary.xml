@@ -32,13 +32,11 @@
                 android:textColor="#ffffff"
                 android:fontFamily="sans-serif"
                 android:transitionName="@string/tricktionary_transition"
-                android:layout_alignEnd="@+id/imageView34"
                 android:textAlignment="gravity"
                 android:gravity="center"
                 android:layout_marginBottom="10dp"
-                android:layout_centerInParent="false"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView6" />
+                android:layout_centerHorizontal="true" />
 
             <trictionary.jumproper.com.jumpropetrictionary.MyGridView
                 android:id="@+id/basics_grid_view"
@@ -225,8 +223,8 @@
                 android:onClick="mainMenu"
                 android:layout_alignTop="@+id/tricktionary_title"
                 android:layout_alignStart="@+id/checkBox"
-                android:layout_marginRight="36dp"
-                android:layout_alignBottom="@+id/tricktionary_title" />
+                android:layout_alignBottom="@+id/tricktionary_title"
+                android:layout_toStartOf="@+id/tricktionary_title" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
