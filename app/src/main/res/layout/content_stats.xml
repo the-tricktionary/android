@@ -179,12 +179,22 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_ab_back_material"
+        android:src="@drawable/ic_ab_back_material"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/imageView35"
-        android:layout_above="@+id/scrollView5"
         android:padding="16dp"
         android:alpha=".75"
         android:onClick="back" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/account_circle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/imageView36"
+        android:alpha=".75"
+        android:onClick="viewProfile" />
+
 </RelativeLayout>

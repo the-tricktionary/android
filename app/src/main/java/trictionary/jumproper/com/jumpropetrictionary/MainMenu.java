@@ -12,15 +12,11 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
-import android.transition.Slide;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +46,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainMenu extends AppCompatActivity {
     private VideoView myVideoView;
-    ImageView header, settingsGear,webApp,contact,upload;
+    ImageView header, settingsGear,webApp,contact,upload,profile;
     TextView title, viewTricktionary;
     TextView viewShowmaker,viewTrickTree,viewSpeedData;
 
@@ -77,6 +73,7 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Jump Rope Tricktionary");
         setSupportActionBar(toolbar);
+        Tricktionary.fillTricktionary();
 
 
 
@@ -89,6 +86,7 @@ public class MainMenu extends AppCompatActivity {
         webApp=(ImageView)findViewById(R.id.view_webapp);
         contact=(ImageView)findViewById(R.id.view_contact);
         upload=(ImageView)findViewById(R.id.upload);
+        profile=(ImageView)findViewById(R.id.profile_icon);
         settingsGear.setMaxHeight(settingsGear.getHeight()/2);
         settingsGear.setMaxWidth(settingsGear.getWidth()/2);
         title=(TextView)findViewById(R.id.title);
@@ -216,9 +214,11 @@ public class MainMenu extends AppCompatActivity {
         fadeContact.setDuration(2500);
         ValueAnimator fadeUpload = ObjectAnimator.ofFloat(upload, "alpha", 0f, .75f);
         fadeUpload.setDuration(2500);
+        ValueAnimator fadeProfile = ObjectAnimator.ofFloat(profile, "alpha", 0f, .75f);
+        fadeProfile.setDuration(2500);
 
         AnimatorSet anim=new AnimatorSet();
-        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload);
+        anim.play(fadeHeaderIn).with(fadeTitleIn).with(fadeViewIn).with(fadeShowIn).with(fadeSettingsIn).with(fadeTrickTreeIn).with(fadeSpeedData).with(fadeContact).with(fadeWebApp).with(fadeUpload).with(fadeProfile);
         anim.start();
     }
 
@@ -451,5 +451,30 @@ public class MainMenu extends AppCompatActivity {
     public void submitTrick(View v){
         Intent intent = new Intent(this, Submit.class);
         startActivity(intent);
+    }
+    public void viewProfile(View v){
+        if(mAuth.getCurrentUser()==null){
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle("Profile");
+            mBuilder.setMessage("You must sign in to access your profile and store trick statistics.");
+            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(MainMenu.this,SignIn.class);
+                    startActivity(intent);
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            mBuilder.show();
+        }
+        else{
+            Intent intent = new Intent(this, Profile.class);
+            startActivity(intent);
+        }
     }
 }

@@ -220,4 +220,14 @@
 
     </RelativeLayout>
 
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/account_circle"
+        android:id="@+id/profile_icon"
+        android:padding="10dp"
+        android:tint="@color/materialRed"
+        android:alpha=".75"
+        android:onClick="viewProfile" />
+
 </FrameLayout>

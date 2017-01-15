@@ -1,14 +1,15 @@
 package trictionary.jumproper.com.jumpropetrictionary;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Stats extends AppCompatActivity {
     private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,averageTricks,maxTricks;
     private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count,numUsers,maxCount;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -26,6 +28,7 @@ public class Stats extends AppCompatActivity {
         setContentView(R.layout.activity_stats);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mAuth=FirebaseAuth.getInstance();
         numTricks=(TextView)findViewById(R.id.num_tricks);
         numLevel1Tricks=(TextView)findViewById(R.id.num_level_1_tricks);
         numLevel2Tricks=(TextView)findViewById(R.id.num_level_2_tricks);
@@ -91,6 +94,32 @@ public class Stats extends AppCompatActivity {
     }
     public void back(View v){
         finish();
+    }
+
+    public void viewProfile(View v){
+        if(mAuth.getCurrentUser()==null){
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle("Profile");
+            mBuilder.setMessage("You must sign in to access your profile and store trick statistics.");
+            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(Stats.this,SignIn.class);
+                    startActivity(intent);
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            mBuilder.show();
+        }
+        else{
+            Intent intent = new Intent(this, Profile.class);
+            startActivity(intent);
+        }
     }
 
 }
