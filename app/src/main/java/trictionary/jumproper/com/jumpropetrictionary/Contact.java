@@ -12,6 +12,7 @@ public class Contact {
     private String id0;
     private String org;
     private String level;
+    private String email;
 
     public Contact(){
         this.name="Test";
@@ -41,6 +42,19 @@ public class Contact {
         this.id1=id1;
         this.id0=id0;
     }
+    public Contact(String name, String type, String desc, String id1, String id0,String email) {
+        if(name.length()>0) {
+            this.name = name;
+        }
+        else{
+            this.name="Anonymous";
+        }
+        this.type = type;
+        this.desc = desc;
+        this.id1=id1;
+        this.id0=id0;
+        this.email=email;
+    }
     public Contact(String name, String type, String desc, String id1, String id0, String org, String level) {
         if(name.length()>0) {
             this.name = name;
@@ -54,6 +68,21 @@ public class Contact {
         this.id0=id0;
         this.org=org;
         this.level=level;
+    }
+    public Contact(String name, String type, String desc, String id1, String id0, String org, String level,String email) {
+        if(name.length()>0) {
+            this.name = name;
+        }
+        else{
+            this.name="Anonymous";
+        }
+        this.type = type;
+        this.desc = desc;
+        this.id1=id1;
+        this.id0=id0;
+        this.org=org;
+        this.level=level;
+        this.email=email;
     }
 
     public String getName() {
@@ -118,6 +147,14 @@ public class Contact {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String toString(){

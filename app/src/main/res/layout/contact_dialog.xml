@@ -113,4 +113,12 @@
         android:layout_marginTop="10dp"
         android:onClick="signInButtonClick" />
 
+    <CheckBox
+        android:text="Receive replies via email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_replies"
+        android:checked="true"
+        android:padding="10dp" />
+
 </LinearLayout>

@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
-import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,8 +68,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //declare image views
     ImageView logo,adExit,fisacExpand;
 
-    //completed trick checkboc
-    CheckBox trickCompleted;
+    //completed trick checkbox and email replies
+    CheckBox trickCompleted,emailReplies;
 
     //these are required for the toolbar because MainActivity already extends a class
     private AppCompatActivity appCompatActivity;
@@ -600,6 +599,7 @@ return;
         final Spinner orgSpinner=(Spinner)textBoxes.findViewById(R.id.org_spinner);
         final LinearLayout contactGeneral=(LinearLayout)textBoxes.findViewById(R.id.contact_general);
         final RelativeLayout incorrectLevel=(RelativeLayout)textBoxes.findViewById(R.id.contact_incorrect_level);
+        emailReplies = (CheckBox)textBoxes.findViewById(R.id.email_replies);
         signInButton=(Button)textBoxes.findViewById(R.id.sign_in_button);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -665,13 +665,27 @@ return;
                                     if((contactTypeName.equals("Incorrect Level"))&&(correctLevel.getText().toString().length()>0)){
                                         FirebaseDatabase fb=FirebaseDatabase.getInstance();
                                         DatabaseReference myRef=fb.getReference("contact");
-                                        Contact data=new Contact(contactName.getText().toString(),
-                                                contactTypeName,
-                                                tricktionary[trickIndex].getName(),
-                                                tricktionary[trickIndex].getId1(),
-                                                tricktionary[trickIndex].getId0(),
-                                                organization,
-                                                correctLevel.getText().toString());
+                                        Contact data;
+                                        Log.d("emailReplies","Checked:"+emailReplies.isChecked());
+                                        if(emailReplies.isChecked()){
+                                             data=new Contact(contactName.getText().toString(),
+                                                    contactTypeName,
+                                                    tricktionary[trickIndex].getName(),
+                                                    tricktionary[trickIndex].getId1(),
+                                                    tricktionary[trickIndex].getId0(),
+                                                    organization,
+                                                    correctLevel.getText().toString(),
+                                                    mAuth.getCurrentUser().getEmail());
+                                        }
+                                        else {
+                                             data = new Contact(contactName.getText().toString(),
+                                                    contactTypeName,
+                                                    tricktionary[trickIndex].getName(),
+                                                    tricktionary[trickIndex].getId1(),
+                                                    tricktionary[trickIndex].getId0(),
+                                                    organization,
+                                                    correctLevel.getText().toString());
+                                        }
                                         myRef.child(mAuth.getCurrentUser().getUid())
                                                 .child(myRef.push().getKey())
                                                 .setValue(data);
@@ -685,11 +699,23 @@ return;
                                     else if(comment.getText().toString().length()>0){
                                         FirebaseDatabase fb=FirebaseDatabase.getInstance();
                                         DatabaseReference myRef=fb.getReference("contact");
-                                        Contact data=new Contact(contactName.getText().toString(),
-                                                contactTypeName,
-                                                tricktionary[trickIndex].getName()+" - "+comment.getText().toString(),
-                                                tricktionary[trickIndex].getId1(),
-                                                tricktionary[trickIndex].getId0());
+                                        Contact data;
+                                        if(emailReplies.isChecked()) {
+                                             data = new Contact(contactName.getText().toString(),
+                                                    contactTypeName,
+                                                    tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
+                                                    tricktionary[trickIndex].getId1(),
+                                                    tricktionary[trickIndex].getId0(),
+                                                    mAuth.getCurrentUser().getEmail());
+                                        }
+                                        else{
+                                            data = new Contact(contactName.getText().toString(),
+                                                    contactTypeName,
+                                                    tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
+                                                    tricktionary[trickIndex].getId1(),
+                                                    tricktionary[trickIndex].getId0(),
+                                                    mAuth.getCurrentUser().getEmail());
+                                        }
                                         myRef.child(mAuth.getCurrentUser().getUid())
                                                 .child(myRef.push().getKey())
                                                 .setValue(data);
@@ -721,13 +747,26 @@ return;
                 else if((contactTypeName.equals("Incorrect Level"))&&(correctLevel.getText().toString().length()>0)){
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     DatabaseReference myRef=fb.getReference("contact");
-                    Contact data=new Contact(contactName.getText().toString(),
-                            contactTypeName,
-                            tricktionary[trickIndex].getName(),
-                            tricktionary[trickIndex].getId1(),
-                            tricktionary[trickIndex].getId0(),
-                            organization,
-                            correctLevel.getText().toString());
+                    Contact data;
+                    if(emailReplies.isChecked()) {
+                         data = new Contact(contactName.getText().toString(),
+                                contactTypeName,
+                                tricktionary[trickIndex].getName(),
+                                tricktionary[trickIndex].getId1(),
+                                tricktionary[trickIndex].getId0(),
+                                organization,
+                                correctLevel.getText().toString(),
+                                 mAuth.getCurrentUser().getEmail());
+                    }
+                    else{
+                        data = new Contact(contactName.getText().toString(),
+                                contactTypeName,
+                                tricktionary[trickIndex].getName(),
+                                tricktionary[trickIndex].getId1(),
+                                tricktionary[trickIndex].getId0(),
+                                organization,
+                                correctLevel.getText().toString());
+                    }
                     myRef.child(mAuth.getCurrentUser().getUid())
                             .child(myRef.push().getKey())
                             .setValue(data);
@@ -741,11 +780,22 @@ return;
                 else if(comment.getText().toString().length()>0){
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     DatabaseReference myRef=fb.getReference("contact");
-                    Contact data=new Contact(contactName.getText().toString(),
-                            contactTypeName,
-                            tricktionary[trickIndex].getName()+" - "+comment.getText().toString(),
-                            tricktionary[trickIndex].getId1(),
-                            tricktionary[trickIndex].getId0());
+                    Contact data;
+                    if(emailReplies.isChecked()) {
+                        data = new Contact(contactName.getText().toString(),
+                                contactTypeName,
+                                tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
+                                tricktionary[trickIndex].getId1(),
+                                tricktionary[trickIndex].getId0(),
+                                mAuth.getCurrentUser().getEmail());
+                    }
+                    else{
+                        data = new Contact(contactName.getText().toString(),
+                                contactTypeName,
+                                tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
+                                tricktionary[trickIndex].getId1(),
+                                tricktionary[trickIndex].getId0());
+                    }
                     myRef.child(mAuth.getCurrentUser().getUid())
                             .child(myRef.push().getKey())
                             .setValue(data);
