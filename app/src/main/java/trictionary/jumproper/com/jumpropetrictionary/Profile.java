@@ -2,6 +2,7 @@ package trictionary.jumproper.com.jumpropetrictionary;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -68,18 +69,19 @@ public class Profile extends AppCompatActivity {
                 numLevel4Count=0;
                 for(DataSnapshot ids:dataSnapshot.getChildren()){
                     for(DataSnapshot id0:ids.getChildren()){
-                        if(Integer.parseInt(id0.getKey().toString())==0){
+                        if(Integer.parseInt(id0.getKey().toString())==0 && id0.getValue()==true){
                             numLevel1Count++;
                         }
-                        if(Integer.parseInt(id0.getKey().toString())==1){
+                        if(Integer.parseInt(id0.getKey().toString())==1 && id0.getValue()==true){
                             numLevel2Count++;
                         }
-                        if(Integer.parseInt(id0.getKey().toString())==2){
+                        if(Integer.parseInt(id0.getKey().toString())==2 && id0.getValue()==true){
                             numLevel3Count++;
                         }
-                        if(Integer.parseInt(id0.getKey().toString())==3){
+                        if(Integer.parseInt(id0.getKey().toString())==3 && id0.getValue()==true){
                             numLevel4Count++;
                         }
+                        if(id0.getValue()==true)
                         numTricksCount++;
                     }
                 }
@@ -97,7 +99,9 @@ public class Profile extends AppCompatActivity {
         });
 
         DownloadImageTask downloadImage=new DownloadImageTask(mAuth,profileImage);
-        downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+        }
         h = new Handler();
         h.postDelayed(r, delay);
 
@@ -105,17 +109,6 @@ public class Profile extends AppCompatActivity {
         drawer.makeDrawer(this, this, mAuth, toolbar, " ");
     }
     public void populateLists(){
-        if(tricktionary!=null && completedTricks!=null) {
-            for (int j = 0; j < tricktionary.length; j++) {
-                for (int i = completedIndex; i < completedTricks.size(); i++) {
-                    if (tricktionary[j].equals(completedTricks.get(i))) {
-                        completedIndex++;
-                        tricktionary[j].setCompleted(true);
-                    }
-                }
-            }
-            h.post(r);
-        }
 
 
         final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view_profile);
@@ -137,24 +130,28 @@ public class Profile extends AppCompatActivity {
             h.postDelayed(r, delay);
             return;
         }
-        for(int j=0;j<tricktionary.length;j++){
-            if(!tricktionary[j].isCompleted()){
+        if(completedTricks==null){
+            h.postDelayed(r, delay);
+            return;
+        }
+        for(int j=0;j<completedTricks.size();j++){
+            if(!completedTricks.get(j).isCompleted()){
                 j++;
             }
-            else if(tricktionary[j].getType().equals("Basics")){
-                basicsList.add(tricktionary[j].getName());
+            else if(completedTricks.get(j).getType().equals("Basics")){
+                basicsList.add(completedTricks.get(j).getName());
             }
-            else if(tricktionary[j].getDifficulty()==1){
-                level1List.add(tricktionary[j].getName());
+            else if(completedTricks.get(j).getDifficulty()==1){
+                level1List.add(completedTricks.get(j).getName());
             }
-            else if(tricktionary[j].getDifficulty()==2){
-                level2List.add(tricktionary[j].getName());
+            else if(completedTricks.get(j).getDifficulty()==2){
+                level2List.add(completedTricks.get(j).getName());
             }
-            else if(tricktionary[j].getDifficulty()==3){
-                level3List.add(tricktionary[j].getName());
+            else if(completedTricks.get(j).getDifficulty()==3){
+                level3List.add(completedTricks.get(j).getName());
             }
-            else if(tricktionary[j].getDifficulty()==4){
-                level4List.add(tricktionary[j].getName());
+            else if(completedTricks.get(j).getDifficulty()==4){
+                level4List.add(completedTricks.get(j).getName());
             }
         }
         Collections.sort(basicsList);

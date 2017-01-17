@@ -177,5 +177,6 @@
     <orderEntry type="library" exported="" name="iconics-core-2.8.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-impl-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="firebase-crash-9.6.1" level="project" />
+    <orderEntry type="library" exported="" name="android-android-24" level="project" />
   </component>
 </module>
