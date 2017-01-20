@@ -46,6 +46,8 @@ public class Profile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mAuth=FirebaseAuth.getInstance();
+        TrickData.getTricktionaryData();
+        TrickData.fillCompletedTricks();
 
         profileName = (TextView)findViewById(R.id.profile_name);
         profileName.setText(mAuth.getCurrentUser().getDisplayName());
@@ -58,7 +60,7 @@ public class Profile extends AppCompatActivity {
         numLevel4Tricks=(TextView)findViewById(R.id.num_level_4_tricks_profile);
 
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        DatabaseReference myRef=fb.getReference("checklist");
+        DatabaseReference myRef=fb.getReference("checklist").child(mAuth.getCurrentUser().getUid());
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -67,24 +69,24 @@ public class Profile extends AppCompatActivity {
                 numLevel2Count=0;
                 numLevel3Count=0;
                 numLevel4Count=0;
-                for(DataSnapshot ids:dataSnapshot.getChildren()){
-                    for(DataSnapshot id0:ids.getChildren()){
-                        if(Integer.parseInt(id0.getKey().toString())==0 && id0.getValue()==true){
-                            numLevel1Count++;
+                    for(DataSnapshot id0:dataSnapshot.getChildren()) {
+                        for (DataSnapshot id1 : id0.getChildren()) {
+                            if (Integer.parseInt(id0.getKey().toString()) == 0 && id1.getValue().toString().equals("true")) {
+                                numLevel1Count++;
+                            }
+                            if (Integer.parseInt(id0.getKey().toString()) == 1 && id1.getValue().toString().equals("true")) {
+                                numLevel2Count++;
+                            }
+                            if (Integer.parseInt(id0.getKey().toString()) == 2 && id1.getValue().toString().equals("true")) {
+                                numLevel3Count++;
+                            }
+                            if (Integer.parseInt(id0.getKey().toString()) == 3 && id1.getValue().toString().equals("true")) {
+                                numLevel4Count++;
+                            }
+                            if (id1.getValue().toString().equals("true"))
+                                numTricksCount++;
                         }
-                        if(Integer.parseInt(id0.getKey().toString())==1 && id0.getValue()==true){
-                            numLevel2Count++;
-                        }
-                        if(Integer.parseInt(id0.getKey().toString())==2 && id0.getValue()==true){
-                            numLevel3Count++;
-                        }
-                        if(Integer.parseInt(id0.getKey().toString())==3 && id0.getValue()==true){
-                            numLevel4Count++;
-                        }
-                        if(id0.getValue()==true)
-                        numTricksCount++;
                     }
-                }
                 numTricks.setText(""+numTricksCount);
                 numLevel1Tricks.setText(""+numLevel1Count);
                 numLevel2Tricks.setText(""+numLevel2Count);
@@ -107,6 +109,21 @@ public class Profile extends AppCompatActivity {
 
         DrawerCreate drawer=new DrawerCreate();
         drawer.makeDrawer(this, this, mAuth, toolbar, " ");
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(h==null){
+            h = new Handler();
+        }
+        delay=100;
+        h.postDelayed(r,delay);
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        delay=60000;
+        h.removeCallbacks(r);
     }
     public void populateLists(){
 
@@ -519,8 +536,10 @@ public class Profile extends AppCompatActivity {
             if(tricktionary==null){
                 Log.e("TrickCheck","Array is null");
                 tricktionary=TrickData.getTricktionary();
+                TrickData.fillCompletedTricks();
             }
             else{
+                TrickData.fillCompletedTricks();
                 Log.e("TrickCheck","Array is full!");
                 populateLists();
                 delay=60000; //change update time to 1 minute

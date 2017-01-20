@@ -92,7 +92,7 @@ public class TrickData extends Trick{
     }
 
     public static void fillCompletedTricks(){
-        if(uId.length()>0) {
+        if(uId.length()>0 && getCompletedTricks().size()==0) {
             Tricktionary.completedTricks.clear();
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist");
@@ -107,8 +107,8 @@ public class TrickData extends Trick{
                                         .child(tricktionary[j].getId0())
                                         .child(tricktionary[j].getId1())
                                         .getValue().toString().equals("true")) {
-                                    Tricktionary.completedTricks.add(tricktionary[j]);
                                     tricktionary[j].setCompleted(true);
+                                    Tricktionary.completedTricks.add(tricktionary[j]);
                                 }
                             }
                         }
@@ -128,6 +128,7 @@ public class TrickData extends Trick{
             return getTricktionaryData();
         }
         else {
+            Tricktionary.completedTricks=getCompletedTricks();
             return tricktionary;
         }
     }
