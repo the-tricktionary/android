@@ -201,7 +201,7 @@ public class DrawerCreate extends AppCompatActivity{
                     }
                 })
                 .build();
-        //toolbar.setTitle(title);
+        toolbar.setTitle("");
     }
     private class DownloadImageTask extends AsyncTask<String, Void, ProfileDrawerItem> {
         ProfileDrawerItem bmImage;

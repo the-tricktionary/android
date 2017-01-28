@@ -66,7 +66,7 @@ public class Tricktionary extends ActionBarActivity{
 
 
         DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "Submit tricks");
+        drawer.makeDrawer(this, this, mAuth, toolbar,"");
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
