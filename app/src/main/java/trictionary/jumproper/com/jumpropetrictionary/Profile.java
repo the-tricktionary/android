@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class Profile extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         TrickData.getTricktionaryData();
         TrickData.fillCompletedTricks();
+
 
         profileName = (TextView)findViewById(R.id.profile_name);
         profileName.setText(mAuth.getCurrentUser().getDisplayName());
@@ -113,11 +115,6 @@ public class Profile extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(h==null){
-            h = new Handler();
-        }
-        delay=100;
-        h.postDelayed(r,delay);
     }
     @Override
     public void onPause(){
@@ -435,6 +432,12 @@ public class Profile extends AppCompatActivity {
             }
 
         });
+
+        basicsGridView.refreshDrawableState();
+        level1GridView.refreshDrawableState();
+        level2GridView.refreshDrawableState();
+        level3GridView.refreshDrawableState();
+        level4GridView.refreshDrawableState();
         h.removeCallbacks(r);
     }
     public ArrayList<String> sortTrickList(ArrayList<String> list, int level){
@@ -533,19 +536,25 @@ public class Profile extends AppCompatActivity {
             if(mAuth.getCurrentUser()!=null){
                 TrickData.uId=mAuth.getCurrentUser().getUid();
             }
-            if(tricktionary==null){
+            if(completedTricks==null){
                 Log.e("TrickCheck","Array is null");
                 tricktionary=TrickData.getTricktionary();
                 TrickData.fillCompletedTricks();
+                completedTricks=TrickData.getCompletedTricks();
+                h.postDelayed(this,delay);
+            }
+            else if (completedTricks.size()==0){
+                TrickData.fillCompletedTricks();
+                completedTricks=TrickData.getCompletedTricks();
+                h.postDelayed(this, delay);
             }
             else{
-                TrickData.fillCompletedTricks();
-                Log.e("TrickCheck","Array is full!");
                 populateLists();
                 delay=60000; //change update time to 1 minute
                 h.removeCallbacks(r);
             }
-            h.postDelayed(this, delay);
+            populateLists();
+
         }
     };
     public void back(View v){

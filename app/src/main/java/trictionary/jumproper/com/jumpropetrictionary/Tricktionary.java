@@ -76,7 +76,6 @@ public class Tricktionary extends ActionBarActivity{
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(mAuth.getCurrentUser()==null){
                     AlertDialog.Builder builder = new AlertDialog.Builder(Tricktionary.this); //new alert dialog
-                    //builder.setTitle("Submit reply"); //dialog title
                     LayoutInflater inflater = (LayoutInflater)Tricktionary.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
                     final View textBoxes=inflater.inflate(R.layout.complete_tricks_dialog,null); //custom layout file now a view object
                     builder.setView(textBoxes); //set view to custom layout
@@ -120,6 +119,8 @@ public class Tricktionary extends ActionBarActivity{
                 }
             }
         });
+
+        toolbar.setTitle("");
 
         h = new Handler();
         h.postDelayed(r, delay);
@@ -723,6 +724,31 @@ public class Tricktionary extends ActionBarActivity{
     public void viewStats(View v){
         Intent intent = new Intent(this, Stats.class);
         startActivity(intent);
+    }
+    public void viewProfile(View v){
+        if(mAuth.getCurrentUser()==null){
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle("Profile");
+            mBuilder.setMessage("You must sign in to access your profile and store trick statistics.");
+            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(Tricktionary.this,SignIn.class);
+                    startActivity(intent);
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            mBuilder.show();
+        }
+        else{
+            Intent intent = new Intent(this, Profile.class);
+            startActivity(intent);
+        }
     }
 }
 

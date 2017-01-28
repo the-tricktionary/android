@@ -15,7 +15,7 @@
     android:background="@drawable/background">
 
     <ScrollView
-        android:id="@+id/scrollView5"
+        android:id="@+id/my_tricks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corner_shadow"

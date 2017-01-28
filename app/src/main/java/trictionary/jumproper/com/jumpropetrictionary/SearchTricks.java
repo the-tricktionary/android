@@ -29,10 +29,9 @@ public class SearchTricks extends AppCompatActivity {
         setContentView(R.layout.search_toolbar_layout);
         mAuth=FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Search Tricks");
         setSupportActionBar(toolbar);
         DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "Submit tricks");
+        drawer.makeDrawer(this, this, mAuth, toolbar, "");
 
         // Get the intent, verify the action and get the query
         searchBar = (EditText)findViewById(R.id.editText);

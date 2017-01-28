@@ -51,32 +51,30 @@
         android:layout_centerHorizontal="true"
         android:hint="Search the Tricktionary" />
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="  "
         android:id="@+id/search"
         android:layout_alignBottom="@+id/editText"
-        android:layout_toEndOf="@+id/editText"
-        android:typeface="monospace"
-        android:textSize="30dp"
-        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:onClick="searchButtonPressed"
         android:clickable="true"
-        android:alpha=".75" />
+        android:alpha=".75"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/editText"
+        android:layout_alignParentTop="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView8"
-        android:layout_gravity="left|top"
         android:src="@drawable/ic_ab_back_material"
         android:alpha=".75"
-        android:scaleType="fitXY"
         android:onClick="viewTricktionary"
-        android:layout_above="@+id/imageView2"
-        android:layout_toStartOf="@+id/editText"
         android:paddingRight="20dp"
-        android:paddingBottom="5dp" />
+        android:paddingBottom="5dp"
+        android:layout_above="@+id/listview"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/editText" />
 
 </RelativeLayout>
