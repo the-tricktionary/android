@@ -19,6 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/basics_title"
+                android:layout_below="@+id/tricktionary_title"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:visibility="invisible" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,7 +37,7 @@
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:textSize="25dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:padding="16dp"
                 android:textColor="#ffffff"
                 android:transitionName="@string/tricktionary_transition"
@@ -224,12 +234,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView31"
                 android:src="@drawable/upload"
-                android:alpha=".75"
                 android:layout_above="@+id/basics_title"
                 android:padding="8dp"
                 android:layout_toEndOf="@+id/tricktionary_title"
                 android:onClick="submitTrick"
-                android:layout_below="@+id/tricktionary_title" />
+                android:layout_below="@+id/tricktionary_title"
+                android:tint="@color/white"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -268,23 +280,27 @@
                 android:id="@+id/imageView34"
                 android:onClick="viewStats"
                 android:scaleType="fitCenter"
-                android:alpha=".75"
                 android:layout_toStartOf="@+id/tricktionary_title"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/tricktionary_title"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:tint="@color/white"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:layout_marginLeft="16dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/account_circle"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/imageView3"
-                android:alpha=".75"
                 android:onClick="viewProfile"
                 android:padding="8dp"
                 android:layout_below="@+id/tricktionary_title"
-                android:layout_above="@+id/basics_title" />
+                android:layout_above="@+id/basics_title"
+                android:tint="@color/white"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:layout_alignStart="@+id/basics_title"
+                android:layout_toStartOf="@+id/checkBox" />
 
         </RelativeLayout>
     </ScrollView>

@@ -112,7 +112,8 @@ public class MainMenu extends AppCompatActivity {
 
         });
         DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "Jump Rope Tricktionary");
+        drawer.makeDrawer(this, this, mAuth, toolbar, "");
+        getSupportActionBar().setTitle("");
         TrickData.getTricktionary();
         setupWindowAnimations();
 
