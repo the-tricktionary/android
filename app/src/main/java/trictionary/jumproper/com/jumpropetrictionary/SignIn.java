@@ -142,10 +142,12 @@ public class SignIn extends AppCompatActivity {
                         if(task.isComplete()){
                             Toast.makeText(SignIn.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
                                     Toast.LENGTH_SHORT).show();
+                            String name=mAuth.getCurrentUser().getDisplayName();
                             FirebaseDatabase fb=FirebaseDatabase.getInstance();
                             final DatabaseReference myRef=fb.getReference("users");
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").setValue(mAuth.getCurrentUser().getDisplayName());
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name.substring(0,name.indexOf(' ')));
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name.substring(name.indexOf(' ')+1));
                             finish();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
