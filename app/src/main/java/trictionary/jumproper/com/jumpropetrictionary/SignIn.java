@@ -22,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignIn extends AppCompatActivity {
 
@@ -140,6 +142,10 @@ public class SignIn extends AppCompatActivity {
                         if(task.isComplete()){
                             Toast.makeText(SignIn.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
                                     Toast.LENGTH_SHORT).show();
+                            FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                            final DatabaseReference myRef=fb.getReference("users");
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("name").setValue(mAuth.getCurrentUser().getDisplayName());
                             finish();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
