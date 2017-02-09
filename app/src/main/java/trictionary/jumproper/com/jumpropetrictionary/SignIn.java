@@ -144,8 +144,8 @@ public class SignIn extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             FirebaseDatabase fb=FirebaseDatabase.getInstance();
                             final DatabaseReference myRef=fb.getReference("users");
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("name").setValue(mAuth.getCurrentUser().getDisplayName());
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").setValue(mAuth.getCurrentUser().getDisplayName());
                             finish();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
