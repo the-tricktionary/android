@@ -114,6 +114,8 @@ public class Profile extends AppCompatActivity {
     }
     @Override
     public void onResume() {
+        delay=100;
+        h.postDelayed(r,delay);
         super.onResume();
     }
     @Override
@@ -553,7 +555,6 @@ public class Profile extends AppCompatActivity {
                 delay=60000; //change update time to 1 minute
                 h.removeCallbacks(r);
             }
-            populateLists();
 
         }
     };

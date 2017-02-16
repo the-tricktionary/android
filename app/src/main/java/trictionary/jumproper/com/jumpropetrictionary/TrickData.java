@@ -92,7 +92,7 @@ public class TrickData extends Trick{
     }
 
     public static void fillCompletedTricks(){
-        if(uId.length()>0 && getCompletedTricks().size()==0) {
+        if(uId.length()>0 && Tricktionary.completedTricks.size()==0) {
             Tricktionary.completedTricks.clear();
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist");

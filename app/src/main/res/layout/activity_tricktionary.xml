@@ -27,7 +27,8 @@
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                android:id="@+id/view2" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -227,7 +228,8 @@
                 android:layout_alignTop="@+id/tricktionary_title"
                 android:layout_alignEnd="@+id/basics_grid_view"
                 android:layout_toEndOf="@+id/tricktionary_title"
-                android:layout_alignBottom="@+id/tricktionary_title" />
+                android:layout_alignBottom="@+id/tricktionary_title"
+                android:alpha=".75" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -301,6 +303,19 @@
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:layout_alignStart="@+id/basics_title"
                 android:layout_toStartOf="@+id/checkBox" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ab_back_material"
+                android:layout_alignTop="@+id/tricktionary_title"
+                android:layout_alignStart="@+id/view2"
+                android:id="@+id/imageView37"
+                android:layout_alignBottom="@+id/tricktionary_title"
+                android:layout_toStartOf="@+id/tricktionary_title"
+                android:padding="16dp"
+                android:alpha=".75"
+                android:onClick="back" />
 
         </RelativeLayout>
     </ScrollView>

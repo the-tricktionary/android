@@ -713,6 +713,7 @@ public class Tricktionary extends ActionBarActivity{
     public void mainMenu(View v){
         finish();
     }
+    public void back(View v){ finish(); }
 
     public void startSearch(View v){
         Intent intent = new Intent(this, SearchTricks.class);
