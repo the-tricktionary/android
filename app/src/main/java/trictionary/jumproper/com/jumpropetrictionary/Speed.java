@@ -172,7 +172,7 @@ public class Speed extends ActionBarActivity {
         numJumps++; //increase score
         counter.setText(""+numJumps); //display new score
         jumps.add(numJumps); //add score to list of jumps
-        times.add(timeInHundredths); //add current time is ms to list of times
+        times.add(timeInHundredths); //add current time is hundredths to list of times
 
     }
 

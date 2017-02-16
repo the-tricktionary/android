@@ -102,7 +102,7 @@ public class Tricktionary extends ActionBarActivity{
                 if(b){
                     for(int j=0;j<tricktionary.length;j++){
                         if(tricktionary[j].isCompleted()){
-                            tricktionary[j].setCompleted(false);
+                            tricktionary[j].setChecklist(false);
                         }
                     }
                     h.post(r);
@@ -112,7 +112,7 @@ public class Tricktionary extends ActionBarActivity{
                         for(int i=completedIndex;i<completedTricks.size();i++){
                             if (tricktionary[j].equals(completedTricks.get(i))) {
                                 completedIndex++;
-                                tricktionary[j].setCompleted(true);
+                                tricktionary[j].setChecklist(true);
                             }
                         }
                     }
@@ -147,7 +147,7 @@ public class Tricktionary extends ActionBarActivity{
         if(showCompletedTricks.isChecked()){
             for(int j=0;j<tricktionary.length;j++){
                 if(tricktionary[j].isCompleted()){
-                    tricktionary[j].setCompleted(false);
+                    tricktionary[j].setChecklist(false);
                 }
             }
             h.post(r);
@@ -158,7 +158,7 @@ public class Tricktionary extends ActionBarActivity{
                     for (int i = completedIndex; i < completedTricks.size(); i++) {
                         if (tricktionary[j].equals(completedTricks.get(i))) {
                             completedIndex++;
-                            tricktionary[j].setCompleted(true);
+                            tricktionary[j].setChecklist(true);
                         }
                     }
                 }
@@ -213,7 +213,7 @@ public class Tricktionary extends ActionBarActivity{
             return;
         }
         for(int j=0;j<tricktionary.length;j++){
-            if(tricktionary[j].isCompleted()){
+            if(tricktionary[j].isChecklist()){
                 j++;
             }
             else if(tricktionary[j].getType().equals("Basics")){

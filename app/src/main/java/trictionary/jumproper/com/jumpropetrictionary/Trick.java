@@ -1,8 +1,5 @@
 package trictionary.jumproper.com.jumpropetrictionary;
 
-import android.util.Log;
-
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 /**
@@ -22,6 +19,7 @@ public class Trick extends FirebaseInstanceIdService {
     public String id1;
     public String id0;
     public boolean completed=false;
+    public boolean checklist=false;
 
 
     //constructors
@@ -148,7 +146,14 @@ public class Trick extends FirebaseInstanceIdService {
         this.completed = completed;
     }
 
-/**
+    public boolean isChecklist() {
+        return checklist;
+    }
+
+    public void setChecklist(boolean checklist) {
+        this.checklist = checklist;
+    }
+    /**
     public void getMessageToken(){
         Log.e("Token",FirebaseInstanceId.getInstance().getToken());
     }

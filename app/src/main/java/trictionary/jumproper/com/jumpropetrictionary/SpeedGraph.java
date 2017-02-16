@@ -357,6 +357,7 @@ public class SpeedGraph extends AppCompatActivity {
     }
 
     public double averageJumpsPerSecond(ArrayList<Long> list){
+        Log.e("Test",list.toString());
         double avg=0;
         for(int j=1;j<list.size();j++){
             avg+=100*(1/((double)list.get(j)-(double)list.get(j-1)));
