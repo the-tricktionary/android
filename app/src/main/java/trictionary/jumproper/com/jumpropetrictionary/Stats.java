@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Stats extends AppCompatActivity {
     private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,averageTricks,maxTricks;
-    private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count,numUsers,maxCount;
     private FirebaseAuth mAuth;
 
 
@@ -39,50 +38,17 @@ public class Stats extends AppCompatActivity {
 
 
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        DatabaseReference myRef=fb.getReference("checklist");
+        DatabaseReference myRef=fb.getReference("stats").child("checklist");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                numTricksCount=0;
-                numLevel1Count=0;
-                numLevel2Count=0;
-                numLevel3Count=0;
-                numLevel4Count=0;
-                numUsers=0;
-                maxCount=0;
-                int count=0;
-                for(DataSnapshot ids:dataSnapshot.getChildren()){
-                    numUsers++;
-                    for(DataSnapshot id0:ids.getChildren()){
-                        for(DataSnapshot tricks:id0.getChildren()){
-                            count++;
-                            if(Integer.parseInt(id0.getKey().toString())==0){
-                                numLevel1Count++;
-                            }
-                            if(Integer.parseInt(id0.getKey().toString())==1){
-                                numLevel2Count++;
-                            }
-                            if(Integer.parseInt(id0.getKey().toString())==2){
-                                numLevel3Count++;
-                            }
-                            if(Integer.parseInt(id0.getKey().toString())==3){
-                                numLevel4Count++;
-                            }
-                            numTricksCount++;
-                        }
-                        if(count>maxCount){
-                            maxCount=count;
-                        }
-                        count=0;
-                    }
-                }
-                numTricks.setText(""+numTricksCount);
-                numLevel1Tricks.setText(""+numLevel1Count);
-                numLevel2Tricks.setText(""+numLevel2Count);
-                numLevel3Tricks.setText(""+numLevel3Count);
-                numLevel4Tricks.setText(""+numLevel4Count);
-                averageTricks.setText(""+(numTricksCount/numUsers));
-                maxTricks.setText(""+maxCount);
+                numTricks.setText(""+dataSnapshot.child("total").getValue().toString());
+                numLevel1Tricks.setText(""+dataSnapshot.child("0").getValue().toString());
+                numLevel2Tricks.setText(""+dataSnapshot.child("1").getValue().toString());
+                numLevel3Tricks.setText(""+dataSnapshot.child("2").getValue().toString());
+                numLevel4Tricks.setText(""+dataSnapshot.child("3").getValue().toString());
+                averageTricks.setText(""+(dataSnapshot.child("avg").getValue().toString()));
+                maxTricks.setText(""+dataSnapshot.child("max").getValue().toString());
             }
 
             @Override

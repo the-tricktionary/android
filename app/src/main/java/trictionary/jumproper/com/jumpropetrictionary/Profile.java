@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Profile extends AppCompatActivity {
-    private Trick[]tricktionary=Tricktionary.tricktionary;
-    private ArrayList<Trick>completedTricks=Tricktionary.completedTricks;
+    private Trick[]tricktionary=TrickData.getTricktionary();
+    private ArrayList<Trick>completedTricks=TrickData.getCompletedTricks();
     private FirebaseAuth mAuth;
     private int delay = 100; //milliseconds
     private Handler h;
@@ -107,7 +107,7 @@ public class Profile extends AppCompatActivity {
             downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
         }
         h = new Handler();
-        h.postDelayed(r, delay);
+        h.postDelayed(r, 100);
 
         DrawerCreate drawer=new DrawerCreate();
         drawer.makeDrawer(this, this, mAuth, toolbar, " ");
