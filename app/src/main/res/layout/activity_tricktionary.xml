@@ -5,7 +5,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:visibility="visible"
     tools:showIn="@layout/tricktionary_toolbar_layout"
-    tools:context=".Tricktionary"
+    tools:context=".activities.Tricktionary"
     android:id="@+id/tricktionary_layout">
 
     <ScrollView
@@ -48,7 +48,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="16dp" />
 
-            <trictionary.jumproper.com.jumpropetrictionary.MyGridView
+            <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
                 android:id="@+id/basics_grid_view"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
@@ -80,7 +80,7 @@
                 android:padding="10dp"
                 android:textColor="#ffffff" />
 
-            <trictionary.jumproper.com.jumpropetrictionary.MyGridView
+            <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
                 android:id="@+id/level_1_grid_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:padding="10dp"
                 android:textColor="#ffffff" />
 
-            <trictionary.jumproper.com.jumpropetrictionary.MyGridView
+            <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
                 android:id="@+id/level_2_grid_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 android:padding="10dp"
                 android:textColor="#ffffff" />
 
-            <trictionary.jumproper.com.jumpropetrictionary.MyGridView
+            <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
                 android:id="@+id/level_3_grid_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                 android:padding="10dp"
                 android:textColor="#ffffff" />
 
-            <trictionary.jumproper.com.jumpropetrictionary.MyGridView
+            <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
                 android:id="@+id/level_4_grid_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="trictionary.jumproper.com.jumpropetrictionary.SpeedDataSelect"
+    tools:context="trictionary.jumproper.com.jumpropetrictionary.speed.SpeedDataSelect"
     android:background="@drawable/background">
 
     <ListView

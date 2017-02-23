@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     tools:showIn="@layout/main_menu_toolbar_layout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainMenu">
+    tools:context=".activities.MainMenu">
 
     <VideoView
         android:id="@+id/video_view"

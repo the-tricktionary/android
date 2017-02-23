@@ -26,17 +26,17 @@
         android:label="@string/app_label"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_label"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Tricktionary"
+            android:name=".activities.Tricktionary"
             android:label="@string/title_activity_tricktionary"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainMenu"
+            android:name=".activities.MainMenu"
             android:label="@string/app_name"
             android:noHistory="false"
             android:screenOrientation="portrait"
@@ -59,26 +59,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TrickList"
-            android:label="@string/title_activity_tricks_by_level" />
-        <activity
-            android:name=".ShowMainActivity"
+            android:name=".show.ShowMainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Show"
+            android:name=".show.Show"
             android:label="Show" />
         <activity
-            android:name=".Names"
+            android:name=".show.Names"
             android:label="Jump Rope Show Writer"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name=".UnsortedShow"
+            android:name=".show.UnsortedShow"
             android:label="Unsorted Show" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".SearchTricks">
+        <activity android:name=".activities.SearchTricks">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -88,13 +85,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".TrickTree"
-            android:label="@string/title_activity_trick_tree" />
-        <activity
-            android:name=".TreeVisual"
-            android:label="@string/title_activity_tree_visual" />
-        <activity
-            android:name=".Speed"
+            android:name=".activities.Speed"
             android:label="@string/title_activity_speed">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -109,22 +100,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SpeedGraph"
+            android:name=".activities.SpeedGraph"
             android:label="@string/title_activity_speed_graph" />
-        <activity android:name=".PublicSpeedData" />
-        <activity android:name=".SpeedDataSelect" />
-        <activity android:name=".Rafiki" />
-        <activity android:name=".ContactActivity" />
+        <activity android:name=".speed.SpeedDataSelect" />
+        <activity android:name=".activities.Rafiki" />
+        <activity android:name=".activities.ContactActivity" />
         <activity
-            android:name=".Submit"
+            android:name=".activities.Submit"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".SignIn" />
+        <activity android:name=".activities.SignIn" />
         <activity
-            android:name=".Stats"
+            android:name=".activities.Stats"
             android:label="@string/title_activity_stats"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Profile"
+            android:name=".activities.Profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
