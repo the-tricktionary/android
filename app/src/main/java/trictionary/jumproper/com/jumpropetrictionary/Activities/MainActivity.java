@@ -72,7 +72,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
 
     //declare image views
-    ImageView logo,adExit,fisacExpand;
+    ImageView logo,fisacExpand;
 
     //completed trick checkbox and email replies
     CheckBox trickCompleted,emailReplies;
@@ -89,11 +89,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //length of tricktionary, used for fetching random tricks
     public static int len;
 
+    //current trick being viewed in MainActivity
+    public static Trick currentTrick;
+
 
     //declare Trick array and index of current trick
     Trick[] tricktionary;
-    int trickIndex= MainMenu.index;
-    public static boolean complete=false;
 
     //analytic object for event logging
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -108,7 +109,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     //contact type
     String contactTypeName="General";
-    String levelCorrection;
     String organization;
     EditText contactName;
 
@@ -131,19 +131,17 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //populate the tricktionary with the most up to date data from firebase
         tricktionary= TrickData.getTricktionary();
 
-        TrickData.fillCompletedTricks();
-
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,currentTrick.getName());
         mFirebaseAnalytics.logEvent("view_trick", bundle);
 
         //initialize auth object
         mAuth = FirebaseAuth.getInstance();
 
         //display trick name
-        toolbar.setTitle(tricktionary[trickIndex].getName());
+        toolbar.setTitle(currentTrick.getName());
 
         //initialize YouTube view object
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
@@ -151,13 +149,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //initialize text views and set them to display trick data
         trickName = (TextView)findViewById(R.id.name);
         logo=(ImageView)findViewById(R.id.toolbar_logo);
-        trickName.setText(tricktionary[trickIndex].getName());
+        trickName.setText(currentTrick.getName());
         trickDescription = (TextView)findViewById(R.id.description);
-        trickDescription.setText(tricktionary[trickIndex].getDescription());
+        trickDescription.setText(currentTrick.getDescription());
         level=(TextView)findViewById(R.id.level_label);
-        level.setText("WJR Level: " + tricktionary[trickIndex].getWjrLevel());
+        level.setText("WJR Level: " + currentTrick.getWjrLevel());
         type=(TextView)findViewById(R.id.type_label);
-        type.setText(tricktionary[trickIndex].getType());
+        type.setText(currentTrick.getType());
         prereqs=(TextView)findViewById(R.id.view_prereqs);
         nextTricks=(TextView)findViewById(R.id.view_next);
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
@@ -165,21 +163,21 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
 
-        if(tricktionary[trickIndex].getFisacLevel().equals("")) {
+        if(currentTrick.getFisacLevel().equals("")) {
             fisacLevel.setVisibility(View.INVISIBLE);
         }
-        else if(tricktionary[trickIndex].getFisacLevel().length()>5){
-            fisacLevel.setText("IRSF Level: " + tricktionary[trickIndex].getFisacLevel().substring(0,2)+"...");
+        else if(currentTrick.getFisacLevel().length()>5){
+            fisacLevel.setText("IRSF Level: " + currentTrick.getFisacLevel().substring(0,2)+"...");
             fisacExpand.setVisibility(View.VISIBLE);
         }
         else{
-            fisacLevel.setText("IRSF Level: " + tricktionary[trickIndex].getFisacLevel());
+            fisacLevel.setText("IRSF Level: " + currentTrick.getFisacLevel());
         }
 
-        if (tricktionary[trickIndex].getPrereqs().length==0){
+        if (currentTrick.getPrereqs().length==0){
             prereqs.setVisibility(View.GONE);
         }
-        if(tricktionary[trickIndex].isCompleted()){
+        if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }
 
@@ -194,7 +192,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         scaleText(nextTricks,7);
 
         DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, tricktionary[trickIndex].getName());
+        drawer.makeDrawer(this, this, mAuth, toolbar, currentTrick.getName());
 
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -239,10 +237,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     final DatabaseReference myRef=fb.getReference("checklist");
                     myRef.child(mAuth.getCurrentUser().getUid())
-                            .child(tricktionary[trickIndex].getId0())
-                            .child(tricktionary[trickIndex].getId1())
+                            .child(currentTrick.getId0())
+                            .child(currentTrick.getId1())
                             .setValue(b);
-                    tricktionary[trickIndex].setCompleted(true);
+                    currentTrick.setCompleted(true);
                 }
                 else{
                     if(mAuth.getCurrentUser()==null){
@@ -291,7 +289,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         super.onStart();
         youTubeView.initialize(getString(R.string.developer_key), this);
         mAuth.addAuthStateListener(mAuthListener);
-        if(tricktionary[trickIndex].isCompleted()){
+        if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }
     }
@@ -341,7 +339,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         if(tricktionary!=null){
             len=TrickData.getLen();
         }
-        if(tricktionary[trickIndex].isCompleted()){
+        if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }
         if (!wasRestored) {
@@ -349,10 +347,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
             if(SettingsActivity.autoPlayEnabled()) {
-                player.loadVideo(tricktionary[trickIndex].getVideoCode());
+                player.loadVideo(currentTrick.getVideoCode());
             }
             else{
-                player.cueVideo(tricktionary[trickIndex].getVideoCode());
+                player.cueVideo(currentTrick.getVideoCode());
             }
             // Hiding player controls
             if(SettingsActivity.getPlayerStyle().equals("Minimal")) {
@@ -443,8 +441,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.child(mAuth.getCurrentUser().getUid())
-                            .child(tricktionary[trickIndex].getId0())
-                            .child(tricktionary[trickIndex].getId1()).toString().equals("true")) {
+                            .child(currentTrick.getId0())
+                            .child(currentTrick.getId1()).toString().equals("true")) {
                         trickCompleted.setChecked(true);
                     }
                 }
@@ -468,8 +466,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
         //Inflating the Popup using xml file
 
-        for(int j=0;j<tricktionary[trickIndex].getPrereqs().length;j++){
-            popupMenu.getMenu().add(tricktionary[trickIndex].getPrereqs()[j]);
+        for(int j=0;j<currentTrick.getPrereqs().length;j++){
+            popupMenu.getMenu().add(currentTrick.getPrereqs()[j]);
         }
 
 
@@ -478,17 +476,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
-                MainMenu.index = Tricktionary.getTrickFromName(item.getTitle().toString(), tricktionary).getIndex();
+                currentTrick = TrickData.getTrickFromName(item.getTitle().toString(), tricktionary);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                View sharedView = logo;
-                String transitionName = getString(R.string.logo_transition);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, sharedView, transitionName);
-                    startActivity(intent,transitionActivityOptions.toBundle());
-                }
-                else {
-                    startActivity(intent);
-                }
+                startActivity(intent);
                 return true;
             }
         });
@@ -498,8 +488,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         for (Trick aTricktionary : tricktionary) {
             for (int i = 0; i < aTricktionary.getPrereqs().length; i++) {
-                if (aTricktionary.getPrereqs()[i].equals(tricktionary[trickIndex].getName())) {
-                    if (!(aTricktionary.equals(tricktionary[trickIndex])))
+                if (aTricktionary.getPrereqs()[i].equals(currentTrick.getName())) {
+                    if (!(aTricktionary.equals(currentTrick)))
                         popupMenu.getMenu().add(aTricktionary.getName());
                 }
             }
@@ -512,7 +502,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
-                MainMenu.index = Tricktionary.getTrickFromName(item.getTitle().toString(), tricktionary).getIndex();
+                currentTrick = TrickData.getTrickFromName(item.getTitle().toString(), tricktionary);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -536,10 +526,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         //add a subject
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                tricktionary[trickIndex].getName());
+                currentTrick.getName());
 
         //build the body of the message to be shared
-        String shareMessage = "https://youtu.be/"+tricktionary[trickIndex].getVideoCode()+"\n\nShared from The Jump Rope Tricktionary:\nhttps://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary";
+        String shareMessage = "https://youtu.be/"+currentTrick.getVideoCode()+"\n\nShared from The Jump Rope Tricktionary:\nhttps://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary";
 
         //add the message
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
@@ -585,7 +575,7 @@ return;
     public void expandFisacLevel(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
         //Inflating the Popup using xml file
-        popupMenu.getMenu().add(tricktionary[trickIndex].getFisacLevel());
+        popupMenu.getMenu().add(currentTrick.getFisacLevel());
         popupMenu.show();
     }
 
@@ -593,7 +583,7 @@ return;
         //Set up dialog
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //new alert dialog
-        builder.setTitle("Submit feeback on "+tricktionary[trickIndex].getName()); //dialog title
+        builder.setTitle("Submit feeback on "+currentTrick.getName()); //dialog title
         LayoutInflater inflater = (LayoutInflater)MainActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
         final View textBoxes=inflater.inflate(R.layout.contact_dialog,null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout
@@ -619,7 +609,7 @@ return;
                 if(contactTypeName.equals("Incorrect Level")){
                     contactGeneral.setVisibility(View.GONE);
                     incorrectLevel.setVisibility(View.VISIBLE);
-                    trickName.setText(tricktionary[trickIndex].getName());
+                    trickName.setText(currentTrick.getName());
 
                 }
                 else{
@@ -676,9 +666,9 @@ return;
                                         if(emailReplies.isChecked()){
                                              data=new Contact(contactName.getText().toString(),
                                                     contactTypeName,
-                                                    tricktionary[trickIndex].getName(),
-                                                    tricktionary[trickIndex].getId1(),
-                                                    tricktionary[trickIndex].getId0(),
+                                                    currentTrick.getName(),
+                                                    currentTrick.getId1(),
+                                                    currentTrick.getId0(),
                                                     organization,
                                                     correctLevel.getText().toString(),
                                                     mAuth.getCurrentUser().getEmail());
@@ -686,9 +676,9 @@ return;
                                         else {
                                              data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
-                                                    tricktionary[trickIndex].getName(),
-                                                    tricktionary[trickIndex].getId1(),
-                                                    tricktionary[trickIndex].getId0(),
+                                                    currentTrick.getName(),
+                                                    currentTrick.getId1(),
+                                                    currentTrick.getId0(),
                                                     organization,
                                                     correctLevel.getText().toString());
                                         }
@@ -697,7 +687,7 @@ return;
                                                 .setValue(data);
                                         mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
                                         Bundle bundle = new Bundle();
-                                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,currentTrick.getName());
                                         mFirebaseAnalytics.logEvent("contact_submit", bundle);
                                         Toast.makeText(MainActivity.this, "Feedback on incorrect level submitted, thank you!", Toast.LENGTH_LONG).show();
 
@@ -709,17 +699,17 @@ return;
                                         if(emailReplies.isChecked()) {
                                              data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
-                                                    tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
-                                                    tricktionary[trickIndex].getId1(),
-                                                    tricktionary[trickIndex].getId0(),
+                                                    currentTrick.getName() + " - " + comment.getText().toString(),
+                                                    currentTrick.getId1(),
+                                                    currentTrick.getId0(),
                                                     mAuth.getCurrentUser().getEmail());
                                         }
                                         else{
                                             data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
-                                                    tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
-                                                    tricktionary[trickIndex].getId1(),
-                                                    tricktionary[trickIndex].getId0(),
+                                                    currentTrick.getName() + " - " + comment.getText().toString(),
+                                                    currentTrick.getId1(),
+                                                    currentTrick.getId0(),
                                                     mAuth.getCurrentUser().getEmail());
                                         }
                                         myRef.child(mAuth.getCurrentUser().getUid())
@@ -727,7 +717,7 @@ return;
                                                 .setValue(data);
                                         mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
                                         Bundle bundle = new Bundle();
-                                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,currentTrick.getName());
                                         mFirebaseAnalytics.logEvent("contact_submit", bundle);
                                         Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
                                         Log.d("Contact","UID: "+mAuth.getCurrentUser().getUid());
@@ -757,9 +747,9 @@ return;
                     if(emailReplies.isChecked()) {
                          data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
-                                tricktionary[trickIndex].getName(),
-                                tricktionary[trickIndex].getId1(),
-                                tricktionary[trickIndex].getId0(),
+                                currentTrick.getName(),
+                                currentTrick.getId1(),
+                                currentTrick.getId0(),
                                 organization,
                                 correctLevel.getText().toString(),
                                  mAuth.getCurrentUser().getEmail());
@@ -767,9 +757,9 @@ return;
                     else{
                         data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
-                                tricktionary[trickIndex].getName(),
-                                tricktionary[trickIndex].getId1(),
-                                tricktionary[trickIndex].getId0(),
+                                currentTrick.getName(),
+                                currentTrick.getId1(),
+                                currentTrick.getId0(),
                                 organization,
                                 correctLevel.getText().toString());
                     }
@@ -778,7 +768,7 @@ return;
                             .setValue(data);
                     mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
                     Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,currentTrick.getName());
                     mFirebaseAnalytics.logEvent("contact_submit", bundle);
                     Toast.makeText(MainActivity.this, "Feedback on incorrect level submitted, thank you!", Toast.LENGTH_LONG).show();
 
@@ -790,24 +780,24 @@ return;
                     if(emailReplies.isChecked()) {
                         data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
-                                tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
-                                tricktionary[trickIndex].getId1(),
-                                tricktionary[trickIndex].getId0(),
+                                currentTrick.getName() + " - " + comment.getText().toString(),
+                                currentTrick.getId1(),
+                                currentTrick.getId0(),
                                 mAuth.getCurrentUser().getEmail());
                     }
                     else{
                         data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
-                                tricktionary[trickIndex].getName() + " - " + comment.getText().toString(),
-                                tricktionary[trickIndex].getId1(),
-                                tricktionary[trickIndex].getId0());
+                                currentTrick.getName() + " - " + comment.getText().toString(),
+                                currentTrick.getId1(),
+                                currentTrick.getId0());
                     }
                     myRef.child(mAuth.getCurrentUser().getUid())
                             .child(myRef.push().getKey())
                             .setValue(data);
                     mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
                     Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,tricktionary[trickIndex].getName());
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,currentTrick.getName());
                     mFirebaseAnalytics.logEvent("contact_submit", bundle);
                     Toast.makeText(MainActivity.this, "Feedback submitted, thank you!", Toast.LENGTH_LONG).show();
                     Log.d("Contact","UID: "+mAuth.getCurrentUser().getUid());
@@ -857,8 +847,8 @@ return;
                                 FirebaseDatabase fb=FirebaseDatabase.getInstance();
                                 final DatabaseReference myRef=fb.getReference("checklist");
                                 myRef.child(mAuth.getCurrentUser().getUid())
-                                        .child(tricktionary[trickIndex].getId0())
-                                        .child(tricktionary[trickIndex].getId1())
+                                        .child(currentTrick.getId0())
+                                        .child(currentTrick.getId1())
                                         .setValue(true);
                             }
                         }

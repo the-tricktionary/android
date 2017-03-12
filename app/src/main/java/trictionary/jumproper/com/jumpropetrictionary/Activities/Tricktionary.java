@@ -31,23 +31,26 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
+import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
 public class Tricktionary extends ActionBarActivity{
-    public static Trick[] tricktionary;
-    public static ArrayList<Trick> completedTricks;
-    ProgressBar loadingTricks;
-    FrameLayout tricktionaryLayout;
-    CheckBox showCompletedTricks;
-    int delay = 100; //milliseconds
-    int completedIndex=0;
-    Handler h;
+    private Trick[] tricktionary=TrickData.tricktionary;
+    private ArrayList<Trick> completedTricks=TrickData.completedTricks;
+    private int levelIndex;
+    private ProgressBar loadingTricks;
+    private FrameLayout tricktionaryLayout;
+    private CheckBox showCompletedTricks;
+    private int delay = 100; //milliseconds
+    private int completedIndex=0;
+    private Handler h;
     private FirebaseAuth mAuth;
 
     public static final String DASHES="  ";
@@ -149,26 +152,30 @@ public class Tricktionary extends ActionBarActivity{
     public void onResume(){
         super.onResume();
         completedIndex=0;
-        if(showCompletedTricks.isChecked()){
-            for(int j=0;j<tricktionary.length;j++){
-                if(tricktionary[j].isCompleted()){
-                    tricktionary[j].setChecklist(false);
-                }
-            }
-            h.post(r);
-        }
-        else{
-            if(tricktionary!=null && completedTricks!=null) {
+        if(tricktionary!=null) {
+            if (showCompletedTricks.isChecked()) {
                 for (int j = 0; j < tricktionary.length; j++) {
-                    for (int i = completedIndex; i < completedTricks.size(); i++) {
-                        if (tricktionary[j].equals(completedTricks.get(i))) {
-                            completedIndex++;
-                            tricktionary[j].setChecklist(true);
-                        }
+                    if (tricktionary[j].isCompleted()) {
+                        tricktionary[j].setChecklist(false);
                     }
                 }
                 h.post(r);
+            } else {
+                if (tricktionary != null && completedTricks != null) {
+                    for (int j = 0; j < tricktionary.length; j++) {
+                        for (int i = completedIndex; i < completedTricks.size(); i++) {
+                            if (tricktionary[j].equals(completedTricks.get(i))) {
+                                completedIndex++;
+                                tricktionary[j].setChecklist(true);
+                            }
+                        }
+                    }
+                    h.post(r);
+                }
             }
+        }
+        else{
+            finish();
         }
     }
     public Runnable r=new Runnable() {
@@ -199,19 +206,19 @@ public class Tricktionary extends ActionBarActivity{
 
 
         final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view);
-        final ArrayList<String> basicsList = new ArrayList<String>();
+        final ArrayList<Trick> basicsList = new ArrayList<Trick>();
 
         final MyGridView level1GridView = (MyGridView) findViewById(R.id.level_1_grid_view);
-        final ArrayList<String> level1List = new ArrayList<String>();
+        final ArrayList<Trick> level1List = new ArrayList<Trick>();
 
         final MyGridView level2GridView = (MyGridView) findViewById(R.id.level_2_grid_view);
-        final ArrayList<String> level2List = new ArrayList<String>();
+        final ArrayList<Trick> level2List = new ArrayList<Trick>();
 
         final MyGridView level3GridView = (MyGridView) findViewById(R.id.level_3_grid_view);
-        final ArrayList<String> level3List = new ArrayList<String>();
+        final ArrayList<Trick> level3List = new ArrayList<Trick>();
 
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
-        final ArrayList<String> level4List = new ArrayList<String>();
+        final ArrayList<Trick> level4List = new ArrayList<Trick>();
 
         if(tricktionary==null){
             h.postDelayed(r, delay);
@@ -222,450 +229,150 @@ public class Tricktionary extends ActionBarActivity{
                 j++;
             }
             else if(tricktionary[j].getType().equals("Basics")){
-                basicsList.add(tricktionary[j].getName());
+                basicsList.add(tricktionary[j]);
             }
             else if(tricktionary[j].getDifficulty()==1){
-                level1List.add(tricktionary[j].getName());
+                level1List.add(tricktionary[j]);
             }
             else if(tricktionary[j].getDifficulty()==2){
-                level2List.add(tricktionary[j].getName());
+                level2List.add(tricktionary[j]);
             }
             else if(tricktionary[j].getDifficulty()==3){
-                level3List.add(tricktionary[j].getName());
+                level3List.add(tricktionary[j]);
             }
             else if(tricktionary[j].getDifficulty()==4){
-                level4List.add(tricktionary[j].getName());
+                level4List.add(tricktionary[j]);
             }
         }
-        Collections.sort(basicsList);
-        final ArrayList<String>level1Sorted=addWhiteSpace(sortTrickList(level1List, 1));
-        final ArrayList<String>level2Sorted=addWhiteSpace(sortTrickList(level2List, 2));
-        final ArrayList<String>level3Sorted=addWhiteSpace(sortTrickList(level3List, 3));
-        final ArrayList<String>level4Sorted=addWhiteSpace(sortTrickList(level4List, 4));
+        Collections.sort(basicsList,TrickData.compareName);
+        final ArrayList<Trick>level1Sorted=addWhiteSpace(sortTrickList(level1List));
+        final ArrayList<Trick>level2Sorted=addWhiteSpace(sortTrickList(level2List));
+        final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
+        final ArrayList<Trick>level4Sorted=addWhiteSpace(sortTrickList(level4List));
+        final ArrayList[] trickLists = new ArrayList[]{basicsList,
+                level1Sorted,
+                level2Sorted,
+                level3Sorted,
+                level4Sorted};
 
-        final String[]ignoredStrings={"Multiples","Power","Manipulation","Releases",DASHES};
+        final MyGridView[] trickListGridViews= new MyGridView[]{basicsGridView,
+                level1GridView,
+                level2GridView,
+                level3GridView,
+                level4GridView};
 
-        ArrayAdapter<String> basicsAdapter = new ArrayAdapter<String>(this,
-                R.layout.list_items, android.R.id.text1, basicsList){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                int color;
-                if(completedTricks.size()>0) {
-                    for(int j=0;j<completedTricks.size();j++) {
-                        if (basicsList.get(position).equals(completedTricks.get(j).getName())) {
-                            color = getResources().getColor(R.color.colorAccent); // Material Red
-                            view.setBackgroundColor(color);
-                            view.setClickable(true);
-                            view.setVisibility(View.VISIBLE);
-                            ((TextView) view).setTextColor(Color.WHITE);
-                            ((TextView) view).setGravity(Gravity.CENTER);
-                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                        }
-                    }
+        for(int j=0;j<trickListGridViews.length;j++){
+            trickListGridViews[j].setAdapter(new TrickListAdapter(this, R.layout.trick_list_layout, trickLists[j]));
+            trickListGridViews[j].setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // ListView Clicked item index
+                    int itemPosition = position;
+                    // ListView Clicked item value
+                    MainActivity.currentTrick=(Trick)parent.getItemAtPosition(position);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    // Show Alert
+                    Toast.makeText(getApplicationContext(),
+                            MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
+                            .show();
                 }
-                view.setClickable(false);
-                return view;
-            }
-        };
-        ArrayAdapter<String> level1Adapter = new ArrayAdapter<String>(this,
-                R.layout.list_items, android.R.id.text1, level1Sorted){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                int color;
-                if(completedTricks.size()>0) {
-                    for(int j=0;j<completedTricks.size();j++) {
-                        if (level1Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            //completedTricks.remove(j);
-                            color = getResources().getColor(R.color.colorAccent); // Material Red
-                            view.setBackgroundColor(color);
-                            view.setClickable(true);
-                            view.setVisibility(View.VISIBLE);
-                            ((TextView) view).setTextColor(Color.WHITE);
-                            ((TextView) view).setGravity(Gravity.CENTER);
-                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                        }
-                    }
-                }
-                for(int j=0;j<ignoredStrings.length;j++) {
-                    if (level1Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = getResources().getColor(R.color.materialRed); // Material Red
-                        view.setBackgroundColor(color);
-                        view.setClickable(true);
-                        view.setVisibility(View.VISIBLE);
-                        ((TextView) view).setTextColor(Color.WHITE);
-                        ((TextView) view).setGravity(Gravity.CENTER);
-                        ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                    }
-                    else{
-                        view.setClickable(false);
-                        view.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-
-
-                return view;
-            }
-        };
-
-        ArrayAdapter<String> level2Adapter = new ArrayAdapter<String>(this,
-                R.layout.list_items, android.R.id.text1, level2Sorted){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-
-                int color = 0xFFBDBDBD; // Default
-                if(completedTricks.size()>0) {
-                    for(int j=0;j<completedTricks.size();j++) {
-                        if (level2Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            //completedTricks.remove(j);
-                            color = getResources().getColor(R.color.colorAccent); // Material Red
-                            view.setBackgroundColor(color);
-                            view.setClickable(true);
-                            view.setVisibility(View.VISIBLE);
-                            ((TextView) view).setTextColor(Color.WHITE);
-                            ((TextView) view).setGravity(Gravity.CENTER);
-                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                        }
-                    }
-                }
-                for(int j=0;j<ignoredStrings.length;j++) {
-                    if (level2Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = getResources().getColor(R.color.materialRed); // Opaque Blue
-                        view.setBackgroundColor(color);
-                        view.setClickable(true);
-                        view.setVisibility(View.VISIBLE);
-                        ((TextView) view).setTextColor(Color.WHITE);
-                        ((TextView) view).setGravity(Gravity.CENTER);
-                        ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                    }
-                    else{
-                        view.setClickable(false);
-                        view.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-
-
-                return view;
-            }
-        };
-        ArrayAdapter<String> level3Adapter = new ArrayAdapter<String>(this,
-                R.layout.list_items, android.R.id.text1, level3Sorted){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-
-                int color = 0xFFBDBDBD; // Default
-                if(completedTricks.size()>0) {
-                    for(int j=0;j<completedTricks.size();j++) {
-                        if (level3Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            //completedTricks.remove(j);
-                            color = getResources().getColor(R.color.colorAccent); // Material Red
-                            view.setBackgroundColor(color);
-                            view.setClickable(true);
-                            view.setVisibility(View.VISIBLE);
-                            ((TextView) view).setTextColor(Color.WHITE);
-                            ((TextView) view).setGravity(Gravity.CENTER);
-                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                        }
-                    }
-                }
-                for(int j=0;j<ignoredStrings.length;j++) {
-                    if (level3Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = getResources().getColor(R.color.materialRed); // Opaque Blue
-                        view.setBackgroundColor(color);
-                        view.setClickable(true);
-                        view.setVisibility(View.VISIBLE);
-                        ((TextView) view).setTextColor(Color.WHITE);
-                        ((TextView) view).setGravity(Gravity.CENTER);
-                        ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                    }
-                    else{
-                        view.setClickable(false);
-                        view.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-
-
-                return view;
-            }
-        };
-        ArrayAdapter<String> level4Adapter = new ArrayAdapter<String>(this,
-                R.layout.list_items, android.R.id.text1, level4Sorted){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-
-                int color = getResources().getColor(R.color.materialRed); // Default
-                if(completedTricks.size()>0) {
-                    for(int j=0;j<completedTricks.size();j++) {
-                        if (level4Sorted.get(position).equals(completedTricks.get(j).getName())) {
-                            //completedTricks.remove(j);
-                            color = getResources().getColor(R.color.colorAccent); // Material Red
-                            view.setBackgroundColor(color);
-                            view.setClickable(true);
-                            view.setVisibility(View.VISIBLE);
-                            ((TextView) view).setTextColor(Color.WHITE);
-                            ((TextView) view).setGravity(Gravity.CENTER);
-                            ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                        }
-                    }
-                }
-                for(int j=0;j<ignoredStrings.length;j++) {
-                    if (level4Sorted.get(position).equals(ignoredStrings[j])) {
-                        color = getResources().getColor(R.color.materialRed); // Opaque Blue
-                        view.setBackgroundColor(color);
-                        view.setClickable(true);
-                        view.setVisibility(View.VISIBLE);
-                        ((TextView) view).setTextColor(Color.WHITE);
-                        ((TextView) view).setGravity(Gravity.CENTER);
-                        ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                    }
-                    else{
-                        view.setClickable(false);
-                        view.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-
-
-                return view;
-            }
-        };
-        // Assign basicsAdapter to ListView
-        basicsGridView.setAdapter(basicsAdapter);
-        level1GridView.setAdapter(level1Adapter);
-        level2GridView.setAdapter(level2Adapter);
-        level3GridView.setAdapter(level3Adapter);
-        level4GridView.setAdapter(level4Adapter);
-
-        // ListView Item Click Listener
-        basicsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-
-                // ListView Clicked item value
-                String itemValue = (String) basicsGridView.getItemAtPosition(position);
-                MainMenu.index = getTrickFromName(itemValue, tricktionary).getIndex();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });
-
-        level1GridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-                for(int j=0;j<ignoredStrings.length;j++){
-                    if(level1GridView.getItemAtPosition(position).equals(ignoredStrings[j]))
-                        return;
-                }
-                // ListView Clicked item value
-                String itemValue = (String) level1GridView.getItemAtPosition(position);
-                MainMenu.index = getTrickFromName(itemValue, tricktionary).getIndex();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });
-        level2GridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-                for(int j=0;j<ignoredStrings.length;j++){
-                    if(level2GridView.getItemAtPosition(position).equals(ignoredStrings[j]))
-                        return;
-                }
-                // ListView Clicked item value
-                String itemValue = (String) level2GridView.getItemAtPosition(position);
-                MainMenu.index = getTrickFromName(itemValue, tricktionary).getIndex();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });
-        level3GridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-                for(int j=0;j<ignoredStrings.length;j++){
-                    if(level3GridView.getItemAtPosition(position).equals(ignoredStrings[j]))
-                        return;
-                }
-                // ListView Clicked item value
-                String itemValue = (String) level3GridView.getItemAtPosition(position);
-                MainMenu.index = getTrickFromName(itemValue, tricktionary).getIndex();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });
-        level4GridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-                for (String ignoredString : ignoredStrings) {
-                    if (level4GridView.getItemAtPosition(position).equals(ignoredString))
-                        return;
-                }
-                // ListView Clicked item value
-                String itemValue = (String) level4GridView.getItemAtPosition(position);
-                MainMenu.index = getTrickFromName(itemValue, tricktionary).getIndex();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });
-        tricktionaryLayout.refreshDrawableState();
-        h.removeCallbacks(r);
+            });
+        }
     }
 
 
 
-    public static ArrayList<String> sortTrickList(ArrayList<String> list, int level){
-        ArrayList<String>acc= new ArrayList<>();
+    public static ArrayList<Trick> sortTrickList(ArrayList<Trick> list){
+        ArrayList<Trick>sortedTricks= new ArrayList<>();
         int multiples=0;
         int power=1;
         int manipulation=2;
         int releases=3;
-        Collections.sort(list);
+        Collections.sort(list, TrickData.compareName);
         Collections.reverse(list);
 
-        acc.add(0, "Releases");
-        acc.add(0, "Manipulation");
-        acc.add(0, "Power");
-        acc.add(0,"Multiples");
+        sortedTricks.add(0,new Trick("Releases"));
+        sortedTricks.add(0,new Trick("Manipulation"));
+        sortedTricks.add(0,new Trick("Power"));
+        sortedTricks.add(0,new Trick("Multiples"));
         for(int j=0;j<list.size();j++){
 
-            if(getTrickFromName(list.get(j), tricktionary).getType().equals("Multiples")){
-                acc.add(multiples + 1, list.get(j));
+            if(list.get(j).getType().equals("Multiples")){
+                sortedTricks.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(getTrickFromName(list.get(j), tricktionary).getType().equals("Power")){
-                acc.add(power+1,list.get(j));
+            else if(list.get(j).getType().equals("Power")){
+                sortedTricks.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(getTrickFromName(list.get(j), tricktionary).getType().equals("Manipulation")){
-                acc.add(manipulation+1,list.get(j));
+            else if(list.get(j).getType().equals("Manipulation")){
+                sortedTricks.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(getTrickFromName(list.get(j), tricktionary).getType().equals("Releases")){
-                acc.add(releases+1,list.get(j));
+            else if(list.get(j).getType().equals("Releases")){
+                sortedTricks.add(releases+1,list.get(j));
             }
 
         }
 
 
 
-        return acc;
+        return sortedTricks;
     }
-    public ArrayList<String> addWhiteSpace(ArrayList<String> list){
+    public ArrayList<Trick> addWhiteSpace(ArrayList<Trick> list){
         int index;
-        ArrayList<String> acc= new ArrayList<>();
+        ArrayList<Trick> sortedTricks= new ArrayList<>();
         for(int j=0;j<list.size();j++){
-            acc.add(list.get(j));
-            if(list.get(j).equals("Multiples")){
-                index=acc.size()-1;
+            sortedTricks.add(list.get(j));
+            if(list.get(j).getName().equals("Multiples")){
+                index=sortedTricks.size()-1;
                 while(index%3>0){
-                    acc.add(index,"");
+                    sortedTricks.add(index,new Trick(""));
                     index++;
                 }
-                acc.add(index,DASHES);
-                acc.add(index+2,DASHES);
+                sortedTricks.add(index,new Trick(DASHES));
+                sortedTricks.add(index+2,new Trick(DASHES));
 
 
             }
-            if(list.get(j).equals("Power")){
-                index=acc.size()-1;
+            if(list.get(j).getName().equals("Power")){
+                index=sortedTricks.size()-1;
                 while(index%3>0){
-                    acc.add(index,"");
+                    sortedTricks.add(index,new Trick(""));
                     index++;
                 }
-                acc.add(index,DASHES);
-                acc.add(index+2,DASHES);
+                sortedTricks.add(index,new Trick(DASHES));
+                sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).equals("Manipulation")){
-                index=acc.size()-1;
+            if(list.get(j).getName().equals("Manipulation")){
+                index=sortedTricks.size()-1;
                 while(index%3>0){
-                    acc.add(index,"");
+                    sortedTricks.add(index,new Trick(""));
                     index++;
                 }
-                acc.add(index,DASHES);
-                acc.add(index+2,DASHES);
+                sortedTricks.add(index,new Trick(DASHES));
+                sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).equals("Releases")){
-                index=acc.size()-1;
+            if(list.get(j).getName().equals("Releases")){
+                index=sortedTricks.size()-1;
                 while(index%3>0){
-                    acc.add(index,"");
+                    sortedTricks.add(index,new Trick(""));
                     index++;
                 }
-                acc.add(index,DASHES);
-                acc.add(index+2,DASHES);
+                sortedTricks.add(index,new Trick(DASHES));
+                sortedTricks.add(index+2,new Trick(DASHES));
 
             }
 
         }
-        return acc;
+        return sortedTricks;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -690,18 +397,7 @@ public class Tricktionary extends ActionBarActivity{
 
         return super.onOptionsItemSelected(item);
     }
-    public static void fillTricktionary(){
-        tricktionary=TrickData.getTricktionary();
-    }
-    public static Trick getTrickFromName(String name, Trick[]arr){
 
-        for (Trick anArr : arr) {
-            if (anArr.getName().equals(name)) {
-                return anArr;
-            }
-        }
-        return arr[0];
-    }
     public void mainMenu(View v){
         finish();
     }

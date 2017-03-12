@@ -31,6 +31,9 @@ public class Trick extends FirebaseInstanceIdService {
         index=-1;
         type="";
     }
+    public Trick(String myName){
+        name=myName;
+    }
     public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode){
         name=myName;
         description=myDescription;
@@ -71,6 +74,7 @@ public class Trick extends FirebaseInstanceIdService {
         wjrLevel=mWjrLevel;
         id1=mId1;
     }
+
     //getters and setters
     public String getName(){
         return name;
@@ -153,10 +157,5 @@ public class Trick extends FirebaseInstanceIdService {
     public void setChecklist(boolean checklist) {
         this.checklist = checklist;
     }
-    /**
-    public void getMessageToken(){
-        Log.e("Token",FirebaseInstanceId.getInstance().getToken());
-    }
-     **/
 
 }

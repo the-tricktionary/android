@@ -58,7 +58,9 @@ public class DrawerCreate extends AppCompatActivity{
 
         if(mAuth.getCurrentUser()!=null){
             DownloadImageTask downloadImage=new DrawerCreate.DownloadImageTask(currentProfile);
-            downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+            if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
+                downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+            }
             currentProfile=new ProfileDrawerItem()
                     .withName(mAuth.getCurrentUser().getDisplayName())
                     .withEnabled(true)
@@ -159,7 +161,7 @@ public class DrawerCreate extends AppCompatActivity{
                             activity.startActivity(intent);
                         }
                         else if(position==7){
-                            MainMenu.index=((int)(Math.random()* MainActivity.getTricktionaryLength()));
+                            MainActivity.currentTrick = TrickData.tricktionary[((int) (Math.random() * TrickData.getTricktionary().length))];
                             Intent intent = new Intent(context, MainActivity.class);
                             activity.startActivity(intent);
                         }

@@ -40,7 +40,6 @@ public class Profile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private int delay = 100; //milliseconds
     private Handler h;
-    private int completedIndex=0;
     private TextView profileName;
     private ImageView profileImage;
     private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks;
@@ -326,7 +325,7 @@ public class Profile extends AppCompatActivity {
 
                 // ListView Clicked item value
                 String itemValue = (String) basicsGridView.getItemAtPosition(position);
-                MainMenu.index = Tricktionary.getTrickFromName(itemValue, tricktionary).getIndex();
+                MainMenu.index = TrickData.getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -352,7 +351,7 @@ public class Profile extends AppCompatActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level1GridView.getItemAtPosition(position);
-                MainMenu.index = Tricktionary.getTrickFromName(itemValue, tricktionary).getIndex();
+                MainMenu.index = TrickData.getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -377,7 +376,7 @@ public class Profile extends AppCompatActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level2GridView.getItemAtPosition(position);
-                MainMenu.index = Tricktionary.getTrickFromName(itemValue, tricktionary).getIndex();
+                MainMenu.index = TrickData.getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -402,7 +401,7 @@ public class Profile extends AppCompatActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level3GridView.getItemAtPosition(position);
-                MainMenu.index = Tricktionary.getTrickFromName(itemValue, tricktionary).getIndex();
+                MainMenu.index = TrickData.getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -427,7 +426,7 @@ public class Profile extends AppCompatActivity {
                 }
                 // ListView Clicked item value
                 String itemValue = (String) level4GridView.getItemAtPosition(position);
-                MainMenu.index = Tricktionary.getTrickFromName(itemValue, tricktionary).getIndex();
+                MainMenu.index = TrickData.getTrickFromName(itemValue, tricktionary).getIndex();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -461,22 +460,22 @@ public class Profile extends AppCompatActivity {
         acc.add(0,"Multiples");
         for(int j=0;j<list.size();j++){
 
-            if(Tricktionary.getTrickFromName(list.get(j), tricktionary).getType().equals("Multiples")){
+            if(TrickData.getTrickFromName(list.get(j), TrickData.tricktionary).getType().equals("Multiples")){
                 acc.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(Tricktionary.getTrickFromName(list.get(j), tricktionary).getType().equals("Power")){
+            else if(TrickData.getTrickFromName(list.get(j), TrickData.tricktionary).getType().equals("Power")){
                 acc.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(Tricktionary.getTrickFromName(list.get(j), tricktionary).getType().equals("Manipulation")){
+            else if(TrickData.getTrickFromName(list.get(j), TrickData.tricktionary).getType().equals("Manipulation")){
                 acc.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(Tricktionary.getTrickFromName(list.get(j), tricktionary).getType().equals("Releases")){
+            else if(TrickData.getTrickFromName(list.get(j), TrickData.tricktionary).getType().equals("Releases")){
                 acc.add(releases+1,list.get(j));
             }
 
@@ -543,14 +542,11 @@ public class Profile extends AppCompatActivity {
                 TrickData.uId=mAuth.getCurrentUser().getUid();
             }
             if(completedTricks==null){
-                Log.e("TrickCheck","Array is null");
                 tricktionary=TrickData.getTricktionary();
-                TrickData.fillCompletedTricks();
                 completedTricks=TrickData.getCompletedTricks();
                 h.postDelayed(this,delay);
             }
             else if (completedTricks.size()==0){
-                TrickData.fillCompletedTricks();
                 completedTricks=TrickData.getCompletedTricks();
                 h.postDelayed(this, delay);
             }

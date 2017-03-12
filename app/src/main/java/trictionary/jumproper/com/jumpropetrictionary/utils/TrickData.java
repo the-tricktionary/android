@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
@@ -18,9 +19,16 @@ import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
  */
 public class TrickData extends Trick {
     public static Trick[]tricktionary;
+    public static ArrayList<Trick> completedTricks;
     public static String uId="";
     public static ArrayList<Trick>tempList;
     public static Trick mTrick;
+    public static Comparator<Trick> compareName=new Comparator<Trick>() {
+        @Override
+        public int compare(Trick trick, Trick t1) {
+            return trick.getName().compareTo(t1.getName());
+        }
+    };
     private static final int LEVEL_1=1;
     private static final int LEVEL_2=2;
     private static final int LEVEL_3=3;
@@ -36,8 +44,8 @@ public class TrickData extends Trick {
     public static Trick[]getTricktionaryData(){
 
         tempList=new ArrayList<>();
-        if(Tricktionary.completedTricks==null) {
-            Tricktionary.completedTricks = new ArrayList<>();
+        if(completedTricks==null) {
+            completedTricks = new ArrayList<>();
         }
 
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
@@ -86,14 +94,12 @@ public class TrickData extends Trick {
                 tricktionary=getTricktionaryOffline();
             }
         });
-
-
         return tricktionary;
     }
 
     public static void fillCompletedTricks(){
-        if(uId.length()>0 && Tricktionary.completedTricks.size()==0) {
-            Tricktionary.completedTricks.clear();
+        if(uId.length()>0 && completedTricks.size()==0) {
+            completedTricks.clear();
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist");
             checklist.addValueEventListener(new ValueEventListener() {
@@ -108,7 +114,7 @@ public class TrickData extends Trick {
                                         .child(tricktionary[j].getId1())
                                         .getValue().toString().equals("true")) {
                                     tricktionary[j].setCompleted(true);
-                                    Tricktionary.completedTricks.add(tricktionary[j]);
+                                    completedTricks.add(tricktionary[j]);
                                 }
                             }
                         }
@@ -128,19 +134,18 @@ public class TrickData extends Trick {
             return getTricktionaryData();
         }
         else {
-            Tricktionary.completedTricks=getCompletedTricks();
+            completedTricks=getCompletedTricks();
             return tricktionary;
         }
     }
 
     public static ArrayList<Trick>getCompletedTricks(){
-        return Tricktionary.completedTricks;
+        return completedTricks;
     }
 
     public static String[] getPrereqs(DataSnapshot trick){
         ArrayList<String>list=new ArrayList<String>();
         for(DataSnapshot prereq:trick.child("prerequisites").getChildren()){
-            Log.i("prereqs",prereq.child("name").toString()+":"+prereq.child("name").getValue().toString());
             list.add(""+prereq.child("name").getValue().toString());
         }
         String[] arr=new String[list.size()];
@@ -159,9 +164,9 @@ public class TrickData extends Trick {
     }
     public static Trick getTrickFromName(String name, Trick[]arr){
 
-        for(int j=0;j<arr.length;j++){
-            if(arr[j].getName().equals(name)){
-                return arr[j];
+        for (Trick anArr : arr) {
+            if (anArr.getName().equals(name)) {
+                return anArr;
             }
         }
         return arr[0];

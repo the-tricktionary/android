@@ -79,7 +79,6 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        Tricktionary.fillTricktionary();
 
 
 
@@ -255,8 +254,8 @@ public class MainMenu extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            final View jackpotDialog=inflater.inflate(R.layout.no_internet_dialog,null);
-            builder.setView(jackpotDialog);
+            final View noInternetDialog=inflater.inflate(R.layout.no_internet_dialog,null);
+            builder.setView(noInternetDialog);
             // Set up the buttons
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
@@ -274,7 +273,7 @@ public class MainMenu extends AppCompatActivity {
             builder.show();
         }
         else {
-            MainMenu.index = ((int) (Math.random() * TrickData.getTricktionary().length));
+            MainActivity.currentTrick = TrickData.tricktionary[((int) (Math.random() * TrickData.getTricktionary().length))];
             Intent intent = new Intent(this, MainActivity.class);
             View sharedView = v;
             String transitionName = getString(R.string.logo_transition);
