@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -52,24 +53,24 @@ import trictionary.jumproper.com.jumpropetrictionary.speed.SpeedData;
 import trictionary.jumproper.com.jumpropetrictionary.speed.SpeedDataSelect;
 
 public class SpeedGraph extends AppCompatActivity {
-    AlertDialog editDialog;
-    AlertDialog.Builder editDialogBuilder;
-    ArrayList<Long> scrubbedTimes;
-    TextView eventName,duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost,currentUser;
-    ImageView editScore;
-    RelativeLayout deleteDialog;
-    LineChart chart;
-    double avgJumpsPerSec,maxJumpsPerSec;
-    int time,jumps,misses,scoreNoMisses,jumpDeficit;
-    String jumperName;
+    private AlertDialog editDialog;
+    private AlertDialog.Builder editDialogBuilder;
+    private ArrayList<Long> scrubbedTimes;
+    private TextView eventName,duration,score,avgJumps,maxJumps,numMisses,estimatedScore,jumpsLost,currentUser;
+    private ImageView editScore;
+    private RelativeLayout deleteDialog;
+    private LineChart chart;
+    private double avgJumpsPerSec,maxJumpsPerSec;
+    private int time,jumps,misses,scoreNoMisses,jumpDeficit;
+    private String jumperName;
     public static String finalDate;
     public static boolean loadingData=false;
     public static SpeedData data;
-    Button saveData,authButton;
-    GoogleSignInOptions gso;
-    GoogleApiClient mGoogleApiClient;
+    private Button saveData,authButton;
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 4236;
-    SignInButton signInButton;
+    private SignInButton signInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     //analytic object for event logging
@@ -92,7 +93,6 @@ public class SpeedGraph extends AppCompatActivity {
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
@@ -115,7 +115,6 @@ public class SpeedGraph extends AppCompatActivity {
                     // User is signed out
                     Log.d("Auth", "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -162,7 +161,6 @@ public class SpeedGraph extends AppCompatActivity {
             estimatedScore.setText(""+data.getNoMissScore());
             jumpsLost.setText(""+data.getJumpsLost());
             drawGraph();
-            //data=null;
         }
         else {
             chart = (LineChart) findViewById(R.id.chart);
@@ -335,15 +333,9 @@ public class SpeedGraph extends AppCompatActivity {
 
     public ArrayList<Long> scrubData(ArrayList<Long> list){
         ArrayList<Long> scrubbed=new ArrayList<>();
-
             for (int j = 1; j < list.size(); j += 2) {
-
-
                 scrubbed.add((list.get(j) + list.get(j - 1)) / 2);
-
             }
-
-
         return scrubbed;
     }
 
@@ -427,17 +419,9 @@ public class SpeedGraph extends AppCompatActivity {
             });
             return;
         }
-
-        else{
-            Log.e("Auth","Current user: "+mAuth.getCurrentUser().getEmail().toString());
-        }
-
-
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
-
-
-                myRef.child(mAuth.getCurrentUser().getUid().toString());
+        myRef.child(mAuth.getCurrentUser().getUid().toString());
         AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
         builder.setTitle("Save Score"); //dialog title
         LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
@@ -452,13 +436,13 @@ public class SpeedGraph extends AppCompatActivity {
 
                 setJumperName(name.getText().toString()+" "+Speed.getEventName());
                 data=new SpeedData(scrubbedTimes,avgJumpsPerSec,maxJumpsPerSec,misses,scoreNoMisses,
-                        jumps,time,jumpDeficit,jumperName); //jumperName, maybe?
+                        jumps,time,jumpDeficit,jumperName);
+                data.setEventFromString(Speed.currentEvent.getName());
                 formatData();
                 Toast.makeText(getApplicationContext(),
                         "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
                         .show();
                 Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
-                finish();
                 startActivity(intent);
 
 
@@ -490,11 +474,38 @@ public class SpeedGraph extends AppCompatActivity {
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
         String date=""+System.currentTimeMillis()/1000;
         myRef.child(mAuth.getCurrentUser().getUid().toString()).child(date).setValue(data);
-        data=null;
+        checkHighScore(data.getScore(),data.getTime(),data.getEvent());
         Intent intent = new Intent(this, SpeedDataSelect.class);
-        finish();
         startActivity(intent);
         return;
+    }
+    public void checkHighScore(final int score, int duration, String event){
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        final DatabaseReference myRef=fb.getReference("speed")
+                .child("highscores")
+                .child(mAuth.getCurrentUser().getUid())
+                .child(""+duration)
+                .child(event);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null) {
+                    if (dataSnapshot.getValue(SpeedData.class).getScore() < score) {
+                        myRef.setValue(data);
+                    }
+                }
+                else{
+                    myRef.setValue(data);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 

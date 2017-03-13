@@ -9,4 +9,5 @@
     android:minHeight="64dp"
     android:orientation="vertical"
     android:text="Test Trick"
-    android:textAlignment="center"></TextView>
+    android:textAlignment="center"
+    android:textSize="12sp"></TextView>

@@ -415,8 +415,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         else if(requestCode == RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
-            Log.e("Auth","result success: "+result.isSuccess());
-            Log.e("Auth","result: "+result.getStatus().toString());
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();

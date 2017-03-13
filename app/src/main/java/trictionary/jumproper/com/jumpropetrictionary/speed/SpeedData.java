@@ -15,6 +15,7 @@ public class SpeedData {
     int time=0;
     int jumpsLost;
     String name;
+    String event;
 
 
     public SpeedData(){
@@ -49,6 +50,20 @@ public class SpeedData {
         time=mTime;
         jumpsLost=mJumpsLost;
         name=mName;
+    }
+
+    public SpeedData(ArrayList<Long> graphData, double avgJumps, double maxJumps, int misses, int noMissScore, int score, int time, int jumpsLost, String name, String event) {
+        this.graphData = graphData;
+        this.avgJumps = avgJumps;
+        this.maxJumps = maxJumps;
+        this.misses = misses;
+        this.noMissScore = noMissScore;
+        this.score = score;
+        this.time = time;
+        this.jumpsLost = jumpsLost;
+        this.name = name;
+        this.event = event;
+
     }
 
     public ArrayList<Long> getGraphData() {
@@ -121,6 +136,71 @@ public class SpeedData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public void setEventFromString(String eventName){
+        if(eventName.equals("FISAC 1x30")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("FISAC 1x180")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("FISAC 4x45")){
+            this.setEvent("ddfs");
+        }
+        if(eventName.equals("FISAC 2x60")){
+            this.setEvent("ddfs");
+        }
+        if(eventName.equals("FISAC 4x30")){
+            this.setEvent("srfs");
+        }
+        if(eventName.equals("WJR 1x30")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("WJR 1x180")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("WJR 2x30")){
+            this.setEvent("srps");
+        }
+        if(eventName.equals("WJR 4x30")){
+            this.setEvent("srfs");
+        }
+        if(eventName.equals("WJR 3x40")){
+            this.setEvent("ddts");
+        }
+        if(eventName.equals("WJR 2x60")){
+            this.setEvent("ddfs");
+        }
+        if(eventName.equals("USAJR 1x30")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("USAJR Power")){
+            this.setEvent("srsp");
+        }
+        if(eventName.equals("USAJR 1x60")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("USAJR 1x180")){
+            this.setEvent("srss");
+        }
+        if(eventName.equals("USAJR 4x30")){
+            this.setEvent("srfs");
+        }
+        if(eventName.equals("USAJR 3x40")){
+            this.setEvent("ddts");
+        }
+        if(eventName.equals("USAJR 2x60")){
+            this.setEvent("ddfs");
+        }
     }
 
     public String toString(){

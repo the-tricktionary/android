@@ -37,6 +37,7 @@ import trictionary.jumproper.com.jumpropetrictionary.customviews.ExpandableListD
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.contact.Reply;
+import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 public class ContactActivity extends AppCompatActivity {
 
@@ -134,7 +135,7 @@ public class ContactActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else if(position==7){
-                            MainMenu.index=((int)(Math.random()*MainActivity.getTricktionaryLength()));
+                            MainActivity.currentTrick= TrickData.tricktionary[((int)(Math.random()*MainActivity.getTricktionaryLength()))];
                             Intent intent = new Intent(ContactActivity.this, MainActivity.class);
                             startActivity(intent);
                         }

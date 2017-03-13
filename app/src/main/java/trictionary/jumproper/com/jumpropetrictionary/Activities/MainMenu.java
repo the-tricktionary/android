@@ -56,7 +56,6 @@ public class MainMenu extends AppCompatActivity {
     TextView viewShowmaker,viewTrickTree,viewSpeedData;
 
     public static SharedPreferences settings;
-    public static int index = 0;
 
     //auth object for contact dialog
     private static FirebaseAuth mAuth;

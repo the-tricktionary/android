@@ -84,7 +84,7 @@ public class SearchTricks extends AppCompatActivity {
 
                 // ListView Clicked item value
                 String itemValue = (String) listView.getItemAtPosition(position);
-                MainMenu.index = TrickData.getTrickFromName(itemValue, TrickData.getTricktionary()).getIndex();
+                MainActivity.currentTrick= TrickData.getTrickFromName(itemValue, TrickData.getTricktionary());
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert

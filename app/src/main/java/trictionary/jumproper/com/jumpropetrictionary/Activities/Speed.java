@@ -114,7 +114,7 @@ public class Speed extends ActionBarActivity {
         fisac_2min=MediaPlayer.create(Speed.this,R.raw.fisac_2min);
         fisac_switch=MediaPlayer.create(Speed.this,R.raw.fisac_switch);
         fisac_beep=MediaPlayer.create(Speed.this,R.raw.fisac_beep);
-
+        //usajr timing tracks
         usajr_1x30=MediaPlayer.create(Speed.this,R.raw.usajr_1x30);
         usajr_1x30d=MediaPlayer.create(Speed.this,R.raw.usajr_1x30d);
         usajr_1x60=MediaPlayer.create(Speed.this,R.raw.usajr_1x60);
@@ -164,6 +164,7 @@ public class Speed extends ActionBarActivity {
             return;
         }
         plus.setAlpha(.75f); //don't need to animate the fade out
+
         //maybe one day if latency isn't such a huge issue
         //playClick();
         //new DownloadFilesTask().execute();

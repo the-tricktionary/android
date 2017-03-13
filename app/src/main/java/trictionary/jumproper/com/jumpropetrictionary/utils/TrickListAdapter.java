@@ -21,7 +21,9 @@ import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktion
  */
 
 public class TrickListAdapter extends ArrayAdapter<Trick> {
-    final String[]ignoredStrings={"Multiples","Power","Manipulation","Releases",DASHES};
+    private final String[]ignoredStrings={"Multiples","Power","Manipulation","Releases",DASHES};
+    private int color;
+    private boolean completedColor=true;
 
     public TrickListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -29,6 +31,11 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
 
     public TrickListAdapter(Context context, int resource, List<Trick> items) {
         super(context, resource, items);
+    }
+
+    public TrickListAdapter(Context context, int resource, List<Trick> items, boolean completedColor){
+        super(context,resource,items);
+        this.completedColor=completedColor;
     }
 
     @Override
@@ -43,7 +50,6 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
         }
 
         Trick mTrick = getItem(position);
-        int color;
         ((TextView) v).setText(mTrick.getName());
         for(int j = 0;j<ignoredStrings.length;j++){
             if(mTrick.getName().equals(ignoredStrings[j])){
@@ -53,7 +59,7 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
                 ((TextView) v).setTextColor(Color.WHITE);
             }
         }
-        if (mTrick.isCompleted()) {
+        if (mTrick.isCompleted() && completedColor) {
             color = getContext().getResources().getColor(R.color.colorAccent); // Material Yellow
             v.setBackgroundColor(color);
             ((TextView) v).setTextColor(Color.WHITE);
