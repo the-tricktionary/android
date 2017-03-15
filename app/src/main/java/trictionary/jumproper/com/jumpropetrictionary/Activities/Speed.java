@@ -289,8 +289,8 @@ public class Speed extends ActionBarActivity {
                 runTimer();
             }
         } else { //if the event is being stopped
-            jumps.clear(); //clear the score list
-            times.clear(); //clear the times list
+            //jumps.clear(); //clear the score list
+            //times.clear(); //clear the times list
             time.setTextSize(TypedValue.COMPLEX_UNIT_DIP,40); //resize timer text to default of 40dp
             //make all timer components visible again
             dropDownArrow.setVisibility(View.VISIBLE);
@@ -300,6 +300,7 @@ public class Speed extends ActionBarActivity {
             eventSelect.setVisibility(View.VISIBLE);
             eventDropDown.setVisibility(View.VISIBLE);
             //reset the timer
+            eventLength = (int)(timeInHundredths/100);
             starttime = 0L;
             timeInHundredths = 0L;
             timeSwapBuff = 0L;
@@ -310,9 +311,12 @@ public class Speed extends ActionBarActivity {
             hundredths = 0;
             startButton.setText("Start");
             firstTap=true;
-            numJumps=0;
+            //numJumps=0;
             timeSwapBuff += timeInHundredths;
             handler.removeCallbacks(updateTimer);
+            Intent intent = new Intent(Speed.this, SpeedGraph.class);
+            finish();
+            startActivity(intent); //start graph activity
         }
 
     }
@@ -336,7 +340,6 @@ public class Speed extends ActionBarActivity {
         startButton.setText("Stop");
         starttime = SystemClock.uptimeMillis();
         t = 0;
-
         handler.postDelayed(updateTimer, 100); //delay of 100ms between timer updates
 
     }
@@ -405,6 +408,7 @@ public class Speed extends ActionBarActivity {
         popupMenu.getMenu().add("1:00");
         popupMenu.getMenu().add("2:00");
         popupMenu.getMenu().add("3:00");
+        popupMenu.getMenu().add("Until Stopped");
         popupMenu.getMenu().add("Custom"); //we'll handle you later
 
 
@@ -429,6 +433,10 @@ public class Speed extends ActionBarActivity {
                 else if(item.toString().equals("3:00")){
                     duration.setText("3:00");
                     eventLength=180;
+                }
+                else if(item.toString().equals("Until Stopped")){
+                    duration.setText("Until Stopped");
+                    eventLength=-1;
                 }
                 else{ //picking custom time
                     duration.setText("Custom");
