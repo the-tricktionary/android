@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
-public class Stats extends AppCompatActivity {
+public class Stats extends BaseActivity {
     private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,averageTricks,maxTricks;
     private FirebaseAuth mAuth;
 
@@ -27,8 +25,6 @@ public class Stats extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         mAuth=FirebaseAuth.getInstance();
         numTricks=(TextView)findViewById(R.id.num_tricks);
         numLevel1Tricks=(TextView)findViewById(R.id.num_level_1_tricks);

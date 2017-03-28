@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,10 +33,9 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
-public class Submit extends AppCompatActivity {
+public class Submit extends BaseActivity {
     static final int REQUEST_VIDEO_CAPTURE = 1;
     static final int REQUEST_GALLERY_VIDEO = 2;
     private VideoView myVideoView;
@@ -63,10 +61,8 @@ public class Submit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.submit_toolbar);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Submit Tricks");
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_submit);
+        getSupportActionBar().setTitle("Submit Tricks");
         //make sure device has a camera
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             Toast.makeText(this,"Sorry, you need a camera to submit tricks!", Toast.LENGTH_SHORT).show();
@@ -107,8 +103,6 @@ public class Submit extends AppCompatActivity {
         mBuilder.setContentTitle("Uploading Trick")
                 .setContentText("Upload in progress...")
                 .setSmallIcon(R.drawable.icon_notify);
-        DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "Submit tricks");
 
     }
 

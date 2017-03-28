@@ -3,8 +3,6 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,24 +17,19 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
-public class SearchTricks extends AppCompatActivity {
+public class SearchTricks extends BaseActivity {
 
     private FirebaseAuth mAuth;
     EditText searchBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_toolbar_layout);
+        setContentView(R.layout.activity_search_tricks);
         mAuth=FirebaseAuth.getInstance();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "");
 
         // Get the intent, verify the action and get the query
         searchBar = (EditText)findViewById(R.id.editText);

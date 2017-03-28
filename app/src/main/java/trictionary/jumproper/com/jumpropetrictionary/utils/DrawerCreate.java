@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,8 +46,10 @@ public class DrawerCreate extends AppCompatActivity{
     ProfileDrawerItem currentProfile;
     FirebaseAuth mAuthCopy;
     AccountHeader headerResult;
-    public void makeDrawer(final Context context, final Activity activity, final FirebaseAuth mAuth, Toolbar toolbar, String title){
+    Drawer result;
+    public Drawer makeDrawer(final Context context, final Activity activity, final FirebaseAuth mAuth, Toolbar toolbar, String title){
 
+        toolbar.setTitle(title);
         mAuthCopy=mAuth;
         new DrawerBuilder().withActivity(activity).build();
         PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
@@ -113,7 +118,7 @@ public class DrawerCreate extends AppCompatActivity{
                 .build();
 
 
-        Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
                 .withActivity(activity)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
@@ -214,7 +219,7 @@ public class DrawerCreate extends AppCompatActivity{
                     }
                 })
                 .build();
-        toolbar.setTitle(title);
+        return result;
     }
     private class DownloadImageTask extends AsyncTask<String, Void, ProfileDrawerItem> {
         ProfileDrawerItem bmImage;

@@ -30,8 +30,8 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:layout_above="@+id/chart"
-        android:layout_below="@+id/back_arrow"
-        android:scrollIndicators="right">
+        android:scrollIndicators="right"
+        android:layout_below="@+id/event_name">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -256,17 +256,6 @@
 
         </RelativeLayout>
     </ScrollView>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/back_arrow"
-        android:src="@drawable/ic_ab_back_material"
-
-
-        android:layout_marginBottom="10dp"
-        android:padding="4dp"
-        android:onClick="viewSpeed" />
 
     <Button
         android:layout_width="wrap_content"

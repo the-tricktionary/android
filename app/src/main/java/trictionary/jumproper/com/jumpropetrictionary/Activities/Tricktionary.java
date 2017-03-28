@@ -4,36 +4,29 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
@@ -41,10 +34,11 @@ import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
-public class Tricktionary extends ActionBarActivity{
+public class Tricktionary extends BaseActivity{
     private Trick[] tricktionary=TrickData.tricktionary;
     private ArrayList<Trick> completedTricks=TrickData.completedTricks;
     private int levelIndex;
+    private Toolbar toolbar;
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
     private CheckBox showCompletedTricks;
@@ -57,23 +51,15 @@ public class Tricktionary extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tricktionary_toolbar_layout);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        setContentView(R.layout.activity_tricktionary);
         setupWindowAnimations();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         loadingTricks = (ProgressBar)findViewById(R.id.loading_tricks);
         tricktionaryLayout=(FrameLayout)findViewById(R.id.tricktionary_layout);
         showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
 
-        setSupportActionBar(toolbar);
         mAuth=FirebaseAuth.getInstance();
-        tricktionary= TrickData.getTricktionary();
-
-
-
-
-        DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar," ");
-        getSupportActionBar().setTitle("");
+        tricktionary=TrickData.getTricktionary();
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
@@ -128,23 +114,24 @@ public class Tricktionary extends ActionBarActivity{
                 }
             }
         });
+    }
 
-        toolbar.setTitle("");
+    @Override
+    public void onStart(){
+        super.onStart();
+        getSupportActionBar().setTitle("");
 
         h = new Handler();
         h.postDelayed(r, delay);
-
-
     }
 
     private void setupWindowAnimations() {
-        Fade fade = null;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fade = new Fade();
-            fade.setDuration(25);
-            getWindow().setEnterTransition(fade);
+            Fade fade = new Fade();
+            fade.setDuration(100);
             getWindow().setAllowEnterTransitionOverlap(true);
             getWindow().setAllowReturnTransitionOverlap(true);
+            getWindow().setEnterTransition(fade);
         }
     }
 

@@ -1,21 +1,30 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
         <item name="android:checkboxStyle">@style/RobotoCheckBoxStyle</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_ab_back_material</item>
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition" tools:targetApi="lollipop">@transition/activity_slide</item>
+        <item name="android:windowExitTransition" tools:targetApi="lollipop">@transition/activity_fade</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button.Borderless.Small">
+        <item name="android:alpha" format="float" type="dimen">0.75</item>
+        <item name="android:background">@drawable/rounded_corner_shadow</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
@@ -26,6 +35,10 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -39,5 +52,6 @@
     <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
     </style>
+
 
 </resources>

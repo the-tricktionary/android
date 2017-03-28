@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -52,7 +50,7 @@ import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.speed.SpeedData;
 import trictionary.jumproper.com.jumpropetrictionary.speed.SpeedDataSelect;
 
-public class SpeedGraph extends AppCompatActivity {
+public class SpeedGraph extends BaseActivity {
     private AlertDialog editDialog;
     private AlertDialog.Builder editDialogBuilder;
     private ArrayList<Long> scrubbedTimes;

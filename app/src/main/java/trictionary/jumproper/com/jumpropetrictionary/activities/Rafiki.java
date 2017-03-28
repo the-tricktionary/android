@@ -3,12 +3,11 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
-public class Rafiki extends AppCompatActivity {
+public class Rafiki extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

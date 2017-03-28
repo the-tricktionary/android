@@ -3,11 +3,8 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +16,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,12 +23,10 @@ import java.util.List;
 
 import trictionary.jumproper.com.jumpropetrictionary.customviews.CustomExpandableListAdapter;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.ExpandableListData;
-import trictionary.jumproper.com.jumpropetrictionary.show.Names;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.contact.Reply;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
-public class ContactActivity extends AppCompatActivity {
+public class ContactActivity extends BaseActivity {
 
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
@@ -50,112 +37,20 @@ public class ContactActivity extends AppCompatActivity {
     String currentId;
     int replyIndex=0;
     int expandIndex=-1;
-
     int delay = 100; //milliseconds
     Handler h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.contact_toolbar);
-
+        setContentView(R.layout.activity_contact);
         mAuth=FirebaseAuth.getInstance();
         contactIds=new HashMap<>();
         expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
         expandableListDetail = ExpandableListData.getData();
         h = new Handler();
         h.postDelayed(r, delay);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Contact us");
-        setSupportActionBar(toolbar);
-
-        new DrawerBuilder().withActivity(this).build();
-        PrimaryDrawerItem mainMenuItem=new PrimaryDrawerItem().withName("Main Menu");
-        PrimaryDrawerItem tricktionaryItem=new PrimaryDrawerItem().withName("Tricktionary");
-        PrimaryDrawerItem speedItem=new PrimaryDrawerItem().withName("Speed Timer");
-        PrimaryDrawerItem randomTrickItem=new PrimaryDrawerItem().withName("Random Trick");
-        PrimaryDrawerItem showWriterItem=new PrimaryDrawerItem().withName("Show Writer");
-        PrimaryDrawerItem settingsItem=new PrimaryDrawerItem().withName("Settings");
-        PrimaryDrawerItem rafikiItem=new PrimaryDrawerItem().withName("Rafiki Program");
-
-
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.background)
-
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withName("Jump Rope Tricktionary")
-                                .withIcon(getResources().getDrawable(R.drawable.icon_alpha))
-                                .withNameShown(false)
-                                .withEnabled(true)
-
-                )
-                .withOnlyMainProfileImageVisible(true)
-                .withPaddingBelowHeader(true)
-                .build();
-
-
-        Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withAccountHeader(headerResult)
-                .addDrawerItems(
-                        mainMenuItem,
-                        new DividerDrawerItem(),
-                        tricktionaryItem,
-                        new DividerDrawerItem(),
-                        speedItem,
-                        new DividerDrawerItem(),
-                        randomTrickItem,
-                        new DividerDrawerItem(),
-                        showWriterItem,
-                        new DividerDrawerItem(),
-                        settingsItem,
-                        new DividerDrawerItem(),
-                        rafikiItem
-                )
-                .withSelectedItem(-1)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(position==0){
-                            return true;
-                        }
-                        if(position==1){
-                            Intent intent = new Intent(ContactActivity.this, MainMenu.class);
-                            startActivity(intent);
-                        }
-                        else if(position==3) {
-                            Intent intent = new Intent(ContactActivity.this, Tricktionary.class);
-                            startActivity(intent);
-                        }
-                        else if(position==5){
-                            Intent intent = new Intent(ContactActivity.this, Speed.class);
-                            startActivity(intent);
-                        }
-                        else if(position==7){
-                            MainActivity.currentTrick= TrickData.tricktionary[((int)(Math.random()*MainActivity.getTricktionaryLength()))];
-                            Intent intent = new Intent(ContactActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else if(position==9){
-                            Intent intent = new Intent(ContactActivity.this, Names.class);
-                            startActivity(intent);
-                        }
-                        else if(position==11){
-                            Intent intent = new Intent(ContactActivity.this, SettingsActivity.class);
-                            startActivity(intent);
-                        }
-                        else if(position==13){
-                            Intent intent = new Intent(ContactActivity.this, Rafiki.class);
-                            startActivity(intent);
-                        }
-                        return true;
-                    }
-                })
-                .build();
-
+        setGlobalActionBarTitle("Contact");
 
     }
     public Runnable r=new Runnable() {
@@ -163,11 +58,9 @@ public class ContactActivity extends AppCompatActivity {
         public void run() {
             //do something
             if(expandableListDetail.isEmpty()){
-                Log.i("Contact","List is empty");
                 expandableListDetail=ExpandableListData.getData();
             }
             else{
-                Log.i("Contact","List is full!");
                 populateData();
                 expandableListView.refreshDrawableState();
                 delay=60000; //change update time to 1 minute

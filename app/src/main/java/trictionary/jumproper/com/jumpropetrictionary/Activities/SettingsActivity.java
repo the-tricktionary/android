@@ -2,8 +2,6 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,10 +10,9 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     public static final String PREFS_NAME="Settings";
     public static final String AUTO_PLAY_SETTING="AutoPlay";
@@ -28,13 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_toolbar_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_settings);
         mAuth=FirebaseAuth.getInstance();
-
-        DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "Submit tricks");
 
         MainMenu.settings=getSharedPreferences(PREFS_NAME,0);
         autoPlay=MainMenu.settings.getBoolean(AUTO_PLAY_SETTING,true);
@@ -43,7 +35,6 @@ public class SettingsActivity extends AppCompatActivity {
         autoPlayCheck.setChecked(MainMenu.settings.getBoolean(AUTO_PLAY_SETTING,true));
         playerStyle=(TextView)findViewById(R.id.style);
         playerStyle.setText(stylePref);
-
 
     }
     public void changeAutoPlay(View v){

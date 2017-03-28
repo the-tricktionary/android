@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.speed.SpeedEvent;
 
-public class Speed extends ActionBarActivity {
+public class Speed extends AppCompatActivity {
     TextView counter, time, duration, instructions, eventSelect; //textviews
     ImageView plus,dropDownArrow,backArrow,eventDropDown; //imageviews
     Button startButton;  //bottom of screen start button
@@ -363,8 +364,7 @@ public class Speed extends ActionBarActivity {
                     //make sure the timer displays the last hundredth of a second of the event
                     mins = secs / 60;
                     secs = secs % 60;
-                    final TextView time= timeRef.get();
-                    time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
+                    timeRef.get().setText("" + mins + ":" + String.format("%02d", secs) + ":"
                             + "0");
                     Intent intent = new Intent(Speed.this, SpeedGraph.class);
                     finish();
@@ -373,8 +373,7 @@ public class Speed extends ActionBarActivity {
                 else{ //if no jumps were clicked stay in the timer activity
                     mins = secs / 60;
                     secs = secs % 60;
-                    final TextView time= timeRef.get();
-                    time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
+                    timeRef.get().setText("" + mins + ":" + String.format("%02d", secs) + ":"
                             + "0");
                     startTimer(startButton); //stop method when t==0
                 }
@@ -386,8 +385,7 @@ public class Speed extends ActionBarActivity {
             mins = secs / 60;
             secs = secs % 60;
             hundredths = (int) (updatedtime % 100);
-            final TextView time= timeRef.get();
-            time.setText("" + mins + ":" + String.format("%02d", secs) + ":"
+            timeRef.get().setText("" + mins + ":" + String.format("%02d", secs) + ":"
                     + hundredths/10);
 
             handler.postDelayed(this,100); //100 ms delay in update time
@@ -408,7 +406,7 @@ public class Speed extends ActionBarActivity {
         popupMenu.getMenu().add("1:00");
         popupMenu.getMenu().add("2:00");
         popupMenu.getMenu().add("3:00");
-        popupMenu.getMenu().add("Until Stopped");
+        popupMenu.getMenu().add("∞");
         popupMenu.getMenu().add("Custom"); //we'll handle you later
 
 
@@ -434,8 +432,8 @@ public class Speed extends ActionBarActivity {
                     duration.setText("3:00");
                     eventLength=180;
                 }
-                else if(item.toString().equals("Until Stopped")){
-                    duration.setText("Until Stopped");
+                else if(item.toString().equals("∞")){
+                    duration.setText("∞");
                     eventLength=-1;
                 }
                 else{ //picking custom time

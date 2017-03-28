@@ -14,15 +14,13 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,13 +41,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends BaseActivity {
     private VideoView myVideoView;
     ImageView header, settingsGear,webApp,contact,upload,profile;
     TextView title, viewTricktionary;
@@ -71,17 +68,10 @@ public class MainMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu_toolbar_layout);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        setContentView(R.layout.activity_main_menu);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-
-
-
 
         mAuth=FirebaseAuth.getInstance();
         signInButton=(SignInButton)findViewById(R.id.sign_in_button);
@@ -115,8 +105,6 @@ public class MainMenu extends AppCompatActivity {
             }
 
         });
-        DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, "");
         getSupportActionBar().setTitle("");
         TrickData.getTricktionary();
         setupWindowAnimations();
@@ -175,7 +163,7 @@ public class MainMenu extends AppCompatActivity {
                 // ...
             }
         };
-
+        fadeViews();
     }
     @Override
     public void onResume(){
@@ -184,17 +172,16 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        fadeViews();
+
     }
 
     private void setupWindowAnimations() {
-        Fade fade = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            fade = new Fade();
-            fade.setDuration(25);
-            getWindow().setExitTransition(fade);
+            Fade fade = new Fade();
+            fade.setDuration(100);
             getWindow().setAllowEnterTransitionOverlap(true);
             getWindow().setAllowReturnTransitionOverlap(true);
+            getWindow().setExitTransition(fade);
         }
     }
 
@@ -232,21 +219,6 @@ public class MainMenu extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_main_menu, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
     public void randomTrick(View v){
         if(TrickData.tricktionary==null){
@@ -311,11 +283,9 @@ public class MainMenu extends AppCompatActivity {
         }
         else {
             Intent intent = new Intent(this, Tricktionary.class);
-            View sharedView = v;
-            String transitionName = getString(R.string.tricktionary_transition);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(MainMenu.this, sharedView, transitionName);
-                startActivity(intent,transitionActivityOptions.toBundle());
+                startActivity(intent,
+                        ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             }
             else {
                 startActivity(intent);

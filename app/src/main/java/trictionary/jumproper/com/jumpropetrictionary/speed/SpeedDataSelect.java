@@ -2,7 +2,6 @@ package trictionary.jumproper.com.jumpropetrictionary.speed;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -23,10 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.activities.SpeedGraph;
 
-public class SpeedDataSelect extends AppCompatActivity {
+public class SpeedDataSelect extends BaseActivity {
     public static String mUid;
     ArrayList<String> events;
     ArrayList<String> scores;

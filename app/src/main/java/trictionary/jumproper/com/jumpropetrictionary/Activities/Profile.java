@@ -1,18 +1,12 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask;
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
@@ -37,7 +30,7 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary.DASHES;
 
-public class Profile extends AppCompatActivity {
+public class Profile extends BaseActivity {
     private Trick[]tricktionary= TrickData.getTricktionary();
     private ArrayList<Trick>completedTricks=TrickData.getCompletedTricks();
     private FirebaseAuth mAuth;
@@ -114,9 +107,6 @@ public class Profile extends AppCompatActivity {
         }
         h = new Handler();
         h.postDelayed(r, 100);
-
-        DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, " ");
     }
     @Override
     public void onResume() {
