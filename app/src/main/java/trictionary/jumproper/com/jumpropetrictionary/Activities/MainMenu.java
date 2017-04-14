@@ -21,7 +21,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -40,6 +43,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Set;
 
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
 import trictionary.jumproper.com.jumpropetrictionary.R;
@@ -98,43 +103,37 @@ public class MainMenu extends BaseActivity {
 
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mediaPlayer.setLooping(true);
-                myVideoView.seekTo((int)(Math.random()*myVideoView.getDuration()));
                 myVideoView.start();
 
 
             }
 
         });
+
+        settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
+        SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
         getSupportActionBar().setTitle("");
         TrickData.getTricktionary();
         setupWindowAnimations();
 
-
-
         scaleTitleText(title);
-
         scaleText(viewTricktionary);
         scaleText(viewShowmaker);
         scaleText(viewTrickTree);
         scaleText(viewSpeedData);
-
-
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
             TrickData.fillCompletedTricks();
         }
 
-
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
                 .requestIdToken(getString(R.string.google_sign_in_auth_id))
                 .requestEmail()
                 .build();
-
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
@@ -144,7 +143,6 @@ public class MainMenu extends BaseActivity {
                     }
                 })
                 .build();
-
         //add auth listener
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -160,19 +158,58 @@ public class MainMenu extends BaseActivity {
                     Log.d("Auth", "onAuthStateChanged:signed_out");
 
                 }
-                // ...
             }
         };
-        fadeViews();
     }
     @Override
     public void onResume(){
         super.onResume();
+        myVideoView.seekTo((int)(Math.random()*myVideoView.getDuration()));
     }
     @Override
     public void onStart(){
         super.onStart();
+        fadeViews();
+        if(SettingsActivity.language==null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+            builder.setTitle("Set preferred language");
+            LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+            final View languageDialog=inflater.inflate(R.layout.language_dialog,null);
+            final Spinner languageSpinner=(Spinner)languageDialog.findViewById(R.id.language_spinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.languages, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            languageSpinner.setAdapter(adapter);
+            languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    SettingsActivity.setLanguage("English");
+                }
+            });
+            builder.setView(languageDialog);
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    TrickData.getTricktionaryData();
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SettingsActivity.setLanguage("English");
+                    TrickData.getTricktionaryData();
+                    dialog.cancel();
+                }
+            });
 
+            builder.show();
+        }
     }
 
     private void setupWindowAnimations() {
@@ -263,8 +300,8 @@ public class MainMenu extends BaseActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            final View jackpotDialog=inflater.inflate(R.layout.no_internet_dialog,null);
-            builder.setView(jackpotDialog);
+            final View noInternetDialog=inflater.inflate(R.layout.no_internet_dialog,null);
+            builder.setView(noInternetDialog);
             // Set up the buttons
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override

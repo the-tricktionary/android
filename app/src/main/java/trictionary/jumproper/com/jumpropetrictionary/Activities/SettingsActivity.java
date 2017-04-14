@@ -17,8 +17,10 @@ public class SettingsActivity extends BaseActivity {
     public static final String PREFS_NAME="Settings";
     public static final String AUTO_PLAY_SETTING="AutoPlay";
     public static final String PLAYER_STYLE_SETTING="PlayerStyle";
+    public static final String LANGUAGE_SETTING="Language";
     public static boolean autoPlay=true;
     public static String stylePref="Minimal";
+    public static String language;
     CheckBox autoPlayCheck;
     TextView playerStyle;
     private FirebaseAuth mAuth;
@@ -79,6 +81,12 @@ public class SettingsActivity extends BaseActivity {
                 return true;
             }
         });
+    }
+    public static void setLanguage(String mLanguage){
+        SharedPreferences.Editor editor = MainMenu.settings.edit();
+        editor.putString(PLAYER_STYLE_SETTING,mLanguage);
+        editor.commit();
+        language=mLanguage;
     }
     public static String getPlayerStyle(){
         return stylePref;

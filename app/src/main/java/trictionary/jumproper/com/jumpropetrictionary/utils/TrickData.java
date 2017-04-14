@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import trictionary.jumproper.com.jumpropetrictionary.activities.SettingsActivity;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
 
@@ -62,25 +63,49 @@ public class TrickData extends Trick {
                 int index=0;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
-                        mTrick=new Trick(trick.child("name").getValue().toString(),
-                                trick.child("description").getValue().toString(),
-                                Integer.parseInt(level.child("level").getValue().toString()),
-                                index,
-                                trick.child("type").getValue().toString(),
-                                trick.child("video").getValue().toString(),
-                                getPrereqs(trick),trick.child("irsf").getValue().toString(),
-                                trick.child("wjr").getValue().toString(),
-                                trick.child("id1").getValue().toString());
-                        Log.i("id1",mTrick.getId1());
-
-
-
-                        tempList.add(mTrick);
-                        index++;
-
+                        if(SettingsActivity.language!=null) {
+                            if (SettingsActivity.language.equals("Deutsch") && trick.child("i18n").child("de").getValue() != null) {
+                                mTrick = new Trick(trick.child("i18n").child("de").child("name").getValue().toString(),
+                                        trick.child("i18n").child("de").child("description").getValue().toString(),
+                                        Integer.parseInt(level.child("level").getValue().toString()),
+                                        index,
+                                        trick.child("type").getValue().toString(),
+                                        trick.child("video").getValue().toString(),
+                                        getPrereqs(trick), trick.child("irsf").getValue().toString(),
+                                        trick.child("wjr").getValue().toString(),
+                                        trick.child("id1").getValue().toString());
+                                tempList.add(mTrick);
+                                index++;
+                            } else if (SettingsActivity.language.equals("Svenska") &&
+                                    trick.child("i18n").child("sv").child("description").getValue() != null &&
+                                    trick.child("i18n").child("sv").child("name").getValue() != null) {
+                                mTrick = new Trick(trick.child("i18n").child("sv").child("name").getValue().toString(),
+                                        trick.child("i18n").child("sv").child("description").getValue().toString(),
+                                        Integer.parseInt(level.child("level").getValue().toString()),
+                                        index,
+                                        trick.child("type").getValue().toString(),
+                                        trick.child("video").getValue().toString(),
+                                        getPrereqs(trick), trick.child("irsf").getValue().toString(),
+                                        trick.child("wjr").getValue().toString(),
+                                        trick.child("id1").getValue().toString());
+                                tempList.add(mTrick);
+                                index++;
+                            } else {
+                                mTrick = new Trick(trick.child("name").getValue().toString(),
+                                        trick.child("description").getValue().toString(),
+                                        Integer.parseInt(level.child("level").getValue().toString()),
+                                        index,
+                                        trick.child("type").getValue().toString(),
+                                        trick.child("video").getValue().toString(),
+                                        getPrereqs(trick), trick.child("irsf").getValue().toString(),
+                                        trick.child("wjr").getValue().toString(),
+                                        trick.child("id1").getValue().toString());
+                                tempList.add(mTrick);
+                                index++;
+                            }
+                        }
                     }
                 }
-
                 tricktionary=new Trick[tempList.size()];
                 for(int j=0;j<tempList.size();j++){
                     tricktionary[j]=tempList.get(j);

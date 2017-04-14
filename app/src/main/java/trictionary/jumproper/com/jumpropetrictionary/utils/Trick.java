@@ -18,6 +18,10 @@ public class Trick extends FirebaseInstanceIdService {
     public String wjrLevel="";
     public String id1;
     public String id0;
+    public String deName;
+    public String deDescription;
+    public String svName;
+    public String svDescription;
     public boolean completed=false;
     public boolean checklist=false;
 

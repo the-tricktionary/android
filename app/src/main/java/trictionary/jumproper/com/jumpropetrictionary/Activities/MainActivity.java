@@ -163,6 +163,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
 
+        if(currentTrick==null){
+            finish();
+        }
+
         if(currentTrick.getFisacLevel().equals("")) {
             fisacLevel.setVisibility(View.INVISIBLE);
         }
@@ -174,8 +178,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             fisacLevel.setText("IRSF Level: " + currentTrick.getFisacLevel());
         }
 
-        if (currentTrick.getPrereqs().length==0){
-            prereqs.setVisibility(View.GONE);
+        if (currentTrick.getPrereqs()!=null) {
+            if (currentTrick.getPrereqs().length == 0) {
+                prereqs.setVisibility(View.GONE);
+            }
         }
         if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
@@ -579,7 +585,6 @@ return;
 
     public void openContactDialog(View v){
         //Set up dialog
-
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); //new alert dialog
         builder.setTitle("Submit feeback on "+currentTrick.getName()); //dialog title
         LayoutInflater inflater = (LayoutInflater)MainActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout

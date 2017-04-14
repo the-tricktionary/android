@@ -38,10 +38,18 @@
         <item>Inaccurate Name</item>
         <item>Inaccurate Description</item>
     </string-array>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Deutsch</item>
+        <item>Svenska</item>
+    </string-array>
+
     <string-array name="organizations">
         <item>WJR</item>
         <item>FISAC/IRSF</item>
     </string-array>
+
     <string name="title_activity_stats">Stats</string>
     <string name="title_activity_profile">Profile</string>
 </resources>
