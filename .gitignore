@@ -3,6 +3,7 @@
 /.idea/workspace.xml
 /.idea/libraries
 /app/src/main/res/values/developer_key_secret.xml
+/app/src/main/res/values/developer_key_empty.xml
 /app/client_secret_1048157266079-6m9smvmrrs2vagok5b973dqe7cvcf3e9.apps.googleusercontent.com.json
 /app/client_secret_1048157266079-htmir8adv1nfaspcqimpse9a6vm730d1.apps.googleusercontent.com.json
 /app/client_secret_1048157266079-v3h7et650q5p0icj5lc6igjolfnr5atd.apps.googleusercontent.com.json
