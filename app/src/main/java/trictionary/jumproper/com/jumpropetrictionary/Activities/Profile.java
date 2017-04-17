@@ -31,8 +31,8 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary.DASHES;
 
 public class Profile extends BaseActivity {
-    private Trick[]tricktionary= TrickData.getTricktionary();
-    private ArrayList<Trick>completedTricks=TrickData.getCompletedTricks();
+    private ArrayList<ArrayList<Trick>>tricktionary= TrickData.getTricktionary();
+    private ArrayList<ArrayList<Trick>>completedTricks=TrickData.getCompletedTricks();
     private FirebaseAuth mAuth;
     private int delay = 100; //milliseconds
     private Handler h;
@@ -147,23 +147,20 @@ public class Profile extends BaseActivity {
             return;
         }
         for(int j=0;j<completedTricks.size();j++){
-            if(!completedTricks.get(j).isCompleted()){
-                j++;
-            }
-            else if(completedTricks.get(j).getType().equals("Basics")){
-                basicsList.add(completedTricks.get(j));
-            }
-            else if(completedTricks.get(j).getDifficulty()==1){
-                level1List.add(completedTricks.get(j));
-            }
-            else if(completedTricks.get(j).getDifficulty()==2){
-                level2List.add(completedTricks.get(j));
-            }
-            else if(completedTricks.get(j).getDifficulty()==3){
-                level3List.add(completedTricks.get(j));
-            }
-            else if(completedTricks.get(j).getDifficulty()==4){
-                level4List.add(completedTricks.get(j));
+            for(Trick mTrick:completedTricks.get(j)) {
+                if (!mTrick.isCompleted()) {
+                    j++;
+                } else if (mTrick.getType().equals("Basics")) {
+                    basicsList.add(mTrick);
+                } else if (mTrick.getDifficulty() == 1) {
+                    level1List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 2) {
+                    level2List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 3) {
+                    level3List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 4) {
+                    level4List.add(mTrick);
+                }
             }
         }
         Collections.sort(basicsList,TrickData.compareName);

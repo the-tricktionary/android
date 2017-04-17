@@ -14,10 +14,14 @@ public class Trick extends FirebaseInstanceIdService {
     public String videoCode;
     public String type;
     public String[] prereqs;
+    public int[] prereqsId0;
+    public int[] prereqsId1;
+    public int[] nextTricksId0;
+    public int[] nextTricksId1;
     public String fisacLevel="";
     public String wjrLevel="";
-    public String id1;
-    public String id0;
+    public int id1;
+    public int id0;
     public String deName;
     public String deDescription;
     public String svName;
@@ -66,7 +70,7 @@ public class Trick extends FirebaseInstanceIdService {
         prereqs=myPrereqs;
         fisacLevel=mFisacLevel;
     }
-    public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, String[]myPrereqs, String mFisacLevel, String mWjrLevel,String mId1){
+    public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, String[]myPrereqs, String mFisacLevel, String mWjrLevel,int mId1){
         name=myName;
         description=myDescription;
         difficulty=myDifficulty;
@@ -74,6 +78,25 @@ public class Trick extends FirebaseInstanceIdService {
         type=myType;
         videoCode=myVideoCode;
         prereqs=myPrereqs;
+        fisacLevel=mFisacLevel;
+        wjrLevel=mWjrLevel;
+        id1=mId1;
+    }
+    public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, Trick[]myPrereqs, String mFisacLevel, String mWjrLevel,int mId1){
+        name=myName;
+        description=myDescription;
+        difficulty=myDifficulty;
+        index=myIndex;
+        type=myType;
+        videoCode=myVideoCode;
+        prereqs=new String[myPrereqs.length];
+        prereqsId0=new int[myPrereqs.length];
+        prereqsId1=new int[myPrereqs.length];
+        for(int j=0;j<myPrereqs.length;j++){
+            prereqs[j]=myPrereqs[j].getName();
+            prereqsId0[j]=myPrereqs[j].getId0();
+            prereqsId1[j]=myPrereqs[j].getId1();
+        }
         fisacLevel=mFisacLevel;
         wjrLevel=mWjrLevel;
         id1=mId1;
@@ -124,19 +147,19 @@ public class Trick extends FirebaseInstanceIdService {
         this.fisacLevel = fisacLevel;
     }
 
-    public String getId1() {
+    public int getId1() {
         return id1;
     }
 
-    public void setId1(String id1) {
+    public void setId1(int id1) {
         this.id1 = id1;
     }
 
-    public String getId0(){
-        return ""+(difficulty-1);
+    public int getId0(){
+        return difficulty-1;
     }
 
-    public void setId0(String id0){ this.id0 = id0; }
+    public void setId0(int id0){ this.id0 = id0; }
 
     public String getWjrLevel() {
         return wjrLevel;
@@ -162,4 +185,35 @@ public class Trick extends FirebaseInstanceIdService {
         this.checklist = checklist;
     }
 
+    public int[] getPrereqsId0() {
+        return prereqsId0;
+    }
+
+    public void setPrereqsId0(int[] prereqsId0) {
+        this.prereqsId0 = prereqsId0;
+    }
+
+    public int[] getPrereqsId1() {
+        return prereqsId1;
+    }
+
+    public void setPrereqsId1(int[] prereqsId1) {
+        this.prereqsId1 = prereqsId1;
+    }
+
+    public int[] getNextTricksId0() {
+        return nextTricksId0;
+    }
+
+    public void setNextTricksId0(int[] nextTricksId0) {
+        this.nextTricksId0 = nextTricksId0;
+    }
+
+    public int[] getNextTricksId1() {
+        return nextTricksId1;
+    }
+
+    public void setNextTricksId1(int[] nextTricksId1) {
+        this.nextTricksId1 = nextTricksId1;
+    }
 }

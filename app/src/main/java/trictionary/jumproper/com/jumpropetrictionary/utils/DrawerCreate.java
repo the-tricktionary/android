@@ -166,7 +166,9 @@ public class DrawerCreate extends AppCompatActivity{
                             activity.startActivity(intent);
                         }
                         else if(position==7){
-                            MainActivity.currentTrick = TrickData.tricktionary[((int) (Math.random() * TrickData.getTricktionary().length))];
+                            int randId0=(int)(Math.random()*4);
+                            int randId1=(int)(Math.random()*TrickData.getTricktionary().get(randId0).size());
+                            MainActivity.currentTrick = TrickData.getTricktionary().get(randId0).get(randId1);
                             Intent intent = new Intent(context, MainActivity.class);
                             activity.startActivity(intent);
                         }

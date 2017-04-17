@@ -61,6 +61,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import trictionary.jumproper.com.jumpropetrictionary.contact.Contact;
 import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.R;
@@ -86,15 +88,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private YouTubePlayerView youTubeView;
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
-    //length of tricktionary, used for fetching random tricks
-    public static int len;
-
     //current trick being viewed in MainActivity
     public static Trick currentTrick;
 
 
     //declare Trick array and index of current trick
-    Trick[] tricktionary;
+    private ArrayList<ArrayList<Trick>> tricktionary;
 
     //analytic object for event logging
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -243,8 +242,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                     FirebaseDatabase fb=FirebaseDatabase.getInstance();
                     final DatabaseReference myRef=fb.getReference("checklist");
                     myRef.child(mAuth.getCurrentUser().getUid())
-                            .child(currentTrick.getId0())
-                            .child(currentTrick.getId1())
+                            .child(""+currentTrick.getId0())
+                            .child(""+currentTrick.getId1())
                             .setValue(b);
                     currentTrick.setCompleted(true);
                 }
@@ -342,9 +341,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer player, boolean wasRestored) {
         youTubePlayer=player;
-        if(tricktionary!=null){
-            len=TrickData.getLen();
-        }
         if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }
@@ -445,8 +441,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.child(mAuth.getCurrentUser().getUid())
-                            .child(currentTrick.getId0())
-                            .child(currentTrick.getId1()).toString().equals("true")) {
+                            .child(""+currentTrick.getId0())
+                            .child(""+currentTrick.getId1()).toString().equals("true")) {
                         trickCompleted.setChecked(true);
                     }
                 }
@@ -480,7 +476,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
-                currentTrick = TrickData.getTrickFromName(item.getTitle().toString(), tricktionary);
+                int pos=item.getItemId();
+                currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
+                        .get(currentTrick.getPrereqsId1()[pos]);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -490,11 +488,19 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void viewNextTricks(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, nextTricks);
 
-        for (Trick aTricktionary : tricktionary) {
-            for (int i = 0; i < aTricktionary.getPrereqs().length; i++) {
-                if (aTricktionary.getPrereqs()[i].equals(currentTrick.getName())) {
-                    if (!(aTricktionary.equals(currentTrick)))
-                        popupMenu.getMenu().add(aTricktionary.getName());
+        final ArrayList<Integer> nextTricksId0=new ArrayList<>();
+        final ArrayList<Integer> nextTricksId1=new ArrayList<>();
+
+        for(int j=currentTrick.getDifficulty();j<tricktionary.size();j++) { //dont bother looking at levels before this level
+            for (Trick mTrick : tricktionary.get(j)) {
+                for (int i = 0; i < mTrick.getPrereqs().length; i++) {
+                    if (mTrick.getPrereqs()[i].equals(currentTrick.getName())) {
+                        if (!(mTrick.equals(currentTrick))) {
+                            popupMenu.getMenu().add(mTrick.getName());
+                            nextTricksId0.add(mTrick.getId0());
+                            nextTricksId1.add(mTrick.getId1());
+                        }
+                    }
                 }
             }
         }
@@ -506,7 +512,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
-                currentTrick = TrickData.getTrickFromName(item.getTitle().toString(), tricktionary);
+                int pos=item.getItemId();
+                currentTrick = tricktionary.get(nextTricksId0.get(pos))
+                        .get(nextTricksId1.get(pos));
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -514,11 +522,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         });
 
     }
-    public Trick[] getTricktionary(){
+    public ArrayList<ArrayList<Trick>> getTricktionary(){
         return tricktionary;
-    }
-    public static int getTricktionaryLength(){
-        return len;
     }
     public void shareTrick(View v){
         //create the send intent
@@ -670,8 +675,8 @@ return;
                                              data=new Contact(contactName.getText().toString(),
                                                     contactTypeName,
                                                     currentTrick.getName(),
-                                                    currentTrick.getId1(),
-                                                    currentTrick.getId0(),
+                                                    ""+currentTrick.getId1(),
+                                                    ""+currentTrick.getId0(),
                                                     organization,
                                                     correctLevel.getText().toString(),
                                                     mAuth.getCurrentUser().getEmail());
@@ -680,8 +685,8 @@ return;
                                              data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
                                                     currentTrick.getName(),
-                                                    currentTrick.getId1(),
-                                                    currentTrick.getId0(),
+                                                    ""+currentTrick.getId1(),
+                                                    ""+currentTrick.getId0(),
                                                     organization,
                                                     correctLevel.getText().toString());
                                         }
@@ -703,16 +708,16 @@ return;
                                              data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
                                                     currentTrick.getName() + " - " + comment.getText().toString(),
-                                                    currentTrick.getId1(),
-                                                    currentTrick.getId0(),
+                                                    ""+currentTrick.getId1(),
+                                                    ""+currentTrick.getId0(),
                                                     mAuth.getCurrentUser().getEmail());
                                         }
                                         else{
                                             data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
                                                     currentTrick.getName() + " - " + comment.getText().toString(),
-                                                    currentTrick.getId1(),
-                                                    currentTrick.getId0(),
+                                                    ""+currentTrick.getId1(),
+                                                    ""+currentTrick.getId0(),
                                                     mAuth.getCurrentUser().getEmail());
                                         }
                                         myRef.child(mAuth.getCurrentUser().getUid())
@@ -751,8 +756,8 @@ return;
                          data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
                                 currentTrick.getName(),
-                                currentTrick.getId1(),
-                                currentTrick.getId0(),
+                                ""+currentTrick.getId1(),
+                                ""+currentTrick.getId0(),
                                 organization,
                                 correctLevel.getText().toString(),
                                  mAuth.getCurrentUser().getEmail());
@@ -761,8 +766,8 @@ return;
                         data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
                                 currentTrick.getName(),
-                                currentTrick.getId1(),
-                                currentTrick.getId0(),
+                                ""+currentTrick.getId1(),
+                                ""+currentTrick.getId0(),
                                 organization,
                                 correctLevel.getText().toString());
                     }
@@ -784,16 +789,16 @@ return;
                         data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
                                 currentTrick.getName() + " - " + comment.getText().toString(),
-                                currentTrick.getId1(),
-                                currentTrick.getId0(),
+                                ""+currentTrick.getId1(),
+                                ""+currentTrick.getId0(),
                                 mAuth.getCurrentUser().getEmail());
                     }
                     else{
                         data = new Contact(contactName.getText().toString(),
                                 contactTypeName,
                                 currentTrick.getName() + " - " + comment.getText().toString(),
-                                currentTrick.getId1(),
-                                currentTrick.getId0());
+                                ""+currentTrick.getId1(),
+                                ""+currentTrick.getId0());
                     }
                     myRef.child(mAuth.getCurrentUser().getUid())
                             .child(myRef.push().getKey())
@@ -850,8 +855,8 @@ return;
                                 FirebaseDatabase fb=FirebaseDatabase.getInstance();
                                 final DatabaseReference myRef=fb.getReference("checklist");
                                 myRef.child(mAuth.getCurrentUser().getUid())
-                                        .child(currentTrick.getId0())
-                                        .child(currentTrick.getId1())
+                                        .child(""+currentTrick.getId0())
+                                        .child(""+currentTrick.getId1())
                                         .setValue(true);
                             }
                         }

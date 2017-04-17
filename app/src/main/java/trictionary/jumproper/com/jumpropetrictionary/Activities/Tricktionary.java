@@ -35,10 +35,8 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
 public class Tricktionary extends BaseActivity{
-    private Trick[] tricktionary=TrickData.tricktionary;
-    private ArrayList<Trick> completedTricks=TrickData.completedTricks;
-    private int levelIndex;
-    private Toolbar toolbar;
+    private ArrayList<ArrayList<Trick>> tricktionary=TrickData.getTricktionary();
+    private ArrayList<ArrayList<Trick>> completedTricks=TrickData.completedTricks;
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
     private CheckBox showCompletedTricks;
@@ -92,23 +90,29 @@ public class Tricktionary extends BaseActivity{
                 h.removeCallbacks(r);
                 completedIndex=0;
                 if(b){
-                    for(int j=0;j<tricktionary.length;j++){
-                        if(tricktionary[j].isCompleted()){
-                            tricktionary[j].setChecklist(false);
+                    for(int j=0;j<tricktionary.size();j++){
+                        for(Trick mTrick:tricktionary.get(j)) {
+                            if (mTrick.isCompleted()) {
+                                mTrick.setChecklist(false);
+                            }
+                            h.post(r);
                         }
-                        h.post(r);
                     }
                     h.post(r);
                 }
                 else{
-                    for(int j=0;j<tricktionary.length;j++){
-                        for(int i=completedIndex;i<completedTricks.size();i++){
-                            if (tricktionary[j].equals(completedTricks.get(i))) {
-                                completedIndex++;
-                                tricktionary[j].setChecklist(true);
+                    for(int j=0;j<tricktionary.size();j++){
+                        for(Trick mTrick:tricktionary.get(j)) {
+                            for (int i = completedIndex; i < completedTricks.size(); i++) {
+                                for(Trick mCompletedTrick:completedTricks.get(i)) {
+                                    if (mTrick.equals(mCompletedTrick)){
+                                        completedIndex++;
+                                        mTrick.setChecklist(true);
+                                    }
+                                }
                             }
+                            h.post(r);
                         }
-                        h.post(r);
                     }
                     h.post(r);
                 }
@@ -141,19 +145,26 @@ public class Tricktionary extends BaseActivity{
         completedIndex=0;
         if(tricktionary!=null) {
             if (showCompletedTricks.isChecked()) {
-                for (int j = 0; j < tricktionary.length; j++) {
-                    if (tricktionary[j].isCompleted()) {
-                        tricktionary[j].setChecklist(false);
+                for (int j = 0; j < tricktionary.size(); j++) {
+                    for(Trick mTrick:tricktionary.get(j)) {
+                        if (mTrick.isCompleted()) {
+                            mTrick.setChecklist(false);
+                        }
                     }
                 }
                 h.post(r);
+
             } else {
                 if (tricktionary != null && completedTricks != null) {
-                    for (int j = 0; j < tricktionary.length; j++) {
-                        for (int i = completedIndex; i < completedTricks.size(); i++) {
-                            if (tricktionary[j].equals(completedTricks.get(i))) {
-                                completedIndex++;
-                                tricktionary[j].setChecklist(true);
+                    for (int j = 0; j < tricktionary.size(); j++) {
+                        for(Trick mTrick:tricktionary.get(j)) {
+                            for (int i = completedIndex; i < completedTricks.size(); i++) {
+                                for(Trick mCompletedTrick:completedTricks.get(i)) {
+                                    if (mTrick.equals(mCompletedTrick)) {
+                                        completedIndex++;
+                                        mTrick.setChecklist(true);
+                                    }
+                                }
                             }
                         }
                     }
@@ -211,24 +222,21 @@ public class Tricktionary extends BaseActivity{
             h.postDelayed(r, delay);
             return;
         }
-        for(int j=0;j<tricktionary.length;j++){
-            if(tricktionary[j].isChecklist()){
-                j++;
-            }
-            else if(tricktionary[j].getType().equals("Basics")){
-                basicsList.add(tricktionary[j]);
-            }
-            else if(tricktionary[j].getDifficulty()==1){
-                level1List.add(tricktionary[j]);
-            }
-            else if(tricktionary[j].getDifficulty()==2){
-                level2List.add(tricktionary[j]);
-            }
-            else if(tricktionary[j].getDifficulty()==3){
-                level3List.add(tricktionary[j]);
-            }
-            else if(tricktionary[j].getDifficulty()==4){
-                level4List.add(tricktionary[j]);
+        for(int j=0;j<tricktionary.size();j++){
+            for(Trick mTrick:tricktionary.get(j)) {
+                if (mTrick.isChecklist()) {
+                    j++;
+                } else if (mTrick.getType().equals("Basics")) {
+                    basicsList.add(mTrick);
+                } else if (mTrick.getDifficulty() == 1) {
+                    level1List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 2) {
+                    level2List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 3) {
+                    level3List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 4) {
+                    level4List.add(mTrick);
+                }
             }
         }
         Collections.sort(basicsList,TrickData.compareName);

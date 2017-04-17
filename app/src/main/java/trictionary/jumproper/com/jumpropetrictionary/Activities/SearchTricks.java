@@ -24,6 +24,8 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 public class SearchTricks extends BaseActivity {
 
     private FirebaseAuth mAuth;
+    ArrayList<Integer> trickId0=new ArrayList<>();
+    ArrayList<Integer> trickId1=new ArrayList<>();
     EditText searchBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,8 @@ public class SearchTricks extends BaseActivity {
 
                 // ListView Clicked item value
                 String itemValue = (String) listView.getItemAtPosition(position);
-                MainActivity.currentTrick= TrickData.getTrickFromName(itemValue, TrickData.getTricktionary());
+                MainActivity.currentTrick= TrickData.getTricktionary().get(trickId0.get(position))
+                        .get(trickId1.get(position));
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 // Show Alert
@@ -91,28 +94,22 @@ public class SearchTricks extends BaseActivity {
     }
 
     public ArrayList<String> doMySearch(String query){
-        Trick[] arr = TrickData.getTricktionary();
+        ArrayList<ArrayList<Trick>> tricktionary= TrickData.getTricktionary();
         ArrayList<String> list = new ArrayList<>();
-        for (int j=0; j < arr.length; j++){
-
-            if (arr[j].getName().toLowerCase().contains(query.toLowerCase())) {
-                list.add(arr[j].getName());
-
+        trickId0.clear();
+        trickId1.clear();
+        for(int j=0;j<tricktionary.size();j++){
+            for(Trick mTrick:tricktionary.get(j)){
+                if (mTrick.getName().toLowerCase().contains(query.toLowerCase())) {
+                    list.add(mTrick.getName());
+                    trickId0.add(mTrick.getId0());
+                    trickId1.add(mTrick.getId1());
+                }
             }
         }
         return list;
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
     public void mainMenu(View v){
         Intent intent = new Intent(this, MainMenu.class);
         finish();

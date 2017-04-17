@@ -258,7 +258,7 @@ public class MainMenu extends BaseActivity {
         return true;
     }
     public void randomTrick(View v){
-        if(TrickData.tricktionary==null){
+        if(TrickData.tricktionary2d==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
@@ -281,7 +281,9 @@ public class MainMenu extends BaseActivity {
             builder.show();
         }
         else {
-            MainActivity.currentTrick = TrickData.tricktionary[((int) (Math.random() * TrickData.getTricktionary().length))];
+            int randId0=(int)(Math.random()*4);
+            int randId1=(int)(Math.random()*TrickData.getTricktionary().get(randId0).size());
+            MainActivity.currentTrick = TrickData.getTricktionary().get(randId0).get(randId1);
             Intent intent = new Intent(this, MainActivity.class);
             View sharedView = v;
             String transitionName = getString(R.string.logo_transition);
@@ -296,7 +298,7 @@ public class MainMenu extends BaseActivity {
         }
     }
     public void viewTricktionary(View v){
-        if(TrickData.tricktionary==null){
+        if(TrickData.tricktionary2d==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);

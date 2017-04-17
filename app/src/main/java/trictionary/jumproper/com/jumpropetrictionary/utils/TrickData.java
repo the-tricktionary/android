@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -20,7 +21,8 @@ import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
  */
 public class TrickData extends Trick {
     public static Trick[]tricktionary;
-    public static ArrayList<Trick> completedTricks;
+    public static ArrayList<ArrayList<Trick>> tricktionary2d=new ArrayList<>();
+    public static ArrayList<ArrayList<Trick>> completedTricks;
     public static String uId="";
     public static ArrayList<Trick>tempList;
     public static Trick mTrick;
@@ -42,7 +44,7 @@ public class TrickData extends Trick {
     private static final String RELEASES="Releases";
     private static boolean offline=true;
 
-    public static Trick[]getTricktionaryData(){
+    public static ArrayList<ArrayList<Trick>>getTricktionaryData(){
 
         tempList=new ArrayList<>();
         if(completedTricks==null) {
@@ -59,7 +61,10 @@ public class TrickData extends Trick {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                tempList.clear();
+                tricktionary2d.clear();
+                for(int j=0;j<4;j++){
+                    tricktionary2d.add(new ArrayList<Trick>());
+                }
                 int index=0;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
@@ -71,10 +76,11 @@ public class TrickData extends Trick {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        getPrereqs(trick), trick.child("irsf").getValue().toString(),
+                                        getPrereqs(trick),
+                                        trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
-                                        trick.child("id1").getValue().toString());
-                                tempList.add(mTrick);
+                                        Integer.parseInt(trick.child("id1").getValue().toString()));
+                                tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             } else if (SettingsActivity.language.equals("Svenska") &&
                                     trick.child("i18n").child("sv").child("description").getValue() != null &&
@@ -85,10 +91,11 @@ public class TrickData extends Trick {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        getPrereqs(trick), trick.child("irsf").getValue().toString(),
+                                        getPrereqs(trick),
+                                        trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
-                                        trick.child("id1").getValue().toString());
-                                tempList.add(mTrick);
+                                        Integer.parseInt(trick.child("id1").getValue().toString()));
+                                tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             } else {
                                 mTrick = new Trick(trick.child("name").getValue().toString(),
@@ -97,19 +104,24 @@ public class TrickData extends Trick {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        getPrereqs(trick), trick.child("irsf").getValue().toString(),
+                                        getPrereqs(trick),
+                                        trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
-                                        trick.child("id1").getValue().toString());
-                                tempList.add(mTrick);
+                                        Integer.parseInt(trick.child("id1").getValue().toString()));
+                                tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             }
                         }
                     }
                 }
-                tricktionary=new Trick[tempList.size()];
-                for(int j=0;j<tempList.size();j++){
-                    tricktionary[j]=tempList.get(j);
+                /**
+                for(int i=0;i<4;i++){
+                    tricktionary2d.add(new ArrayList<Trick>());
                 }
+                for(int j=0;j<tempList.size();j++){
+                    tricktionary2d.get(tempList.get(j).getId0()).add(tempList.get(j));
+                }
+                 **/
             }
 
 
@@ -119,7 +131,7 @@ public class TrickData extends Trick {
                 tricktionary=getTricktionaryOffline();
             }
         });
-        return tricktionary;
+        return tricktionary2d;
     }
 
     public static void fillCompletedTricks(){
@@ -130,22 +142,14 @@ public class TrickData extends Trick {
             checklist.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for(int j=0;j<tricktionary.length;j++) {
-                        if (dataSnapshot.child(uId).hasChild(tricktionary[j].getId0())) {
-                            if (dataSnapshot.child(uId).child(tricktionary[j].getId0()).hasChild(tricktionary[j].getId1())) {
-                                if (dataSnapshot.child(uId)
-                                        .child(tricktionary[j].getId0())
-                                        .child(tricktionary[j].getId1())
-                                        .getValue().toString().equals("true")) {
-                                    tricktionary[j].setCompleted(true);
-                                    completedTricks.add(tricktionary[j]);
-                                }
-                            }
+                    for(DataSnapshot id0:dataSnapshot.getChildren()){
+                        for(DataSnapshot id1:dataSnapshot.getChildren()){
+                            tricktionary2d.get(Integer.parseInt(id0.getKey()))
+                                    .get(Integer.parseInt(id1.getValue().toString()))
+                                    .setCompleted(true);
                         }
                     }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
@@ -154,38 +158,38 @@ public class TrickData extends Trick {
         }
     }
 
-    public static Trick[]getTricktionary(){
-        if(tricktionary==null){
+
+    public static ArrayList<ArrayList<Trick>> getTricktionary(){
+        if(tricktionary2d==null){
             return getTricktionaryData();
         }
         else {
             completedTricks=getCompletedTricks();
-            return tricktionary;
+            return tricktionary2d;
         }
     }
 
-    public static ArrayList<Trick>getCompletedTricks(){
+    public static ArrayList<ArrayList<Trick>>getCompletedTricks(){
         return completedTricks;
     }
 
-    public static String[] getPrereqs(DataSnapshot trick){
-        ArrayList<String>list=new ArrayList<String>();
+    public static Trick[] getPrereqs(DataSnapshot trick){
+        ArrayList<Trick>list=new ArrayList<Trick>();
         for(DataSnapshot prereq:trick.child("prerequisites").getChildren()){
-            list.add(""+prereq.child("name").getValue().toString());
+            try {
+                Log.e("Prereq data",prereq.getValue().toString());
+                list.add(tricktionary2d.get(Integer.parseInt(prereq.child("id0").getValue().toString()))
+                        .get(Integer.parseInt(prereq.child("id1").getValue().toString())));
+            }
+            catch (Exception e){
+                Log.e("Crach on Prereqs",e.toString());
+            }
         }
-        String[] arr=new String[list.size()];
+        Trick[] arr=new Trick[list.size()];
         for(int j=0;j<list.size();j++){
             arr[j]=list.get(j);
         }
         return arr;
-    }
-    public static int getLen(){
-        if(tricktionary!=null) {
-            return tricktionary.length;
-        }
-        else{
-            return getTricktionaryData().length;
-        }
     }
     public static Trick getTrickFromName(String name, Trick[]arr){
 
