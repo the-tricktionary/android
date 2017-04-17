@@ -22,7 +22,7 @@ import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
 public class TrickData extends Trick {
     public static Trick[]tricktionary;
     public static ArrayList<ArrayList<Trick>> tricktionary2d=new ArrayList<>();
-    public static ArrayList<ArrayList<Trick>> completedTricks;
+    public static ArrayList<ArrayList<Trick>> completedTricks=new ArrayList<>();
     public static String uId="";
     public static ArrayList<Trick>tempList;
     public static Trick mTrick;
@@ -135,8 +135,11 @@ public class TrickData extends Trick {
     }
 
     public static void fillCompletedTricks(){
-        if(uId.length()>0 && completedTricks.size()==0) {
+        if(uId.length()>0 && completedTricks!=null) {
             completedTricks.clear();
+            for(int j=0;j<4;j++){
+                completedTricks.add(new ArrayList<Trick>());
+            }
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist");
             checklist.addValueEventListener(new ValueEventListener() {
@@ -147,6 +150,10 @@ public class TrickData extends Trick {
                             tricktionary2d.get(Integer.parseInt(id0.getKey()))
                                     .get(Integer.parseInt(id1.getValue().toString()))
                                     .setCompleted(true);
+                            completedTricks.get(Integer.parseInt(id0.getKey()))
+                                    .add(tricktionary2d.get(Integer.parseInt(id0.getKey()))
+                                    .get(Integer.parseInt(id1.getValue().toString())));
+
                         }
                     }
                 }
