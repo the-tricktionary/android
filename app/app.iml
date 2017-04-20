@@ -94,7 +94,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 24 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-compat-24.2.1" level="project" />
@@ -137,6 +137,6 @@
     <orderEntry type="library" exported="" name="iconics-core-2.8.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-impl-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="firebase-crash-9.6.1" level="project" />
-    <orderEntry type="library" exported="" name="android-android-25" level="project" />
+    <orderEntry type="library" exported="" name="android-android-24" level="project" />
   </component>
 </module>
