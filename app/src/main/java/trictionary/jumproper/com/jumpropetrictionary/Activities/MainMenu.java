@@ -113,7 +113,7 @@ public class MainMenu extends BaseActivity {
         settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
         SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
         getSupportActionBar().setTitle("");
-        TrickData.getTricktionary();
+        TrickData.getTricktionaryData();
         setupWindowAnimations();
 
         scaleTitleText(title);
@@ -124,7 +124,6 @@ public class MainMenu extends BaseActivity {
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
-            TrickData.fillCompletedTricks();
         }
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -195,7 +194,9 @@ public class MainMenu extends BaseActivity {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    TrickData.getTricktionaryData();
+                    if(TrickData.tricktionary2d==null){
+                        TrickData.getTricktionaryData();
+                    }
                     dialog.cancel();
                 }
             });
@@ -203,7 +204,9 @@ public class MainMenu extends BaseActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SettingsActivity.setLanguage("English");
-                    TrickData.getTricktionaryData();
+                    if(TrickData.tricktionary2d==null){
+                        TrickData.getTricktionaryData();
+                    }
                     dialog.cancel();
                 }
             });

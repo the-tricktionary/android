@@ -61,7 +61,7 @@ public class TrickData extends Trick {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                tricktionary2d.clear();
+                tricktionary2d=new ArrayList<ArrayList<Trick>>();
                 for(int j=0;j<4;j++){
                     tricktionary2d.add(new ArrayList<Trick>());
                 }
@@ -111,6 +111,7 @@ public class TrickData extends Trick {
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             }
+                            Log.e("Is this thing on?",mTrick.getName());
                         }
                     }
                 }
@@ -131,28 +132,28 @@ public class TrickData extends Trick {
                 tricktionary=getTricktionaryOffline();
             }
         });
+        fillCompletedTricks();
         return tricktionary2d;
     }
 
     public static void fillCompletedTricks(){
-        if(uId.length()>0 && completedTricks!=null) {
-            completedTricks.clear();
+        if(uId.length()>0 && completedTricks.size()==0 && tricktionary2d.size()!=0) {
             for(int j=0;j<4;j++){
                 completedTricks.add(new ArrayList<Trick>());
             }
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
-            DatabaseReference checklist=fb.getReference("checklist");
+            DatabaseReference checklist=fb.getReference("checklist").child(uId);
             checklist.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot id0:dataSnapshot.getChildren()){
                         for(DataSnapshot id1:dataSnapshot.getChildren()){
                             tricktionary2d.get(Integer.parseInt(id0.getKey()))
-                                    .get(Integer.parseInt(id1.getValue().toString()))
+                                    .get(Integer.parseInt(id1.getKey()))
                                     .setCompleted(true);
                             completedTricks.get(Integer.parseInt(id0.getKey()))
                                     .add(tricktionary2d.get(Integer.parseInt(id0.getKey()))
-                                    .get(Integer.parseInt(id1.getValue().toString())));
+                                    .get(Integer.parseInt(id1.getKey())));
 
                         }
                     }
@@ -167,13 +168,7 @@ public class TrickData extends Trick {
 
 
     public static ArrayList<ArrayList<Trick>> getTricktionary(){
-        if(tricktionary2d==null){
-            return getTricktionaryData();
-        }
-        else {
-            completedTricks=getCompletedTricks();
-            return tricktionary2d;
-        }
+        return tricktionary2d;
     }
 
     public static ArrayList<ArrayList<Trick>>getCompletedTricks(){

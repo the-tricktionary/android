@@ -57,7 +57,7 @@ public class Tricktionary extends BaseActivity{
         showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
 
         mAuth=FirebaseAuth.getInstance();
-        tricktionary=TrickData.getTricktionary();
+        tricktionary=TrickData.getTricktionaryData();
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
@@ -95,7 +95,6 @@ public class Tricktionary extends BaseActivity{
                             if (mTrick.isCompleted()) {
                                 mTrick.setChecklist(false);
                             }
-                            h.post(r);
                         }
                     }
                     h.post(r);
@@ -111,7 +110,6 @@ public class Tricktionary extends BaseActivity{
                                     }
                                 }
                             }
-                            h.post(r);
                         }
                     }
                     h.post(r);
