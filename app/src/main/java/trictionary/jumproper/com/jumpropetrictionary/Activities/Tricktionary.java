@@ -35,7 +35,7 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
 public class Tricktionary extends BaseActivity{
-    private ArrayList<ArrayList<Trick>> tricktionary=TrickData.getTricktionary();
+    private ArrayList<ArrayList<Trick>> tricktionary=TrickData.getTricktionaryData();
     private ArrayList<ArrayList<Trick>> completedTricks=TrickData.completedTricks;
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
@@ -57,7 +57,6 @@ public class Tricktionary extends BaseActivity{
         showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
 
         mAuth=FirebaseAuth.getInstance();
-        tricktionary=TrickData.getTricktionaryData();
 
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
@@ -181,7 +180,7 @@ public class Tricktionary extends BaseActivity{
             if(mAuth.getCurrentUser()!=null){
                 TrickData.uId=mAuth.getCurrentUser().getUid();
             }
-            if(tricktionary==null){
+            if(tricktionary.size()==0){
                 loadingTricks.setVisibility(View.VISIBLE);
                 Log.e("TrickCheck","Array is null");
                 tricktionary=TrickData.getTricktionary();
@@ -216,7 +215,7 @@ public class Tricktionary extends BaseActivity{
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
         final ArrayList<Trick> level4List = new ArrayList<Trick>();
 
-        if(tricktionary==null){
+        if(tricktionary.size()==0){
             h.postDelayed(r, delay);
             return;
         }
