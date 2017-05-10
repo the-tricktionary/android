@@ -35,13 +35,12 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
 public class Tricktionary extends BaseActivity{
-    private ArrayList<ArrayList<Trick>> tricktionary=TrickData.getTricktionaryData();
-    private ArrayList<ArrayList<Trick>> completedTricks=TrickData.completedTricks;
+    private ArrayList<ArrayList<Trick>> tricktionary=TrickData.getTricktionary();
+    private ArrayList<ArrayList<Trick>> completedTricks=TrickData.getCompletedTricks();
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
     private CheckBox showCompletedTricks;
     private int delay = 100; //milliseconds
-    private int completedIndex=0;
     private Handler h;
     private FirebaseAuth mAuth;
 
@@ -63,7 +62,7 @@ public class Tricktionary extends BaseActivity{
         }
         showCompletedTricks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(mAuth.getCurrentUser()==null){
                     AlertDialog.Builder builder = new AlertDialog.Builder(Tricktionary.this); //new alert dialog
                     LayoutInflater inflater = (LayoutInflater)Tricktionary.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
@@ -87,8 +86,7 @@ public class Tricktionary extends BaseActivity{
                     showCompletedTricks.setChecked(true);
                 }
                 h.removeCallbacks(r);
-                completedIndex=0;
-                if(b){
+                if(isChecked){
                     for(int j=0;j<tricktionary.size();j++){
                         for(Trick mTrick:tricktionary.get(j)) {
                             if (mTrick.isCompleted()) {
@@ -101,10 +99,9 @@ public class Tricktionary extends BaseActivity{
                 else{
                     for(int j=0;j<tricktionary.size();j++){
                         for(Trick mTrick:tricktionary.get(j)) {
-                            for (int i = completedIndex; i < completedTricks.size(); i++) {
+                            for (int i = 0; i < completedTricks.size(); i++) {
                                 for(Trick mCompletedTrick:completedTricks.get(i)) {
                                     if (mTrick.equals(mCompletedTrick)){
-                                        completedIndex++;
                                         mTrick.setChecklist(true);
                                     }
                                 }
@@ -139,7 +136,6 @@ public class Tricktionary extends BaseActivity{
     @Override
     public void onResume(){
         super.onResume();
-        completedIndex=0;
         if(tricktionary!=null) {
             if (showCompletedTricks.isChecked()) {
                 for (int j = 0; j < tricktionary.size(); j++) {
@@ -155,10 +151,9 @@ public class Tricktionary extends BaseActivity{
                 if (tricktionary != null && completedTricks != null) {
                     for (int j = 0; j < tricktionary.size(); j++) {
                         for(Trick mTrick:tricktionary.get(j)) {
-                            for (int i = completedIndex; i < completedTricks.size(); i++) {
+                            for (int i = 0; i < completedTricks.size(); i++) {
                                 for(Trick mCompletedTrick:completedTricks.get(i)) {
                                     if (mTrick.equals(mCompletedTrick)) {
-                                        completedIndex++;
                                         mTrick.setChecklist(true);
                                     }
                                 }
@@ -180,10 +175,12 @@ public class Tricktionary extends BaseActivity{
             if(mAuth.getCurrentUser()!=null){
                 TrickData.uId=mAuth.getCurrentUser().getUid();
             }
-            if(tricktionary.size()==0){
+            if(tricktionary==null){
                 loadingTricks.setVisibility(View.VISIBLE);
                 Log.e("TrickCheck","Array is null");
-                tricktionary=TrickData.getTricktionary();
+            }
+            else if(tricktionary.size()==0){
+                tricktionary=TrickData.getTricktionaryData();
             }
             else{
                 Log.e("TrickCheck","Array is full!");

@@ -111,9 +111,7 @@ public class MainMenu extends BaseActivity {
         });
 
         settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
-        SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
         getSupportActionBar().setTitle("");
-        TrickData.getTricktionaryData();
         setupWindowAnimations();
 
         scaleTitleText(title);
@@ -169,7 +167,7 @@ public class MainMenu extends BaseActivity {
     public void onStart(){
         super.onStart();
         fadeViews();
-        if(SettingsActivity.language==null){
+        if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Set preferred language");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
@@ -212,6 +210,10 @@ public class MainMenu extends BaseActivity {
             });
 
             builder.show();
+        }
+        else{
+            TrickData.getTricktionaryData();
+            Log.e("WTF",settings.getString(SettingsActivity.LANGUAGE_SETTING,null));
         }
     }
 

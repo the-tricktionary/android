@@ -84,7 +84,7 @@ public class SettingsActivity extends BaseActivity {
     }
     public static void setLanguage(String mLanguage){
         SharedPreferences.Editor editor = MainMenu.settings.edit();
-        editor.putString(PLAYER_STYLE_SETTING,mLanguage);
+        editor.putString(LANGUAGE_SETTING,mLanguage);
         editor.commit();
         language=mLanguage;
     }

@@ -72,7 +72,7 @@ public class SignIn extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
-                    TrickData.getTricktionaryData();
+                    TrickData.getTricktionary();
                 } else {
                     // User is signed out
                     Log.d("Auth", "onAuthStateChanged:signed_out");

@@ -11,7 +11,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Set;
 
+import trictionary.jumproper.com.jumpropetrictionary.activities.MainMenu;
 import trictionary.jumproper.com.jumpropetrictionary.activities.SettingsActivity;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
@@ -21,10 +23,9 @@ import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
  */
 public class TrickData extends Trick {
     public static Trick[]tricktionary;
-    public static ArrayList<ArrayList<Trick>> tricktionary2d=new ArrayList<>();
-    public static ArrayList<ArrayList<Trick>> completedTricks=new ArrayList<>();
+    public static ArrayList<ArrayList<Trick>> tricktionary2d;
+    public static ArrayList<ArrayList<Trick>> completedTricks;
     public static String uId="";
-    public static ArrayList<Trick>tempList;
     public static Trick mTrick;
     public static Comparator<Trick> compareName=new Comparator<Trick>() {
         @Override
@@ -45,8 +46,7 @@ public class TrickData extends Trick {
     private static boolean offline=true;
 
     public static ArrayList<ArrayList<Trick>>getTricktionaryData(){
-
-        tempList=new ArrayList<>();
+        tricktionary2d=new ArrayList<>();
         if(completedTricks==null) {
             completedTricks = new ArrayList<>();
         }
@@ -61,14 +61,17 @@ public class TrickData extends Trick {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                tricktionary2d=new ArrayList<ArrayList<Trick>>();
+                tricktionary2d.clear();
                 for(int j=0;j<4;j++){
                     tricktionary2d.add(new ArrayList<Trick>());
                 }
                 int index=0;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
+                    Log.e("Level 1",level.getValue().toString());
                     for(DataSnapshot trick:level.child("subs").getChildren()){
-                        if(SettingsActivity.language!=null) {
+                        Log.e("Level 2",trick.getValue().toString());
+                        if(MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,null)!=null) {
+                            SettingsActivity.language=MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
                             if (SettingsActivity.language.equals("Deutsch") && trick.child("i18n").child("de").getValue() != null) {
                                 mTrick = new Trick(trick.child("i18n").child("de").child("name").getValue().toString(),
                                         trick.child("i18n").child("de").child("description").getValue().toString(),
@@ -76,7 +79,6 @@ public class TrickData extends Trick {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        getPrereqs(trick),
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
@@ -91,7 +93,6 @@ public class TrickData extends Trick {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        getPrereqs(trick),
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
@@ -104,7 +105,6 @@ public class TrickData extends Trick {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        getPrereqs(trick),
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
@@ -115,14 +115,6 @@ public class TrickData extends Trick {
                         }
                     }
                 }
-                /**
-                for(int i=0;i<4;i++){
-                    tricktionary2d.add(new ArrayList<Trick>());
-                }
-                for(int j=0;j<tempList.size();j++){
-                    tricktionary2d.get(tempList.get(j).getId0()).add(tempList.get(j));
-                }
-                 **/
             }
 
 
@@ -132,12 +124,13 @@ public class TrickData extends Trick {
                 tricktionary=getTricktionaryOffline();
             }
         });
+        completedTricks=new ArrayList<>();
         fillCompletedTricks();
         return tricktionary2d;
     }
 
     public static void fillCompletedTricks(){
-        if(uId.length()>0 && completedTricks.size()==0 && tricktionary2d.size()!=0) {
+        if(uId.length()>0 && completedTricks.size()==0) {
             for(int j=0;j<4;j++){
                 completedTricks.add(new ArrayList<Trick>());
             }
@@ -154,7 +147,7 @@ public class TrickData extends Trick {
                             completedTricks.get(Integer.parseInt(id0.getKey()))
                                     .add(tricktionary2d.get(Integer.parseInt(id0.getKey()))
                                     .get(Integer.parseInt(id1.getKey())));
-
+                            Log.e("CompletedTricks",completedTricks.toString());
                         }
                     }
                 }
@@ -168,12 +161,24 @@ public class TrickData extends Trick {
 
 
     public static ArrayList<ArrayList<Trick>> getTricktionary(){
-        return tricktionary2d;
+        if(tricktionary2d!=null) {
+            return tricktionary2d;
+        }
+        else if(tricktionary2d.size()==0){
+            return getTricktionaryData();
+        }
+        else{
+            return getTricktionaryData();
+        }
     }
 
-    public static ArrayList<ArrayList<Trick>>getCompletedTricks(){
-        return completedTricks;
+    public static ArrayList<ArrayList<Trick>> getCompletedTricks(){
+       if (completedTricks.size()==0){
+           fillCompletedTricks();
+       }
+       return completedTricks;
     }
+
 
     public static Trick[] getPrereqs(DataSnapshot trick){
         ArrayList<Trick>list=new ArrayList<Trick>();
