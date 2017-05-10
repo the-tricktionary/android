@@ -9,7 +9,7 @@
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
         <item name="android:checkboxStyle">@style/RobotoCheckBoxStyle</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_ab_back_material</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_black_24dp</item>
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
         <!-- specify enter and exit transitions -->

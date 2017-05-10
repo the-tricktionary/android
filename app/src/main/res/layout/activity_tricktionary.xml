@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView6"
                 android:layout_gravity="left|top"
-                android:src="@drawable/ic_ab_back_material"
+                android:src="@drawable/ic_arrow_back_black_24dp"
                 android:padding="16dp"
                 android:alpha=".75"
                 android:scaleType="center"
@@ -291,7 +291,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/account_circle"
+                android:src="@drawable/ic_account_circle_black_24dp"
                 android:id="@+id/imageView3"
                 android:onClick="viewProfile"
                 android:padding="8dp"
@@ -305,7 +305,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ab_back_material"
+                android:src="@drawable/ic_arrow_back_black_24dp"
                 android:layout_alignTop="@+id/tricktionary_title"
                 android:layout_alignStart="@+id/view2"
                 android:id="@+id/imageView37"

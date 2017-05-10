@@ -139,12 +139,14 @@ public class Trick extends FirebaseInstanceIdService {
         type=myType;
     }
     public String[] getPrereqs(){
-        //getMessageToken();
         return prereqs;
     }
 
-    public void setPrereqs(String[] prereqs) {
-        this.prereqs = prereqs;
+    public void setPrereqs(Trick[] prereqs) {
+        this.prereqs=new String[prereqs.length];
+        for(int j=0;j<prereqs.length;j++) {
+            this.prereqs[j] = prereqs[j].getName();
+        }
     }
 
     public void setDescription(String myDescription){

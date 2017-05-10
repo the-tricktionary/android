@@ -176,12 +176,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         else{
             fisacLevel.setText("IRSF Level: " + currentTrick.getFisacLevel());
         }
-
-        if (currentTrick.getPrereqs()!=null) {
-            if (currentTrick.getPrereqs().length == 0) {
-                prereqs.setVisibility(View.GONE);
-            }
-        }
         if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }
@@ -465,7 +459,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void viewPrereqs(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
         //Inflating the Popup using xml file
-
         for(int j=0;j<currentTrick.getPrereqs().length;j++){
             popupMenu.getMenu().add(currentTrick.getPrereqs()[j]);
         }

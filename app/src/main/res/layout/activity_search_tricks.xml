@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView8"
-        android:src="@drawable/ic_ab_back_material"
+        android:src="@drawable/ic_arrow_back_black_24dp"
         android:alpha=".75"
         android:onClick="viewTricktionary"
         android:paddingRight="20dp"

@@ -109,6 +109,7 @@ public class MainMenu extends BaseActivity {
             }
 
         });
+        fadeViews();
 
         settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
         getSupportActionBar().setTitle("");
@@ -166,7 +167,6 @@ public class MainMenu extends BaseActivity {
     @Override
     public void onStart(){
         super.onStart();
-        fadeViews();
         if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Set preferred language");
@@ -213,7 +213,6 @@ public class MainMenu extends BaseActivity {
         }
         else{
             TrickData.getTricktionaryData();
-            Log.e("WTF",settings.getString(SettingsActivity.LANGUAGE_SETTING,null));
         }
     }
 

@@ -9,348 +9,330 @@
     tools:showIn="@layout/main_activity_toolbar_layout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:background="#8ce8e8e8"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/view_prereqs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@+id/imageView17"
+            android:alpha=".75"
+            android:background="@drawable/rounded_corner_shadow"
+            android:clickable="true"
+            android:onClick="viewPrereqs"
+            android:padding="8dp"
+            android:text="Prequisites"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/forward_arrow_next_tricks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/view_next"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/view_next"
+            android:alpha="1"
+            android:onClick="viewNextTricks"
+            android:src="@drawable/ic_arrow_forward_black_24dp"
+            android:tint="@color/textColor" />
+
+        <TextView
+            android:id="@+id/completed_trick_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/trick_completed"
+            android:layout_centerHorizontal="true"
+            android:alpha=".75"
+            android:padding="2dp"
+            android:text="Completed"
+            android:textSize="10sp" />
+
+        <CheckBox
+            android:id="@+id/trick_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/view_prereqs"
+            android:layout_centerHorizontal="true"
+            android:alpha=".75"
+            android:background="@drawable/rounded_corner_shadow"
+            android:gravity="top|center" />
+
+        <TextView
+            android:id="@+id/view_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
+            android:layout_toStartOf="@+id/forward_arrow_next_tricks"
+            android:alpha=".75"
+            android:background="@drawable/rounded_corner_shadow"
+            android:clickable="true"
+            android:onClick="viewNextTricks"
+            android:padding="8dp"
+            android:text="Next Tricks"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imageView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/view_prereqs"
+            android:layout_alignTop="@+id/view_prereqs"
+            android:alpha="1"
+            android:onClick="viewPrereqs"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/textColor" />
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:id="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/space2"
-        android:gravity="top"
-        android:foregroundGravity="top"
+        android:layout_above="@+id/relativeLayout"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:background="#8ce8e8e8"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin">
+        android:foregroundGravity="top"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <LinearLayout
-            android:name="trictionary.jumproper.com.jumpropetrictionary"
-            android:layout_width="fill_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:baselineAligned="false"
-            android:padding="8dp"
-            android:weightSum="1"
-            android:layout_height="wrap_content">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout
+                android:name="trictionary.jumproper.com.jumpropetrictionary"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="false"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:alpha=".5"
+                        android:background="@drawable/rounded_corner_shadow"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop"
+                        android:text="@string/trick_name"
+                        android:textAlignment="center"
+                        android:textColor="#ff000000"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imageView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/toolbar_logo"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:alpha=".75"
+                        android:onClick="viewFullscreen"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_fullscreen_black_24dp"
+                        android:tint="@color/textColor" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toEndOf="@+id/toolbar_logo"
+                        android:alpha=".75"
+                        android:clickable="true"
+                        android:onClick="shareTrick"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_menu_share_material"
+                        android:tint="@color/textColor" />
+
+                    <ImageView
+                        android:id="@+id/toolbar_logo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="3dp"
+                        android:onClick="mainMenu"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_alpha"
+                        android:transitionName="@string/logo_transition"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/toolbar_logo"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignTop="@+id/imageView5"
+                        android:onClick="viewTricktionary"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_arrow_back_black_24dp"
+                        android:tint="@color/textColor" />
+
+                    <ImageView
+                        android:id="@+id/imageView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/toolbar_logo"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_toStartOf="@+id/toolbar_logo"
+                        android:alpha=".75"
+                        android:onClick="openContactDialog"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_message_black_24dp"
+                        android:tint="@color/textColor" />
+                </RelativeLayout>
+
+                <com.google.android.youtube.player.YouTubePlayerView
+                    android:id="@+id/youtube_view"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/trick_name"
-                    android:textColor="#ff000000"
-                    android:scaleType="centerCrop"
-                    android:textSize="20sp"
-                    android:typeface="normal"
-                    android:alpha=".5"
-                    android:textAlignment="center"
-                    android:background="@drawable/rounded_corner_shadow"
-                    android:padding="10dp"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone" />
+                    android:alpha="1" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView15"
-                    android:src="@drawable/full_screen"
-                    android:tint="@color/textColor"
-                    android:alpha=".75"
-                    android:onClick="viewFullscreen"
-                    android:padding="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignBottom="@+id/imageView5"
-                    android:layout_toEndOf="@+id/imageView5" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView5"
-                    android:src="@drawable/ic_menu_share_material"
-                    android:clickable="true"
-                    android:onClick="shareTrick"
-                    android:padding="10dp"
-                    android:alpha=".75"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/toolbar_logo"
-                    android:layout_marginLeft="10dp"
-                    android:tint="@color/textColor" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/toolbar_logo"
-                    android:src="@drawable/icon_alpha"
-                    android:padding="5dp"
-                    android:onClick="mainMenu"
-                    android:visibility="visible"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="3dp"
-                    android:transitionName="@string/logo_transition"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/imageView5"
-                    android:src="@drawable/ic_ab_back_material"
-                    android:layout_alignBottom="@+id/toolbar_logo"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="15dp"
-                    android:onClick="viewTricktionary"
-                    android:tint="@color/textColor" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView22"
-                    android:layout_alignBottom="@+id/toolbar_logo"
-                    android:layout_toStartOf="@+id/toolbar_logo"
-                    android:src="@drawable/comment"
-                    android:tint="@color/textColor"
-                    android:alpha=".75"
-                    android:padding="10dp"
-                    android:onClick="openContactDialog" />
-            </RelativeLayout>
-
-            <com.google.android.youtube.player.YouTubePlayerView
-                android:id="@+id/youtube_view"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:alpha="1" />
-
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="5dp"
-                android:text="@string/trick_description"
-                android:textColor="#ff000000"
-                android:scaleType="centerCrop"
-                android:textSize="16dp"
-                android:alpha=".5"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:background="@drawable/rounded_corner_shadow"
-                android:layout_gravity="left"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="5px"
-                android:background="?android:attr/listDivider"
-                android:layout_marginBottom="5dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/level_label"
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WJR Level: "
-                    android:textColor="#ff000000"
-                    android:scaleType="centerCrop"
-                    android:textSize="16dp"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="5dp"
                     android:alpha=".5"
+                    android:background="@drawable/rounded_corner_shadow"
+                    android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:layout_gravity="left"
-                    android:background="@drawable/rounded_corner_shadow"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/space" />
+                    android:scaleType="centerCrop"
+                    android:text="@string/trick_description"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="5px"
+                    android:layout_marginBottom="5dp"
+                    android:background="?android:attr/listDivider" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/level_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="left"
+                        android:layout_toStartOf="@+id/space"
+                        android:alpha=".5"
+                        android:background="@drawable/rounded_corner_shadow"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="WJR Level: "
+                        android:textColor="#ff000000"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/fisac_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/level_label"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignTop="@+id/level_label"
+                        android:layout_gravity="left"
+                        android:layout_toEndOf="@+id/space"
+                        android:alpha=".5"
+                        android:background="@drawable/rounded_corner_shadow"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="IRSF Level:"
+                        android:textColor="#ff000000"
+                        android:textSize="16dp" />
+
+                    <ImageView
+                        android:id="@+id/fisac_expand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/fisac_level"
+                        android:layout_alignRight="@+id/fisac_level"
+                        android:layout_alignTop="@+id/fisac_level"
+                        android:onClick="expandFisacLevel"
+                        android:src="@drawable/ic_menu_moreoverflow_material"
+                        android:tint="#616161"
+                        android:visibility="gone" />
+
+                    <Space
+                        android:id="@+id/space"
+                        android:layout_width="20px"
+                        android:layout_height="20px"
+                        android:layout_alignBottom="@+id/fisac_level"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="5px"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="?android:attr/listDivider" />
 
                 <TextView
-                    android:id="@+id/fisac_level"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/type_label"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="IRSF Level:"
-                    android:textColor="#ff000000"
-                    android:scaleType="centerCrop"
-                    android:textSize="16dp"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginBottom="5dp"
                     android:alpha=".5"
+                    android:background="@drawable/rounded_corner_shadow"
+                    android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:layout_gravity="left"
-                    android:background="@drawable/rounded_corner_shadow"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/space"
-                    android:layout_alignTop="@+id/level_label"
-                    android:layout_alignBottom="@+id/level_label" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fisac_expand"
-                    android:layout_alignRight="@+id/fisac_level"
-                    android:src="@drawable/ic_menu_moreoverflow_material"
-                    android:layout_alignTop="@+id/fisac_level"
-                    android:layout_alignBottom="@+id/fisac_level"
-                    android:tint="#616161"
-                    android:visibility="gone"
-                    android:onClick="expandFisacLevel" />
-
-                <Space
-                    android:layout_width="20px"
-                    android:layout_height="20px"
-                    android:layout_alignBottom="@+id/fisac_level"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/space" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="5px"
-                android:background="?android:attr/listDivider"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp" />
-
-            <TextView
-                android:id="@+id/type_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="Basic"
-                android:textColor="#ff000000"
-                android:scaleType="centerCrop"
-                android:textSize="16dp"
-                android:alpha=".5"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_gravity="left|center_horizontal"
-                android:background="@drawable/rounded_corner_shadow"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp" />
+                    android:scaleType="centerCrop"
+                    android:text="Basic"
+                    android:textColor="#ff000000"
+                    android:textSize="16dp" />
 
 
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_alignBottom="@+id/view_next"
-        android:id="@+id/space2"
-        android:layout_alignTop="@+id/view_next"
-        android:layout_alignStart="@+id/imageView17"
-        android:layout_alignEnd="@+id/imageView16"
-        android:background="@drawable/rounded_corner_shadow"
-        android:alpha=".75" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Tricks"
-        android:id="@+id/view_next"
-        android:textSize="16dp"
-        android:alpha="1"
-        android:onClick="viewNextTricks"
-        android:clickable="true"
-        android:layout_alignTop="@+id/view_prereqs"
-        android:layout_toEndOf="@+id/textView28"
-        android:layout_marginLeft="16dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dp" />
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView7"
-        android:layout_gravity="left|top"
-        android:src="@drawable/ic_ab_back_material"
-        android:padding="20dp"
-        android:scaleType="fitXY"
-        android:onClick="viewTricktionary"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"
-        android:alpha=".75"
-        android:visibility="gone" />
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView16"
-        android:src="@drawable/forward"
-        android:layout_alignTop="@+id/view_next"
-        android:layout_alignBottom="@+id/view_next"
-        android:alpha="1"
-        android:tint="@color/textColor"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:layout_toEndOf="@+id/view_next"
-        android:onClick="viewNextTricks" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView17"
-        android:src="@drawable/ic_ab_back_material"
-        android:layout_alignTop="@+id/view_prereqs"
-        android:layout_alignBottom="@+id/view_prereqs"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_toStartOf="@+id/view_prereqs"
-        android:alpha="1"
-        android:tint="@color/textColor"
-        android:onClick="viewPrereqs" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/trick_completed"
-        android:textAlignment="viewStart"
-        android:layout_alignTop="@+id/space2"
-        android:gravity="top" />
-
-    <TextView
-        android:text="Completed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/space2"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView28"
-        android:textSize="10sp"
-        android:alpha="1"
-        android:padding="2dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prequisites"
-        android:id="@+id/view_prereqs"
-        android:singleLine="false"
-        android:textSize="16dp"
-        android:alpha="1"
-        android:onClick="viewPrereqs"
-        android:clickable="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/textView28"
-        android:layout_marginEnd="16dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp" />
 
 </RelativeLayout>

@@ -82,6 +82,7 @@ public class TrickData extends Trick {
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
+                                mTrick.setPrereqs(getPrereqs(trick));
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             } else if (SettingsActivity.language.equals("Svenska") &&
@@ -96,6 +97,7 @@ public class TrickData extends Trick {
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
+                                mTrick.setPrereqs(getPrereqs(trick));
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             } else {
@@ -108,6 +110,7 @@ public class TrickData extends Trick {
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
+                                mTrick.setPrereqs(getPrereqs(trick));
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             }
