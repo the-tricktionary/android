@@ -60,6 +60,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.materialdrawer.Drawer;
 
 import java.util.ArrayList;
 
@@ -87,6 +88,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private YouTubePlayer youTubePlayer;
     private YouTubePlayerView youTubeView;
     private static final int RECOVERY_DIALOG_REQUEST = 1;
+
+    //declare drawer object
+    private Drawer result;
 
     //current trick being viewed in MainActivity
     public static Trick currentTrick;
@@ -191,7 +195,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         scaleText(nextTricks,7);
 
         DrawerCreate drawer=new DrawerCreate();
-        drawer.makeDrawer(this, this, mAuth, toolbar, currentTrick.getName());
+        result = drawer.makeDrawer(this, this, mAuth, toolbar, currentTrick.getName());
+        //result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -288,6 +294,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         super.onStart();
         youTubeView.initialize(getString(R.string.developer_key), this);
         mAuth.addAuthStateListener(mAuthListener);
+        result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }

@@ -60,6 +60,7 @@ public class Tricktionary extends BaseActivity{
         if(mAuth.getCurrentUser()!=null){
             TrickData.uId=mAuth.getCurrentUser().getUid();
         }
+
         showCompletedTricks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -118,7 +119,6 @@ public class Tricktionary extends BaseActivity{
     public void onStart(){
         super.onStart();
         getSupportActionBar().setTitle("");
-
         h = new Handler();
         h.postDelayed(r, delay);
     }

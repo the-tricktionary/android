@@ -130,7 +130,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:id="@+id/imageView18"
-                    android:src="@drawable/web_icon"
+                    android:src="@drawable/ic_public_black_24dp"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/space4"
                     android:layout_marginLeft="20dp"

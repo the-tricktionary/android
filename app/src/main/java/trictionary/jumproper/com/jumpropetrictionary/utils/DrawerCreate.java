@@ -47,8 +47,14 @@ public class DrawerCreate extends AppCompatActivity{
     FirebaseAuth mAuthCopy;
     AccountHeader headerResult;
     Drawer result;
+    Activity activity;
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        activity.finish();
+    }
     public Drawer makeDrawer(final Context context, final Activity activity, final FirebaseAuth mAuth, Toolbar toolbar, String title){
-
+        this.activity=activity;
         toolbar.setTitle(title);
         mAuthCopy=mAuth;
         new DrawerBuilder().withActivity(activity).build();
@@ -138,6 +144,16 @@ public class DrawerCreate extends AppCompatActivity{
                         rafikiItem
                 )
                 .withSelectedItem(-1)
+                .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
+                    @Override
+                    public boolean onNavigationClickListener(View clickedView) {
+                        if(!result.getActionBarDrawerToggle().isDrawerIndicatorEnabled()){
+                            activity.finish();
+                            return false;
+                        }
+                        return false;
+                    }
+                })
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -220,6 +236,7 @@ public class DrawerCreate extends AppCompatActivity{
                         return;
                     }
                 })
+                .withActionBarDrawerToggleAnimated(true)
                 .build();
         return result;
     }

@@ -31,7 +31,6 @@ public class BaseActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Drawer navigationDrawer;
     private ActionBar actionBar;
-    private Drawable backArrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +50,6 @@ public class BaseActivity extends AppCompatActivity {
         DrawerCreate drawer=new DrawerCreate();
         navigationDrawer=drawer.makeDrawer(this, this, mAuth, toolbar, "");
         actionBar=getSupportActionBar();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(navigationDrawer.getActionBarDrawerToggle().isDrawerIndicatorEnabled()){
-                    navigationDrawer.openDrawer();
-                }
-                else{
-                    finish();
-                }
-            }
-        });
     }
     @Override
     public void onResume(){
@@ -69,21 +57,10 @@ public class BaseActivity extends AppCompatActivity {
         DrawerCreate drawer=new DrawerCreate();
         navigationDrawer=drawer.makeDrawer(this, this, mAuth, toolbar, "");
         actionBar=getSupportActionBar();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(navigationDrawer.getActionBarDrawerToggle().isDrawerIndicatorEnabled()){
-                    navigationDrawer.openDrawer();
-                }
-                else{
-                    finish();
-                }
-            }
-        });
     }
     public void setBackButton(){
-        this.navigationDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        this.actionBar.setDisplayHomeAsUpEnabled(true);
+        navigationDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     public void setHamburger(){
         this.actionBar.setDisplayHomeAsUpEnabled(false);

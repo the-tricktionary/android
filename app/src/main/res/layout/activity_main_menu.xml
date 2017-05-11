@@ -134,10 +134,11 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/settings"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@+id/settings"
             android:clickable="true"
             android:onClick="viewContact"
-            android:padding="10dp"
+            android:padding="32dp"
             android:src="@drawable/ic_message_black_24dp"
             android:tint="@color/materialRed" />
 
@@ -147,16 +148,15 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/settings"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="false"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="false"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/settings"
-            android:layout_marginBottom="20sp"
+            android:layout_marginBottom="16dp"
+            android:layout_toStartOf="@+id/settings"
             android:clickable="true"
             android:onClick="viewWeb"
-            android:padding="10dp"
-            android:src="@drawable/web_icon"
+            android:padding="32dp"
+            android:src="@drawable/ic_public_black_24dp"
             android:tint="@color/materialRed" />
 
         <ImageView
@@ -217,7 +217,7 @@
             android:onClick="submitTrick"
             android:padding="10dp"
             android:tint="@color/materialRed"
-            app:srcCompat="@drawable/upload" />
+            android:src="@drawable/ic_file_upload_black_24dp" />
 
     </RelativeLayout>
 
