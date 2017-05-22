@@ -36,6 +36,7 @@ public class SignIn extends AppCompatActivity {
     SignInButton signInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private String lang;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,7 @@ public class SignIn extends AppCompatActivity {
                 // ...
             }
         };
+        lang=MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,"English");
         signIn();
     }
     @Override
@@ -151,6 +153,12 @@ public class SignIn extends AppCompatActivity {
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name.substring(0,name.indexOf(' ')));
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name.substring(name.indexOf(' ')+1));
+                            if(lang.equals("English"))
+                                    myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue("en");
+                            if(lang.equals("Deutsch"))
+                                    myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue("de");
+                            if(lang.equals("Svenska"))
+                                    myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue("sv");
                             finish();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds

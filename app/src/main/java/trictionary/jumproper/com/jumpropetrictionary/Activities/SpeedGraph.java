@@ -96,7 +96,6 @@ public class SpeedGraph extends BaseActivity {
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Log.e("Auth","Connection Failed");
                     }
                 })
                 .build();
@@ -228,7 +227,6 @@ public class SpeedGraph extends BaseActivity {
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        Log.e("Auth","Intent: "+signInIntent.toString());
         startActivityForResult(signInIntent,RC_SIGN_IN);
     }
     public void userSignOut(View v){
@@ -239,13 +237,9 @@ public class SpeedGraph extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //data=Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        Log.e("Auth","Intent data: "+data.toString());
-        Log.e("Auth","Request Code: "+requestCode);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.e("Auth","result success: "+result.isSuccess());
-            Log.e("Auth","result: "+result.getStatus().toString());
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
@@ -291,8 +285,8 @@ public class SpeedGraph extends BaseActivity {
     public void drawGraph(){
         chart = (LineChart) findViewById(R.id.chart);
         scrubbedTimes=data.getGraphData();
-        if(scrubbedTimes.size()<1 || scrubbedTimes==null){
-            return;//
+        if(scrubbedTimes.size()==0 || scrubbedTimes==null){
+            return;
         }
         else {
             ArrayList<String> jumpLabels = getXAxisValues(scrubbedTimes.size() - 1, data.getTime());
@@ -351,7 +345,6 @@ public class SpeedGraph extends BaseActivity {
     }
 
     public double averageJumpsPerSecond(ArrayList<Long> list){
-        Log.e("Test",list.toString());
         double avg=0;
         for(int j=1;j<list.size();j++){
             avg+=100*(1/((double)list.get(j)-(double)list.get(j-1)));
@@ -403,7 +396,6 @@ public class SpeedGraph extends BaseActivity {
 
     public void saveData(View v){
         if(mAuth.getCurrentUser()==null){
-            Log.e("Auth","Current user null");
             signInButtonClick(signInButton);
             mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                 @Override
@@ -511,7 +503,6 @@ public class SpeedGraph extends BaseActivity {
     public void readData(View v){
 
         if(mAuth.getCurrentUser()==null){
-            Log.e("Auth","Current user null");
             signInButtonClick(signInButton);
             return;
 

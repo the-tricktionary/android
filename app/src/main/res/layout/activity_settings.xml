@@ -19,52 +19,84 @@
         android:background="#8ce8e8e8">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/auto_play_videos_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
             android:text="Auto-Play Videos:"
-            android:textSize="20dp" />
+            android:textSize="16sp"
+            android:layout_alignEnd="@+id/view3" />
+
+        <Spinner
+            android:id="@+id/video_player_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/video_player_style_title"
+            android:layout_alignParentEnd="false"
+            android:layout_alignTop="@+id/video_player_style_title"
+            android:layout_marginLeft="16dp"
+            android:layout_toEndOf="@+id/video_player_style_title"
+            android:padding="8dp" />
+
+        <Spinner
+            android:id="@+id/language_settings_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/language_title"
+            android:layout_alignParentEnd="false"
+            android:layout_alignTop="@+id/language_title"
+            android:layout_marginLeft="16dp"
+            android:layout_toEndOf="@+id/video_player_style_title"
+            android:padding="8dp" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="false"
+            android:layout_margin="16dp"
+            android:alpha=".5"
+            android:background="@color/textColor"
+            android:id="@+id/view3" />
 
         <CheckBox
             android:id="@+id/auto_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
             android:checked="false"
             android:onClick="changeAutoPlay"
-            android:textSize="20dp" />
+            android:padding="8dp"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/auto_play_videos_title"
+            android:layout_alignTop="@+id/auto_play_videos_title" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/language_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView3"
-            android:layout_below="@+id/auto_play"
-            android:layout_marginTop="20dp"
+            android:layout_alignStart="@+id/video_player_style_title"
+            android:layout_below="@+id/video_player_style_title"
+            android:layout_marginTop="16dp"
+            android:layout_toStartOf="@+id/language_settings_spinner"
+            android:padding="16dp"
+            android:text="Language:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/video_player_style_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/auto_play_videos_title"
+            android:layout_below="@+id/auto_play_videos_title"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
             android:text="Video Player Style:"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:alpha=".75"
-            android:background="@drawable/rounded_corner_shadow"
-            android:clickable="true"
-            android:onClick="changePlayerStyle"
-            android:padding="5dp"
-            android:text="Minimal"
-            android:textSize="20dp" />
+            android:textSize="16sp"
+            android:layout_alignEnd="@+id/view3" />
 
     </RelativeLayout>
 

@@ -1,171 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="trictionary.jumproper.com.jumpropetrictionary.activities.Rafiki"
-    android:background="@drawable/background">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView4"
-        android:background="@android:color/white"
-        android:alpha=".75">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:padding="8dp"
+        tools:context="trictionary.jumproper.com.jumpropetrictionary.activities.Rafiki">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:id="@+id/rafiki_logo"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/rafiki_logo"
-                android:scaleType="fitCenter"
-                android:padding="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="What is the Rafiki Outreach Program?"
-                android:id="@+id/rafiki_title"
-                android:layout_below="@+id/rafiki_logo"
-                android:layout_centerHorizontal="true"
-                android:padding="20dp"
-                android:textSize="16dp"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="The Rafiki mission is to educate children and provide everything needed for he or she to become a successful jumper and a successful student in school.  The program connects everyone: coaches, teachers, students, and jumpers.  Rafiki currently includes coaches and jumpers in Kenya, Tanzania, Morocco, South Africa, Mozambique, India, Trinidad and Tobago, Dominican Republic, and Puerto Rico.  If you are interested in participating, helping, or would like to know more you can email rhodyropers@gmail.com"
-                android:id="@+id/rafiki_description"
-                android:padding="10dp"
-                android:layout_alignParentBottom="false"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/rafiki_1"
-                android:textSize="16dp"
-                android:elegantTextHeight="false"
-                android:singleLine="false" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="In Swahili, Rafiki means Friend\n"
-                android:id="@+id/rafiki_meaning"
-                android:layout_below="@+id/rafiki_title"
-                android:layout_centerHorizontal="true"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:id="@+id/rafiki_1"
-                android:layout_below="@+id/rafiki_meaning"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/rafiki_1"
-                android:scaleType="fitCenter" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:id="@+id/rafiki_2"
-                android:layout_below="@+id/rafiki_description"
-                android:src="@drawable/rafiki_2"
-                android:scaleType="fitCenter" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:id="@+id/rafiki_3"
-                android:layout_below="@+id/textView14"
-                android:src="@drawable/rafiki_3"
-                android:scaleType="fitCenter" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:id="@+id/rafiki_5"
-                android:src="@drawable/rafiki_5"
-                android:scaleType="fitCenter"
-                android:layout_below="@+id/rafiki_3" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="How can you help?"
-                android:id="@+id/textView15"
-                android:layout_below="@+id/rafiki_2"
-                android:layout_centerHorizontal="true"
-                android:padding="20dp"
-                android:textSize="16dp"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rafiki is always interested in donations of shoes, gym equipment, and especially ropes.  All types, sizes, colors, and conditions of ropes are welcome.  If you are on a team, please talk to your coaches about gathering old team ropes to donate.  Contact rhodyropers@gmail.com for more information or to start sending your ropes!"
-                android:id="@+id/textView14"
-                android:padding="10dp"
-                android:layout_alignParentBottom="false"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/textView15"
-                android:textSize="16dp"
-                android:elegantTextHeight="false"
-                android:singleLine="false" />
+        <ScrollView
+            android:id="@+id/scrollView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".75"
+            android:background="@drawable/rounded_corner_shadow">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/rafiki_5"
-                android:padding="50dp">
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/imageView18"
-                    android:src="@drawable/ic_public_black_24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/space4"
-                    android:layout_marginLeft="20dp"
-                    android:onClick="openFacebook" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/imageView20"
-                    android:src="@android:drawable/ic_dialog_email"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/space4"
-                    android:tint="@android:color/black"
-                    android:layout_marginRight="20dp"
-                    android:onClick="sendEmail" />
-
-                <Space
-                    android:layout_width="20px"
-                    android:layout_height="20px"
+                    android:id="@+id/rafiki_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/space4" />
+                    android:alpha=".75"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rafiki_logo" />
+
+                <TextView
+                    android:id="@+id/rafiki_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rafiki_logo"
+                    android:layout_centerHorizontal="true"
+                    android:padding="20dp"
+                    android:text="What is the Rafiki Outreach Program?"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/rafiki_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="false"
+                    android:layout_below="@+id/rafiki_1"
+                    android:layout_centerHorizontal="true"
+                    android:elegantTextHeight="false"
+                    android:padding="10dp"
+                    android:singleLine="false"
+                    android:text="The Rafiki mission is to educate children and provide everything needed for he or she to become a successful jumper and a successful student in school.  The program connects everyone: coaches, teachers, students, and jumpers.  Rafiki currently includes coaches and jumpers in Kenya, Tanzania, Morocco, South Africa, Mozambique, India, Trinidad and Tobago, Dominican Republic, and Puerto Rico.  If you are interested in participating, helping, or would like to know more you can email rhodyropers@gmail.com"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/rafiki_meaning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rafiki_title"
+                    android:layout_centerHorizontal="true"
+                    android:text="In Swahili, Rafiki means Friend\n"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/rafiki_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/rafiki_meaning"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rafiki_1" />
+
+                <ImageView
+                    android:id="@+id/rafiki_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/rafiki_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rafiki_2" />
+
+                <ImageView
+                    android:id="@+id/rafiki_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/textView14"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rafiki_3" />
+
+                <ImageView
+                    android:id="@+id/rafiki_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/rafiki_3"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rafiki_5" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rafiki_2"
+                    android:layout_centerHorizontal="true"
+                    android:padding="20dp"
+                    android:text="How can you help?"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="false"
+                    android:layout_below="@+id/textView15"
+                    android:layout_centerHorizontal="true"
+                    android:elegantTextHeight="false"
+                    android:padding="10dp"
+                    android:singleLine="false"
+                    android:text="Rafiki is always interested in donations of shoes, gym equipment, and especially ropes.  All types, sizes, colors, and conditions of ropes are welcome.  If you are on a team, please talk to your coaches about gathering old team ropes to donate.  Contact rhodyropers@gmail.com for more information or to start sending your ropes!"
+                    android:textSize="16dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/rafiki_5"
+                    android:padding="50dp">
+
+                    <ImageView
+                        android:id="@+id/imageView18"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toEndOf="@+id/space4"
+                        android:onClick="openFacebook"
+                        app:srcCompat="@drawable/ic_public_black_24dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView20"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_toStartOf="@+id/space4"
+                        android:onClick="sendEmail"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:tint="@android:color/black" />
+
+                    <Space
+                        android:id="@+id/space4"
+                        android:layout_width="20px"
+                        android:layout_height="20px"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
             </RelativeLayout>
+        </ScrollView>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView21"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/ic_arrow_back_black_24dp"
-                android:padding="20dp"
-                android:onClick="viewMainMenu" />
-        </RelativeLayout>
-    </ScrollView>
-
-</RelativeLayout>
+    </RelativeLayout>
 </ScrollView>

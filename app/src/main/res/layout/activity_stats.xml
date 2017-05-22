@@ -171,7 +171,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_back_black_24dp"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/imageView35"
@@ -182,11 +182,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_account_circle_black_24dp"
+        app:srcCompat="@drawable/ic_account_circle_black_24dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/imageView36"
         android:alpha=".75"
-        android:onClick="viewProfile" />
+        android:onClick="viewProfile"
+        android:layout_above="@+id/my_tricks"
+        android:layout_toEndOf="@+id/textView33" />
 
 </RelativeLayout>

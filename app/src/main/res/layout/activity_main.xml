@@ -31,7 +31,8 @@
             android:onClick="viewPrereqs"
             android:padding="8dp"
             android:text="Prequisites"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/forward_arrow_next_tricks"
@@ -42,8 +43,9 @@
             android:layout_alignTop="@+id/view_next"
             android:alpha="1"
             android:onClick="viewNextTricks"
-            android:src="@drawable/ic_arrow_forward_black_24dp"
-            android:tint="@color/textColor" />
+            app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
+            android:tint="@color/textColor"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/completed_trick_label"
@@ -54,7 +56,7 @@
             android:alpha=".75"
             android:padding="2dp"
             android:text="Completed"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
         <CheckBox
             android:id="@+id/trick_completed"
@@ -62,8 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/view_prereqs"
             android:layout_centerHorizontal="true"
-            android:alpha=".75"
-            android:background="@drawable/rounded_corner_shadow"
             android:gravity="top|center" />
 
         <TextView
@@ -79,7 +79,8 @@
             android:onClick="viewNextTricks"
             android:padding="8dp"
             android:text="Next Tricks"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/imageView17"
@@ -89,8 +90,20 @@
             android:layout_alignTop="@+id/view_prereqs"
             android:alpha="1"
             android:onClick="viewPrereqs"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            android:tint="@color/textColor" />
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/textColor"
+            android:visibility="visible" />
+
+        <ListView
+            android:id="@+id/prereqs_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/completed_trick_label"
+            android:alpha=".75"
+            android:background="@drawable/rounded_corner_shadow"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -154,7 +167,7 @@
                         android:alpha=".75"
                         android:onClick="viewFullscreen"
                         android:padding="8dp"
-                        android:src="@drawable/ic_fullscreen_black_24dp"
+                        app:srcCompat="@drawable/ic_fullscreen_black_24dp"
                         android:tint="@color/textColor" />
 
                     <ImageView
@@ -168,7 +181,7 @@
                         android:clickable="true"
                         android:onClick="shareTrick"
                         android:padding="8dp"
-                        android:src="@drawable/ic_menu_share_material"
+                        app:srcCompat="@drawable/ic_menu_share_material"
                         android:tint="@color/textColor" />
 
                     <ImageView
@@ -192,7 +205,7 @@
                         android:layout_alignTop="@+id/imageView5"
                         android:onClick="viewTricktionary"
                         android:padding="8dp"
-                        android:src="@drawable/ic_arrow_back_black_24dp"
+                        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
                         android:tint="@color/textColor" />
 
                     <ImageView
@@ -206,7 +219,7 @@
                         android:alpha=".75"
                         android:onClick="openContactDialog"
                         android:padding="8dp"
-                        android:src="@drawable/ic_message_black_24dp"
+                        app:srcCompat="@drawable/ic_message_black_24dp"
                         android:tint="@color/textColor" />
                 </RelativeLayout>
 
@@ -292,7 +305,7 @@
                         android:layout_alignRight="@+id/fisac_level"
                         android:layout_alignTop="@+id/fisac_level"
                         android:onClick="expandFisacLevel"
-                        android:src="@drawable/ic_menu_moreoverflow_material"
+                        app:srcCompat="@drawable/ic_menu_moreoverflow_material"
                         android:tint="#616161"
                         android:visibility="gone" />
 

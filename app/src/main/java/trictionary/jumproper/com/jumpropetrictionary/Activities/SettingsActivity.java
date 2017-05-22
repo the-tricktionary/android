@@ -2,15 +2,20 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -21,8 +26,9 @@ public class SettingsActivity extends BaseActivity {
     public static boolean autoPlay=true;
     public static String stylePref="Minimal";
     public static String language;
-    CheckBox autoPlayCheck;
-    TextView playerStyle;
+    private CheckBox autoPlayCheck;
+    private Spinner playerStyleSpinner;
+    private Spinner languageSpinner;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +39,47 @@ public class SettingsActivity extends BaseActivity {
         MainMenu.settings=getSharedPreferences(PREFS_NAME,0);
         autoPlay=MainMenu.settings.getBoolean(AUTO_PLAY_SETTING,true);
         stylePref=MainMenu.settings.getString(PLAYER_STYLE_SETTING,"Minimal");
+        language=MainMenu.settings.getString(LANGUAGE_SETTING,"English");
+        Log.e("Language",language);
         autoPlayCheck=(CheckBox)findViewById(R.id.auto_play);
         autoPlayCheck.setChecked(MainMenu.settings.getBoolean(AUTO_PLAY_SETTING,true));
-        playerStyle=(TextView)findViewById(R.id.style);
-        playerStyle.setText(stylePref);
+        playerStyleSpinner=(Spinner)findViewById(R.id.video_player_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.player_styles, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        playerStyleSpinner.setAdapter(adapter);
+        playerStyleSpinner.setSelection(adapter.getPosition(stylePref));
+        playerStyleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                stylePref=adapterView.getItemAtPosition(i).toString();
+                SharedPreferences.Editor editor = MainMenu.settings.edit();
+                editor.putString(PLAYER_STYLE_SETTING,stylePref);
+                editor.commit();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+        languageSpinner=(Spinner)findViewById(R.id.language_settings_spinner);
+        ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this,
+                R.array.languages, android.R.layout.simple_spinner_item);
+        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(languageAdapter);
+        languageSpinner.setSelection(languageAdapter.getPosition(language));
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
+                TrickData.getTricktionaryData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
 
     }
     public void changeAutoPlay(View v){
@@ -57,30 +100,7 @@ public class SettingsActivity extends BaseActivity {
         }
     }
     public static boolean autoPlayEnabled(){
-
         return autoPlay;
-    }
-    public void changePlayerStyle(View v){
-        PopupMenu popupMenu = new PopupMenu(SettingsActivity.this, v);
-        //Inflating the Popup using xml file
-
-
-        popupMenu.getMenu().add("Minimal");
-        popupMenu.getMenu().add("Chromeless");
-        popupMenu.getMenu().add("Default");
-
-        popupMenu.show();
-        //registering popup with OnMenuItemClickListener
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                playerStyle.setText(item.getTitle().toString());
-                stylePref=item.getTitle().toString();
-                SharedPreferences.Editor editor = MainMenu.settings.edit();
-                editor.putString(PLAYER_STYLE_SETTING,item.getTitle().toString());
-                editor.commit();
-                return true;
-            }
-        });
     }
     public static void setLanguage(String mLanguage){
         SharedPreferences.Editor editor = MainMenu.settings.edit();

@@ -45,6 +45,12 @@
         <item>Svenska</item>
     </string-array>
 
+    <string-array name="player_styles">
+        <item>Minimal</item>
+        <item>Chromeless</item>
+        <item>Default</item>
+    </string-array>
+
     <string-array name="organizations">
         <item>WJR</item>
         <item>FISAC/IRSF</item>

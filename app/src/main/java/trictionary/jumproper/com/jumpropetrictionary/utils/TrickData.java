@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
 
@@ -67,9 +68,7 @@ public class TrickData extends Trick {
                 }
                 int index=0;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
-                    Log.e("Level 1",level.getValue().toString());
                     for(DataSnapshot trick:level.child("subs").getChildren()){
-                        Log.e("Level 2",trick.getValue().toString());
                         if(MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,null)!=null) {
                             SettingsActivity.language=MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
                             if (SettingsActivity.language.equals("Deutsch") && trick.child("i18n").child("de").getValue() != null) {
@@ -82,7 +81,7 @@ public class TrickData extends Trick {
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
-                                mTrick.setPrereqs(getPrereqs(trick));
+                                mTrick.setPrereqIds(trick);
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             } else if (SettingsActivity.language.equals("Svenska") &&
@@ -97,7 +96,7 @@ public class TrickData extends Trick {
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
-                                mTrick.setPrereqs(getPrereqs(trick));
+                                mTrick.setPrereqIds(trick);
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             } else {
@@ -110,11 +109,10 @@ public class TrickData extends Trick {
                                         trick.child("irsf").getValue().toString(),
                                         trick.child("wjr").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
-                                mTrick.setPrereqs(getPrereqs(trick));
+                                mTrick.setPrereqIds(trick);
                                 tricktionary2d.get(mTrick.getId0()).add(mTrick);
                                 index++;
                             }
-                            Log.e("Is this thing on?",mTrick.getName());
                         }
                     }
                 }
@@ -143,14 +141,13 @@ public class TrickData extends Trick {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot id0:dataSnapshot.getChildren()){
-                        for(DataSnapshot id1:dataSnapshot.getChildren()){
+                        for(DataSnapshot id1:id0.getChildren()){
                             tricktionary2d.get(Integer.parseInt(id0.getKey()))
                                     .get(Integer.parseInt(id1.getKey()))
                                     .setCompleted(true);
                             completedTricks.get(Integer.parseInt(id0.getKey()))
                                     .add(tricktionary2d.get(Integer.parseInt(id0.getKey()))
                                     .get(Integer.parseInt(id1.getKey())));
-                            Log.e("CompletedTricks",completedTricks.toString());
                         }
                     }
                 }
@@ -183,33 +180,7 @@ public class TrickData extends Trick {
     }
 
 
-    public static Trick[] getPrereqs(DataSnapshot trick){
-        ArrayList<Trick>list=new ArrayList<Trick>();
-        for(DataSnapshot prereq:trick.child("prerequisites").getChildren()){
-            try {
-                Log.e("Prereq data",prereq.getValue().toString());
-                list.add(tricktionary2d.get(Integer.parseInt(prereq.child("id0").getValue().toString()))
-                        .get(Integer.parseInt(prereq.child("id1").getValue().toString())));
-            }
-            catch (Exception e){
-                Log.e("Crach on Prereqs",e.toString());
-            }
-        }
-        Trick[] arr=new Trick[list.size()];
-        for(int j=0;j<list.size();j++){
-            arr[j]=list.get(j);
-        }
-        return arr;
-    }
-    public static Trick getTrickFromName(String name, Trick[]arr){
 
-        for (Trick anArr : arr) {
-            if (anArr.getName().equals(name)) {
-                return anArr;
-            }
-        }
-        return arr[0];
-    }
 
     public static Trick[] getTricktionaryOffline(){
         Trick doubleBounce=new Trick("Double Bounce","The jumper jumps off of the ground two times for every one turn of the rope.",LEVEL_1,0,BASICS, "ybwRcnfQtIM" );

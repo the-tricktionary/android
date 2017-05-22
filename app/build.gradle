@@ -1,15 +1,17 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 24
-    buildToolsVersion '25.0.1' //check for newest
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2' //check for newest
     defaultConfig {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 17
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 30
         versionName "3.00"
         multiDexEnabled false
-
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     signingConfigs {
         debug {
@@ -41,27 +43,34 @@ android {
 }
 
 dependencies {
+    //Google Dependencies
+    compile 'com.google.android.gms:play-services-analytics:10.2.6'
+    compile 'com.google.android.gms:play-services-auth:10.2.6'
+
+    //Firebase Dependencies
+    compile 'com.google.firebase:firebase-core:10.2.6'
+    compile 'com.google.firebase:firebase-database:10.2.6'
+    compile 'com.google.firebase:firebase-auth:10.2.6'
+    compile 'com.google.firebase:firebase-crash:10.2.6'
+    compile 'com.google.firebase:firebase-messaging:10.2.6'
+    compile 'com.google.firebase:firebase-storage:10.2.6'
+    compile 'com.google.firebase:firebase-perf:10.2.6'
+
+    //other
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile('com.mikepenz:materialdrawer:5.6.0@aar') {
         transitive = true
     }
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.google.android.gms:play-services-analytics:9.6.1'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.google.firebase:firebase-core:9.6.1'
-    compile 'com.google.firebase:firebase-database:9.6.1'
-    compile 'com.google.firebase:firebase-auth:9.6.1'
-    compile 'com.google.firebase:firebase-crash:9.6.1'
-    compile 'com.google.firebase:firebase-messaging:9.6.1'
-    compile 'com.google.firebase:firebase-storage:9.6.1'
-    compile 'com.google.android.gms:play-services-auth:9.6.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 }
 
 repositories {
     maven { url 'https://jitpack.io' }
 }
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.firebase-perf'

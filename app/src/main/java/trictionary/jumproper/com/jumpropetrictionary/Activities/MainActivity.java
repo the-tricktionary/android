@@ -20,6 +20,8 @@ import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +32,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -60,9 +63,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.mikepenz.materialdrawer.Drawer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import trictionary.jumproper.com.jumpropetrictionary.contact.Contact;
 import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
@@ -95,6 +100,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //current trick being viewed in MainActivity
     public static Trick currentTrick;
 
+    //declare prereqs listview
+    private ListView prereqsListView;
 
     //declare Trick array and index of current trick
     private ArrayList<ArrayList<Trick>> tricktionary;
@@ -119,6 +126,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
 
     @Override
+    @AddTrace(name = "mainActivityOnCreateTrace")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -163,8 +171,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         nextTricks=(TextView)findViewById(R.id.view_next);
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
         fisacExpand=(ImageView)findViewById(R.id.fisac_expand);
-
         trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
+        prereqsListView=(ListView)findViewById(R.id.prereqs_listview);
 
         if(currentTrick==null){
             finish();
@@ -196,8 +204,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         DrawerCreate drawer=new DrawerCreate();
         result = drawer.makeDrawer(this, this, mAuth, toolbar, currentTrick.getName());
-        //result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -274,7 +280,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 }
             }
         });
-
     }
 
     private void setupWindowAnimations() {
@@ -294,8 +299,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         super.onStart();
         youTubeView.initialize(getString(R.string.developer_key), this);
         mAuth.addAuthStateListener(mAuthListener);
-        result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(currentTrick.isCompleted()){
             trickCompleted.setChecked(true);
         }
@@ -435,27 +438,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private YouTubePlayer.Provider getYouTubePlayerProvider() {
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
     }
-    public void checkTrickComplete(){
-        if(mAuth.getCurrentUser()!=null) {
-            FirebaseDatabase fb = FirebaseDatabase.getInstance();
-            DatabaseReference checklist = fb.getReference("checklist");
-            checklist.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.child(mAuth.getCurrentUser().getUid())
-                            .child(""+currentTrick.getId0())
-                            .child(""+currentTrick.getId1()).toString().equals("true")) {
-                        trickCompleted.setChecked(true);
-                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
-                }
-            });
-        }
-    }
     public void viewTricktionary(View view){
         finish();
     }
@@ -466,14 +449,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     }
     public void viewPrereqs(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
-        //Inflating the Popup using xml file
         for(int j=0;j<currentTrick.getPrereqs().length;j++){
-            popupMenu.getMenu().add(currentTrick.getPrereqs()[j]);
+            popupMenu.getMenu().add(Menu.NONE,j,Menu.NONE,currentTrick.getPrereqs()[j]);
         }
 
 
         popupMenu.show();
-        //registering popup with OnMenuItemClickListener
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -482,6 +463,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                         .get(currentTrick.getPrereqsId1()[pos]);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             }
         });
@@ -489,15 +471,16 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void viewNextTricks(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, nextTricks);
 
-        final ArrayList<Integer> nextTricksId0=new ArrayList<>();
-        final ArrayList<Integer> nextTricksId1=new ArrayList<>();
+        ArrayList<Integer> nextTricksId0=new ArrayList<Integer>();
+        ArrayList<Integer> nextTricksId1=new ArrayList<Integer>();
 
-        for(int j=currentTrick.getDifficulty();j<tricktionary.size();j++) { //dont bother looking at levels before this level
+        for(int j=currentTrick.getId0();j<tricktionary.size();j++) { //dont bother looking at levels before this level
             for (Trick mTrick : tricktionary.get(j)) {
                 for (int i = 0; i < mTrick.getPrereqs().length; i++) {
                     if (mTrick.getPrereqs()[i].equals(currentTrick.getName())) {
                         if (!(mTrick.equals(currentTrick))) {
-                            popupMenu.getMenu().add(mTrick.getName());
+                            popupMenu.getMenu().add(Menu.NONE,nextTricksId0.size(),Menu.NONE,mTrick.getName());
+                            Log.e("Next Tricks",mTrick.getId0()+" "+mTrick.getId1()+" i="+nextTricksId0.size());
                             nextTricksId0.add(mTrick.getId0());
                             nextTricksId1.add(mTrick.getId1());
                         }
@@ -505,6 +488,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 }
             }
         }
+        Log.e("Next Trick Ids",nextTricksId0.toString()+" : "+nextTricksId1.toString());
+        currentTrick.setNextTricksId0(nextTricksId0);
+        currentTrick.setNextTricksId1(nextTricksId1);
 
         if (popupMenu.getMenu().size()==0)
             popupMenu.getMenu().add("None");
@@ -514,10 +500,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
                 int pos=item.getItemId();
-                currentTrick = tricktionary.get(nextTricksId0.get(pos))
-                        .get(nextTricksId1.get(pos));
+                Log.e("Next tricks",""+pos+" "+item.getTitle());
+                currentTrick = tricktionary.get(currentTrick.getNextTricksId0().get(pos))
+                        .get(currentTrick.getNextTricksId1().get(pos));
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             }
         });
@@ -539,7 +527,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 currentTrick.getName());
 
         //build the body of the message to be shared
-        String shareMessage = "https://youtu.be/"+currentTrick.getVideoCode()+"\n\nShared from The Jump Rope Tricktionary:\nhttps://play.google.com/store/apps/details?id=trictionary.jumproper.com.jumpropetrictionary";
+        String shareMessage = "https://youtu.be/"+currentTrick.getVideoCode()+"\n\nShared from The Jump Rope Tricktionary:\nhttps://the-tricktionary.com";
 
         //add the message
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
@@ -714,6 +702,7 @@ return;
                                                     mAuth.getCurrentUser().getEmail());
                                         }
                                         else{
+
                                             data = new Contact(contactName.getText().toString(),
                                                     contactTypeName,
                                                     currentTrick.getName() + " - " + comment.getText().toString(),

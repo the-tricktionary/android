@@ -26,7 +26,4 @@ public class Rafiki extends BaseActivity {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Rafiki Outreach");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
-    public void viewMainMenu(View v){
-        finish();
-    }
 }

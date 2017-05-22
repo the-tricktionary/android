@@ -118,46 +118,42 @@
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/view_showmaker"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20sp"
-            android:layout_marginTop="20sp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:clickable="true"
             android:onClick="openSettings"
-            android:src="@drawable/ic_settings_black_48dp"
-            android:tint="@color/materialRed" />
+            android:tint="@color/materialRed"
+            app:srcCompat="@drawable/ic_settings_black_48dp" />
 
         <ImageView
             android:id="@+id/view_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/settings"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/settings"
-            android:layout_marginBottom="16dp"
             android:layout_toEndOf="@+id/settings"
             android:clickable="true"
             android:onClick="viewContact"
-            android:padding="32dp"
-            android:src="@drawable/ic_message_black_24dp"
-            android:tint="@color/materialRed" />
+            android:padding="16dp"
+            android:tint="@color/materialRed"
+            app:srcCompat="@drawable/ic_message_black_24dp" />
 
         <ImageView
             android:id="@+id/view_webapp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/settings"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/settings"
-            android:layout_marginBottom="16dp"
             android:layout_toStartOf="@+id/settings"
             android:clickable="true"
             android:onClick="viewWeb"
-            android:padding="32dp"
-            android:src="@drawable/ic_public_black_24dp"
-            android:tint="@color/materialRed" />
+            android:padding="16dp"
+            android:tint="@color/materialRed"
+            app:srcCompat="@drawable/ic_public_black_24dp" />
 
         <ImageView
             android:id="@+id/header"
@@ -217,7 +213,7 @@
             android:onClick="submitTrick"
             android:padding="10dp"
             android:tint="@color/materialRed"
-            android:src="@drawable/ic_file_upload_black_24dp" />
+            app:srcCompat="@drawable/ic_file_upload_black_24dp" />
 
     </RelativeLayout>
 
@@ -229,6 +225,6 @@
         android:onClick="viewProfile"
         android:padding="10dp"
         android:tint="@color/materialRed"
-        android:src="@drawable/ic_account_circle_black_24dp" />
+        app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
 </FrameLayout>

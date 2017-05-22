@@ -1,6 +1,12 @@
 package trictionary.jumproper.com.jumpropetrictionary.utils;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import java.util.ArrayList;
+
 
 /**
  * Created by jumpr_000 on 4/4/2015.
@@ -16,8 +22,6 @@ public class Trick extends FirebaseInstanceIdService {
     public String[] prereqs;
     public int[] prereqsId0;
     public int[] prereqsId1;
-    public int[] nextTricksId0;
-    public int[] nextTricksId1;
     public String fisacLevel="";
     public String wjrLevel="";
     public int id1;
@@ -28,6 +32,8 @@ public class Trick extends FirebaseInstanceIdService {
     public String svDescription;
     public boolean completed=false;
     public boolean checklist=false;
+    public ArrayList<Integer> nextTricksId0;
+    public ArrayList<Integer> nextTricksId1;
 
 
     //constructors
@@ -142,12 +148,10 @@ public class Trick extends FirebaseInstanceIdService {
         return prereqs;
     }
 
-    public void setPrereqs(Trick[] prereqs) {
-        this.prereqs=new String[prereqs.length];
-        for(int j=0;j<prereqs.length;j++) {
-            this.prereqs[j] = prereqs[j].getName();
-        }
+    public void setPrereqs(String[] prereqs) {
+        this.prereqs=prereqs;
     }
+
 
     public void setDescription(String myDescription){
         description=myDescription;
@@ -219,19 +223,55 @@ public class Trick extends FirebaseInstanceIdService {
         this.prereqsId1 = prereqsId1;
     }
 
-    public int[] getNextTricksId0() {
+    public ArrayList<Integer> getNextTricksId0() {
         return nextTricksId0;
     }
 
-    public void setNextTricksId0(int[] nextTricksId0) {
+    public void setNextTricksId0(ArrayList<Integer> nextTricksId0) {
         this.nextTricksId0 = nextTricksId0;
     }
 
-    public int[] getNextTricksId1() {
+    public ArrayList<Integer> getNextTricksId1() {
         return nextTricksId1;
     }
 
-    public void setNextTricksId1(int[] nextTricksId1) {
+    public void setNextTricksId1(ArrayList<Integer> nextTricksId1) {
         this.nextTricksId1 = nextTricksId1;
+    }
+    public void setPrereqIds(DataSnapshot trick){
+        ArrayList<Integer>id0s=new ArrayList<>();
+        ArrayList<Integer>id1s=new ArrayList<>();
+        ArrayList<String> names=new ArrayList<>();
+        if(trick.child("name").equals("Criss Cross")){
+            Log.e("Cross",""+trick.child("prerequisites").hasChild("id0")+" "+trick.child("prerequisites").hasChild("id1"));
+        }
+        for(DataSnapshot prereq:trick.child("prerequisites").getChildren()){
+            if(prereq.hasChild("id0")&&prereq.hasChild("id1")) {
+                id0s.add(Integer.parseInt(prereq.child("id0").getValue().toString()));
+                id1s.add(Integer.parseInt(prereq.child("id1").getValue().toString()));
+                names.add(prereq.child("name").getValue().toString());
+            }
+            else{
+                names.add("None");
+            }
+        }
+        int[] id0Arr=new int[id0s.size()];
+        int[] id1Arr=new int[id1s.size()];
+        String[]prereqs=new String[names.size()];
+        for(int j=0;j<id0s.size();j++){
+            id0Arr[j]=id0s.get(j);
+        }
+        for(int j=0;j<id1s.size();j++){
+            id1Arr[j]=id1s.get(j);
+        }
+        for(int j=0;j<names.size();j++){
+            prereqs[j]=names.get(j);
+        }
+        this.setPrereqsId0(id0Arr);
+        this.setPrereqsId1(id1Arr);
+        this.setPrereqs(prereqs);
+    }
+    public String toString(){
+        return this.name;
     }
 }
