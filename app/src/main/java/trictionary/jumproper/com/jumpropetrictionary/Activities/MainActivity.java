@@ -130,6 +130,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();
         setContentView(R.layout.main_activity_toolbar_layout);
@@ -457,6 +458,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
+                if(item.getTitle().equals("None")){
+                    return true;
+                }
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
                 int pos=item.getItemId();
                 currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
@@ -498,6 +502,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
+                if(item.getTitle().equals("None")){
+                    return true;
+                }
                 Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
                 int pos=item.getItemId();
                 Log.e("Next tricks",""+pos+" "+item.getTitle());

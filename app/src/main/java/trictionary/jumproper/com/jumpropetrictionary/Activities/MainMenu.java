@@ -46,6 +46,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.perf.metrics.AddTrace;
 
+import java.util.Locale;
 import java.util.Set;
 
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
@@ -80,6 +81,7 @@ public class MainMenu extends BaseActivity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main_menu);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        TrickData.getTricktionaryData();
 
         mAuth=FirebaseAuth.getInstance();
         signInButton=(SignInButton)findViewById(R.id.sign_in_button);
@@ -171,48 +173,16 @@ public class MainMenu extends BaseActivity {
     public void onStart(){
         super.onStart();
         if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)==null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
-            builder.setTitle("Set preferred language");
-            LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            final View languageDialog=inflater.inflate(R.layout.language_dialog,null);
-            final Spinner languageSpinner=(Spinner)languageDialog.findViewById(R.id.language_spinner);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.languages, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            languageSpinner.setAdapter(adapter);
-            languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    SettingsActivity.setLanguage("English");
-                }
-            });
-            builder.setView(languageDialog);
-            // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(TrickData.tricktionary2d==null){
-                        TrickData.getTricktionaryData();
-                    }
-                    dialog.cancel();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SettingsActivity.setLanguage("English");
-                    if(TrickData.tricktionary2d==null){
-                        TrickData.getTricktionaryData();
-                    }
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
+            if(Locale.getDefault().getDisplayLanguage().equals("Deutsch")) {
+                SettingsActivity.setLanguage(Locale.getDefault().getDisplayLanguage());
+            }
+            if(Locale.getDefault().getDisplayLanguage().equals("Svenska")){
+                SettingsActivity.setLanguage(Locale.getDefault().getDisplayLanguage());
+            }
+            else{
+                SettingsActivity.setLanguage("English");
+            }
+            TrickData.getTricktionaryData();
         }
         else{
             TrickData.getTricktionaryData();

@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     package="trictionary.jumproper.com.jumpropetrictionary"
     android:layout_width="fill_parent"
@@ -34,7 +33,7 @@
             android:textSize="16sp"
             android:visibility="visible" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/forward_arrow_next_tricks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +81,7 @@
             android:textSize="16sp"
             android:visibility="visible" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/imageView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -157,7 +156,7 @@
                         android:typeface="normal"
                         android:visibility="gone" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageView15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -170,7 +169,7 @@
                         app:srcCompat="@drawable/ic_fullscreen_black_24dp"
                         android:tint="@color/textColor" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -197,7 +196,7 @@
                         android:transitionName="@string/logo_transition"
                         android:visibility="visible" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/toolbar_logo"
@@ -208,7 +207,7 @@
                         app:srcCompat="@drawable/ic_arrow_back_black_24dp"
                         android:tint="@color/textColor" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageView22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -297,7 +296,7 @@
                         android:textColor="#ff000000"
                         android:textSize="16dp" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/fisac_expand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
