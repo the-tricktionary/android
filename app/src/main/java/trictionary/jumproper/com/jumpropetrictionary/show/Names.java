@@ -3,6 +3,7 @@ package trictionary.jumproper.com.jumpropetrictionary.show;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 
 
-public class Names extends ActionBarActivity {
+public class Names extends BaseActivity {
     EditText nameInput;
     public static ArrayList<String>showNames;
     @Override

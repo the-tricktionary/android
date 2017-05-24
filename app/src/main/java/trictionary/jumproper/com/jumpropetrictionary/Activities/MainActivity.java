@@ -129,7 +129,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     @AddTrace(name = "mainActivityOnCreateTrace")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();

@@ -173,20 +173,21 @@ public class MainMenu extends BaseActivity {
     public void onStart(){
         super.onStart();
         if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)==null){
-            if(Locale.getDefault().getDisplayLanguage().equals("Deutsch")) {
-                SettingsActivity.setLanguage(Locale.getDefault().getDisplayLanguage());
-            }
-            if(Locale.getDefault().getDisplayLanguage().equals("Svenska")){
-                SettingsActivity.setLanguage(Locale.getDefault().getDisplayLanguage());
+            if(Locale.getDefault().getDisplayLanguage()!=null) {
+                if (Locale.getDefault().getDisplayLanguage().equals("Deutsch")) {
+                    SettingsActivity.setLanguage(Locale.getDefault().getDisplayLanguage());
+                }
+                if (Locale.getDefault().getDisplayLanguage().equals("Svenska")) {
+                    SettingsActivity.setLanguage(Locale.getDefault().getDisplayLanguage());
+                } else {
+                    SettingsActivity.setLanguage("English");
+                }
             }
             else{
                 SettingsActivity.setLanguage("English");
             }
-            TrickData.getTricktionaryData();
         }
-        else{
-            TrickData.getTricktionaryData();
-        }
+        TrickData.getTricktionaryData();
     }
 
     private void setupWindowAnimations() {

@@ -9,9 +9,7 @@ android {
         versionCode 31
         versionName "3.01"
         multiDexEnabled false
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        //vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     signingConfigs {
