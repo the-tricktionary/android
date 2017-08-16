@@ -30,7 +30,6 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:layout_above="@+id/chart"
-        android:scrollIndicators="right"
         android:layout_below="@+id/event_name">
 
         <RelativeLayout
@@ -276,16 +275,6 @@
         android:layout_alignEnd="@+id/chart"
         android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Public Data"
-        android:id="@+id/button3"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="viewPublicData"
-        android:visibility="gone" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -304,7 +293,6 @@
         android:id="@+id/event_name"
         android:textSize="18sp"
         android:visibility="invisible"
-        android:layout_below="@+id/button3"
         android:layout_centerHorizontal="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

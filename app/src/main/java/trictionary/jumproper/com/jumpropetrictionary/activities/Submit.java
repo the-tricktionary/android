@@ -198,6 +198,7 @@ public class Submit extends BaseActivity {
                 .setCustomMetadata("organization", org)
                 .build();
         UploadTask uploadTask=uploadRef.putFile(videoUri,metadata);
+
         fileSize=uploadTask.getSnapshot().getTotalByteCount();
         if(fileSize>100*1024*1024){
             Toast.makeText(Submit.this,"Sorry this video is too large.  The maximum size is 100Mb and your video is "+(fileSize/(1024*1024))+"Mb",Toast.LENGTH_LONG).show();

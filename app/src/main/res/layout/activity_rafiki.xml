@@ -53,9 +53,7 @@
                     android:layout_alignParentBottom="false"
                     android:layout_below="@+id/rafiki_1"
                     android:layout_centerHorizontal="true"
-                    android:elegantTextHeight="false"
                     android:padding="10dp"
-                    android:singleLine="false"
                     android:text="The Rafiki mission is to educate children and provide everything needed for he or she to become a successful jumper and a successful student in school.  The program connects everyone: coaches, teachers, students, and jumpers.  Rafiki currently includes coaches and jumpers in Kenya, Tanzania, Morocco, South Africa, Mozambique, India, Trinidad and Tobago, Dominican Republic, and Puerto Rico.  If you are interested in participating, helping, or would like to know more you can email rhodyropers@gmail.com"
                     android:textSize="16dp" />
 
@@ -119,9 +117,7 @@
                     android:layout_alignParentBottom="false"
                     android:layout_below="@+id/textView15"
                     android:layout_centerHorizontal="true"
-                    android:elegantTextHeight="false"
                     android:padding="10dp"
-                    android:singleLine="false"
                     android:text="Rafiki is always interested in donations of shoes, gym equipment, and especially ropes.  All types, sizes, colors, and conditions of ropes are welcome.  If you are on a team, please talk to your coaches about gathering old team ropes to donate.  Contact rhodyropers@gmail.com for more information or to start sending your ropes!"
                     android:textSize="16dp" />
 
@@ -139,7 +135,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_toEndOf="@+id/space4"
                         android:onClick="openFacebook"
-                        app:srcCompat="@drawable/ic_public_black_24dp" />
+                        android:src="@drawable/ic_public_black_24dp" />
 
                     <ImageView
                         android:id="@+id/imageView20"

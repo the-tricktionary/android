@@ -38,8 +38,6 @@ public class Tricktionary extends BaseActivity{
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
     private CheckBox showCompletedTricks;
-    private int delay = 100; //milliseconds
-    private Handler h;
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private FirebaseAuth mAuth;
@@ -84,7 +82,6 @@ public class Tricktionary extends BaseActivity{
                     builder.show();
                     showCompletedTricks.setChecked(true);
                 }
-                h.removeCallbacks(r);
                 if(isChecked){
                     for(int j=0;j<tricktionary.size();j++){
                         for(Trick mTrick:tricktionary.get(j)) {
@@ -93,7 +90,6 @@ public class Tricktionary extends BaseActivity{
                             }
                         }
                     }
-                    h.post(r);
                 }
                 else{
                     for(int j=0;j<tricktionary.size();j++){
@@ -107,8 +103,8 @@ public class Tricktionary extends BaseActivity{
                             }
                         }
                     }
-                    h.post(r);
                 }
+                populateLists();
             }
         });
     }
@@ -117,8 +113,7 @@ public class Tricktionary extends BaseActivity{
     public void onStart(){
         super.onStart();
         getSupportActionBar().setTitle("");
-        h = new Handler();
-        h.postDelayed(r, delay);
+        populateLists();
     }
 
     private void setupWindowAnimations() {
@@ -143,8 +138,6 @@ public class Tricktionary extends BaseActivity{
                         }
                     }
                 }
-                h.post(r);
-
             } else {
                 if (tricktionary != null && tricktionary != null) {
                     for (int j = 0; j < tricktionary.size(); j++) {
@@ -158,33 +151,14 @@ public class Tricktionary extends BaseActivity{
                             }
                         }
                     }
-                    h.post(r);
                 }
             }
         }
         else{
             finish();
         }
+        populateLists();
     }
-    public Runnable r=new Runnable() {
-        @Override
-        public void run() {
-            //do something
-            if(tricktionary==null){
-                loadingTricks.setVisibility(View.VISIBLE);
-                Log.e("TrickCheck","Array is null");
-            }
-            else{
-                Log.e("TrickCheck","Array is full!");
-                populateLists();
-                loadingTricks.setVisibility(View.GONE);
-                tricktionaryLayout.refreshDrawableState();
-                delay=60000; //change update time to 1 minute
-                h.removeCallbacks(r);
-            }
-            h.postDelayed(this, delay);
-        }
-    };
 
     public void populateLists(){
 
@@ -205,7 +179,6 @@ public class Tricktionary extends BaseActivity{
         final ArrayList<Trick> level4List = new ArrayList<Trick>();
 
         if(tricktionary.size()==0){
-            h.postDelayed(r, delay);
             return;
         }
         for(int j=0;j<tricktionary.size();j++){

@@ -221,7 +221,7 @@ public class ExpandableGridView extends GridView {
      * Sub item click listener interface
      */
     public interface OnExpandItemClickListener{
-        public void onItemClick(int position, Object clickPositionData);
+        void onItemClick(int position, Object clickPositionData);
     }
 
 }

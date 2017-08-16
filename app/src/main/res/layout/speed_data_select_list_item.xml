@@ -11,8 +11,7 @@
         android:layout_alignParentStart="true"
         android:textSize="20dp"
         android:padding="10dp"
-        android:background="@drawable/rounded_corner_shadow"
-        android:allowUndo="false" />
+        android:background="@drawable/rounded_corner_shadow"/>
 
     <TextView
         android:layout_width="wrap_content"
