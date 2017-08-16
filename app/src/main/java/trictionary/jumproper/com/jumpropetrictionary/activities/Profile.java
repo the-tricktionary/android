@@ -3,7 +3,6 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask;
-import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
+import trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
@@ -31,15 +30,13 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary.DASHES;
 
 public class Profile extends BaseActivity {
-    private ArrayList<ArrayList<Trick>>tricktionary= TrickData.getTricktionary();
-    private ArrayList<ArrayList<Trick>>completedTricks=TrickData.getCompletedTricks();
-    private FirebaseAuth mAuth;
-    private int delay = 100; //milliseconds
-    private Handler h;
     private TextView profileName;
     private ImageView profileImage;
     private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks;
     private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count;
+    private ArrayList<ArrayList<Trick>> tricktionary;
+    private ArrayList<ArrayList<Trick>> completedTricks;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +44,11 @@ public class Profile extends BaseActivity {
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mAuth=FirebaseAuth.getInstance();
 
+        tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
+        completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
+
+        mAuth = ((GlobalData) this.getApplication()).getmAuth();
 
         profileName = (TextView)findViewById(R.id.profile_name);
         profileName.setText(mAuth.getCurrentUser().getDisplayName());
@@ -105,20 +105,15 @@ public class Profile extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
             downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
         }
-        h = new Handler();
-        h.postDelayed(r, 100);
+        populateLists();
     }
     @Override
     public void onResume() {
-        delay=100;
-        h.postDelayed(r,delay);
         super.onResume();
     }
     @Override
     public void onPause(){
         super.onPause();
-        delay=60000;
-        h.removeCallbacks(r);
     }
     public void populateLists(){
 
@@ -138,14 +133,6 @@ public class Profile extends BaseActivity {
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view_profile);
         final ArrayList<Trick> level4List = new ArrayList<>();
 
-        if(tricktionary==null){
-            h.postDelayed(r, delay);
-            return;
-        }
-        if(completedTricks==null){
-            h.postDelayed(r, delay);
-            return;
-        }
         for(int j=0;j<completedTricks.size();j++){
             for(Trick mTrick:completedTricks.get(j)) {
                 if (!mTrick.isCompleted()) {
@@ -202,7 +189,6 @@ public class Profile extends BaseActivity {
                 }
             });
         }
-        h.removeCallbacks(r);
     }
     public static ArrayList<Trick> sortTrickList(ArrayList<Trick> list){
         ArrayList<Trick>sortedTricks= new ArrayList<>();
@@ -294,29 +280,6 @@ public class Profile extends BaseActivity {
         }
         return sortedTricks;
     }
-    public Runnable r=new Runnable() {
-        @Override
-        public void run() {
-            if(mAuth.getCurrentUser()!=null){
-                TrickData.uId=mAuth.getCurrentUser().getUid();
-            }
-            if(completedTricks==null){
-                tricktionary=TrickData.getTricktionary();
-                completedTricks=TrickData.getCompletedTricks();
-                h.postDelayed(this,delay);
-            }
-            else if (completedTricks.size()==0){
-                completedTricks=TrickData.getCompletedTricks();
-                h.postDelayed(this, delay);
-            }
-            else{
-                populateLists();
-                delay=60000; //change update time to 1 minute
-                h.removeCallbacks(r);
-            }
-
-        }
-    };
     public void back(View v){
         finish();
     }

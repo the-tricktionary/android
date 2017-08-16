@@ -6,12 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +24,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.io.InputStream;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
+import trictionary.jumproper.com.jumpropetrictionary.activities.GlobalData;
 import trictionary.jumproper.com.jumpropetrictionary.activities.MainActivity;
 import trictionary.jumproper.com.jumpropetrictionary.activities.MainMenu;
 import trictionary.jumproper.com.jumpropetrictionary.activities.Profile;
@@ -42,7 +40,7 @@ import trictionary.jumproper.com.jumpropetrictionary.show.Names;
  * Created by jumpr_000 on 9/26/2016.
  */
 
-public class DrawerCreate extends AppCompatActivity{
+public class DrawerCreate extends BaseActivity{
     ProfileDrawerItem currentProfile;
     FirebaseAuth mAuthCopy;
     AccountHeader headerResult;
@@ -183,8 +181,8 @@ public class DrawerCreate extends AppCompatActivity{
                         }
                         else if(position==7){
                             int randId0=(int)(Math.random()*4);
-                            int randId1=(int)(Math.random()*TrickData.getTricktionary().get(randId0).size());
-                            MainActivity.currentTrick = TrickData.getTricktionary().get(randId0).get(randId1);
+                            int randId1=(int)(Math.random()*((GlobalData) DrawerCreate.this.getApplication()).getTricktionary().get(randId0).size());
+                            MainActivity.currentTrick = ((GlobalData) DrawerCreate.this.getApplication()).getTricktionary().get(randId0).get(randId1);
                             Intent intent = new Intent(context, MainActivity.class);
                             activity.startActivity(intent);
                         }

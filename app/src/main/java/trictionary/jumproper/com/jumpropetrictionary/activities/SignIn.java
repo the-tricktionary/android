@@ -1,9 +1,8 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -26,9 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
-public class SignIn extends AppCompatActivity {
+public class SignIn extends BaseActivity {
 
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
@@ -73,7 +71,7 @@ public class SignIn extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
-                    TrickData.getTricktionary();
+                    ((GlobalData)SignIn.this.getApplication()).refreshData();
                 } else {
                     // User is signed out
                     Log.d("Auth", "onAuthStateChanged:signed_out");

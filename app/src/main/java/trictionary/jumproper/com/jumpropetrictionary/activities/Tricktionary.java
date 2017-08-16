@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,20 +28,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
-import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
 public class Tricktionary extends BaseActivity{
-    private ArrayList<ArrayList<Trick>> tricktionary=TrickData.getTricktionary();
-    private ArrayList<ArrayList<Trick>> completedTricks=TrickData.getCompletedTricks();
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
     private CheckBox showCompletedTricks;
     private int delay = 100; //milliseconds
     private Handler h;
+    private ArrayList<ArrayList<Trick>> tricktionary;
+    private ArrayList<ArrayList<Trick>> completedTricks;
     private FirebaseAuth mAuth;
 
     public static final String DASHES="  ";
@@ -53,15 +52,12 @@ public class Tricktionary extends BaseActivity{
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_tricktionary);
         setupWindowAnimations();
+        tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
+        completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
+        mAuth = ((GlobalData) this.getApplication()).getmAuth();
         loadingTricks = (ProgressBar)findViewById(R.id.loading_tricks);
         tricktionaryLayout=(FrameLayout)findViewById(R.id.tricktionary_layout);
         showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
-
-        mAuth=FirebaseAuth.getInstance();
-
-        if(mAuth.getCurrentUser()!=null){
-            TrickData.uId=mAuth.getCurrentUser().getUid();
-        }
 
         showCompletedTricks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -150,7 +146,7 @@ public class Tricktionary extends BaseActivity{
                 h.post(r);
 
             } else {
-                if (tricktionary != null && completedTricks != null) {
+                if (tricktionary != null && tricktionary != null) {
                     for (int j = 0; j < tricktionary.size(); j++) {
                         for(Trick mTrick:tricktionary.get(j)) {
                             for (int i = 0; i < completedTricks.size(); i++) {
@@ -174,15 +170,9 @@ public class Tricktionary extends BaseActivity{
         @Override
         public void run() {
             //do something
-            if(mAuth.getCurrentUser()!=null){
-                TrickData.uId=mAuth.getCurrentUser().getUid();
-            }
             if(tricktionary==null){
                 loadingTricks.setVisibility(View.VISIBLE);
                 Log.e("TrickCheck","Array is null");
-            }
-            else if(tricktionary.size()==0){
-                tricktionary=TrickData.getTricktionaryData();
             }
             else{
                 Log.e("TrickCheck","Array is full!");

@@ -21,6 +21,7 @@
         android:required="false" />
 
     <application
+        android:name=".activities.GlobalData"
         android:allowBackup="true"
         android:icon="@drawable/icon_alpha"
         android:label="@string/app_label"

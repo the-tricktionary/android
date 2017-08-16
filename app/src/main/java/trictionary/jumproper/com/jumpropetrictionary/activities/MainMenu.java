@@ -14,7 +14,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatDelegate;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,10 +21,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -46,24 +42,25 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.perf.metrics.AddTrace;
 
+import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Set;
 
-import trictionary.jumproper.com.jumpropetrictionary.show.Names;
 import trictionary.jumproper.com.jumpropetrictionary.R;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
+import trictionary.jumproper.com.jumpropetrictionary.show.Names;
+import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 
 
 public class MainMenu extends BaseActivity {
     private VideoView myVideoView;
-    ImageView header, settingsGear,webApp,contact,upload,profile;
-    TextView title, viewTricktionary;
-    TextView viewShowmaker,viewTrickTree,viewSpeedData;
+    private ImageView header, settingsGear,webApp,contact,upload,profile;
+    private TextView title, viewTricktionary;
+    private TextView viewShowmaker,viewTrickTree,viewSpeedData;
+    private ArrayList<ArrayList<Trick>> tricktionary;
+    private ArrayList<ArrayList<Trick>> completedTricks;
 
     public static SharedPreferences settings;
 
     //auth object for contact dialog
-    private static FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     GoogleSignInOptions gso;
@@ -81,9 +78,9 @@ public class MainMenu extends BaseActivity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main_menu);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        TrickData.getTricktionaryData();
+        tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
+        completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
 
-        mAuth=FirebaseAuth.getInstance();
         signInButton=(SignInButton)findViewById(R.id.sign_in_button);
         header=(ImageView)findViewById(R.id.header);
         settingsGear =(ImageView)findViewById(R.id.settings);
@@ -126,10 +123,6 @@ public class MainMenu extends BaseActivity {
         scaleText(viewTrickTree);
         scaleText(viewSpeedData);
 
-        if(mAuth.getCurrentUser()!=null){
-            TrickData.uId=mAuth.getCurrentUser().getUid();
-        }
-
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
                 .requestIdToken(getString(R.string.google_sign_in_auth_id))
@@ -154,7 +147,7 @@ public class MainMenu extends BaseActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("Auth", "onAuthStateChanged:signed_in:" + user.getUid());
-                    TrickData.uId=user.getUid();
+                    ((GlobalData) MainMenu.this.getApplication()).setuId(user.getUid());
                     
                 } else {
                     // User is signed out
@@ -187,7 +180,6 @@ public class MainMenu extends BaseActivity {
                 SettingsActivity.setLanguage("English");
             }
         }
-        TrickData.getTricktionaryData();
     }
 
     private void setupWindowAnimations() {
@@ -246,7 +238,7 @@ public class MainMenu extends BaseActivity {
         return true;
     }
     public void randomTrick(View v){
-        if(TrickData.tricktionary2d==null){
+        if(tricktionary==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
@@ -270,8 +262,8 @@ public class MainMenu extends BaseActivity {
         }
         else {
             int randId0=(int)(Math.random()*4);
-            int randId1=(int)(Math.random()*TrickData.getTricktionary().get(randId0).size());
-            MainActivity.currentTrick = TrickData.getTricktionary().get(randId0).get(randId1);
+            int randId1=(int)(Math.random()*tricktionary.get(randId0).size());
+            MainActivity.currentTrick = tricktionary.get(randId0).get(randId1);
             Intent intent = new Intent(this, MainActivity.class);
             View sharedView = v;
             String transitionName = getString(R.string.logo_transition);
@@ -286,7 +278,7 @@ public class MainMenu extends BaseActivity {
         }
     }
     public void viewTricktionary(View v){
-        if(TrickData.tricktionary2d==null){
+        if(tricktionary==null){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
             builder.setTitle("Please connect to internet");
             LayoutInflater inflater = (LayoutInflater)MainMenu.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
@@ -362,7 +354,7 @@ public class MainMenu extends BaseActivity {
         startActivity(i);
     }
     public void viewContact(View v){
-        if(mAuth.getCurrentUser()!=null){
+        if(((GlobalData)this.getApplication()).getmAuth().getCurrentUser()!=null){
             Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
             startActivity(intent);
             return;
@@ -423,13 +415,13 @@ public class MainMenu extends BaseActivity {
         Log.d("Auth", "firebaseAuthWithGoogleToken:" + acct.getIdToken());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
-        mAuth.signInWithCredential(credential)
+        ((GlobalData)this.getApplication()).getmAuth().signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
-                            Toast.makeText(MainMenu.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
+                            Toast.makeText(MainMenu.this, "Signed in as "+((GlobalData)MainMenu.this.getApplication()).getmAuth().getCurrentUser().getEmail(),
                                     Toast.LENGTH_SHORT).show();
                             viewContact(contact);
                         }
@@ -450,7 +442,7 @@ public class MainMenu extends BaseActivity {
         startActivity(intent);
     }
     public void viewProfile(View v){
-        if(mAuth.getCurrentUser()==null){
+        if(((GlobalData)this.getApplication()).getmAuth().getCurrentUser()==null){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
             mBuilder.setTitle("Profile");
             mBuilder.setMessage("You must sign in to access your profile and store trick statistics.");

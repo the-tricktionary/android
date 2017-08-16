@@ -52,6 +52,7 @@ public class Speed extends AppCompatActivity {
     Handler handler = new Handler(); //handler for the timer
     public static ArrayList<Integer> jumps=new ArrayList<>(); //list of jumps to update score
     public static ArrayList<Long> times=new ArrayList<>(); //list of times of jumps in ms for graph
+    public static String[] eventAbbreviations={};
     //declaring all timing tracks
     private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min,
                         time_1x30, time_1x180, time_2x30, time_4x30, time_2x60, time_3x40, time_beep,

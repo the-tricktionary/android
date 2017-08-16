@@ -63,7 +63,6 @@ public class SpeedData {
         this.jumpsLost = jumpsLost;
         this.name = name;
         this.event = event;
-
     }
 
     public ArrayList<Long> getGraphData() {

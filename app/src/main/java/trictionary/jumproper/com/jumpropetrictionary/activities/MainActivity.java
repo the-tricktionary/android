@@ -1,7 +1,6 @@
 
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +20,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,22 +56,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.mikepenz.materialdrawer.Drawer;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.contact.Contact;
 import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
-import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
     //declare text views
@@ -140,7 +133,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         setSupportActionBar(toolbar);
 
         //populate the tricktionary with the most up to date data from firebase
-        tricktionary= TrickData.getTricktionary();
+        tricktionary= ((GlobalData) this.getApplication()).getTricktionary();
 
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);

@@ -8,26 +8,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Set;
 
 import trictionary.jumproper.com.jumpropetrictionary.activities.MainMenu;
 import trictionary.jumproper.com.jumpropetrictionary.activities.SettingsActivity;
-import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
-import trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary;
 
 /**
  * Created by jumpr_000 on 6/9/2016.
  */
 public class TrickData extends Trick {
-    public static Trick[]tricktionary;
-    public static ArrayList<ArrayList<Trick>> tricktionary2d;
-    public static ArrayList<ArrayList<Trick>> completedTricks;
-    public static String uId="";
-    public static Trick mTrick;
+    private ArrayList<ArrayList<Trick>> tricktionary2d;
+    private ArrayList<ArrayList<Trick>> completedTricks;
+    private String uId="";
+    private Trick mTrick;
     public static Comparator<Trick> compareName=new Comparator<Trick>() {
         @Override
         public int compare(Trick trick, Trick t1) {
@@ -46,12 +40,8 @@ public class TrickData extends Trick {
     private static final String RELEASES="Releases";
     private static boolean offline=true;
 
-    public static ArrayList<ArrayList<Trick>>getTricktionaryData(){
+    public ArrayList<ArrayList<Trick>>getTricktionaryData(){
         tricktionary2d=new ArrayList<>();
-        if(completedTricks==null) {
-            completedTricks = new ArrayList<>();
-        }
-
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         if(offline) {
             fb.setPersistenceEnabled(true);
@@ -122,7 +112,6 @@ public class TrickData extends Trick {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("checklist",databaseError.getMessage().toString()+ " : "+databaseError.getDetails());
-                tricktionary=getTricktionaryOffline();
             }
         });
         completedTricks=new ArrayList<>();
@@ -130,7 +119,7 @@ public class TrickData extends Trick {
         return tricktionary2d;
     }
 
-    public static void fillCompletedTricks(){
+    public void fillCompletedTricks(){
         if(uId.length()>0 && completedTricks.size()==0) {
             for(int j=0;j<4;j++){
                 completedTricks.add(new ArrayList<Trick>());
@@ -160,7 +149,7 @@ public class TrickData extends Trick {
     }
 
 
-    public static ArrayList<ArrayList<Trick>> getTricktionary(){
+    public  ArrayList<ArrayList<Trick>> getTricktionary(){
         if(tricktionary2d!=null) {
             return tricktionary2d;
         }
@@ -172,15 +161,13 @@ public class TrickData extends Trick {
         }
     }
 
-    public static ArrayList<ArrayList<Trick>> getCompletedTricks(){
-       if (completedTricks.size()==0){
-           fillCompletedTricks();
-       }
+    public ArrayList<ArrayList<Trick>> getCompletedTricks(){
        return completedTricks;
     }
 
-
-
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
 
     public static Trick[] getTricktionaryOffline(){
         Trick doubleBounce=new Trick("Double Bounce","The jumper jumps off of the ground two times for every one turn of the rope.",LEVEL_1,0,BASICS, "ybwRcnfQtIM" );

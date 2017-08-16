@@ -1,12 +1,10 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 public class SearchTricks extends BaseActivity {
 
@@ -79,7 +76,7 @@ public class SearchTricks extends BaseActivity {
 
                 // ListView Clicked item value
                 String itemValue = (String) listView.getItemAtPosition(position);
-                MainActivity.currentTrick= TrickData.getTricktionary().get(trickId0.get(position))
+                MainActivity.currentTrick= ((GlobalData) SearchTricks.this.getApplication()).getTricktionary().get(trickId0.get(position))
                         .get(trickId1.get(position));
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
@@ -94,7 +91,7 @@ public class SearchTricks extends BaseActivity {
     }
 
     public ArrayList<String> doMySearch(String query){
-        ArrayList<ArrayList<Trick>> tricktionary= TrickData.getTricktionary();
+        ArrayList<ArrayList<Trick>> tricktionary= ((GlobalData) this.getApplication()).getTricktionary();
         ArrayList<String> list = new ArrayList<>();
         trickId0.clear();
         trickId1.clear();

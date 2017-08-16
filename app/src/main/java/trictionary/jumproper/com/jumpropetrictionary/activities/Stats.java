@@ -25,28 +25,28 @@ public class Stats extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        mAuth=FirebaseAuth.getInstance();
-        numTricks=(TextView)findViewById(R.id.num_tricks);
-        numLevel1Tricks=(TextView)findViewById(R.id.num_level_1_tricks);
-        numLevel2Tricks=(TextView)findViewById(R.id.num_level_2_tricks);
-        numLevel3Tricks=(TextView)findViewById(R.id.num_level_3_tricks);
-        numLevel4Tricks=(TextView)findViewById(R.id.num_level_4_tricks);
-        averageTricks=(TextView)findViewById(R.id.average_tricks);
-        maxTricks=(TextView)findViewById(R.id.max_tricks);
+        mAuth = FirebaseAuth.getInstance();
+        numTricks = (TextView) findViewById(R.id.num_tricks);
+        numLevel1Tricks = (TextView) findViewById(R.id.num_level_1_tricks);
+        numLevel2Tricks = (TextView) findViewById(R.id.num_level_2_tricks);
+        numLevel3Tricks = (TextView) findViewById(R.id.num_level_3_tricks);
+        numLevel4Tricks = (TextView) findViewById(R.id.num_level_4_tricks);
+        averageTricks = (TextView) findViewById(R.id.average_tricks);
+        maxTricks = (TextView) findViewById(R.id.max_tricks);
 
 
-        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        DatabaseReference myRef=fb.getReference("stats").child("checklist");
+        final FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = fb.getReference("stats").child("checklist");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                numTricks.setText(""+dataSnapshot.child("total").getValue().toString());
-                numLevel1Tricks.setText(""+dataSnapshot.child("0").getValue().toString());
-                numLevel2Tricks.setText(""+dataSnapshot.child("1").getValue().toString());
-                numLevel3Tricks.setText(""+dataSnapshot.child("2").getValue().toString());
-                numLevel4Tricks.setText(""+dataSnapshot.child("3").getValue().toString());
-                averageTricks.setText(""+(dataSnapshot.child("avg").getValue().toString()));
-                maxTricks.setText(""+dataSnapshot.child("max").getValue().toString());
+                numTricks.setText("" + dataSnapshot.child("total").getValue().toString());
+                numLevel1Tricks.setText("" + dataSnapshot.child("0").getValue().toString());
+                numLevel2Tricks.setText("" + dataSnapshot.child("1").getValue().toString());
+                numLevel3Tricks.setText("" + dataSnapshot.child("2").getValue().toString());
+                numLevel4Tricks.setText("" + dataSnapshot.child("3").getValue().toString());
+                averageTricks.setText("" + (dataSnapshot.child("avg").getValue().toString()));
+                maxTricks.setText("" + dataSnapshot.child("max").getValue().toString());
             }
 
             @Override
@@ -54,11 +54,11 @@ public class Stats extends BaseActivity {
 
             }
         });
+    }
 
-    }
-    public void back(View v){
-        finish();
-    }
+    public void back(View v) {
+                finish();
+            }
 
     public void viewProfile(View v){
         if(mAuth.getCurrentUser()==null){
@@ -85,5 +85,4 @@ public class Stats extends BaseActivity {
             startActivity(intent);
         }
     }
-
 }

@@ -3,19 +3,15 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.PopupMenu;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -72,7 +68,7 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
-                TrickData.getTricktionaryData();
+
             }
 
             @Override
