@@ -443,7 +443,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void viewPrereqs(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
         for(int j=0;j<currentTrick.getPrereqs().length;j++){
-            popupMenu.getMenu().add(Menu.NONE,j,Menu.NONE,currentTrick.getPrereqs()[j]);
+            popupMenu.getMenu().add(Menu.NONE,j,Menu.NONE,tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
         }
 
 
@@ -473,12 +473,16 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         for(int j=currentTrick.getId0();j<tricktionary.size();j++) { //dont bother looking at levels before this level
             for (Trick mTrick : tricktionary.get(j)) {
                 for (int i = 0; i < mTrick.getPrereqs().length; i++) {
-                    if (mTrick.getPrereqs()[i].equals(currentTrick.getName())) {
-                        if (!(mTrick.equals(currentTrick))) {
-                            popupMenu.getMenu().add(Menu.NONE,nextTricksId0.size(),Menu.NONE,mTrick.getName());
-                            Log.e("Next Tricks",mTrick.getId0()+" "+mTrick.getId1()+" i="+nextTricksId0.size());
-                            nextTricksId0.add(mTrick.getId0());
-                            nextTricksId1.add(mTrick.getId1());
+                    if(i<mTrick.getPrereqsId0().length) {
+                        if (mTrick.getPrereqsId0()[i] == currentTrick.getId0()) {
+                            if (mTrick.getPrereqsId1()[i] == currentTrick.getId1()) {
+                                if (!(mTrick.equals(currentTrick))) {
+                                    popupMenu.getMenu().add(Menu.NONE, nextTricksId0.size(), Menu.NONE, mTrick.getName());
+                                    Log.e("Next Tricks", mTrick.getId0() + " " + mTrick.getId1() + " i=" + nextTricksId0.size());
+                                    nextTricksId0.add(mTrick.getId0());
+                                    nextTricksId1.add(mTrick.getId1());
+                                }
+                            }
                         }
                     }
                 }

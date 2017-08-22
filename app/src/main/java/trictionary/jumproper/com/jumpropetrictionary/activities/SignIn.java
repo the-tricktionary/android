@@ -79,7 +79,7 @@ public class SignIn extends BaseActivity {
                 // ...
             }
         };
-        lang=MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,"English");
+        lang=((GlobalData)this.getApplication()).getSettings().getString(SettingsActivity.LANGUAGE_SETTING,"English");
         signIn();
     }
     @Override

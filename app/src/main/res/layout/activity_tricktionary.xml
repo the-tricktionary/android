@@ -287,14 +287,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tricktionary_title"
-                android:layout_alignTop="@+id/tricktionary_title"
-                android:alpha=".75"
-                android:onClick="back"
-                android:padding="16dp"
-                android:src="@drawable/ic_arrow_back_black_24dp"
+                android:layout_alignEnd="@+id/imageView34"
                 android:layout_alignStart="@+id/basics_grid_view"
+                android:layout_alignTop="@+id/tricktionary_title"
                 android:layout_toStartOf="@+id/tricktionary_title"
-                android:layout_alignEnd="@+id/imageView34" />
+                android:alpha=".75"
+                android:onClick="openSettings"
+                android:padding="16dp"
+                android:src="@drawable/ic_settings_black_48dp" />
 
         </RelativeLayout>
     </ScrollView>

@@ -1,5 +1,6 @@
 package trictionary.jumproper.com.jumpropetrictionary.utils;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -11,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import trictionary.jumproper.com.jumpropetrictionary.activities.GlobalData;
 import trictionary.jumproper.com.jumpropetrictionary.activities.MainMenu;
 import trictionary.jumproper.com.jumpropetrictionary.activities.SettingsActivity;
 
@@ -22,6 +24,8 @@ public class TrickData extends Trick {
     private ArrayList<ArrayList<Trick>> completedTricks;
     private String uId="";
     private Trick mTrick;
+    private int totalTricks;
+    private SharedPreferences settings;
     public static Comparator<Trick> compareName=new Comparator<Trick>() {
         @Override
         public int compare(Trick trick, Trick t1) {
@@ -47,7 +51,7 @@ public class TrickData extends Trick {
             fb.setPersistenceEnabled(true);
             offline=false;
         }
-
+        setTotalTricks();
         DatabaseReference myRef=fb.getReference("tricks");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,8 +63,8 @@ public class TrickData extends Trick {
                 int index=0;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
-                        if(MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,null)!=null) {
-                            SettingsActivity.language=MainMenu.settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
+                        if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)!=null) {
+                            SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
                             if (SettingsActivity.language.equals("Deutsch") && trick.child("i18n").child("de").getValue() != null) {
                                 mTrick = new Trick(trick.child("i18n").child("de").child("name").getValue().toString(),
                                         trick.child("i18n").child("de").child("description").getValue().toString(),
@@ -159,6 +163,41 @@ public class TrickData extends Trick {
         else{
             return getTricktionaryData();
         }
+    }
+
+    public void setTotalTricks(){
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        DatabaseReference checklist=fb.getReference("stats").child("tricks").child("total");
+        checklist.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                 totalTricks = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                return;
+            }
+        });
+    }
+
+    public int getTotalTricks(){
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        DatabaseReference checklist=fb.getReference("stats").child("tricks").child("total");
+        checklist.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Totals",dataSnapshot.getKey().toString()+"  "+dataSnapshot.getValue().toString());
+                totalTricks = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                return;
+            }
+        });
+        return totalTricks;
     }
 
     public ArrayList<ArrayList<Trick>> getCompletedTricks(){
@@ -396,6 +435,14 @@ public class TrickData extends Trick {
 
         return tricktionary;
 
+    }
+
+    public SharedPreferences getSettings() {
+        return settings;
+    }
+
+    public void setSettings(SharedPreferences settings) {
+        this.settings = settings;
     }
 }
 

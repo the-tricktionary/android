@@ -1,6 +1,8 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,6 +20,9 @@ public class GlobalData extends Application {
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private String uId = "";
+    private SharedPreferences settings;
+    private int totalTricks;
+    private TrickData data;
 
     @Override
     public void onCreate() {
@@ -26,10 +31,6 @@ public class GlobalData extends Application {
         if(this.getmAuth().getCurrentUser()!=null) {
             this.setuId(this.getmAuth().getCurrentUser().getUid());
         }
-        TrickData data = new TrickData();
-        data.setuId(this.getuId());
-        this.setTricktionary(data.getTricktionaryData());
-        this.setCompletedTricks(data.getCompletedTricks());
     }
 
     public ArrayList<ArrayList<Trick>> getTricktionary() {
@@ -45,10 +46,8 @@ public class GlobalData extends Application {
         if(this.getmAuth().getCurrentUser()!=null) {
             this.setuId(this.getmAuth().getCurrentUser().getUid());
         }
-        TrickData data = new TrickData();
+        data = new TrickData();
         data.setuId(this.getuId());
-        this.setTricktionary(data.getTricktionaryData());
-        this.setCompletedTricks(data.getCompletedTricks());
     }
 
     public ArrayList<ArrayList<Trick>> getCompletedTricks() {
@@ -73,5 +72,29 @@ public class GlobalData extends Application {
 
     public void setmAuth(FirebaseAuth mAuth) {
         this.mAuth = mAuth;
+    }
+
+    public SharedPreferences getSettings() {
+        return settings;
+    }
+
+    public void setSettings(SharedPreferences settings) {
+        this.settings = settings;
+    }
+
+    public int getTotalTricks() {
+        return totalTricks;
+    }
+
+    public void setTotalTricks(int totalTricks) {
+        this.totalTricks = totalTricks;
+    }
+
+    public TrickData getData() {
+        return data;
+    }
+
+    public void setData(TrickData data) {
+        this.data = data;
     }
 }

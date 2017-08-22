@@ -57,8 +57,8 @@ public class MainMenu extends BaseActivity {
     private TextView viewShowmaker,viewTrickTree,viewSpeedData;
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
+    private SharedPreferences settings;
 
-    public static SharedPreferences settings;
 
     //auth object for contact dialog
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -112,8 +112,8 @@ public class MainMenu extends BaseActivity {
 
         });
         fadeViews();
+        settings = ((GlobalData) this.getApplication()).getSettings();
 
-        settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
         getSupportActionBar().setTitle("");
         setupWindowAnimations();
 

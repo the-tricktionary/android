@@ -471,6 +471,9 @@ public class SpeedGraph extends BaseActivity {
     }
     public void checkHighScore(final int score, int duration, String event){
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        if(event==null){
+            return;
+        }
         final DatabaseReference myRef=fb.getReference("speed")
                 .child("highscores")
                 .child(mAuth.getCurrentUser().getUid())

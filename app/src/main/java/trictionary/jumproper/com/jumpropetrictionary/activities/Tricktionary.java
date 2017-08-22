@@ -113,7 +113,6 @@ public class Tricktionary extends BaseActivity{
     public void onStart(){
         super.onStart();
         getSupportActionBar().setTitle("");
-        populateLists();
     }
 
     private void setupWindowAnimations() {
@@ -138,8 +137,9 @@ public class Tricktionary extends BaseActivity{
                         }
                     }
                 }
+                populateLists();
             } else {
-                if (tricktionary != null && tricktionary != null) {
+                if (tricktionary != null && completedTricks != null) {
                     for (int j = 0; j < tricktionary.size(); j++) {
                         for(Trick mTrick:tricktionary.get(j)) {
                             for (int i = 0; i < completedTricks.size(); i++) {
@@ -151,13 +151,17 @@ public class Tricktionary extends BaseActivity{
                             }
                         }
                     }
+                    populateLists();
                 }
             }
         }
         else{
             finish();
         }
-        populateLists();
+    }
+    public void openSettings(View v){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     public void populateLists(){
