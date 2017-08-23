@@ -188,7 +188,7 @@ public class Tricktionary extends BaseActivity{
         for(int j=0;j<tricktionary.size();j++){
             for(Trick mTrick:tricktionary.get(j)) {
                 if (mTrick.isChecklist()) {
-                    j++;
+                    Log.d("Tricks",mTrick.getName());
                 } else if (mTrick.getType().equals("Basics")) {
                     basicsList.add(mTrick);
                 } else if (mTrick.getDifficulty() == 1) {
