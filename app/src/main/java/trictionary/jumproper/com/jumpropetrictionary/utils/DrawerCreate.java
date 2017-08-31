@@ -181,8 +181,8 @@ public class DrawerCreate extends BaseActivity{
                         }
                         else if(position==7){
                             int randId0=(int)(Math.random()*4);
-                            int randId1=(int)(Math.random()*((GlobalData) DrawerCreate.this.getApplication()).getTricktionary().get(randId0).size());
-                            MainActivity.currentTrick = ((GlobalData) DrawerCreate.this.getApplication()).getTricktionary().get(randId0).get(randId1);
+                            int randId1=(int)(Math.random()*((GlobalData) getApplication()).getTricktionary().get(randId0).size());
+                            MainActivity.currentTrick = ((GlobalData) context).getTricktionary().get(randId0).get(randId1);
                             Intent intent = new Intent(context, MainActivity.class);
                             activity.startActivity(intent);
                         }

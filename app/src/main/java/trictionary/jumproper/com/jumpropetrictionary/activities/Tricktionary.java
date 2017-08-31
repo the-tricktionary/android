@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -238,6 +239,7 @@ public class Tricktionary extends BaseActivity{
                 }
             });
         }
+        ((ScrollView)findViewById(R.id.scrollView3)).smoothScrollTo(0,0);
     }
 
 
@@ -330,6 +332,7 @@ public class Tricktionary extends BaseActivity{
             }
 
         }
+
         return sortedTricks;
     }
     @Override
