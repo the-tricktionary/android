@@ -37,7 +37,6 @@ public class Show extends BaseActivity {
         setContentView(R.layout.activity_show);
 
         showList = (ListView) findViewById(R.id.sorted_show);
-        yourShow=(TextView)findViewById(R.id.events);
         sortedShow2=new ArrayList<Event>();
         breakEvents=(TextView)findViewById(R.id.break_events);
         breakEvents.setText("Each jumper has a minimum of " + ShowMainActivity.getBreakEvents() + " breaks between events.");
