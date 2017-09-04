@@ -96,7 +96,7 @@ public class MainMenu extends BaseActivity {
         viewTrickTree=(TextView)findViewById(R.id.view_trick_tree);
         viewSpeedData=(TextView)findViewById(R.id.speed_data);
         myVideoView = (VideoView) findViewById(R.id.video_view);
-        myVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.intro_video_test));
+        //myVideoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.intro_video_test));
 
         myVideoView.requestFocus();
 
