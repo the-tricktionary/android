@@ -157,6 +157,8 @@ public class SignIn extends BaseActivity {
                                     myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue("de");
                             if(lang.equals("Svenska"))
                                     myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue("sv");
+                            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds

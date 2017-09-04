@@ -80,29 +80,30 @@ public class Tricktionary extends BaseActivity{
                     builder.show();
                     showCompletedTricks.setChecked(true);
                 }
-                if(isChecked){
-                    for(int j=0;j<tricktionary.size();j++){
-                        for(Trick mTrick:tricktionary.get(j)) {
-                            if (mTrick.isCompleted()) {
-                                mTrick.setChecklist(false);
+                else {
+                    if (isChecked) {
+                        for (int j = 0; j < tricktionary.size(); j++) {
+                            for (Trick mTrick : tricktionary.get(j)) {
+                                if (mTrick.isCompleted()) {
+                                    mTrick.setChecklist(false);
+                                }
                             }
                         }
-                    }
-                }
-                else{
-                    for(int j=0;j<tricktionary.size();j++){
-                        for(Trick mTrick:tricktionary.get(j)) {
-                            for (int i = 0; i < completedTricks.size(); i++) {
-                                for(Trick mCompletedTrick:completedTricks.get(i)) {
-                                    if (mTrick.equals(mCompletedTrick)){
-                                        mTrick.setChecklist(true);
+                    } else {
+                        for (int j = 0; j < tricktionary.size(); j++) {
+                            for (Trick mTrick : tricktionary.get(j)) {
+                                for (int i = 0; i < completedTricks.size(); i++) {
+                                    for (Trick mCompletedTrick : completedTricks.get(i)) {
+                                        if (mTrick.equals(mCompletedTrick)) {
+                                            mTrick.setChecklist(true);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    populateLists();
                 }
-                populateLists();
             }
         });
     }
