@@ -37,6 +37,11 @@ public class SearchTricks extends BaseActivity {
 
 
     }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
 
     private final TextWatcher searchQuery = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

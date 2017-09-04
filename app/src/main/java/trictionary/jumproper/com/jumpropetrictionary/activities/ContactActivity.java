@@ -53,6 +53,11 @@ public class ContactActivity extends BaseActivity {
         setGlobalActionBarTitle("Contact");
 
     }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
     public Runnable r=new Runnable() {
         @Override
         public void run() {
@@ -101,7 +106,6 @@ public class ContactActivity extends BaseActivity {
                 return false;
             }
         });
-
 
     }
     public void newReply(View v){

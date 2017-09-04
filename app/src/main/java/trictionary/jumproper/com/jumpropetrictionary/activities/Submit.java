@@ -105,6 +105,11 @@ public class Submit extends BaseActivity {
                 .setSmallIcon(R.drawable.icon_notify);
 
     }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
 
     @Override
     public void onResume(){

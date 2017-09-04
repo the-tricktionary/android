@@ -14,6 +14,11 @@ public class Rafiki extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rafiki);
     }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
     public void openFacebook(View v){
         String url = "https://www.facebook.com/Rafiki-Outreach-Program-1105234322897486/";
         Intent i = new Intent(Intent.ACTION_VIEW);

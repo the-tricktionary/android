@@ -55,6 +55,11 @@ public class Stats extends BaseActivity {
             }
         });
     }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
 
     public void back(View v) {
                 finish();

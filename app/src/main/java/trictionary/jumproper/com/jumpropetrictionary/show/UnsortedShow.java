@@ -1,8 +1,6 @@
 package trictionary.jumproper.com.jumpropetrictionary.show;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,9 +11,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 
 
-public class UnsortedShow extends ActionBarActivity {
+public class UnsortedShow extends BaseActivity {
 
     ListView showList;
     ArrayAdapter mArrayAdapter;

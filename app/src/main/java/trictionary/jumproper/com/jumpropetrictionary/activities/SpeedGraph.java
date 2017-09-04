@@ -200,6 +200,12 @@ public class SpeedGraph extends BaseActivity {
             SpeedDataSelect.mUid=mAuth.getCurrentUser().getUid().toString();
         }
     }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
+
 
 
 

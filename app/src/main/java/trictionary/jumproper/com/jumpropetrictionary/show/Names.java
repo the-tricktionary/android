@@ -2,9 +2,6 @@ package trictionary.jumproper.com.jumpropetrictionary.show;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +21,11 @@ public class Names extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_names);
         nameInput=(EditText)findViewById(R.id.name_input);
+    }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
     }
 
 

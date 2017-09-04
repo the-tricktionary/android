@@ -11,57 +11,33 @@
     android:background="@drawable/background">
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/event_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="false"
+        android:layout_below="@+id/try_refresh"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_corner_shadow"
         android:alpha=".75"
-        android:padding="10dp"
-        android:layout_below="@+id/try_refresh" />
+        android:background="@drawable/rounded_corner_shadow"
+        android:padding="8dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/refresh_scores"
-        android:src="@android:drawable/ic_popup_sync"
-        android:tint="@color/textColor"
-        android:onClick="refreshItems"
-        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/event_list"
         android:layout_alignParentEnd="true"
-        android:padding="10dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView19"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:padding="10dp"
-        android:src="@drawable/ic_arrow_back_black_24dp"
-        android:onClick="backToGraph" />
+        android:onClick="refreshItems"
+        android:src="@android:drawable/ic_popup_sync"
+        android:tint="@color/textColor" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Saved Scores"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_corner_shadow"
-        android:alpha=".75"
-        android:padding="10dp"
-        android:textSize="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="If scores are not appearing try refreshing"
         android:id="@+id/try_refresh"
-        android:layout_below="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="12dp"
-        android:padding="5dp" />
+        android:padding="8dp"
+        android:text="If scores are not appearing try refreshing"
+        android:textSize="12dp" />
 
 </RelativeLayout>

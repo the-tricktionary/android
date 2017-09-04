@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.Window;
-import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
     private Trick mTrick;
     private int totalTricks;
     private FirebaseAuth mAuth;
-    private ProgressBar tricksLoaded;
     private static boolean offline=true;
     private SharedPreferences settings;
     public static Comparator<Trick> compareName=new Comparator<Trick>() {
@@ -58,7 +56,6 @@ public class SplashActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_splash);
         mAuth = FirebaseAuth.getInstance();
-        tricksLoaded = (ProgressBar)findViewById(R.id.tricks_loaded);
         settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
         tricktionary = getTricktionaryData();
         int totalTricks = getTotalTricks();
@@ -148,7 +145,6 @@ public class SplashActivity extends AppCompatActivity {
                             Log.e("Tricks",mTrick.getName());
                         }
                         loaded++;
-                        tricksLoaded.setProgress((int) (loaded * 1.0 / totalTricks * 100));
                     }
                 }
                 completedTricks=new ArrayList<>();

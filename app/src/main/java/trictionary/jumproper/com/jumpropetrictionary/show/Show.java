@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +16,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 
 
-public class Show extends ActionBarActivity {
+public class Show extends BaseActivity {
 
     ListView showList;
     ArrayAdapter mArrayAdapter;

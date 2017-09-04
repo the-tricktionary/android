@@ -59,13 +59,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.perf.metrics.AddTrace;
-import com.mikepenz.materialdrawer.Drawer;
 
 import java.util.ArrayList;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.contact.Contact;
-import trictionary.jumproper.com.jumpropetrictionary.utils.DrawerCreate;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
@@ -88,7 +86,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
     //declare drawer object
-    private Drawer result;
+    //private Drawer result;
 
     //current trick being viewed in MainActivity
     public static Trick currentTrick;
@@ -194,9 +192,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         scaleText(type,7);
         scaleText(prereqs,7);
         scaleText(nextTricks,7);
-
+/**
         DrawerCreate drawer=new DrawerCreate();
         result = drawer.makeDrawer(this, this, mAuth, toolbar, currentTrick.getName());
+ **/
 
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -273,6 +272,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 }
             }
         });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setupWindowAnimations() {
@@ -318,6 +318,19 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     }
     public ActionBar getSupportActionBar() {
         return getDelegate().getSupportActionBar();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

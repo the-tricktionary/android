@@ -7,16 +7,5 @@
     android:weightSum="1"
     tools:context=".activities.SplashActivity">
 
-    <ProgressBar
-        android:id="@+id/tricks_loaded"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="@drawable/circle_progress_bar_background_shape"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/circle_progress_bar" />
+
 </RelativeLayout>

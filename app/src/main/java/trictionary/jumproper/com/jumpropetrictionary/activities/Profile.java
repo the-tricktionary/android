@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,6 +109,11 @@ public class Profile extends BaseActivity {
         populateLists();
     }
     @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
+    }
+    @Override
     public void onResume() {
         super.onResume();
     }
@@ -189,6 +195,7 @@ public class Profile extends BaseActivity {
                 }
             });
         }
+        ((ScrollView)findViewById(R.id.content_profile)).smoothScrollTo(0,0);
     }
     public static ArrayList<Trick> sortTrickList(ArrayList<Trick> list){
         ArrayList<Trick>sortedTricks= new ArrayList<>();

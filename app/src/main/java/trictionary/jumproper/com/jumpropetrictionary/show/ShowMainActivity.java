@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +24,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 
-public class ShowMainActivity extends ActionBarActivity implements Runnable {
+public class ShowMainActivity extends BaseActivity implements Runnable {
     TextView eventName;
     Context context;
     static ArrayList<Event> showTemp;

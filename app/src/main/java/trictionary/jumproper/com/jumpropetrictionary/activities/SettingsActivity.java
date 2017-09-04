@@ -1,5 +1,6 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class SettingsActivity extends BaseActivity {
     private Spinner playerStyleSpinner;
     private Spinner languageSpinner;
     private FirebaseAuth mAuth;
+    private boolean languageChanged=false;
     private static SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,14 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
-                ((GlobalData) SettingsActivity.this.getApplication()).refreshData();
+                if(languageChanged) {
+                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    languageChanged=true;
+                }
             }
 
             @Override
@@ -79,6 +88,11 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
+    }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
     }
     public void changeAutoPlay(View v){
         if (autoPlayCheck.isChecked()){

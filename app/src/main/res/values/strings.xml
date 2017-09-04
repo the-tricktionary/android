@@ -16,7 +16,8 @@
     <string name="title_activity_speed">Speed</string>
     <string name="title_activity_speed_graph">SpeedGraph</string>
     <string name="google_sign_in_auth_id">1048157266079-6m9smvmrrs2vagok5b973dqe7cvcf3e9.apps.googleusercontent.com</string>
-
+    <string name="open_drawer">Open navigation drawer</string>
+    <string name="close_drawer">Close navigation drawer</string>
     <!-- Strings related to Settings -->
 =======
 

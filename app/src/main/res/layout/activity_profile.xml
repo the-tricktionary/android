@@ -304,16 +304,5 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            android:layout_alignParentStart="true"
-            android:id="@+id/imageView38"
-            android:layout_alignBottom="@+id/profile_image"
-            android:padding="8dp"
-            android:alpha=".75"
-            android:onClick="back"
-            android:layout_alignParentTop="true" />
     </RelativeLayout>
 </ScrollView>

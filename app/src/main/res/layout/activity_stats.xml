@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corner_shadow"
         android:alpha=".75"
-        android:layout_below="@+id/textView33"
         android:layout_marginTop="16dp">
 
         <RelativeLayout
@@ -154,41 +153,5 @@
                 android:layout_marginTop="16dp" />
         </RelativeLayout>
     </ScrollView>
-
-    <TextView
-        android:text="Public Statistics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView33"
-        android:textAlignment="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:background="@drawable/rounded_corner_shadow"
-        android:alpha=".75" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_back_black_24dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imageView35"
-        android:padding="16dp"
-        android:alpha=".75"
-        android:onClick="back" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_account_circle_black_24dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/imageView36"
-        android:alpha=".75"
-        android:onClick="viewProfile"
-        android:layout_above="@+id/my_tricks"
-        android:layout_toEndOf="@+id/textView33" />
 
 </RelativeLayout>

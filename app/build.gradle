@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3' //check for newest
+    compileSdkVersion 26
+    buildToolsVersion "$buildSdkVersion" //check for newest
     defaultConfig {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
-        minSdkVersion 17
-        targetSdkVersion 25
+        minSdkVersion 19
+        targetSdkVersion 26
         versionCode 32
         versionName "3.02"
         multiDexEnabled false
@@ -43,32 +43,25 @@ android {
 
 dependencies {
     //Google Dependencies
-    compile 'com.google.android.gms:play-services-analytics:11.0.4'
-    compile 'com.google.android.gms:play-services-auth:11.0.4'
-
+    compile "com.google.android.gms:play-services-analytics:$firebaseVersion"
+    compile "com.google.android.gms:play-services-auth:$firebaseVersion"
     //Firebase Dependencies
-    compile 'com.google.firebase:firebase-core:11.0.4'
-    compile 'com.google.firebase:firebase-database:11.0.4'
-    compile 'com.google.firebase:firebase-auth:11.0.4'
-    compile 'com.google.firebase:firebase-crash:11.0.4'
-    compile 'com.google.firebase:firebase-messaging:11.0.4'
-    compile 'com.google.firebase:firebase-storage:11.0.4'
-    compile 'com.google.firebase:firebase-perf:11.0.4'
-
+    compile "com.google.firebase:firebase-core:$firebaseVersion"
+    compile "com.google.firebase:firebase-database:$firebaseVersion"
+    compile "com.google.firebase:firebase-auth:$firebaseVersion"
+    compile "com.google.firebase:firebase-crash:$firebaseVersion"
+    compile "com.google.firebase:firebase-messaging:$firebaseVersion"
+    compile "com.google.firebase:firebase-storage:$firebaseVersion"
+    compile "com.google.firebase:firebase-perf:$firebaseVersion"
     //other
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile "com.android.support:appcompat-v7:$buildSdkVersion"
+    compile "com.android.support:design:$buildSdkVersion"
+    compile "com.android.support:support-v4:$buildSdkVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/YouTubeAndroidPlayerApi.jar')
-    compile('com.mikepenz:materialdrawer:5.6.0@aar') {
-        transitive = true
-    }
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
 }
 
 repositories {

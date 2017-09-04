@@ -61,17 +61,4 @@
         android:layout_toEndOf="@+id/editText"
         android:layout_alignParentTop="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView8"
-        android:src="@drawable/ic_arrow_back_black_24dp"
-        android:alpha=".75"
-        android:onClick="viewTricktionary"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_above="@+id/listview"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/editText" />
-
 </RelativeLayout>

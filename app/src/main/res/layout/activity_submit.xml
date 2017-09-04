@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n-Please record your videos in landscape\n-Your videos can be no larger than 100Mb\n-If you are able to record in slow motion please do!\n-Please keep your recording as stable as possible, or set up your camera\n-Try to find a plain background that contrasts the color of your rope"
+                android:text="-You may submit videos of either a single trick to be included in the Tricktionary, or you may submit a video to be featured on our Instagram page @jumpropetricktionary\n-Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n-Please record your videos in landscape\n-Your videos can be no larger than 100Mb\n-If you are able to record in slow motion please do!\n-Please keep your recording as stable as possible, or set up your camera\n-Try to find a plain background that contrasts the color of your rope"
                 android:id="@+id/textView26"
                 android:layout_below="@+id/imageView32"
                 android:layout_centerHorizontal="true"
@@ -142,11 +142,11 @@
                 android:textColor="@android:color/black" />
 
             <EditText
+                android:id="@+id/trick_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/trick_description"
                 android:layout_gravity="center_horizontal"
-                android:hint="Description (Optional)" />
+                android:hint="Include your Instagram name to be featured!" />
 
             <TextView
                 android:layout_width="wrap_content"

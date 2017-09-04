@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.show.DD3;
 import trictionary.jumproper.com.jumpropetrictionary.show.DD4;
 import trictionary.jumproper.com.jumpropetrictionary.show.Event;
@@ -31,13 +31,12 @@ import trictionary.jumproper.com.jumpropetrictionary.show.Individual;
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
 import trictionary.jumproper.com.jumpropetrictionary.show.Other;
 import trictionary.jumproper.com.jumpropetrictionary.show.Pairs;
-import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.show.Show;
 import trictionary.jumproper.com.jumpropetrictionary.show.ThreeWheel;
 import trictionary.jumproper.com.jumpropetrictionary.show.UnsortedShow;
 import trictionary.jumproper.com.jumpropetrictionary.show.Wheel;
 
-public class ShowMainActivity extends ActionBarActivity implements Runnable {
+public class ShowMainActivity extends BaseActivity implements Runnable {
     TextView eventName;
     Context context;
     static ArrayList<Event> showTemp;
@@ -208,6 +207,11 @@ public class ShowMainActivity extends ActionBarActivity implements Runnable {
                 }).show();
             }
         });
+    }
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
     }
 
     @Override
