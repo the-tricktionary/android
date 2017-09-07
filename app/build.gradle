@@ -6,8 +6,8 @@ android {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 34
-        versionName "3.04"
+        versionCode 35
+        versionName "3.05"
         multiDexEnabled false
         //vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'

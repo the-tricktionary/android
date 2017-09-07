@@ -304,5 +304,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp" />
 
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profile_image"
+            android:layout_toStartOf="@+id/profile_image"
+            android:onClick="shareProfile"
+            android:padding="8dp"
+            android:src="@drawable/ic_menu_share_material" />
+
     </RelativeLayout>
 </ScrollView>

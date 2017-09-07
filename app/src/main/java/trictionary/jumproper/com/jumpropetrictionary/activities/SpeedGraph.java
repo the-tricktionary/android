@@ -402,63 +402,64 @@ public class SpeedGraph extends BaseActivity {
 
     public void saveData(View v){
         if(mAuth.getCurrentUser()==null){
-            signInButtonClick(signInButton);
-            mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle("Profile");
+            mBuilder.setMessage("You must sign in to save and view speed scores.");
+            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
                 @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    if(mAuth.getCurrentUser()!=null) {
-                        Toast.makeText(getApplicationContext(),
-                                "Signed in as " + mAuth.getCurrentUser().getEmail() + ".  Now you can save your data for access later.", Toast.LENGTH_LONG)
-                                .show();
-                    }
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(SpeedGraph.this,SignIn.class);
+                    startActivity(intent);
                 }
             });
-            return;
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            mBuilder.show();
         }
-        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        final DatabaseReference myRef=fb.getReference("speed").child("scores");
-        myRef.child(mAuth.getCurrentUser().getUid().toString());
-        AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
-        builder.setTitle("Save Score"); //dialog title
-        LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
-        final View textBoxes=inflater.inflate(R.layout.score_info_dialog,null); //custom layout file now a view object
-        builder.setView(textBoxes); //set view to custom layout
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //prompt user for name
-                EditText name = (EditText)textBoxes.findViewById(R.id.enter_jumper_name);
+        else {
+            FirebaseDatabase fb = FirebaseDatabase.getInstance();
+            final DatabaseReference myRef = fb.getReference("speed").child("scores");
+            myRef.child(mAuth.getCurrentUser().getUid().toString());
+            AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
+            builder.setTitle("Save Score"); //dialog title
+            LayoutInflater inflater = (LayoutInflater) SpeedGraph.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+            final View textBoxes = inflater.inflate(R.layout.score_info_dialog, null); //custom layout file now a view object
+            builder.setView(textBoxes); //set view to custom layout
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //prompt user for name
+                    EditText name = (EditText) textBoxes.findViewById(R.id.enter_jumper_name);
 
-                setJumperName(name.getText().toString()+" "+Speed.getEventName());
-                data=new SpeedData(scrubbedTimes,avgJumpsPerSec,maxJumpsPerSec,misses,scoreNoMisses,
-                        jumps,time,jumpDeficit,jumperName);
-                data.setEventFromString(Speed.currentEvent.getName());
-                formatData();
-                Toast.makeText(getApplicationContext(),
-                        "Saved Data for "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
-                        .show();
-                Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
-                startActivity(intent);
-
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-        saveData.setVisibility(View.INVISIBLE);
+                    setJumperName(name.getText().toString() + " " + Speed.getEventName());
+                    data = new SpeedData(scrubbedTimes, avgJumpsPerSec, maxJumpsPerSec, misses, scoreNoMisses,
+                            jumps, time, jumpDeficit, jumperName);
+                    data.setEventFromString(Speed.currentEvent.getName());
+                    formatData();
+                    Toast.makeText(getApplicationContext(),
+                            "Saved Data for " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
+                            .show();
+                    Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
+                    startActivity(intent);
 
 
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
 
-
-
-
+            builder.show();
+            saveData.setVisibility(View.INVISIBLE);
+        }
     }
     public void setJumperName(String name){
         jumperName=name;
@@ -512,9 +513,23 @@ public class SpeedGraph extends BaseActivity {
     public void readData(View v){
 
         if(mAuth.getCurrentUser()==null){
-            signInButtonClick(signInButton);
-            return;
-
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle("Profile");
+            mBuilder.setMessage("You must sign in to save and view speed scores.");
+            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(SpeedGraph.this,SignIn.class);
+                    startActivity(intent);
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            mBuilder.show();
         }
 
         else {

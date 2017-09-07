@@ -1,5 +1,7 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -289,6 +291,51 @@ public class Profile extends BaseActivity {
     }
     public void back(View v){
         finish();
+    }
+
+    public void shareProfile(View v){
+        if(((GlobalData)this.getApplication()).getSettings().getBoolean(SettingsActivity.PUBLIC_PROFILE_SETTING,false)) {
+            //create the send intent
+            Intent shareIntent =
+                    new Intent(android.content.Intent.ACTION_SEND);
+
+            //set the type
+            shareIntent.setType("text/plain");
+
+            //add a subject
+            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                    "My Tricktionary Profile");
+
+            //build the body of the message to be shared
+            String shareMessage = "https://the-tricktionary.com/profile/" + mAuth.getCurrentUser().getUid();
+
+            //add the message
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                    shareMessage);
+
+            //start the chooser for sharing
+            startActivity(Intent.createChooser(shareIntent,
+                    "Share your profile with:"));
+        }
+        else{
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle("Public Profile");
+            mBuilder.setMessage("You must set your profile to public to share");
+            mBuilder.setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(Profile.this,SettingsActivity.class);
+                    startActivity(intent);
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            mBuilder.show();
+        }
     }
 
 }

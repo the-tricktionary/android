@@ -1,7 +1,9 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -58,8 +60,29 @@ public class BaseActivity extends AppCompatActivity {
         mDrawerList.setItemChecked(position, true);
         Log.e("Classes",mNavItems.get(position).mClass.getCanonicalName()+" : "+getClass().getCanonicalName());
         if(!mNavItems.get(position).mClass.getCanonicalName().equals(getClass().getCanonicalName())) {
-            Intent intent = new Intent(this, mNavItems.get(position).mClass);
-            startActivity(intent);
+            if(mNavItems.get(position).mTitle.equals("Contact") && mAuth.getCurrentUser()==null){
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+                mBuilder.setTitle("Profile");
+                mBuilder.setMessage("You must sign in to send and view feedback, and so we can answer you.");
+                mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(getApplicationContext(),SignIn.class);
+                        startActivity(intent);
+                    }
+                });
+                mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                mBuilder.show();
+            }
+            else {
+                Intent intent = new Intent(this, mNavItems.get(position).mClass);
+                startActivity(intent);
+            }
         }
         else if(mNavItems.get(position).mTitle.equals("Instagram")){
             Uri uri = Uri.parse("https://www.instagram.com/p/BSrBPgEDoqT/");
@@ -80,6 +103,11 @@ public class BaseActivity extends AppCompatActivity {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
+        }
+        else if(mNavItems.get(position).mTitle.equals("Sign Out")){
+            mAuth.signOut();
+            Intent intent = new Intent(this, SplashActivity.class);
+            startActivity(intent);
         }
         // Close the drawer
         mDrawerLayout.closeDrawer(mDrawerPane);
@@ -122,6 +150,8 @@ public class BaseActivity extends AppCompatActivity {
         mNavItems.add(new NavItem("Contact","View your past feedback",R.drawable.ic_message_black_24dp,ContactActivity.class));
         mNavItems.add(new NavItem("Show Writer", "Spread routines evenly", R.drawable.ic_assignment_black_24dp, Names.class));
         mNavItems.add(new NavItem("Settings", "Language and video settings", R.drawable.ic_settings_black_48dp, SettingsActivity.class));
+        mNavItems.add(new NavItem("Sign Out", "", R.drawable.ic_account_circle_black_24dp, Tricktionary.class));
+
         mDrawerPane = (RelativeLayout) mDrawerLayout.findViewById(R.id.drawerPane);
         mDrawerList = (ListView) mDrawerLayout.findViewById(R.id.navList);
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);

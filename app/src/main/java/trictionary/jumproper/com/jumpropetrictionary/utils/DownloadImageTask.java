@@ -41,6 +41,9 @@ public class DownloadImageTask extends AsyncTask<String, Void, ImageView> {
     }
 
     protected void onPostExecute(ImageView current) {
+        if(bmImage==null){
+            return;
+        }
         current.setImageBitmap(getRoundedShape(bmImage));
     }
     public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {

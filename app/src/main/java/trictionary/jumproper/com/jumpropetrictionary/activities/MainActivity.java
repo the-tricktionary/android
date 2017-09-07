@@ -56,8 +56,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.perf.metrics.AddTrace;
 
 import java.util.ArrayList;
@@ -68,13 +71,13 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
     //declare text views
-    TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
+    private TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
 
     //declare image views
-    ImageView logo,fisacExpand;
+    private ImageView fisacExpand, wjrVerified, fisacVerified;
 
     //completed trick checkbox and email replies
-    CheckBox trickCompleted,emailReplies;
+    private CheckBox trickCompleted,emailReplies;
 
     //these are required for the toolbar because MainActivity already extends a class
     private AppCompatActivity appCompatActivity;
@@ -182,8 +185,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             trickCompleted.setChecked(true);
         }
 
-
-
         scaleText(trickDescription,7);
         scaleText(trickName,8);
         scaleText(level,7);
@@ -191,11 +192,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         scaleText(type,7);
         scaleText(prereqs,7);
         scaleText(nextTricks,7);
-/**
-        DrawerCreate drawer=new DrawerCreate();
-        result = drawer.makeDrawer(this, this, mAuth, toolbar, currentTrick.getName());
- **/
-
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
@@ -272,6 +268,102 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        DatabaseReference myRef=fb.getReference("tricks")
+                .child(""+currentTrick.getId0())
+                .child("subs")
+                .child(""+currentTrick.getId1())
+                .child("levels");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child:dataSnapshot.getChildren()) {
+                    Log.e("Verifying", child.getKey().toString() + child.getValue().toString());
+                }
+                if(dataSnapshot.child("irsf").hasChild("verified")) {
+                    final DataSnapshot fisacData = dataSnapshot
+                            .child("irsf")
+                            .child("verified");
+                    if(fisacData.hasChild("verified")) {
+                        if ((Boolean) fisacData.child("verified").getValue()) {
+                            fisacVerified = (ImageView) findViewById(R.id.fisac_verified);
+                            fisacVerified.setVisibility(View.VISIBLE);
+                            fisacVerified.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String message;
+                                    String verifier;
+                                    if (Integer.parseInt(fisacData.child("vLevel").getValue().toString()) == 1) {
+                                        verifier = "federation official";
+                                    } else {
+                                        verifier = "judge";
+                                    }
+
+                                    message = "This trick was verified by a "
+                                            + verifier
+                                            + " on "
+                                            + fisacData.child("date").getValue().toString();
+                                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    mBuilder.setTitle("Level Verification");
+                                    mBuilder.setMessage(message);
+                                    mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    mBuilder.show();
+                                }
+                            });
+                        }
+                    }
+                }
+                if(dataSnapshot.child("wjr").hasChild("verified")) {
+                    final DataSnapshot wjrData = dataSnapshot
+                            .child("wjr")
+                            .child("verified");
+                    if(wjrData.hasChild("verified")) {
+                        if ((Boolean) wjrData.child("verified").getValue()) {
+                            wjrVerified = (ImageView) findViewById(R.id.wjr_verified);
+                            wjrVerified.setVisibility(View.VISIBLE);
+                            wjrVerified.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String message;
+                                    String verifier;
+                                    if (Integer.parseInt(wjrData.child("vLevel").getValue().toString()) == 1) {
+                                        verifier = "federation official";
+                                    } else {
+                                        verifier = "judge";
+                                    }
+
+                                    message = "This trick was verified by a "
+                                            + verifier
+                                            + " on "
+                                            + wjrData.child("date").getValue().toString();
+                                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    mBuilder.setTitle("Level Verification");
+                                    mBuilder.setMessage(message);
+                                    mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    mBuilder.show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setupWindowAnimations() {
@@ -542,7 +634,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 currentTrick.getName());
 
         //build the body of the message to be shared
-        String shareMessage = "https://youtu.be/"+currentTrick.getVideoCode()+"\n\nShared from The Jump Rope Tricktionary:\nhttps://the-tricktionary.com";
+        String shareMessage = "https://the-tricktionary.com/details/"+currentTrick.getId0()+"/"+currentTrick.getId1();
 
         //add the message
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,

@@ -227,12 +227,17 @@ public class Tricktionary extends BaseActivity{
                     int itemPosition = position;
                     // ListView Clicked item value
                     MainActivity.currentTrick=(Trick)parent.getItemAtPosition(position);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    // Show Alert
-                    Toast.makeText(getApplicationContext(),
-                            MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
-                            .show();
+                    if(MainActivity.currentTrick.getDescription()==null){
+                        return;
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        // Show Alert
+                        Toast.makeText(getApplicationContext(),
+                                MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
+                                .show();
+                    }
                 }
             });
         }

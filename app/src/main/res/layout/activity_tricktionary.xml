@@ -46,7 +46,8 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:drawSelectorOnTop="true"
                 android:numColumns="3"
-                android:stretchMode="columnWidth" />
+                android:stretchMode="columnWidth"
+                android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/level_1_title"
@@ -79,8 +80,8 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:drawSelectorOnTop="true"
                 android:numColumns="3"
-                android:paddingLeft="0dp"
-                android:stretchMode="columnWidth" />
+                android:stretchMode="columnWidth"
+                android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/level_2_title"
@@ -113,9 +114,8 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:drawSelectorOnTop="true"
                 android:numColumns="3"
-                android:paddingLeft="0dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="16dp" />
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/level_3_title"
@@ -148,9 +148,8 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:drawSelectorOnTop="true"
                 android:numColumns="3"
-                android:paddingLeft="0dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="16dp" />
+                android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/level_4_title"
@@ -184,9 +183,8 @@
                 android:background="@drawable/rounded_corner_shadow"
                 android:drawSelectorOnTop="true"
                 android:numColumns="3"
-                android:paddingLeft="0dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="16dp" />
+                android:padding="8dp" />
 
 
             <ProgressBar

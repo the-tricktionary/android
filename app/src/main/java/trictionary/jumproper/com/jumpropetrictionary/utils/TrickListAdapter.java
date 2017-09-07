@@ -2,8 +2,6 @@ package trictionary.jumproper.com.jumpropetrictionary.utils;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +60,7 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
         if (mTrick.isCompleted() && completedColor) {
             color = getContext().getResources().getColor(R.color.colorAccent); // Material Yellow
             v.setBackgroundColor(color);
-            ((TextView) v).setTextColor(Color.WHITE);
+            //((TextView) v).setTextColor(Color.WHITE);
         }
         v.setClickable(false);
         return v;

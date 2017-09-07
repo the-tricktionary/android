@@ -3,14 +3,19 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
@@ -20,10 +25,16 @@ public class SettingsActivity extends BaseActivity {
     public static final String AUTO_PLAY_SETTING="AutoPlay";
     public static final String PLAYER_STYLE_SETTING="PlayerStyle";
     public static final String LANGUAGE_SETTING="Language";
+    public static final String PUBLIC_PROFILE_SETTING="Profile";
+    public static final String PUBLIC_SPEED_SETTING="Speed";
+    public static final String PUBLIC_TRICK_SETTING="Checklist";
     public static boolean autoPlay=true;
     public static String stylePref="Minimal";
     public static String language;
-    private CheckBox autoPlayCheck;
+    public static boolean publicProfile;
+    public static boolean publicSpeed;
+    public static boolean publicTricks;
+    private CheckBox autoPlayCheck,publicProfileCheck,publicSpeedCheck,publicTricksCheck;
     private Spinner playerStyleSpinner;
     private Spinner languageSpinner;
     private FirebaseAuth mAuth;
@@ -40,27 +51,72 @@ public class SettingsActivity extends BaseActivity {
         autoPlay=settings.getBoolean(AUTO_PLAY_SETTING,true);
         stylePref=settings.getString(PLAYER_STYLE_SETTING,"Minimal");
         language=settings.getString(LANGUAGE_SETTING,"English");
-        Log.e("Language",language);
+        publicProfile=settings.getBoolean(PUBLIC_PROFILE_SETTING,false);
+        publicSpeed=settings.getBoolean(PUBLIC_SPEED_SETTING,false);
+        publicTricks=settings.getBoolean(PUBLIC_TRICK_SETTING,false);
         autoPlayCheck=(CheckBox)findViewById(R.id.auto_play);
-        autoPlayCheck.setChecked(settings.getBoolean(AUTO_PLAY_SETTING,true));
+        autoPlayCheck.setChecked(autoPlay);
+        publicProfileCheck=(CheckBox)findViewById(R.id.public_profile_checkbox);
+        publicSpeedCheck=(CheckBox)findViewById(R.id.public_speed);
+        publicSpeedCheck.setChecked(publicSpeed);
+        publicTricksCheck=(CheckBox)findViewById(R.id.public_tricks);
+        publicSpeedCheck.setChecked(publicTricks);
         playerStyleSpinner=(Spinner)findViewById(R.id.video_player_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.player_styles, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         playerStyleSpinner.setAdapter(adapter);
         playerStyleSpinner.setSelection(adapter.getPosition(stylePref));
+
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        DatabaseReference myRef=fb.getReference("users").child(mAuth.getCurrentUser().getUid()).child("profile");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("public")) {
+                    if ((Boolean) dataSnapshot.child("public").getValue()) {
+                        publicProfileCheck.setChecked(true);
+                        publicProfile=true;
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean(PUBLIC_PROFILE_SETTING,publicProfile);
+                        editor.commit();
+                        if(dataSnapshot.hasChild("speed")) {
+                            if ((Boolean) dataSnapshot.child("speed").getValue()) {
+                                publicSpeedCheck.setChecked(true);
+                                publicSpeed=true;
+                                editor.putBoolean(PUBLIC_SPEED_SETTING,publicSpeed);
+                                editor.commit();
+                            }
+                        }
+                        if(dataSnapshot.hasChild("checklist")) {
+                            if ((Boolean) dataSnapshot.child("checklist").getValue()) {
+                                publicTricksCheck.setChecked(true);
+                                publicTricks=true;
+                                editor.putBoolean(PUBLIC_TRICK_SETTING,publicTricks);
+                                editor.commit();
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         playerStyleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                stylePref=adapterView.getItemAtPosition(i).toString();
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString(PLAYER_STYLE_SETTING,stylePref);
-                editor.commit();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                return;
-            }
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        stylePref = adapterView.getItemAtPosition(i).toString();
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PLAYER_STYLE_SETTING, stylePref);
+                        editor.commit();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        return;
+                    }
         });
         languageSpinner=(Spinner)findViewById(R.id.language_settings_spinner);
         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this,
@@ -85,6 +141,59 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
+            }
+        });
+        publicProfileCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    publicSpeedCheck.setVisibility(View.VISIBLE);
+                    publicTricksCheck.setVisibility(View.VISIBLE);
+                }
+                else{
+                    publicSpeedCheck.setVisibility(View.INVISIBLE);
+                    publicTricksCheck.setVisibility(View.INVISIBLE);
+                }
+                FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                final DatabaseReference myRef=fb.getReference("users")
+                        .child(mAuth.getCurrentUser().getUid())
+                        .child("profile")
+                        .child("public");
+                myRef.setValue(b);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean(PUBLIC_PROFILE_SETTING,b);
+                publicProfile=b;
+                editor.commit();
+            }
+        });
+        publicSpeedCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                final DatabaseReference myRef=fb.getReference("users")
+                        .child(mAuth.getCurrentUser().getUid())
+                        .child("profile")
+                        .child("speed");
+                myRef.setValue(b);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean(PUBLIC_SPEED_SETTING,b);
+                publicSpeed=b;
+                editor.commit();
+            }
+        });
+        publicTricksCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                final DatabaseReference myRef=fb.getReference("users")
+                        .child(mAuth.getCurrentUser().getUid())
+                        .child("profile")
+                        .child("checklist");
+                myRef.setValue(b);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean(PUBLIC_TRICK_SETTING,b);
+                publicTricks=b;
+                editor.commit();
             }
         });
 

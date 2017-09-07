@@ -8,6 +8,7 @@
     android:gravity="center"
     android:minHeight="64dp"
     android:orientation="vertical"
+    android:padding="4dp"
     android:text="Test Trick"
     android:textAlignment="center"
     android:textSize="12sp"></TextView>

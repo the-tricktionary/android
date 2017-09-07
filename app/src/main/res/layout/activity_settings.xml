@@ -63,16 +63,39 @@
             android:id="@+id/view3" />
 
         <CheckBox
-            android:id="@+id/auto_play"
+            android:id="@+id/public_profile_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profile_title"
             android:layout_alignParentEnd="true"
+            android:layout_below="@+id/language_settings_spinner"
             android:checked="false"
             android:onClick="changeAutoPlay"
             android:padding="8dp"
-            android:textSize="20dp"
+            android:textSize="20dp" />
+
+        <CheckBox
+            android:id="@+id/auto_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/auto_play_videos_title"
-            android:layout_alignTop="@+id/auto_play_videos_title" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/auto_play_videos_title"
+            android:checked="false"
+            android:onClick="changeAutoPlay"
+            android:padding="8dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/language_title"
+            android:layout_toStartOf="@+id/language_settings_spinner"
+            android:padding="16dp"
+            android:text="Public Profile"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/language_title"
@@ -97,6 +120,46 @@
             android:text="Video Player Style:"
             android:textSize="16sp"
             android:layout_alignEnd="@+id/view3" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/public_tricks"
+            android:layout_alignEnd="@+id/view3"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/profile_title"
+            android:paddingLeft="16dp"
+            android:text="This will allow you to share your profile with anyone"
+            android:textSize="12sp" />
+
+        <CheckBox
+            android:id="@+id/public_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/public_profile_checkbox"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:paddingRight="16dp"
+            android:text="Speed"
+            android:textAlignment="viewStart"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+
+        <CheckBox
+            android:id="@+id/public_tricks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/public_speed"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:paddingRight="16dp"
+            android:text="Completed Tricks"
+            android:textAlignment="viewStart"
+            android:textSize="12sp"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
