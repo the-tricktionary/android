@@ -22,17 +22,6 @@
             android:id="@+id/input_layout">
 
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:id="@+id/imageView30"
-                android:src="@drawable/icon_alpha"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="false"
-                android:layout_centerHorizontal="true"
-                android:onClick="back"
-                android:layout_marginTop="10dp" />
-
             <TextView android:id="@+id/main_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +31,6 @@
                 android:layout_weight="8"
                 android:layout_marginRight="10dp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/imageView30"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corner_shadow"
                 android:alpha=".75"

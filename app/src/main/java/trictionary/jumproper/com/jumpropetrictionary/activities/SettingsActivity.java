@@ -1,5 +1,7 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -67,43 +69,45 @@ public class SettingsActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         playerStyleSpinner.setAdapter(adapter);
         playerStyleSpinner.setSelection(adapter.getPosition(stylePref));
-
-        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        DatabaseReference myRef=fb.getReference("users").child(mAuth.getCurrentUser().getUid()).child("profile");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("public")) {
-                    if ((Boolean) dataSnapshot.child("public").getValue()) {
-                        publicProfileCheck.setChecked(true);
-                        publicProfile=true;
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean(PUBLIC_PROFILE_SETTING,publicProfile);
-                        editor.commit();
-                        if(dataSnapshot.hasChild("speed")) {
-                            if ((Boolean) dataSnapshot.child("speed").getValue()) {
-                                publicSpeedCheck.setChecked(true);
-                                publicSpeed=true;
-                                editor.putBoolean(PUBLIC_SPEED_SETTING,publicSpeed);
-                                editor.commit();
+        if(mAuth.getCurrentUser()!=null) {
+            FirebaseDatabase fb = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = fb.getReference("users").child(mAuth.getCurrentUser().getUid()).child("profile");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChild("public")) {
+                        if ((Boolean) dataSnapshot.child("public").getValue()) {
+                            publicProfileCheck.setChecked(true);
+                            publicProfile = true;
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putBoolean(PUBLIC_PROFILE_SETTING, publicProfile);
+                            editor.commit();
+                            if (dataSnapshot.hasChild("speed")) {
+                                if ((Boolean) dataSnapshot.child("speed").getValue()) {
+                                    publicSpeedCheck.setChecked(true);
+                                    publicSpeed = true;
+                                    editor.putBoolean(PUBLIC_SPEED_SETTING, publicSpeed);
+                                    editor.commit();
+                                }
                             }
-                        }
-                        if(dataSnapshot.hasChild("checklist")) {
-                            if ((Boolean) dataSnapshot.child("checklist").getValue()) {
-                                publicTricksCheck.setChecked(true);
-                                publicTricks=true;
-                                editor.putBoolean(PUBLIC_TRICK_SETTING,publicTricks);
-                                editor.commit();
+                            if (dataSnapshot.hasChild("checklist")) {
+                                if ((Boolean) dataSnapshot.child("checklist").getValue()) {
+                                    publicTricksCheck.setChecked(true);
+                                    publicTricks = true;
+                                    editor.putBoolean(PUBLIC_TRICK_SETTING, publicTricks);
+                                    editor.commit();
+                                }
                             }
                         }
                     }
                 }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
         playerStyleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -146,6 +150,26 @@ public class SettingsActivity extends BaseActivity {
         publicProfileCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(mAuth.getCurrentUser()==null){
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(SettingsActivity.this);
+                    mBuilder.setTitle("Public Profile");
+                    mBuilder.setMessage("You must sign in to have a profile.");
+                    mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent=new Intent(getApplicationContext(),SignIn.class);
+                            startActivity(intent);
+                        }
+                    });
+                    mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    mBuilder.show();
+                    return;
+                }
                 if(b){
                     publicSpeedCheck.setVisibility(View.VISIBLE);
                     publicTricksCheck.setVisibility(View.VISIBLE);
