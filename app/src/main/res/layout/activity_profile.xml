@@ -24,16 +24,17 @@
         android:layout_height="64dp" />
 
         <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
-        android:id="@+id/basics_grid_view_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:background="@drawable/rounded_corner_shadow"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/basics_title_profile"
-        android:layout_marginTop="16dp"
-        android:drawSelectorOnTop="true"
-        android:numColumns="3"
-        android:stretchMode="columnWidth" />
+            android:id="@+id/basics_grid_view_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/basics_title_profile"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow"
+            android:drawSelectorOnTop="true"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,34 +53,35 @@
         android:padding="8dp"
         android:textColor="#ffffff" />
 
-    <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
-        android:id="@+id/level_1_grid_view_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner_shadow"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/level_1_title_profile"
-        android:layout_marginTop="16dp"
-        android:drawSelectorOnTop="true"
-        android:numColumns="3"
-        android:stretchMode="columnWidth" />
+        <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
+            android:id="@+id/level_1_grid_view_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/level_1_title_profile"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow"
+            android:drawSelectorOnTop="true"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 2"
-        android:id="@+id/level_2_title_profile"
-        android:background="@drawable/rounded_corner_shadow_red"
-        android:textSize="18sp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_below="@+id/level_1_grid_view_profile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/level_2_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/level_1_grid_view_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="8dp"
+            android:text="Level 2"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
     <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
         android:id="@+id/level_2_grid_view_profile"
@@ -158,14 +160,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/profile_name"
-            android:layout_below="@+id/profile_image"
-            android:layout_alignEnd="@+id/basics_title_profile"
             android:textAlignment="gravity"
             android:gravity="right"
             android:padding="8dp"
             android:background="@drawable/rounded_corner_shadow_red"
             android:textColor="@color/white"
-            android:layout_marginTop="16dp" />
+            android:layout_below="@+id/profile_image"
+            android:layout_toStartOf="@+id/stats_layout" />
 
         <View
             android:layout_width="match_parent"
@@ -279,14 +280,13 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:text="Total Tricks"
+                android:id="@+id/tricks_mastered_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tricks_mastered_profile"
-                android:textAlignment="gravity"
-                android:foregroundGravity="bottom"
-                android:layout_above="@+id/level_1_tricks_mastered_profile"
                 android:layout_alignParentStart="true"
+                android:foregroundGravity="bottom"
+                android:text="Total Tricks"
+                android:textAlignment="gravity"
                 android:textSize="12sp" />
 
         </RelativeLayout>

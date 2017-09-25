@@ -2,14 +2,13 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 
 /**
  * Created by jumpr_000 on 8/15/2017.
@@ -22,7 +21,7 @@ public class GlobalData extends Application {
     private String uId = "";
     private SharedPreferences settings;
     private int totalTricks;
-    private TrickData data;
+    public Comparator<Trick> compareName;
 
     @Override
     public void onCreate() {
@@ -46,8 +45,6 @@ public class GlobalData extends Application {
         if(this.getmAuth().getCurrentUser()!=null) {
             this.setuId(this.getmAuth().getCurrentUser().getUid());
         }
-        data = new TrickData();
-        data.setuId(this.getuId());
     }
 
     public ArrayList<ArrayList<Trick>> getCompletedTricks() {
@@ -90,11 +87,16 @@ public class GlobalData extends Application {
         this.totalTricks = totalTricks;
     }
 
-    public TrickData getData() {
-        return data;
+    public Comparator<Trick> getCompareName() {
+        return new Comparator<Trick>() {
+            @Override
+            public int compare(Trick trick, Trick t1) {
+                return trick.getName().compareTo(t1.getName());
+            }
+        };
     }
 
-    public void setData(TrickData data) {
-        this.data = data;
+    public void setCompareName(Comparator<Trick> compareName) {
+        this.compareName = compareName;
     }
 }

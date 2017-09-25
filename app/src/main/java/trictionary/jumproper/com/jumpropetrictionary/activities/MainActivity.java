@@ -139,8 +139,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,currentTrick.getName());
-        mFirebaseAnalytics.logEvent("view_trick", bundle);
+        if(currentTrick.getName()!=null) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, currentTrick.getName());
+            mFirebaseAnalytics.logEvent("view_trick", bundle);
+        }
+        else{
+            finish();
+        }
 
         //initialize auth object
         mAuth = FirebaseAuth.getInstance();
@@ -174,8 +179,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         if(currentTrick.getFisacLevel().equals("")) {
             fisacLevel.setVisibility(View.INVISIBLE);
         }
-        else if(currentTrick.getFisacLevel().length()>5){
-            fisacLevel.setText("IRSF Level: " + currentTrick.getFisacLevel().substring(0,2)+"...");
+        else if(currentTrick.getFisacLevel().length()>3){
+            fisacLevel.setText("IRSF Level: " + currentTrick.getFisacLevel().substring(0,3)+"...");
             fisacExpand.setVisibility(View.VISIBLE);
         }
         else{
@@ -275,7 +280,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 .child("subs")
                 .child(""+currentTrick.getId1())
                 .child("levels");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child:dataSnapshot.getChildren()) {
@@ -545,28 +550,30 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         startActivity(intent);
     }
     public void viewPrereqs(View v){
-        PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
-        for(int j=0;j<currentTrick.getPrereqs().length;j++){
-            popupMenu.getMenu().add(Menu.NONE,j,Menu.NONE,tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
-        }
+        if(currentTrick.getPrereqs().length>0) {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
+            for (int j = 0; j < currentTrick.getPrereqs().length; j++) {
+                popupMenu.getMenu().add(Menu.NONE, j, Menu.NONE, tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
+            }
 
 
-        popupMenu.show();
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getTitle().equals("None")){
+            popupMenu.show();
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getTitle().equals("None")) {
+                        return true;
+                    }
+                    Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                    int pos = item.getItemId();
+                    currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
+                            .get(currentTrick.getPrereqsId1()[pos]);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
                     return true;
                 }
-                Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
-                int pos=item.getItemId();
-                currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
-                        .get(currentTrick.getPrereqsId1()[pos]);
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-        });
+            });
+        }
     }
     public void viewNextTricks(View v){
         PopupMenu popupMenu = new PopupMenu(MainActivity.this, nextTricks);

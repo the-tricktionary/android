@@ -72,7 +72,7 @@ public class SettingsActivity extends BaseActivity {
         if(mAuth.getCurrentUser()!=null) {
             FirebaseDatabase fb = FirebaseDatabase.getInstance();
             DatabaseReference myRef = fb.getReference("users").child(mAuth.getCurrentUser().getUid()).child("profile");
-            myRef.addValueEventListener(new ValueEventListener() {
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.hasChild("public")) {

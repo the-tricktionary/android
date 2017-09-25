@@ -127,13 +127,14 @@
                 android:layout_marginTop="16dp" />
 
             <TextView
-                android:text="Tricks Mastered:"
+                android:id="@+id/tricks_mastered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tricks_mastered"
-                android:textAlignment="gravity"
                 android:foregroundGravity="bottom"
-                android:layout_above="@+id/level_1_tricks_mastered"
+                android:text="Tricks Mastered:"
+                android:textAlignment="gravity"
+                android:layout_alignBaseline="@+id/num_tricks"
+                android:layout_alignBottom="@+id/num_tricks"
                 android:layout_alignParentStart="true" />
             <TextView
                 android:text="Average Tricks per User:"

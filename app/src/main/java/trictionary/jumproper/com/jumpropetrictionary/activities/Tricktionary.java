@@ -29,7 +29,6 @@ import java.util.Collections;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
-import trictionary.jumproper.com.jumpropetrictionary.utils.TrickData;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
@@ -200,7 +199,7 @@ public class Tricktionary extends BaseActivity{
                 }
             }
         }
-        Collections.sort(basicsList,TrickData.compareName);
+        Collections.sort(basicsList,((GlobalData) this.getApplication()).getCompareName());
         final ArrayList<Trick>level1Sorted=addWhiteSpace(sortTrickList(level1List));
         final ArrayList<Trick>level2Sorted=addWhiteSpace(sortTrickList(level2List));
         final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
@@ -246,13 +245,13 @@ public class Tricktionary extends BaseActivity{
 
 
 
-    public static ArrayList<Trick> sortTrickList(ArrayList<Trick> list){
+    public ArrayList<Trick> sortTrickList(ArrayList<Trick> list){
         ArrayList<Trick>sortedTricks= new ArrayList<>();
         int multiples=0;
         int power=1;
         int manipulation=2;
         int releases=3;
-        Collections.sort(list, TrickData.compareName);
+        Collections.sort(list, ((GlobalData) this.getApplication()).getCompareName());
         Collections.reverse(list);
 
         sortedTricks.add(0,new Trick("Releases"));

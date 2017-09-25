@@ -168,7 +168,9 @@ public class BaseActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser()!=null){
             trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask downloadImage=new trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask(mAuth,avatar);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-                downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+                if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
+                    downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+                }
             }
             profileName.setText(mAuth.getCurrentUser().getDisplayName());
             profileDescription.setText("View Profile");

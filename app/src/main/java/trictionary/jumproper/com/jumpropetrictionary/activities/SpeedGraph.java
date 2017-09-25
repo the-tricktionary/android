@@ -345,7 +345,9 @@ public class SpeedGraph extends BaseActivity {
             values.add(":" + String.format("%02d", (int)currentValue));
             currentValue+=interval;
         }
-        values.remove(values.size()-1);
+        if(values.size()>0) {
+            values.remove(values.size() - 1);
+        }
         values.add(":"+String.format("%02d", eventLength));
         return values;
     }
@@ -486,7 +488,7 @@ public class SpeedGraph extends BaseActivity {
                 .child(mAuth.getCurrentUser().getUid())
                 .child(""+duration)
                 .child(event);
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null) {
@@ -546,7 +548,7 @@ public class SpeedGraph extends BaseActivity {
         saveData.setVisibility(View.INVISIBLE);
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=fb.getReference("speed").child("scores");
-        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).addValueEventListener(new ValueEventListener() {
+        myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("Children of "+dataSnapshot.getValue());

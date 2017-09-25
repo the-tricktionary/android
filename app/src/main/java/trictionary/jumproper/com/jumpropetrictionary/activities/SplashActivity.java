@@ -36,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static boolean offline=true;
     private SharedPreferences settings;
+    private long levels;
     public static Comparator<Trick> compareName=new Comparator<Trick>() {
         @Override
         public int compare(Trick trick, Trick t1) {
@@ -73,11 +74,11 @@ public class SplashActivity extends AppCompatActivity {
             offline=false;
         }
         DatabaseReference myRef=fb.getReference("tricks");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int loaded = 0;
-                for(int j=0;j<4;j++){
+                levels = dataSnapshot.getChildrenCount();
+                for(int j=0;j<levels;j++){
                     tricktionary.add(new ArrayList<Trick>());
                 }
                 int index=0;
@@ -92,8 +93,8 @@ public class SplashActivity extends AppCompatActivity {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        trick.child("irsf").getValue().toString(),
-                                        trick.child("wjr").getValue().toString(),
+                                        trick.child("levels").child("irsf").child("level").getValue().toString(),
+                                        trick.child("levels").child("wjr").child("level").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
                                 mTrick.setPrereqIds(trick);
                                 tricktionary.get(mTrick.getId0()).add(mTrick);
@@ -107,8 +108,8 @@ public class SplashActivity extends AppCompatActivity {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        trick.child("irsf").getValue().toString(),
-                                        trick.child("wjr").getValue().toString(),
+                                        trick.child("levels").child("irsf").child("level").getValue().toString(),
+                                        trick.child("levels").child("wjr").child("level").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
                                 mTrick.setPrereqIds(trick);
                                 tricktionary.get(mTrick.getId0()).add(mTrick);
@@ -120,13 +121,13 @@ public class SplashActivity extends AppCompatActivity {
                                         index,
                                         trick.child("type").getValue().toString(),
                                         trick.child("video").getValue().toString(),
-                                        trick.child("irsf").getValue().toString(),
-                                        trick.child("wjr").getValue().toString(),
+                                        trick.child("levels").child("irsf").child("level").getValue().toString(),
+                                        trick.child("levels").child("wjr").child("level").getValue().toString(),
                                         Integer.parseInt(trick.child("id1").getValue().toString()));
                                 mTrick.setPrereqIds(trick);
                                 tricktionary.get(mTrick.getId0()).add(mTrick);
                                 index++;
-                                Log.e("Tricks",mTrick.getName());
+                                Log.e("Tricks",mTrick.getName()+" "+mTrick.getId0()+":"+mTrick.getId1());
                             }
                         }
                         else {
@@ -136,15 +137,14 @@ public class SplashActivity extends AppCompatActivity {
                                     index,
                                     trick.child("type").getValue().toString(),
                                     trick.child("video").getValue().toString(),
-                                    trick.child("irsf").getValue().toString(),
-                                    trick.child("wjr").getValue().toString(),
+                                    trick.child("levels").child("irsf").child("level").getValue().toString(),
+                                    trick.child("levels").child("wjr").child("level").getValue().toString(),
                                     Integer.parseInt(trick.child("id1").getValue().toString()));
                             mTrick.setPrereqIds(trick);
                             tricktionary.get(mTrick.getId0()).add(mTrick);
                             index++;
                             Log.e("Tricks",mTrick.getName());
                         }
-                        loaded++;
                     }
                 }
                 completedTricks=new ArrayList<>();
@@ -163,16 +163,19 @@ public class SplashActivity extends AppCompatActivity {
     public void fillCompletedTricks(){
         Log.e("checklist", uId);
         if(uId.length()>0) {
-            for(int j=0;j<4;j++){
-                completedTricks.add(new ArrayList<Trick>());
-            }
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist").child(uId);
-            checklist.addValueEventListener(new ValueEventListener() {
+            for(int j=0;j<levels;j++){
+                completedTricks.add(new ArrayList<Trick>());
+            }
+            checklist.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot id0:dataSnapshot.getChildren()){
                         for(DataSnapshot id1:id0.getChildren()){
+                            if(Integer.parseInt(id0.getKey())<0){
+                                return;
+                            }
                             tricktionary.get(Integer.parseInt(id0.getKey()))
                                     .get(Integer.parseInt(id1.getKey()))
                                     .setCompleted(true);
@@ -193,8 +196,6 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
         else{
-            Log.e("Nooo","no uid");
-            Log.e("Nooo",tricktionary.get(0).toString());
             Intent intent = new Intent(this, Tricktionary.class);
             startActivity(intent);
             finish();
@@ -203,7 +204,7 @@ public class SplashActivity extends AppCompatActivity {
     public int getTotalTricks(){
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         DatabaseReference checklist=fb.getReference("stats").child("tricks").child("total");
-        checklist.addValueEventListener(new ValueEventListener() {
+        checklist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("Totals",dataSnapshot.getKey().toString()+"  "+dataSnapshot.getValue().toString());

@@ -34,7 +34,7 @@ public class ExpandableListData extends ContactActivity {
 
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         DatabaseReference myRef=fb.getReference("contact").child(mAuth.getCurrentUser().getUid());
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
