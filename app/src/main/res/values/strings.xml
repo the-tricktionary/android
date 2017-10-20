@@ -19,10 +19,7 @@
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
     <!-- Strings related to Settings -->
-=======
-
-
-
+    =======
 
 
     <string-array name="pref_sync_frequency_values">
@@ -38,7 +35,7 @@
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
->>>>>>> Stashed changes
+    >>>>>>> Stashed changes
     <string name="logo_transition">36420</string>
     <string name="tricktionary_transition">42036</string>
 

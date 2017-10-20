@@ -56,6 +56,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,7 +75,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     private TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
 
     //declare image views
-    private ImageView fisacExpand, wjrVerified, fisacVerified;
+    private ImageView fisacExpand, wjrVerified, fisacVerified, fullScreen;
 
     //completed trick checkbox and email replies
     private CheckBox trickCompleted,emailReplies;
@@ -127,6 +128,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();
         setContentView(R.layout.main_activity_toolbar_layout);
+
+        if(currentTrick==null){
+            Toast.makeText(this,"Oops, something went wrong loading that trick!",Toast.LENGTH_LONG);
+            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+            startActivity(intent);
+            finish();
+        }
         setupWindowAnimations();
 
         //declare, initialize and set toolbar
@@ -169,6 +177,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         nextTricks=(TextView)findViewById(R.id.view_next);
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
         fisacExpand=(ImageView)findViewById(R.id.fisac_expand);
+        fullScreen=(ImageView)findViewById(R.id.view_full_screen);
         trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
         prereqsListView=(ListView)findViewById(R.id.prereqs_listview);
 
@@ -369,6 +378,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
             }
         });
+        fullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                youTubePlayer.setFullscreen(true);
+                youTubePlayer.setPlayerStyle(PlayerStyle.DEFAULT);
+            }
+        });
     }
 
     private void setupWindowAnimations() {
@@ -550,29 +566,34 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         startActivity(intent);
     }
     public void viewPrereqs(View v){
-        if(currentTrick.getPrereqs().length>0) {
-            PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
-            for (int j = 0; j < currentTrick.getPrereqs().length; j++) {
-                popupMenu.getMenu().add(Menu.NONE, j, Menu.NONE, tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
-            }
+        try {
+            if (currentTrick.getPrereqs().length > 0) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
+                for (int j = 0; j < currentTrick.getPrereqs().length; j++) {
+                    popupMenu.getMenu().add(Menu.NONE, j, Menu.NONE, tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
+                }
 
 
-            popupMenu.show();
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getTitle().equals("None")) {
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getTitle().equals("None")) {
+                            return true;
+                        }
+                        Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                        int pos = item.getItemId();
+                        currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
+                                .get(currentTrick.getPrereqsId1()[pos]);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
                         return true;
                     }
-                    Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                    int pos = item.getItemId();
-                    currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
-                            .get(currentTrick.getPrereqsId1()[pos]);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return true;
-                }
-            });
+                });
+            }
+        }
+        catch(Exception e){
+            FirebaseCrash.log("Error viewing prereqs "+e.getMessage());
         }
     }
     public void viewNextTricks(View v){
@@ -660,12 +681,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         v.setTextSize(width/dpi*scale);
     }
 
-
-    public void viewFullscreen(View v){
-        youTubePlayer.setFullscreen(true);
-        youTubePlayer.setPlayerStyle(PlayerStyle.DEFAULT);
-
-    }
 
 
     @Override

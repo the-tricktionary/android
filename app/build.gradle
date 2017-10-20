@@ -54,18 +54,21 @@ dependencies {
     compile "com.google.firebase:firebase-storage:$firebaseVersion"
     compile "com.google.firebase:firebase-perf:$firebaseVersion"
     //other
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile "com.android.support:appcompat-v7:$buildSdkVersion"
     compile "com.android.support:design:$buildSdkVersion"
     compile "com.android.support:support-v4:$buildSdkVersion"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+    compile files('libs/Graphs.jar')
+    compile 'org.apache.commons:commons-collections4:4.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
 }
 
 repositories {
     maven { url 'https://jitpack.io' }
+    jcenter()
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.firebase-perf'

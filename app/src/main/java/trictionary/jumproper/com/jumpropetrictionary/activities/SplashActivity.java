@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Window;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,68 +83,127 @@ public class SplashActivity extends AppCompatActivity {
                     tricktionary.add(new ArrayList<Trick>());
                 }
                 int index=0;
+                String name;
+                String description;
+                int id0,id1;
+                String type;
+                String video;
+                String wjrLevel;
+                String fisacLevel;
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
                         if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)!=null) {
                             SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
                             if (SettingsActivity.language.equals("Deutsch") && trick.child("i18n").child("de").getValue() != null) {
-                                mTrick = new Trick(trick.child("i18n").child("de").child("name").getValue().toString(),
-                                        trick.child("i18n").child("de").child("description").getValue().toString(),
-                                        Integer.parseInt(level.child("level").getValue().toString()),
-                                        index,
-                                        trick.child("type").getValue().toString(),
-                                        trick.child("video").getValue().toString(),
-                                        trick.child("levels").child("irsf").child("level").getValue().toString(),
-                                        trick.child("levels").child("wjr").child("level").getValue().toString(),
-                                        Integer.parseInt(trick.child("id1").getValue().toString()));
-                                mTrick.setPrereqIds(trick);
-                                tricktionary.get(mTrick.getId0()).add(mTrick);
-                                index++;
+                                try {
+                                    name = trick.child("i18n").child("de").child("name").getValue().toString();
+                                    description = trick.child("i18n").child("de").child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = trick.child("type").getValue().toString();
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                }
+                                catch(Exception e){
+                                    FirebaseCrash.log("Error loading DE trick" + e.getMessage());
+                                }
                             } else if (SettingsActivity.language.equals("Svenska") &&
                                     trick.child("i18n").child("sv").child("description").getValue() != null &&
                                     trick.child("i18n").child("sv").child("name").getValue() != null) {
-                                mTrick = new Trick(trick.child("i18n").child("sv").child("name").getValue().toString(),
-                                        trick.child("i18n").child("sv").child("description").getValue().toString(),
-                                        Integer.parseInt(level.child("level").getValue().toString()),
-                                        index,
-                                        trick.child("type").getValue().toString(),
-                                        trick.child("video").getValue().toString(),
-                                        trick.child("levels").child("irsf").child("level").getValue().toString(),
-                                        trick.child("levels").child("wjr").child("level").getValue().toString(),
-                                        Integer.parseInt(trick.child("id1").getValue().toString()));
-                                mTrick.setPrereqIds(trick);
-                                tricktionary.get(mTrick.getId0()).add(mTrick);
-                                index++;
-                            } else {
-                                mTrick = new Trick(trick.child("name").getValue().toString(),
-                                        trick.child("description").getValue().toString(),
-                                        Integer.parseInt(level.child("level").getValue().toString()),
-                                        index,
-                                        trick.child("type").getValue().toString(),
-                                        trick.child("video").getValue().toString(),
-                                        trick.child("levels").child("irsf").child("level").getValue().toString(),
-                                        trick.child("levels").child("wjr").child("level").getValue().toString(),
-                                        Integer.parseInt(trick.child("id1").getValue().toString()));
-                                mTrick.setPrereqIds(trick);
-                                tricktionary.get(mTrick.getId0()).add(mTrick);
-                                index++;
-                                Log.e("Tricks",mTrick.getName()+" "+mTrick.getId0()+":"+mTrick.getId1());
+                                try {
+                                    name = trick.child("i18n").child("sv").child("name").getValue().toString();
+                                    description = trick.child("i18n").child("sv").child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = trick.child("type").getValue().toString();
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                }
+                                catch(Exception e){
+                                    FirebaseCrash.log("Error loading SV trick" + e.getMessage());
+                                }
+
+                            }
+                            else {
+                                try {
+                                    name = trick.child("name").getValue().toString();
+                                    description = trick.child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = trick.child("type").getValue().toString();
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                }
+                                catch(Exception e){
+                                    FirebaseCrash.log("Error loading EN trick" + e.getMessage());
+                                }
                             }
                         }
                         else {
-                            mTrick = new Trick(trick.child("name").getValue().toString(),
-                                    trick.child("description").getValue().toString(),
-                                    Integer.parseInt(level.child("level").getValue().toString()),
-                                    index,
-                                    trick.child("type").getValue().toString(),
-                                    trick.child("video").getValue().toString(),
-                                    trick.child("levels").child("irsf").child("level").getValue().toString(),
-                                    trick.child("levels").child("wjr").child("level").getValue().toString(),
-                                    Integer.parseInt(trick.child("id1").getValue().toString()));
-                            mTrick.setPrereqIds(trick);
-                            tricktionary.get(mTrick.getId0()).add(mTrick);
-                            index++;
-                            Log.e("Tricks",mTrick.getName());
+                            try {
+                                name = trick.child("name").getValue().toString();
+                                description = trick.child("description").getValue().toString();
+                                id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                type = trick.child("type").getValue().toString();
+                                video = trick.child("video").getValue().toString();
+                                fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                mTrick = new Trick(name,
+                                        description,
+                                        id0,
+                                        index,
+                                        type,
+                                        video,
+                                        fisacLevel,
+                                        wjrLevel,
+                                        id1);
+                                mTrick.setPrereqIds(trick);
+                                tricktionary.get(mTrick.getId0()).add(mTrick);
+                                index++;
+                            }
+                            catch(Exception e){
+                                FirebaseCrash.log("Error loading EN trick" + e.getMessage());
+                            }
                         }
                     }
                 }

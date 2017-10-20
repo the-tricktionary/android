@@ -188,6 +188,7 @@ public class Speed extends AppCompatActivity {
     public void startTimer(View v){
         firstTap=false; //first tap no longer starts the timer
         counter.setText(""+0); //always start back at zero
+        timeInHundredths=0L;
         if (t == 1) { //if an event hasn't already happened
 
             MediaPlayer eventTrack=time_1x30; //default timing track of 1x30
@@ -328,6 +329,7 @@ public class Speed extends AppCompatActivity {
     public void runTimer(){
         //reset scores and times
         numJumps=0;
+
         jumps.clear();
         times.clear();
         time.setTextSize(TypedValue.COMPLEX_UNIT_DIP,50); //resize timer text to 50dp

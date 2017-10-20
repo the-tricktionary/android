@@ -598,7 +598,9 @@ public class SpeedGraph extends BaseActivity {
                 //prompt user for name
                 FirebaseDatabase fb=FirebaseDatabase.getInstance();
                 final DatabaseReference myRef=fb.getReference("speed").child("scores");
-                myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).child("name").setValue(name.getText().toString());
+                if(mAuth.getCurrentUser().getUid()!=null) {
+                    myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).child("name").setValue(name.getText().toString());
+                }
 
             }
         });
