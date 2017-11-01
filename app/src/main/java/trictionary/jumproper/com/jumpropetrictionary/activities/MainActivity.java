@@ -571,6 +571,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 for (int j = 0; j < currentTrick.getPrereqs().length; j++) {
                     prereqs.add(tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
                 }
+            }
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, prereqs);
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             prereqsSpinner.setAdapter(adapter);
@@ -596,7 +597,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
                 }
             });
-            }
         }
         catch(Exception e){
             FirebaseCrash.log("Error viewing prereqs "+e.getMessage());
