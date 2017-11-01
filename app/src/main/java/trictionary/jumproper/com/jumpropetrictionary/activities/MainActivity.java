@@ -19,7 +19,6 @@ import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,7 +29,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -72,10 +70,12 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, AppCompatCallback {
     //declare text views
-    private TextView level, type, prereqs, nextTricks, trickName, trickDescription, fisacLevel;
+    private TextView level, type, trickName, trickDescription, fisacLevel;
 
     //declare image views
     private ImageView fisacExpand, wjrVerified, fisacVerified, fullScreen;
+
+    private Spinner prereqsSpinner, nextTricksSpinner;
 
     //completed trick checkbox and email replies
     private CheckBox trickCompleted,emailReplies;
@@ -95,8 +95,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     //current trick being viewed in MainActivity
     public static Trick currentTrick;
 
-    //declare prereqs listview
-    private ListView prereqsListView;
 
     //declare Trick array and index of current trick
     private ArrayList<ArrayList<Trick>> tricktionary;
@@ -173,13 +171,12 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         level.setText("WJR Level: " + currentTrick.getWjrLevel());
         type=(TextView)findViewById(R.id.type_label);
         type.setText(currentTrick.getType());
-        prereqs=(TextView)findViewById(R.id.view_prereqs);
-        nextTricks=(TextView)findViewById(R.id.view_next);
         fisacLevel=(TextView)findViewById(R.id.fisac_level);
         fisacExpand=(ImageView)findViewById(R.id.fisac_expand);
         fullScreen=(ImageView)findViewById(R.id.view_full_screen);
         trickCompleted=(CheckBox)findViewById(R.id.trick_completed);
-        prereqsListView=(ListView)findViewById(R.id.prereqs_listview);
+        prereqsSpinner=(Spinner)findViewById(R.id.prereqs_spinner);
+        nextTricksSpinner=(Spinner)findViewById(R.id.next_tricks_spinner);
 
         if(currentTrick==null){
             finish();
@@ -199,13 +196,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             trickCompleted.setChecked(true);
         }
 
+        setPrereqs();
+        setNextTricks();
         scaleText(trickDescription,7);
         scaleText(trickName,8);
         scaleText(level,7);
         scaleText(fisacLevel,7);
         scaleText(type,7);
-        scaleText(prereqs,7);
-        scaleText(nextTricks,7);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestServerAuthCode(getString(R.string.google_sign_in_auth_id))
@@ -241,6 +238,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 // ...
             }
         };
+
 
         trickCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -565,43 +563,50 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         finish();
         startActivity(intent);
     }
-    public void viewPrereqs(View v){
+    public void setPrereqs(){
         try {
+            ArrayList<String> prereqs=new ArrayList<>();
+            prereqs.add("Prerequisites:");
             if (currentTrick.getPrereqs().length > 0) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, prereqs);
                 for (int j = 0; j < currentTrick.getPrereqs().length; j++) {
-                    popupMenu.getMenu().add(Menu.NONE, j, Menu.NONE, tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
+                    prereqs.add(tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
+                }
+            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, prereqs);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            prereqsSpinner.setAdapter(adapter);
+            prereqsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    String item = adapterView.getItemAtPosition(i).toString();
+                    if (item.equals("Prerequisites:")) {
+                        return;
+                    }
+                    Toast.makeText(MainActivity.this, item, Toast.LENGTH_SHORT).show();
+                    int pos = i-1;
+                    currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
+                            .get(currentTrick.getPrereqsId1()[pos]);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
                 }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getTitle().equals("None")) {
-                            return true;
-                        }
-                        Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                        int pos = item.getItemId();
-                        currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
-                                .get(currentTrick.getPrereqsId1()[pos]);
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        return true;
-                    }
-                });
+                }
+            });
             }
         }
         catch(Exception e){
             FirebaseCrash.log("Error viewing prereqs "+e.getMessage());
         }
     }
-    public void viewNextTricks(View v){
-        PopupMenu popupMenu = new PopupMenu(MainActivity.this, nextTricks);
-
+    public void setNextTricks(){
+        ArrayList<String> nextTricks=new ArrayList<>();
         ArrayList<Integer> nextTricksId0=new ArrayList<Integer>();
         ArrayList<Integer> nextTricksId1=new ArrayList<Integer>();
-
+        nextTricks.add("Next Tricks:");
         for(int j=currentTrick.getId0();j<tricktionary.size();j++) { //dont bother looking at levels before this level
             for (Trick mTrick : tricktionary.get(j)) {
                 for (int i = 0; i < mTrick.getPrereqs().length; i++) {
@@ -609,8 +614,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                         if (mTrick.getPrereqsId0()[i] == currentTrick.getId0()) {
                             if (mTrick.getPrereqsId1()[i] == currentTrick.getId1()) {
                                 if (!(mTrick.equals(currentTrick))) {
-                                    popupMenu.getMenu().add(Menu.NONE, nextTricksId0.size(), Menu.NONE, mTrick.getName());
-                                    Log.e("Next Tricks", mTrick.getId0() + " " + mTrick.getId1() + " i=" + nextTricksId0.size());
+                                    nextTricks.add(mTrick.getName());
                                     nextTricksId0.add(mTrick.getId0());
                                     nextTricksId1.add(mTrick.getId1());
                                 }
@@ -620,32 +624,34 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 }
             }
         }
-        Log.e("Next Trick Ids",nextTricksId0.toString()+" : "+nextTricksId1.toString());
         currentTrick.setNextTricksId0(nextTricksId0);
         currentTrick.setNextTricksId1(nextTricksId1);
-
-        if (popupMenu.getMenu().size()==0)
-            popupMenu.getMenu().add("None");
-        popupMenu.show();
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getTitle().equals("None")){
-                    return true;
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, nextTricks);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        nextTricksSpinner.setAdapter(adapter);
+        nextTricksSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                if(item.equals("Next Tricks:")){
+                    return;
                 }
-                Toast.makeText(MainActivity.this,item.getTitle(), Toast.LENGTH_SHORT).show();
-                int pos=item.getItemId();
-                Log.e("Next tricks",""+pos+" "+item.getTitle());
+                Toast.makeText(MainActivity.this,item, Toast.LENGTH_SHORT).show();
+                int pos=i-1;
                 currentTrick = tricktionary.get(currentTrick.getNextTricksId0().get(pos))
                         .get(currentTrick.getNextTricksId1().get(pos));
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
-                return true;
+                return;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
-
     }
+
     public ArrayList<ArrayList<Trick>> getTricktionary(){
         return tricktionary;
     }

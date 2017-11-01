@@ -105,7 +105,9 @@ public class Profile extends BaseActivity {
 
         DownloadImageTask downloadImage=new DownloadImageTask(mAuth,profileImage);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+            if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
+                downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+            }
         }
         populateLists();
     }
