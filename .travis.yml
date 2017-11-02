@@ -12,8 +12,8 @@ env:
     secure: 48idHe1AbPguI3WNaVhvMAUocuLxnDxI81iVV/kra8n8+frk5e21rYQHNcPKjKI95O31VACFCNqmaXOUaFpC4N4U0B7lQq7ve/IzE8uDrZ3pi6u0gbA0njH5ZIlTYxV72nFDoLgL3WI5fTKs8TDSpHJq3IiuBEqgjBJUEJ0kZh1QCCN7x8grFslAp5e9v9U3f0upW9+eW89e43VGLdKXKjjizQyhcMiFdJPYxQPcYQ9kmwNWJCjVy2JZqxN/6AQsnua5TPPZvQ7L1hHTUlQiq0YjVmxMHyzU+0ERHKuV2ya5EXnzIKwsJxRtjCxptyduONcQjU5gcF+ZMfkW8i/CwwZb+dUyMLbnXg4p+zFoDLc7uI/avdlXUC2fs9APnNEKdJprx9XkPWYW6cxvjGFE77fWrTORJAnemXr8qIoiAJK+/PjkbKuVhFe479szYyQoEvf7s+yj5hs7tv1HwitN7bdFD5vArorT8FBNWzH05PbSS96RiCaicD5/WxC4WIyA94keiFyne4spEfZWd3xBcIALS1aZGx6us3petltoL3Yrh/9lRTUDzvG1QqtjqTR0IF2b+0/x83ZRRXoqXYvAvCBou1jTHnohRPgDFJB2awhXPgZZBKQ3RLNcXqt9C4AvLPFa/F5QmtAvGXwQsbrf48LULd6TxziglciLZXCceOM=
 before_install:
 - mkdir "$ANDROID_HOME/licenses" || true
-- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- echo -n -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -n -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 - openssl aes-256-cbc -K $encrypted_b0074ce3ce68_key -iv $encrypted_b0074ce3ce68_iv
   -in developer_key_secret.xml.enc -out app/src/main/res/values/developer_key_secret.xml
   -d
