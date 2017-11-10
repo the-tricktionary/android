@@ -144,11 +144,38 @@ public class SplashActivity extends AppCompatActivity {
                                     mTrick.setPrereqIds(trick);
                                     tricktionary.get(mTrick.getId0()).add(mTrick);
                                     index++;
-                                }
-                                catch(Exception e){
+                                } catch (Exception e) {
                                     FirebaseCrash.log("Error loading SV trick" + e.getMessage());
                                 }
-
+                            }
+                            else if (SettingsActivity.language.equals("Russian") &&
+                                    trick.child("i18n").child("ru").child("description").getValue() != null &&
+                                    trick.child("i18n").child("ru").child("name").getValue() != null) {
+                                try {
+                                    name = trick.child("i18n").child("ru").child("name").getValue().toString();
+                                    description = trick.child("i18n").child("ru").child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = trick.child("type").getValue().toString();
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                }
+                                catch(Exception e){
+                                    FirebaseCrash.log("Error loading RU trick" + e.getMessage());
+                                }
                             }
                             else {
                                 try {

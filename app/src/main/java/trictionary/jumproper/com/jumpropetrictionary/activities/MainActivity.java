@@ -145,11 +145,15 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //initialize analytic object and log an event
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
-        if(currentTrick.getName()!=null) {
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, currentTrick.getName());
-            mFirebaseAnalytics.logEvent("view_trick", bundle);
+        if(currentTrick!=null) {
+            if(currentTrick.getName()!=null) {
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, currentTrick.getName());
+                mFirebaseAnalytics.logEvent("view_trick", bundle);
+            }
         }
         else{
+            FirebaseCrash.log("Error in MainActivity, currentTrick was null");
+            Toast.makeText(this,"Sorry, an error occured loading that trick.",Toast.LENGTH_LONG);
             finish();
         }
 

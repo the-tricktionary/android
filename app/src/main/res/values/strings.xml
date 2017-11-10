@@ -62,6 +62,7 @@
         <item>English</item>
         <item>Deutsch</item>
         <item>Svenska</item>
+        <item>Russian</item>
     </string-array>
 
     <string-array name="player_styles">
