@@ -2,10 +2,11 @@ language: android
 jdk: oraclejdk8
 android:
   components:
+  - tools
   - platform-tools
   - tools
-  - build-tools-25.0.2
-  - android-25
+  - build-tools-26.0.1
+  - android-26
   - extra
 env:
   global:
@@ -14,16 +15,18 @@ before_install:
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-- openssl aes-256-cbc -K $encrypted_b0074ce3ce68_key -iv $encrypted_b0074ce3ce68_iv
-  -in developer_key_secret.xml.enc -out app/src/main/res/values/developer_key_secret.xml
-  -d
+- openssl aes-256-cbc -K $encrypted_b0074ce3ce68_key -iv $encrypted_b0074ce3ce68_iv -in developer_key_secret.xml.enc -out app/src/main/res/values/developer_key_secret.xml -d
+install:
+- yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.0"
+- yes | android update sdk --no-ui --all --filter extra-android-support
+- yes | android update sdk --no-ui --all --filter extra-android-m2repository
+- yes | android update sdk --no-ui --all --filter extra-google-m2repository
 before_script:
 - chmod +x ./gradlew
 script:
 - "./gradlew -q assembleDebug"
 after_success:
-- openssl aes-256-cbc -K $deploy_key_pass -iv $deploy_key_iv -in deploy.key.enc -out
-  deploy.key -d && chmod go-rwx deploy.key || true
+- openssl aes-256-cbc -K $deploy_key_pass -iv $deploy_key_iv -in deploy.key.enc -out deploy.key -d && chmod go-rwx deploy.key || true
 - chmod +x ./deploy.sh
 - "./deploy.sh"
 notifications:
