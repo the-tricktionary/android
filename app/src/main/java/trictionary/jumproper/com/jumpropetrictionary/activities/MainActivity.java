@@ -126,6 +126,8 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();
         setContentView(R.layout.main_activity_toolbar_layout);
+        //initialize auth object
+        mAuth = FirebaseAuth.getInstance();
 
         if(currentTrick==null){
             Toast.makeText(this,"Oops, something went wrong loading that trick!",Toast.LENGTH_LONG);
@@ -159,9 +161,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             Toast.makeText(this,"Sorry, an error occured loading that trick.",Toast.LENGTH_LONG);
             finish();
         }
-
-        //initialize auth object
-        mAuth = FirebaseAuth.getInstance();
 
         //display trick name
         toolbar.setTitle(currentTrick.getName());

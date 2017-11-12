@@ -115,7 +115,7 @@
                         android:typeface="normal"
                         android:visibility="gone" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/view_full_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                         android:src="@drawable/ic_fullscreen_black_24dp"
                         android:tint="@color/textColor" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/imageView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                         android:src="@drawable/ic_menu_share_material"
                         android:tint="@color/textColor" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/imageView22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                         android:tint="#ffd740"
                         android:visibility="invisible" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/fisac_expand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
