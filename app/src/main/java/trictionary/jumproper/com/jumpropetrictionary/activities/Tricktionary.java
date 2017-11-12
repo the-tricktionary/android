@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.perf.metrics.AddTrace;
 
@@ -39,6 +40,7 @@ public class Tricktionary extends BaseActivity{
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private FirebaseAuth mAuth;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static final String DASHES="  ";
     @Override
@@ -53,6 +55,18 @@ public class Tricktionary extends BaseActivity{
         loadingTricks = (ProgressBar)findViewById(R.id.loading_tricks);
         tricktionaryLayout=(FrameLayout)findViewById(R.id.tricktionary_layout);
         showCompletedTricks=(CheckBox)findViewById(R.id.checkBox);
+
+        //initialize analytic object and log an event
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        if(mAuth.getCurrentUser()!=null){
+            bundle.putString("user", mAuth.getCurrentUser().getUid());
+        }
+        else{
+            bundle.putString("user", "Guest");
+        }
+        mFirebaseAnalytics.logEvent("view_tricktionary", bundle);
+
 
         showCompletedTricks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

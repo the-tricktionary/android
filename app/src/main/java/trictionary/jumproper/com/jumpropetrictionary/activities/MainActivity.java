@@ -147,7 +147,10 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         Bundle bundle = new Bundle();
         if(currentTrick!=null) {
             if(currentTrick.getName()!=null) {
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, currentTrick.getName());
+                bundle.putString("trick_name", currentTrick.getName());
+                if(mAuth.getCurrentUser()!=null){
+                    bundle.putString("user", mAuth.getCurrentUser().getUid());
+                }
                 mFirebaseAnalytics.logEvent("view_trick", bundle);
             }
         }
@@ -590,6 +593,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                     int pos = i-1;
                     currentTrick = tricktionary.get(currentTrick.getPrereqsId0()[pos])
                             .get(currentTrick.getPrereqsId1()[pos]);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("prereq",currentTrick.getName());
+                    mFirebaseAnalytics.logEvent("view_prereq", bundle);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -644,6 +650,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                 int pos=i-1;
                 currentTrick = tricktionary.get(currentTrick.getNextTricksId0().get(pos))
                         .get(currentTrick.getNextTricksId1().get(pos));
+                Bundle bundle = new Bundle();
+                bundle.putString("next_trick",currentTrick.getName());
+                mFirebaseAnalytics.logEvent("view_next_trick", bundle);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
