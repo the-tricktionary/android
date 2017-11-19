@@ -7,6 +7,7 @@ langs="$(curl "${url}")"
 echo "doownloading langs"
 curl --create-dirs -o "app/src/main/res/values-#1/strings.xml" "${url}{${langs}}"
 
+echo "moving en to base"
 mv "app/src/main/res/values-en/strings.xml" "app/src/main/res/values/strings.xml"
 rmdir "app/src/main/res/values-en"
 
