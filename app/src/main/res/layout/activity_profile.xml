@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
     <ImageView
-        app:srcCompat="@drawable/ic_account_circle_black_24dp"
+        android:src="@drawable/ic_account_circle_black_24dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/profile_image"
@@ -314,7 +314,7 @@
             android:layout_toStartOf="@+id/profile_image"
             android:onClick="shareProfile"
             android:padding="8dp"
-            app:srcCompat="@drawable/ic_menu_share_material" />
+            android:src="@drawable/ic_menu_share_material" />
 
     </RelativeLayout>
 </ScrollView>
