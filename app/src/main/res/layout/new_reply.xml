@@ -5,19 +5,19 @@
     android:padding="20dp">
 
     <EditText
+        android:id="@+id/name_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/name_text"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
-        android:hint="Your name" />
+        android:hint="@string/contact_name_hint"
+        android:padding="10dp" />
 
     <EditText
+        android:id="@+id/reply_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/reply_text"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
         android:layout_marginTop="10dp"
-        android:hint="Your reply" />
+        android:hint="@string/contact_reply"
+        android:padding="10dp" />
 </LinearLayout>

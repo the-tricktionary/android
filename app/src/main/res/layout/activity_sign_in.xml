@@ -19,12 +19,12 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
+        android:id="@+id/textView27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signing in..."
-        android:id="@+id/textView27"
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true"
         android:padding="10dp"
+        android:text="@string/signing_in"
         android:textSize="16dp" />
 </RelativeLayout>

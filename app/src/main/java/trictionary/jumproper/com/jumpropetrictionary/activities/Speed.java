@@ -311,7 +311,7 @@ public class Speed extends AppCompatActivity {
             secs = 0;
             mins = 0;
             hundredths = 0;
-            startButton.setText("Start");
+            startButton.setText(R.string.speed_start_button);
             firstTap=true;
             //numJumps=0;
             timeSwapBuff += timeInHundredths;
@@ -409,7 +409,7 @@ public class Speed extends AppCompatActivity {
         popupMenu.getMenu().add("2:00");
         popupMenu.getMenu().add("3:00");
         popupMenu.getMenu().add("∞");
-        popupMenu.getMenu().add("Custom"); //we'll handle you later
+        popupMenu.getMenu().add(R.string.speed_custom); //we'll handle you later
 
 
 
@@ -439,15 +439,15 @@ public class Speed extends AppCompatActivity {
                     eventLength=-1;
                 }
                 else{ //picking custom time
-                    duration.setText("Custom");
+                    duration.setText(R.string.speed_custom);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(Speed.this); //new alert dialog
-                    builder.setTitle("Custom Time"); //dialog title
+                    builder.setTitle(R.string.speed_custom); //dialog title
                     LayoutInflater inflater = (LayoutInflater)Speed.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
                     final View textBoxes=inflater.inflate(R.layout.custom_time_picker,null); //custom layout file now a view object
                     builder.setView(textBoxes); //set view to custom layout
                     // Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //prompt user for minutes and seconds
@@ -465,7 +465,7 @@ public class Speed extends AppCompatActivity {
                             duration.setText(minutes.getText().toString()+":"+String.format("%02d",Integer.parseInt(seconds.getText().toString())));
                         }
                     });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();

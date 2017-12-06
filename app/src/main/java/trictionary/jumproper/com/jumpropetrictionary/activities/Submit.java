@@ -62,10 +62,10 @@ public class Submit extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
-        getSupportActionBar().setTitle("Submit Tricks");
+        getSupportActionBar().setTitle(R.string.title_activity_submit);
         //make sure device has a camera
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            Toast.makeText(this,"Sorry, you need a camera to submit tricks!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.submit_camera_needed, Toast.LENGTH_SHORT).show();
             finish();
         }
         mAuth=FirebaseAuth.getInstance();
@@ -100,8 +100,8 @@ public class Submit extends BaseActivity {
         mNotifyManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setContentTitle("Uploading Trick")
-                .setContentText("Upload in progress...")
+        mBuilder.setContentTitle(getString(R.string.submit_uploading))
+                .setContentText(getString(R.string.submit_upload_in_progress))
                 .setSmallIcon(R.drawable.icon_notify);
 
     }
@@ -128,7 +128,7 @@ public class Submit extends BaseActivity {
         intent.setType("video/*");
 
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_GALLERY_VIDEO);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.submit_select_video)), REQUEST_GALLERY_VIDEO);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -175,7 +175,7 @@ public class Submit extends BaseActivity {
     }
     public void startUpload(View v){
         if(videoUri==null){
-            Toast.makeText(Submit.this,"You must select a video first.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Submit.this, R.string.submit_select_video_toast,Toast.LENGTH_SHORT).show();
             return;
         }
         else if (mAuth.getCurrentUser()==null){
@@ -187,13 +187,11 @@ public class Submit extends BaseActivity {
         description=trickDescription.getText().toString();
         level=trickLevel.getText().toString();
         if(name.equals("")){
-            Toast.makeText(Submit.this,"Please enter a name.  The other fields are optional.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Submit.this, R.string.submit_please_enter_name,Toast.LENGTH_SHORT).show();
             return;
         }
         v.setVisibility(View.INVISIBLE);
-        Log.e("Upload","URI "+videoUri.getPath()+" "+videoUri.getAuthority());
         StorageReference uploadRef=storageRef.child("submit").child("trick_"+System.currentTimeMillis());
-        Log.e("Upload","Path "+uploadRef.getPath());
         StorageMetadata metadata = new StorageMetadata.Builder()
                 .setContentType(getContentResolver().getType(videoUri))
                 .setCustomMetadata("user", mAuth.getCurrentUser().getEmail())
@@ -206,20 +204,20 @@ public class Submit extends BaseActivity {
 
         fileSize=uploadTask.getSnapshot().getTotalByteCount();
         if(fileSize>100*1024*1024){
-            Toast.makeText(Submit.this,"Sorry this video is too large.  The maximum size is 100Mb and your video is "+(fileSize/(1024*1024))+"Mb",Toast.LENGTH_LONG).show();
+            Toast.makeText(Submit.this,getString(R.string.submit_video_too_large)+(fileSize/(1024*1024))+"Mb",Toast.LENGTH_LONG).show();
             Intent intent = getIntent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             finish();
             startActivity(intent);
             return;
         }
-        Toast.makeText(Submit.this,"Starting upload.  You can see its progress in the notification bar.",Toast.LENGTH_LONG).show();
+        Toast.makeText(Submit.this, R.string.submit_starting_upload_toast,Toast.LENGTH_LONG).show();
         mBuilder.setProgress((int)fileSize, 0, false);
         mNotifyManager.notify(notifyId, mBuilder.build()); //display notification
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Submit.this,"Sorry your video could not be uploaded at this time.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Submit.this, R.string.submit_upload_failed,Toast.LENGTH_SHORT).show();
                 Log.e("Upload",e.toString()+" "+e.getCause().toString());
                 Log.e("Upload","Auth: "+mAuth.getCurrentUser().getEmail());
             }
@@ -236,9 +234,9 @@ public class Submit extends BaseActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 mBuilder.setProgress(0,0,false);
-                mBuilder.setContentText("Upload complete, thank you!");
+                mBuilder.setContentText(getString(R.string.submit_upload_complete));
                 mNotifyManager.notify(notifyId, mBuilder.build()); //display notification
-                Toast.makeText(Submit.this,"Thank you for your submission! We will review it as soon as possible!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Submit.this, R.string.submit_thanks,Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

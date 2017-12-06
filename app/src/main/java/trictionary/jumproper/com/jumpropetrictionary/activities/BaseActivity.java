@@ -60,18 +60,18 @@ public class BaseActivity extends AppCompatActivity {
         mDrawerList.setItemChecked(position, true);
         Log.e("Classes",mNavItems.get(position).mClass.getCanonicalName()+" : "+getClass().getCanonicalName());
         if(!mNavItems.get(position).mClass.getCanonicalName().equals(getClass().getCanonicalName())) {
-            if(mNavItems.get(position).mTitle.equals("Contact") && mAuth.getCurrentUser()==null){
+            if(mNavItems.get(position).mTitle.equals(getString(R.string.title_activity_contact)) && mAuth.getCurrentUser()==null){
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-                mBuilder.setTitle("Profile");
-                mBuilder.setMessage("You must sign in to send and view feedback, and so we can answer you.");
-                mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                mBuilder.setTitle(getString(R.string.title_activity_profile));
+                mBuilder.setMessage(getString(R.string.contact_sign_in_prompt));
+                mBuilder.setPositiveButton(getString(R.string.sign_in), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent=new Intent(getApplicationContext(),SignIn.class);
                         startActivity(intent);
                     }
                 });
-                mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                mBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
@@ -84,7 +84,7 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-        else if(mNavItems.get(position).mTitle.equals("Instagram")){
+        else if(mNavItems.get(position).mTitle.equals(getString(R.string.instagram))){
             Uri uri = Uri.parse("https://www.instagram.com/p/BSrBPgEDoqT/");
             Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
@@ -93,18 +93,17 @@ public class BaseActivity extends AppCompatActivity {
             try {
                 this.startActivity(likeIng);
             } catch (ActivityNotFoundException e) {
-                Log.e("Activity not found",e.toString());
                 this.startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://www.instagram.com/jumpropetricktionary/")));
             }
         }
-        else if(mNavItems.get(position).mTitle.equals("Web")){
+        else if(mNavItems.get(position).mTitle.equals(getString(R.string.web))){
             String url = "https://the-tricktionary.com/";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
         }
-        else if(mNavItems.get(position).mTitle.equals("Sign Out")){
+        else if(mNavItems.get(position).mTitle.equals(getString(R.string.sign_out))){
             mAuth.signOut();
             Intent intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
@@ -141,16 +140,16 @@ public class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mNavItems.add(new NavItem("Tricktionary", "Home page", R.drawable.ic_video_library_black_24dp,Tricktionary.class));
-        mNavItems.add(new NavItem("Speed Timer", "Click speed events", R.drawable.ic_timer_black_24dp,Speed.class));
-        mNavItems.add(new NavItem("Speed Data", "Store your speed scores", R.drawable.ic_assessment_black_24dp,SpeedGraph.class));
-        mNavItems.add(new NavItem("Submit", "Send in your jump rope tricks", R.drawable.ic_file_upload_black_24dp,Submit.class));
-        mNavItems.add(new NavItem("Instagram", "@jumpropetricktionary", R.drawable.icon_alpha_small,Tricktionary.class));
-        mNavItems.add(new NavItem("Web", "the-tricktionary.com", R.drawable.ic_public_black_24dp,Tricktionary.class));
-        mNavItems.add(new NavItem("Contact","View your past feedback",R.drawable.ic_message_black_24dp,ContactActivity.class));
-        mNavItems.add(new NavItem("Show Writer", "Spread routines evenly", R.drawable.ic_assignment_black_24dp, Names.class));
-        mNavItems.add(new NavItem("Settings", "Language and video settings", R.drawable.ic_settings_black_48dp, SettingsActivity.class));
-        mNavItems.add(new NavItem("Sign Out", "", R.drawable.ic_account_circle_black_24dp, Tricktionary.class));
+        mNavItems.add(new NavItem(getString(R.string.title_activity_tricktionary), getString(R.string.home_page), R.drawable.ic_video_library_black_24dp,Tricktionary.class));
+        mNavItems.add(new NavItem(getString(R.string.speed_timer), getString(R.string.speed_drawer_description), R.drawable.ic_timer_black_24dp,Speed.class));
+        mNavItems.add(new NavItem(getString(R.string.title_activity_speed_graph), getString(R.string.speed_data_drawer_description), R.drawable.ic_assessment_black_24dp,SpeedGraph.class));
+        mNavItems.add(new NavItem(getString(R.string.title_activity_submit), getString(R.string.submit_drawer_description), R.drawable.ic_file_upload_black_24dp,Submit.class));
+        mNavItems.add(new NavItem(getString(R.string.instagram), "@jumpropetricktionary", R.drawable.icon_alpha_small,Tricktionary.class));
+        mNavItems.add(new NavItem(getString(R.string.web), "the-tricktionary.com", R.drawable.ic_public_black_24dp,Tricktionary.class));
+        mNavItems.add(new NavItem(getString(R.string.title_activity_contact),getString(R.string.contact_drawer_description),R.drawable.ic_message_black_24dp,ContactActivity.class));
+        mNavItems.add(new NavItem(getString(R.string.title_activity_show), getString(R.string.show_drawer_description), R.drawable.ic_assignment_black_24dp, Names.class));
+        mNavItems.add(new NavItem(getString(R.string.title_activity_settings), getString(R.string.settings_drawer_description), R.drawable.ic_settings_black_48dp, SettingsActivity.class));
+        mNavItems.add(new NavItem(getString(R.string.sign_out), "", R.drawable.ic_account_circle_black_24dp, Tricktionary.class));
 
         mDrawerPane = (RelativeLayout) mDrawerLayout.findViewById(R.id.drawerPane);
         mDrawerList = (ListView) mDrawerLayout.findViewById(R.id.navList);

@@ -91,14 +91,6 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/rafiki_3" />
 
-                <ImageView
-                    android:id="@+id/rafiki_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:layout_below="@+id/rafiki_3"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/rafiki_5" />
-
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
@@ -124,29 +116,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/rafiki_5"
                     android:padding="50dp">
-
-                    <ImageView
-                        android:id="@+id/imageView18"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_toEndOf="@+id/space4"
-                        android:onClick="openFacebook"
-                        android:src="@drawable/ic_public_black_24dp" />
-
-                    <ImageView
-                        android:id="@+id/imageView20"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:layout_toStartOf="@+id/space4"
-                        android:onClick="sendEmail"
-                        android:src="@android:drawable/ic_dialog_email"
-                        android:tint="@android:color/black" />
 
                     <Space
                         android:id="@+id/space4"
@@ -155,6 +125,27 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true" />
                 </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/imageView20"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignStart="@+id/textView15"
+                    android:layout_below="@+id/rafiki_3"
+                    android:layout_margin="16dp"
+                    android:onClick="sendEmail"
+                    android:src="@android:drawable/ic_dialog_email"
+                    android:tint="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/imageView18"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignEnd="@+id/textView15"
+                    android:layout_below="@+id/rafiki_3"
+                    android:layout_margin="16dp"
+                    android:onClick="openFacebook"
+                    app:srcCompat="@drawable/ic_public_black_24dp" />
 
             </RelativeLayout>
         </ScrollView>

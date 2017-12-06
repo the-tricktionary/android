@@ -15,7 +15,6 @@
         android:id="@+id/imageView2"
         android:src="@drawable/icon_alpha"
         android:padding="10dp"
-        android:onClick="mainMenu"
         android:clickable="true"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
@@ -41,12 +40,12 @@
         android:layout_alignTop="@+id/scrollView2" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:hint="Search the Tricktionary" />
+        android:hint="@string/search_hint" />
 
     <ImageView
         android:layout_width="wrap_content"

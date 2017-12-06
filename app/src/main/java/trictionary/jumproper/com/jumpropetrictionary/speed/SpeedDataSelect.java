@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -22,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity;
 import trictionary.jumproper.com.jumpropetrictionary.activities.SpeedGraph;
 
 public class SpeedDataSelect extends BaseActivity {
@@ -33,7 +32,6 @@ public class SpeedDataSelect extends BaseActivity {
     ArrayList<String> dates;
     int pos;
     TextView tryRefresh;
-    ImageView refreshScore;
 
     List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
@@ -46,55 +44,15 @@ public class SpeedDataSelect extends BaseActivity {
         events=new ArrayList<>();
         scores=new ArrayList<>();
         dates=new ArrayList<>();
-        tryRefresh=(TextView)findViewById(R.id.try_refresh);
-        refreshScore=(ImageView)findViewById(R.id.refresh_scores);
 
         if(mUid==null){
-            Toast.makeText(SpeedDataSelect.this, "Sign in to view saved scores",
+            Toast.makeText(SpeedDataSelect.this, getString(R.string.speed_sign_in),
                     Toast.LENGTH_SHORT).show();
         }
         else{
             getEvents();
         }
 
-        SimpleAdapter eventAdapter = new SimpleAdapter(this,list,
-                                                        android.R.layout.simple_list_item_2,
-                                                        new String[] {"event","date"},
-                                                        new int[] {android.R.id.text1,
-                                                                    android.R.id.text2});
-
-        eventList.setAdapter(eventAdapter);
-
-        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                pos=i;
-                FirebaseDatabase fb = FirebaseDatabase.getInstance();
-                final DatabaseReference myRef = fb.getReference("speed").child("scores").child(mUid);
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot date:dataSnapshot.getChildren()) {
-                                if(date.child("name").getValue().toString().equals(events.get(pos))){
-                                    GenericTypeIndicator<SpeedData> sd = new GenericTypeIndicator<SpeedData>() {
-                                    };
-                                    SpeedGraph.data=date.getValue(sd);
-                                    SpeedGraph.finalDate=date.getKey().toString();
-                                    Intent intent = new Intent(SpeedDataSelect.this, SpeedGraph.class);
-                                    finish();
-                                    startActivity(intent);
-                                }
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        return;
-                    }
-                });
-            }
-        });
     }
     public void getEvents() {
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
@@ -110,7 +68,44 @@ public class SpeedDataSelect extends BaseActivity {
                         data.put("date",formatEpoch(date.getKey()));
                         list.add(data);
                 }
+                SimpleAdapter eventAdapter = new SimpleAdapter(SpeedDataSelect.this,list,
+                        android.R.layout.simple_list_item_2,
+                        new String[] {"event","date"},
+                        new int[] {android.R.id.text1,
+                                android.R.id.text2});
 
+                eventList.setAdapter(eventAdapter);
+
+                eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        pos=i;
+                        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+                        final DatabaseReference myRef = fb.getReference("speed").child("scores").child(mUid);
+                        myRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot date:dataSnapshot.getChildren()) {
+                                    if(date.child("name").getValue().toString().equals(events.get(pos))){
+                                        GenericTypeIndicator<SpeedData> sd = new GenericTypeIndicator<SpeedData>() {
+                                        };
+                                        SpeedGraph.data=date.getValue(sd);
+                                        SpeedGraph.finalDate=date.getKey().toString();
+                                        Intent intent = new Intent(SpeedDataSelect.this, SpeedGraph.class);
+                                        finish();
+                                        startActivity(intent);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                return;
+                            }
+                        });
+                    }
+                });
                 return;
             }
 

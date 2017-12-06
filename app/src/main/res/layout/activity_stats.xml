@@ -99,7 +99,7 @@
                 android:layout_below="@+id/tricks_mastered"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
-                android:text="Level 1:" />
+                android:text="@string/level_1" />
 
             <TextView
                 android:id="@+id/level_2_tricks_mastered"
@@ -108,7 +108,7 @@
                 android:layout_below="@+id/level_1_tricks_mastered"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
-                android:text="Level 2:" />
+                android:text="@string/level_2" />
 
             <TextView
                 android:id="@+id/level_3_tricks_mastered"
@@ -117,7 +117,7 @@
                 android:layout_below="@+id/level_2_tricks_mastered"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
-                android:text="Level 3:" />
+                android:text="@string/level_3" />
 
             <TextView
                 android:id="@+id/level_4_tricks_mastered"
@@ -126,18 +126,18 @@
                 android:layout_below="@+id/level_3_tricks_mastered"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
-                android:text="Level 4:" />
+                android:text="@string/level_4" />
 
             <TextView
                 android:id="@+id/tricks_mastered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="bottom"
-                android:text="Tricks Mastered:"
-                android:textAlignment="gravity"
                 android:layout_alignBaseline="@+id/num_tricks"
                 android:layout_alignBottom="@+id/num_tricks"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:foregroundGravity="bottom"
+                android:text="@string/total_tricks"
+                android:textAlignment="gravity" />
 
             <TextView
                 android:id="@+id/average_tricks_title"
@@ -146,7 +146,7 @@
                 android:layout_below="@+id/level_4_tricks_mastered"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
-                android:text="Average Tricks per User:" />
+                android:text="@string/avg_tricks" />
 
             <TextView
                 android:id="@+id/max_tricks_title"
@@ -155,7 +155,7 @@
                 android:layout_below="@+id/average_tricks_title"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
-                android:text="Max Tricks per User:" />
+                android:text="@string/max_tricks" />
         </RelativeLayout>
     </ScrollView>
 

@@ -146,7 +146,7 @@ public class Profile extends BaseActivity {
             for(Trick mTrick:completedTricks.get(j)) {
                 if (!mTrick.isCompleted()) {
                     j++;
-                } else if (mTrick.getType().equals("Basics")) {
+                } else if (mTrick.getType().equals(getString(R.string.basics))) {
                     basicsList.add(mTrick);
                 } else if (mTrick.getDifficulty() == 1) {
                     level1List.add(mTrick);
@@ -165,7 +165,7 @@ public class Profile extends BaseActivity {
         final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
         final ArrayList<Trick>level4Sorted=addWhiteSpace(sortTrickList(level4List));
 
-        final String[]ignoredStrings={"Multiples","Power","Manipulation","Releases", DASHES};
+        final String[]ignoredStrings={getString(R.string.multiples),getString(R.string.power),getString(R.string.manipulation),getString(R.string.releases), DASHES};
 
         final ArrayList[] trickLists = new ArrayList[]{basicsList,
                 level1Sorted,
@@ -209,28 +209,28 @@ public class Profile extends BaseActivity {
         Collections.sort(list, ((GlobalData) this.getApplication()).getCompareName());
         Collections.reverse(list);
 
-        sortedTricks.add(0,new Trick("Releases"));
-        sortedTricks.add(0,new Trick("Manipulation"));
-        sortedTricks.add(0,new Trick("Power"));
-        sortedTricks.add(0,new Trick("Multiples"));
+        sortedTricks.add(0,new Trick(getString(R.string.releases)));
+        sortedTricks.add(0,new Trick(getString(R.string.manipulation)));
+        sortedTricks.add(0,new Trick(getString(R.string.power)));
+        sortedTricks.add(0,new Trick(getString(R.string.multiples)));
         for(int j=0;j<list.size();j++){
 
-            if(list.get(j).getType().equals("Multiples")){
+            if(list.get(j).getType().equals(getString(R.string.multiples))){
                 sortedTricks.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals("Power")){
+            else if(list.get(j).getType().equals(getString(R.string.power))){
                 sortedTricks.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals("Manipulation")){
+            else if(list.get(j).getType().equals(getString(R.string.manipulation))){
                 sortedTricks.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(list.get(j).getType().equals("Releases")){
+            else if(list.get(j).getType().equals(getString(R.string.releases))){
                 sortedTricks.add(releases+1,list.get(j));
             }
 
@@ -245,7 +245,7 @@ public class Profile extends BaseActivity {
         ArrayList<Trick> sortedTricks= new ArrayList<>();
         for(int j=0;j<list.size();j++){
             sortedTricks.add(list.get(j));
-            if(list.get(j).getName().equals("Multiples")){
+            if(list.get(j).getName().equals(getString(R.string.multiples))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -256,7 +256,7 @@ public class Profile extends BaseActivity {
 
 
             }
-            if(list.get(j).getName().equals("Power")){
+            if(list.get(j).getName().equals(getString(R.string.power))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -266,7 +266,7 @@ public class Profile extends BaseActivity {
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals("Manipulation")){
+            if(list.get(j).getName().equals(getString(R.string.manipulation))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -276,7 +276,7 @@ public class Profile extends BaseActivity {
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals("Releases")){
+            if(list.get(j).getName().equals(getString(R.string.releases))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -305,7 +305,7 @@ public class Profile extends BaseActivity {
 
             //add a subject
             shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                    "My Tricktionary Profile");
+                    getString(R.string.profile_share));
 
             //build the body of the message to be shared
             String shareMessage = "https://the-tricktionary.com/profile/" + mAuth.getCurrentUser().getUid();
@@ -316,20 +316,20 @@ public class Profile extends BaseActivity {
 
             //start the chooser for sharing
             startActivity(Intent.createChooser(shareIntent,
-                    "Share your profile with:"));
+                    getString(R.string.profile_share_with)));
         }
         else{
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-            mBuilder.setTitle("Public Profile");
-            mBuilder.setMessage("You must set your profile to public to share");
-            mBuilder.setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
+            mBuilder.setTitle(R.string.profile_public);
+            mBuilder.setMessage(R.string.profile_public_prompt);
+            mBuilder.setPositiveButton(R.string.profile_go_to_settings, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent=new Intent(Profile.this,SettingsActivity.class);
                     startActivity(intent);
                 }
             });
-            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            mBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();

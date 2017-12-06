@@ -230,6 +230,7 @@ public class SplashActivity extends AppCompatActivity {
                             }
                             catch(Exception e){
                                 FirebaseCrash.log("Error loading EN trick" + e.getMessage());
+                                Log.e("Trick error", e.getMessage());
                             }
                         }
                     }
@@ -249,7 +250,7 @@ public class SplashActivity extends AppCompatActivity {
     }
     public void fillCompletedTricks(){
         Log.e("checklist", uId);
-        if(uId.length()>0) {
+        if(uId.length()>0 && tricktionary.size()>0) {
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist").child(uId);
             for(int j=0;j<levels;j++){
@@ -260,15 +261,28 @@ public class SplashActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot id0:dataSnapshot.getChildren()){
                         for(DataSnapshot id1:id0.getChildren()){
+                            Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                            Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
                             if(Integer.parseInt(id0.getKey())<0){
-                                return;
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
                             }
-                            tricktionary.get(Integer.parseInt(id0.getKey()))
-                                    .get(Integer.parseInt(id1.getKey()))
-                                    .setCompleted(true);
-                            completedTricks.get(Integer.parseInt(id0.getKey()))
-                                    .add(tricktionary.get(Integer.parseInt(id0.getKey()))
-                                            .get(Integer.parseInt(id1.getKey())));
+                            else if(Integer.parseInt(id0.getKey())>=  tricktionary.size()){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else if(Integer.parseInt(id1.getKey())>=  tricktionary.get(Integer.parseInt(id0.getKey())).size()){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else {
+                                tricktionary.get(Integer.parseInt(id0.getKey()))
+                                        .get(Integer.parseInt(id1.getKey()))
+                                        .setCompleted(true);
+                                completedTricks.get(Integer.parseInt(id0.getKey()))
+                                        .add(tricktionary.get(Integer.parseInt(id0.getKey()))
+                                                .get(Integer.parseInt(id1.getKey())));
+                            }
                         }
                     }
                     ((GlobalData) SplashActivity.this.getApplication()).setCompletedTricks(completedTricks);

@@ -4,16 +4,16 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter a name for this score (i.e a jumper&apos;s name or a team) so you can access it later.  This can be changed or deleted at any time."
-        android:id="@+id/textView9"
-        android:padding="20dp" />
+        android:padding="20dp"
+        android:text="@string/speed_score_name_prompt" />
 
     <EditText
+        android:id="@+id/enter_jumper_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/enter_jumper_name"
-        android:hint="Enter name"
+        android:hint="@string/speed_new_name"
         android:padding="20dp" />
 </LinearLayout>

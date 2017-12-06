@@ -42,7 +42,7 @@ public class Tricktionary extends BaseActivity{
     private FirebaseAuth mAuth;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public static final String DASHES="  ";
+    public static final String DASHES="";
     @Override
     @AddTrace(name = "tricktionaryOnCreateTrace")
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class Tricktionary extends BaseActivity{
                     LayoutInflater inflater = (LayoutInflater)Tricktionary.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
                     final View textBoxes=inflater.inflate(R.layout.complete_tricks_dialog,null); //custom layout file now a view object
                     builder.setView(textBoxes); //set view to custom layout
-                    builder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getString(R.string.sign_in), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(Tricktionary.this, SignIn.class);
@@ -84,7 +84,7 @@ public class Tricktionary extends BaseActivity{
                             dialog.cancel();
                         }
                     });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -200,7 +200,7 @@ public class Tricktionary extends BaseActivity{
             for(Trick mTrick:tricktionary.get(j)) {
                 if (mTrick.isChecklist()) {
                     Log.d("Tricks",mTrick.getName());
-                } else if (mTrick.getType().equals("Basics")) {
+                } else if (mTrick.getType().equals(getString(R.string.basics))) {
                     basicsList.add(mTrick);
                 } else if (mTrick.getDifficulty() == 1) {
                     level1List.add(mTrick);
@@ -268,28 +268,28 @@ public class Tricktionary extends BaseActivity{
         Collections.sort(list, ((GlobalData) this.getApplication()).getCompareName());
         Collections.reverse(list);
 
-        sortedTricks.add(0,new Trick("Releases"));
-        sortedTricks.add(0,new Trick("Manipulation"));
-        sortedTricks.add(0,new Trick("Power"));
-        sortedTricks.add(0,new Trick("Multiples"));
+        sortedTricks.add(0,new Trick(getString(R.string.releases)));
+        sortedTricks.add(0,new Trick(getString(R.string.manipulation)));
+        sortedTricks.add(0,new Trick(getString(R.string.power)));
+        sortedTricks.add(0,new Trick(getString(R.string.multiples)));
         for(int j=0;j<list.size();j++){
 
-            if(list.get(j).getType().equals("Multiples")){
+            if(list.get(j).getType().equals(getString(R.string.multiples))){
                 sortedTricks.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals("Power")){
+            else if(list.get(j).getType().equals(getString(R.string.power))){
                 sortedTricks.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals("Manipulation")){
+            else if(list.get(j).getType().equals(getString(R.string.manipulation))){
                 sortedTricks.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(list.get(j).getType().equals("Releases")){
+            else if(list.get(j).getType().equals(getString(R.string.releases))){
                 sortedTricks.add(releases+1,list.get(j));
             }
 
@@ -304,10 +304,10 @@ public class Tricktionary extends BaseActivity{
         ArrayList<Trick> sortedTricks= new ArrayList<>();
         for(int j=0;j<list.size();j++){
             sortedTricks.add(list.get(j));
-            if(list.get(j).getName().equals("Multiples")){
+            if(list.get(j).getName().equals(getString(R.string.multiples))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
@@ -315,30 +315,30 @@ public class Tricktionary extends BaseActivity{
 
 
             }
-            if(list.get(j).getName().equals("Power")){
+            if(list.get(j).getName().equals(getString(R.string.power))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals("Manipulation")){
+            if(list.get(j).getName().equals(getString(R.string.manipulation))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals("Releases")){
+            if(list.get(j).getName().equals(getString(R.string.releases))){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
@@ -394,16 +394,16 @@ public class Tricktionary extends BaseActivity{
     public void viewProfile(View v){
         if(mAuth.getCurrentUser()==null){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-            mBuilder.setTitle("Profile");
-            mBuilder.setMessage("You must sign in to access your profile and store trick statistics.");
-            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+            mBuilder.setTitle(getString(R.string.title_activity_profile));
+            mBuilder.setMessage(getString(R.string.profile_sign_in));
+            mBuilder.setPositiveButton(getString(R.string.sign_in), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent=new Intent(Tricktionary.this,SignIn.class);
                     startActivity(intent);
                 }
             });
-            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            mBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();

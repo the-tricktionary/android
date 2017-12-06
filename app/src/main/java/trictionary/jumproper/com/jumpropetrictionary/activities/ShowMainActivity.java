@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +50,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
     ArrayList<Wheel> wheelObjects = new ArrayList<Wheel>();
     ArrayList<ThreeWheel> threeWheelObjects = new ArrayList<ThreeWheel>();
     ArrayList<Other> otherEventObjects = new ArrayList<Other>();
-    String[] events = {"Individuals:", "Pairs:", "Double Dutch Singles:", "Double Dutch Pairs:", "Wheels:", "Three Wheels:", "Others:"};
+    String[] events = new String[7];
     int eventIndex = 0;
     static ArrayList<Event> show;
     int numNames = 0;
@@ -69,6 +68,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_main);
+        events = getResources().getStringArray(R.array.show_events);
         for (int j = 0; j < Names.showNames.size(); j++) {
             nameArray[j] = Names.showNames.get(j);
         }
@@ -92,7 +92,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                if (eventName.getText().equals("Individuals:")) {
+                if (eventName.getText().equals(events[0])) {
                     individualObjects.add(new Individual(nameArray[position]));
                     currentNameList.add(individualObjects.get(individualObjects.size() - 1).toString());
                     listAdapter.notifyDataSetChanged();
@@ -100,13 +100,11 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
                     currentNames.setSelection(position);
                     temp = "";
                 }
-                if (eventName.getText().equals("Pairs:")) {
+                if (eventName.getText().equals(events[1])) {
                     if (numNames == 0) {
                         temp = nameArray[position];
-                        Log.d("nameArray", nameArray[position]);
                         numNames++;
                     } else {
-                        Log.d("Pairs2", temp);
                         pairsObjects.add(new Pairs(temp + " " + nameArray[position]));
                         temp = "";
                         currentNameList.add(pairsObjects.get(pairsObjects.size() - 1).toString());
@@ -115,11 +113,8 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
                         currentNames.setSelection(position);
                         numNames = 0;
                     }
-
-                    Log.d("PairsNameArray", nameArray[position]);
-
                 }
-                if (eventName.getText().equals("Double Dutch Singles:")) {
+                if (eventName.getText().equals(events[2])) {
                     if (numNames < 2) {
                         temp += " " + nameArray[position];
                         numNames++;
@@ -134,7 +129,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
                     }
 
                 }
-                if (eventName.getText().equals("Double Dutch Pairs:")) {
+                if (eventName.getText().equals(events[3])) {
                     if (numNames < 3) {
                         temp += " " + nameArray[position];
                         numNames++;
@@ -149,7 +144,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
                     }
 
                 }
-                if (eventName.getText().equals("Wheels:")) {
+                if (eventName.getText().equals(events[4])) {
                     if (numNames == 0) {
                         temp = nameArray[position];
                         numNames++;
@@ -164,7 +159,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
                     }
 
                 }
-                if (eventName.getText().equals("Three Wheels:")) {
+                if (eventName.getText().equals(events[5])) {
                     if (numNames < 2) {
                         temp += " " + nameArray[position];
                         numNames++;
@@ -193,15 +188,15 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
             public void onItemClick(AdapterView<?> adapterView, View view,final int i, long l) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ShowMainActivity.this);
                 alertDialogBuilder
-                        .setTitle("Remove Event")
-                        .setMessage("Would you like to remove "+adapterView.getItemAtPosition(i).toString()+"?")
-                        .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.show_remove_event)
+                        .setMessage(getString(R.string.show_remove_prompt)+adapterView.getItemAtPosition(i).toString()+"?")
+                        .setPositiveButton(getString(R.string.remove), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         currentNameList.remove(i);
                         listAdapter.notifyDataSetChanged();
                         listAdapter.notifyDataSetInvalidated();
                     }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).show();
@@ -251,7 +246,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
             // create an Intent with the contents of the TextView
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "List of names");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.show_list));
             shareIntent.putExtra(Intent.EXTRA_TEXT, Arrays.toString(nameArray));
 
             // Make sure the provider knows
@@ -496,7 +491,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
             eventName.setText(events[eventIndex + 1]);
             populateNameList(events[eventIndex + 1]);
             eventIndex++;
-            if (eventName.getText().equals("Others:")) {
+            if (eventName.getText().equals(events[6])) {
                 newEventButton.setVisibility(View.VISIBLE);
             }
         }
@@ -518,22 +513,22 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
 
     public void populateNameList(String event){
         ArrayList<? extends Event> objects=new ArrayList<>();
-        if(event.equals("Individuals:")){
+        if(event.equals(events[0])){
             objects=individualObjects;
         }
-        else if(event.equals("Pairs:")){
+        else if(event.equals(events[1])){
             objects=pairsObjects;
         }
-        else if(event.equals("Double Dutch Singles:")){
+        else if(event.equals(events[2])){
             objects=dd3Objects;
         }
-        else if(event.equals("Double Dutch Pairs:")){
+        else if(event.equals(events[3])){
             objects=dd4Objects;
         }
-        else if(event.equals("Wheels:")){
+        else if(event.equals(events[4])){
             objects=wheelObjects;
         }
-        else if(event.equals("Three Wheels:")){
+        else if(event.equals(events[5])){
             objects=threeWheelObjects;
         }
         for(int j=0;j<objects.size();j++){
@@ -556,7 +551,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
         listAdapter.notifyDataSetChanged();
         listAdapter.notifyDataSetInvalidated();
         currentNames.setSelection(otherEventObjects.size() - 1);
-        eventName.setText("Others:");
+        eventName.setText(events[6]);
     }
 
     public void reviewEvents(View v) {
@@ -567,12 +562,12 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
 
     public void newEvent(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this); //new alert dialog
-        builder.setTitle("New Event"); //dialog title
+        builder.setTitle(R.string.show_new_event); //dialog title
         LayoutInflater inflater = (LayoutInflater) ShowMainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
         final View textBoxes = inflater.inflate(R.layout.new_event, null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 EditText newEventName = (EditText) textBoxes.findViewById(R.id.event_name);
@@ -582,7 +577,7 @@ public class ShowMainActivity extends BaseActivity implements Runnable {
 
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

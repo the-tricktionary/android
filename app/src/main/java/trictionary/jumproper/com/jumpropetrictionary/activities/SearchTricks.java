@@ -111,12 +111,6 @@ public class SearchTricks extends BaseActivity {
         }
         return list;
     }
-
-    public void mainMenu(View v){
-        Intent intent = new Intent(this, MainMenu.class);
-        finish();
-        startActivity(intent);
-    }
     public void viewTricktionary(View v){
         finish();
     }

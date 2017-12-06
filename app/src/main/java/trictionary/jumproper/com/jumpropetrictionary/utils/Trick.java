@@ -1,7 +1,5 @@
 package trictionary.jumproper.com.jumpropetrictionary.utils;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -242,9 +240,6 @@ public class Trick extends FirebaseInstanceIdService {
         ArrayList<Integer>id0s=new ArrayList<>();
         ArrayList<Integer>id1s=new ArrayList<>();
         ArrayList<String> names=new ArrayList<>();
-        if(trick.child("name").equals("Criss Cross")){
-            Log.e("Cross",""+trick.child("prerequisites").hasChild("id0")+" "+trick.child("prerequisites").hasChild("id1"));
-        }
         for(DataSnapshot prereq:trick.child("prerequisites").getChildren()){
             if(prereq.hasChild("id0")&&prereq.hasChild("id1")) {
                 id0s.add(Integer.parseInt(prereq.child("id0").getValue().toString()));

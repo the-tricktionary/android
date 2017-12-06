@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
     <ImageView
-        android:src="@drawable/ic_account_circle_black_24dp"
+        app:srcCompat="@drawable/ic_account_circle_black_24dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/profile_image"
@@ -36,22 +36,22 @@
             android:stretchMode="columnWidth"
             android:verticalSpacing="8dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 1"
-        android:id="@+id/level_1_title_profile"
-        android:background="@drawable/rounded_corner_shadow_red"
-        android:textSize="18sp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_below="@+id/basics_grid_view_profile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/level_1_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/basics_grid_view_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="8dp"
+            android:text="@string/level_1"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
             android:id="@+id/level_1_grid_view_profile"
@@ -79,7 +79,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/rounded_corner_shadow_red"
             android:padding="8dp"
-            android:text="Level 2"
+            android:text="@string/level_2"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
@@ -95,22 +95,23 @@
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="8dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 3"
-        android:id="@+id/level_3_title_profile"
-        android:background="@drawable/rounded_corner_shadow_red"
-        android:textSize="18sp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_below="@+id/level_2_grid_view_profile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/level_3_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/level_2_grid_view_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="8dp"
+            android:text="@string/level_3"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
     <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
         android:id="@+id/level_3_grid_view_profile"
@@ -124,22 +125,23 @@
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="8dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 4"
-        android:id="@+id/level_4_title_profile"
-        android:background="@drawable/rounded_corner_shadow_red"
-        android:textSize="18sp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_below="@+id/level_3_grid_view_profile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/level_4_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/level_3_grid_view_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="8dp"
+            android:text="@string/level_4"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
     <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
         android:id="@+id/level_4_grid_view_profile"
@@ -246,7 +248,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tricks_mastered_profile"
                 android:padding="4dp"
-                android:text="Level 1:"
+                android:text="@string/level_1"
                 android:textSize="12sp" />
 
             <TextView
@@ -256,7 +258,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/level_1_tricks_mastered_profile"
                 android:padding="4dp"
-                android:text="Level 2:"
+                android:text="@string/level_2"
                 android:textSize="12sp" />
 
             <TextView
@@ -266,7 +268,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/level_2_tricks_mastered_profile"
                 android:padding="4dp"
-                android:text="Level 3:"
+                android:text="@string/level_3"
                 android:textSize="12sp" />
 
             <TextView
@@ -276,7 +278,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/level_3_tricks_mastered_profile"
                 android:padding="4dp"
-                android:text="Level 4:"
+                android:text="@string/level_4"
                 android:textSize="12sp" />
 
             <TextView
@@ -286,23 +288,23 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:padding="4dp"
-                android:text="Total Tricks"
+                android:text="@string/total_tricks"
                 android:textSize="12sp" />
 
         </RelativeLayout>
 
         <TextView
-            android:text="Basics"
+            android:id="@+id/basics_title_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/basics_title_profile"
-            android:padding="8dp"
-            android:background="@drawable/rounded_corner_shadow_red"
-            android:textSize="18sp"
-            android:textColor="@color/white"
             android:layout_below="@+id/stats_layout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="8dp"
+            android:text="@string/basics"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -312,7 +314,7 @@
             android:layout_toStartOf="@+id/profile_image"
             android:onClick="shareProfile"
             android:padding="8dp"
-            android:src="@drawable/ic_menu_share_material" />
+            app:srcCompat="@drawable/ic_menu_share_material" />
 
     </RelativeLayout>
 </ScrollView>

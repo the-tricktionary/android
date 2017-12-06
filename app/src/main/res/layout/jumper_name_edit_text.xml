@@ -4,54 +4,53 @@
     android:layout_height="match_parent">
 
 
-
     <EditText
+        android:id="@+id/jumper_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/jumper_first_name"
-        android:hint="First Name"
         android:layout_marginTop="10dp"
         android:layout_toStartOf="@+id/jumper_last_name"
+        android:ems="10"
+        android:hint="@string/speed_first_name"
+        android:inputType="textPersonName"
         android:visibility="visible" />
 
     <EditText
+        android:id="@+id/jumper_last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/jumper_last_name"
-        android:hint="Last Name"
         android:layout_above="@+id/anonymous"
         android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:hint="@string/speed_last_name"
+        android:inputType="textPersonName"
         android:visibility="visible" />
 
     <CheckBox
+        android:id="@+id/anonymous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Anonymous"
-        android:id="@+id/anonymous"
         android:layout_below="@+id/jumper_first_name"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:text="@string/speed_anon" />
 
     <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="**Please only save your data if it comes from actually clicking a speed event**"
-        android:id="@+id/textView6"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/anonymous"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/speed_save_prompt" />
 
     <Button
+        android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:id="@+id/button4"
-        android:layout_below="@+id/textView6"
         android:layout_alignStart="@+id/textView6"
+        android:layout_below="@+id/textView6"
         android:layout_margin="10dp"
-        android:onClick="userSignOut" />
+        android:onClick="userSignOut"
+        android:text="@string/sign_out" />
 
 </RelativeLayout>

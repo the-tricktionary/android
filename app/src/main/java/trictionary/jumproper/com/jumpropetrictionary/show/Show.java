@@ -39,7 +39,7 @@ public class Show extends BaseActivity {
         showList = (ListView) findViewById(R.id.sorted_show);
         sortedShow2=new ArrayList<Event>();
         breakEvents=(TextView)findViewById(R.id.break_events);
-        breakEvents.setText("Each jumper has a minimum of " + ShowMainActivity.getBreakEvents() + " breaks between events.");
+        breakEvents.setText(getString(R.string.show_min) + ShowMainActivity.getBreakEvents() + getString(R.string.show_breaks));
         for(int j=0;j<ShowMainActivity.sortedShow.size();j++){
             sortedShow2.add(ShowMainActivity.sortedShow.get(j));
             //sortedShow2.get(j).setEvent((j+1)+" " +sortedShow2.get(j).getEvent());
@@ -51,14 +51,14 @@ public class Show extends BaseActivity {
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                if (breakEvents.getText().equals("Which event should this be after?\n")) {
+                if (breakEvents.getText().equals(getString(R.string.show_swap_prompt))) {
                     ShowMainActivity.sortedShow.add(position+1, ShowMainActivity.sortedShow.remove(pos));
                     firstTap = false;
-                    breakEvents.setText("Each jumper has a minimum of " + ShowMainActivity.getBreakEvents() + " breaks between events.");
+                    breakEvents.setText(getString(R.string.show_min) + ShowMainActivity.getBreakEvents() + getString(R.string.show_breaks));
                     mArrayAdapter.notifyDataSetChanged();
                     showList.refreshDrawableState();
                 } else {
-                    breakEvents.setText("Which event should this be after?\n");
+                    breakEvents.setText(getString(R.string.show_swap_prompt));
                     pos = position;
                 }
 
@@ -94,7 +94,7 @@ public class Show extends BaseActivity {
             // create an Intent with the contents of the TextView
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sorted Show");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.show_sorted));
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareShow(sortedShow2));
 
             // Make sure the provider knows

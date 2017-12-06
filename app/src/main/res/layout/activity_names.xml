@@ -22,43 +22,44 @@
             android:id="@+id/input_layout">
 
 
-            <TextView android:id="@+id/main_textview"
+            <TextView
+                android:id="@+id/main_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Enter the names of jumpers that are in the show, separated by commas."
-                android:textSize="20dp"
-                android:layout_weight="8"
-                android:layout_marginRight="10dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_corner_shadow"
-                android:alpha=".75"
                 android:layout_marginBottom="10dp"
-                android:padding="20dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="8"
+                android:alpha=".75"
+                android:background="@drawable/rounded_corner_shadow"
+                android:padding="20dp"
+                android:text="@string/show_writer_instructions"
+                android:textSize="20dp" />
 
             <EditText
+                android:id="@+id/name_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/name_input"
                 android:layout_alignEnd="@+id/main_textview"
-                android:hint="Name1, Name2, Name3, etc"
-                android:layout_below="@+id/main_textview"
                 android:layout_alignStart="@+id/main_textview"
+                android:layout_below="@+id/main_textview"
+                android:hint="Name1, Name2, Name3, etc"
                 android:padding="20dp" />
 
 
             <Button
+                android:id="@+id/make_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Continue"
-                android:id="@+id/make_show"
-                android:layout_below="@+id/name_input"
-                android:layout_centerHorizontal="true"
-                android:onClick="selectNames"
                 android:layout_alignParentEnd="false"
                 android:layout_alignParentStart="false"
-                android:layout_marginTop="50dp" />
+                android:layout_below="@+id/name_input"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:onClick="selectNames"
+                android:text="@string/continue_button" />
 
         </RelativeLayout>
     </ScrollView>

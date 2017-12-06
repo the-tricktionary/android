@@ -30,30 +30,28 @@
                 android:layout_centerHorizontal="true" />
 
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Record Video"
-            android:id="@+id/textView24"
-            android:background="@drawable/rounded_corner_shadow"
-            android:alpha=".75"
-            android:padding="10dp"
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@+id/space6"
-            android:layout_marginLeft="20dp"
-            android:clickable="true"
-            android:onClick="recordVideo" />
+                android:background="@drawable/rounded_corner_shadow"
+                android:clickable="true"
+                android:onClick="recordVideo"
+                android:padding="16dp"
+                android:text="@string/submit_record_video" />
 
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From Gallery"
-            android:id="@+id/textView25"
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:layout_toStartOf="@+id/textView24"
-            android:background="@drawable/rounded_corner_shadow"
-            android:alpha=".75"
-            android:padding="10dp"
-            android:layout_marginRight="20dp"
-            android:clickable="true"
-            android:onClick="selectVideo" />
+                android:background="@drawable/rounded_corner_shadow"
+                android:clickable="true"
+                android:onClick="selectVideo"
+                android:padding="16dp"
+                android:text="@string/submit_from_gallery" />
 
             <ImageView
             android:layout_width="wrap_content"
@@ -78,27 +76,27 @@
             android:onClick="recordVideo" />
 
             <TextView
+                android:id="@+id/textView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-You may submit videos of either a single trick to be included in the Tricktionary, or you may submit a video to be featured on our Instagram page @jumpropetricktionary\n-Videos can be of any jump rope trick, whether the trick is already in the Tricktionary or not.\n-Please record your videos in landscape\n-Your videos can be no larger than 100Mb\n-If you are able to record in slow motion please do!\n-Please keep your recording as stable as possible, or set up your camera\n-Try to find a plain background that contrasts the color of your rope"
-                android:id="@+id/textView26"
                 android:layout_below="@+id/imageView32"
                 android:layout_centerHorizontal="true"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp"
+                android:text="@string/submit_instructions" />
 
         </RelativeLayout>
     </ScrollView>
 
     <VideoView
-    android:id="@+id/video_view"
-    android:layout_width="fill_parent"
-    android:layout_alignParentLeft="false"
-    android:layout_alignParentRight="false"
-        android:visibility="invisible"
+        android:id="@+id/video_view"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/video_metadata"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
         android:layout_centerHorizontal="false"
-        android:layout_above="@+id/video_metadata" />
+        android:visibility="invisible" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -118,43 +116,43 @@
             android:background="@drawable/rounded_corner_shadow">
 
             <TextView
+                android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trick Name:"
-                android:id="@+id/textView21"
-                android:textSize="16dp"
-                android:textColor="@android:color/black" />
+                android:text="@string/submit_trick_name"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
 
             <EditText
+                android:id="@+id/trick_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/trick_name"
                 android:layout_gravity="center_horizontal"
-                android:hint="Name (Required)"
+                android:hint="@string/submit_trick_name_hint"
                 android:visibility="visible" />
 
             <TextView
+                android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Decription:"
-                android:id="@+id/textView22"
-                android:textSize="16dp"
-                android:textColor="@android:color/black" />
+                android:text="@string/submit_trick_description"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
 
             <EditText
                 android:id="@+id/trick_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:hint="Include your Instagram name to be featured!" />
+                android:hint="@string/submit_trick_description_hint" />
 
             <TextView
+                android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Level:"
-                android:id="@+id/textView23"
-                android:textSize="16dp"
-                android:textColor="@android:color/black" />
+                android:text="@string/submit_trick_level"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -162,16 +160,16 @@
                 android:layout_gravity="center_horizontal">
 
                 <EditText
+                    android:id="@+id/trick_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/trick_level"
-                    android:layout_alignParentTop="false"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignTop="@+id/trick_org"
                     android:layout_toStartOf="@+id/space7"
-                    android:hint="(Optional)"
-                    android:layout_alignTop="@+id/trick_org" />
+                    android:ems="10"
+                    android:hint="@string/submit_trick_optional"
+                    android:inputType="number" />
 
                 <Space
                     android:layout_width="20px"
@@ -189,14 +187,14 @@
             </RelativeLayout>
 
             <Button
+                android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
-                android:id="@+id/button5"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:onClick="startUpload"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
+                android:text="@string/submit_button" />
 
         </LinearLayout>
     </ScrollView>
@@ -204,7 +202,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_clear_material"
+        app:srcCompat="@drawable/ic_clear_material"
         android:layout_above="@+id/video_metadata"
         android:layout_alignParentEnd="true"
         android:padding="10dp"

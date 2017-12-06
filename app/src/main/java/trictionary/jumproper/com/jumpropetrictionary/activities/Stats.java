@@ -68,16 +68,16 @@ public class Stats extends BaseActivity {
     public void viewProfile(View v){
         if(mAuth.getCurrentUser()==null){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-            mBuilder.setTitle("Profile");
-            mBuilder.setMessage("You must sign in to access your profile and store trick statistics.");
-            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+            mBuilder.setTitle(R.string.title_activity_profile);
+            mBuilder.setMessage(R.string.stats_sign_in);
+            mBuilder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent=new Intent(Stats.this,SignIn.class);
                     startActivity(intent);
                 }
             });
-            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            mBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();

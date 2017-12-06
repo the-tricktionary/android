@@ -4,23 +4,23 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/jumper_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/jumper_first_name"
-        android:hint="First Name"
         android:layout_marginTop="10dp"
-        android:layout_toStartOf="@+id/jumper_last_name" />
+        android:layout_toStartOf="@+id/jumper_last_name"
+        android:ems="10"
+        android:hint="@string/speed_first_name"
+        android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/jumper_last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/jumper_last_name"
-        android:hint="Last Name"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/jumper_first_name"
-        android:layout_alignParentEnd="true" />
+        android:ems="10"
+        android:hint="@string/speed_last_name"
+        android:inputType="textPersonName" />
 
 </RelativeLayout>

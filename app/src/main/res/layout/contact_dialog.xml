@@ -13,10 +13,10 @@
         android:padding="10dp" />
 
     <EditText
+        android:id="@+id/contact_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contact_name"
-        android:hint="Your name (optional)"
+        android:hint="@string/contact_name_hint"
         android:padding="10dp" />
 
     <RelativeLayout
@@ -28,38 +28,38 @@
         android:visibility="gone">
 
         <TextView
+            android:id="@+id/trick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trick Name"
-            android:id="@+id/trick_name"
-            android:padding="10dp"
-            android:textSize="18dp"
-            android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textColor="#000000" />
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/submit_trick_name"
+            android:textColor="#000000"
+            android:textSize="18dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Should be level: "
             android:id="@+id/textView16"
-            android:padding="10dp"
-            android:textSize="18dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/trick_name"
-            android:layout_alignParentStart="true" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="In"
-            android:id="@+id/textView17"
-            android:padding="10dp"
-            android:textSize="18dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/trick_name"
             android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/contact_incorrect_level"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView16"
             android:layout_below="@+id/textView16"
-            android:layout_alignEnd="@+id/textView16" />
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/contact_in"
+            android:textSize="18dp" />
 
         <Space
             android:layout_width="20px"
@@ -69,13 +69,13 @@
             android:id="@+id/space5" />
 
         <EditText
+            android:id="@+id/correct_level"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/correct_level"
             android:layout_below="@+id/trick_name"
+            android:layout_marginLeft="20dp"
             android:layout_toEndOf="@+id/textView16"
-            android:hint="(1-6)"
-            android:layout_marginLeft="20dp" />
+            android:hint="@string/contact_level_range" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -96,29 +96,29 @@
         android:visibility="visible">
 
         <EditText
+            android:id="@+id/contact_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/contact_comment"
             android:layout_gravity="center_horizontal"
-            android:padding="10dp"
-            android:hint="Please provide more info" />
+            android:hint="@string/contact_message"
+            android:padding="10dp" />
     </LinearLayout>
 
     <Button
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign in"
-        android:id="@+id/sign_in_button"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:onClick="signInButtonClick" />
+        android:onClick="signInButtonClick"
+        android:text="@string/sign_in" />
 
     <CheckBox
-        android:text="Receive replies via email"
+        android:id="@+id/email_replies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/email_replies"
         android:checked="true"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:text="@string/contact_emails" />
 
 </LinearLayout>

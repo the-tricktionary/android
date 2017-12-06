@@ -51,8 +51,8 @@ public class SettingsActivity extends BaseActivity {
         settings = ((GlobalData) this.getApplication()).getSettings();
         settings=getSharedPreferences(PREFS_NAME,0);
         autoPlay=settings.getBoolean(AUTO_PLAY_SETTING,true);
-        stylePref=settings.getString(PLAYER_STYLE_SETTING,"Minimal");
-        language=settings.getString(LANGUAGE_SETTING,"English");
+        stylePref=settings.getString(PLAYER_STYLE_SETTING,getString(R.string.youtube_style_minimal));
+        language=settings.getString(LANGUAGE_SETTING,getResources().getStringArray(R.array.languages)[0]);
         publicProfile=settings.getBoolean(PUBLIC_PROFILE_SETTING,false);
         publicSpeed=settings.getBoolean(PUBLIC_SPEED_SETTING,false);
         publicTricks=settings.getBoolean(PUBLIC_TRICK_SETTING,false);
@@ -152,16 +152,16 @@ public class SettingsActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(mAuth.getCurrentUser()==null){
                     AlertDialog.Builder mBuilder = new AlertDialog.Builder(SettingsActivity.this);
-                    mBuilder.setTitle("Public Profile");
-                    mBuilder.setMessage("You must sign in to have a profile.");
-                    mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+                    mBuilder.setTitle(R.string.public_profile_title);
+                    mBuilder.setMessage(R.string.profile_sign_in);
+                    mBuilder.setPositiveButton(getString(R.string.sign_in), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent=new Intent(getApplicationContext(),SignIn.class);
                             startActivity(intent);
                         }
                     });
-                    mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    mBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.cancel();

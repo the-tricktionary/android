@@ -15,29 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="false"
-        android:layout_below="@+id/try_refresh"
         android:layout_centerHorizontal="true"
         android:alpha=".75"
         android:background="@drawable/rounded_corner_shadow"
         android:padding="8dp" />
-
-    <ImageView
-        android:id="@+id/refresh_scores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/event_list"
-        android:layout_alignParentEnd="true"
-        android:onClick="refreshItems"
-        android:src="@android:drawable/ic_popup_sync"
-        android:tint="@color/textColor" />
-
-    <TextView
-        android:id="@+id/try_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:padding="8dp"
-        android:text="If scores are not appearing try refreshing"
-        android:textSize="12dp" />
 
 </RelativeLayout>

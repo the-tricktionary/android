@@ -48,12 +48,12 @@
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Tap an event to move it"
                 android:layout_alignBaseline="@+id/break_events"
                 android:layout_alignBottom="@+id/break_events"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/show_event_move_instructions" />
 
 
         </RelativeLayout>

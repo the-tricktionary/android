@@ -22,11 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/trick_completed"
             android:layout_centerHorizontal="true"
-            android:alpha=".75"
-            android:background="@drawable/rounded_corner_shadow"
-            android:padding="4dp"
+            android:padding="2dp"
             android:text="Completed"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <CheckBox
             android:id="@+id/trick_completed"
@@ -46,7 +44,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="8dp"
             android:layout_toStartOf="@+id/completed_trick_label"
-            android:alpha=".75"
             android:clickable="true"
             android:padding="8dp" />
 
@@ -108,7 +105,7 @@
                         android:background="@drawable/rounded_corner_shadow"
                         android:padding="10dp"
                         android:scaleType="centerCrop"
-                        android:text="@string/trick_name"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="#ff000000"
                         android:textSize="20sp"
@@ -121,9 +118,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentTop="true"
-                        android:alpha=".75"
                         android:padding="8dp"
-                        android:src="@drawable/ic_fullscreen_black_24dp"
+                        app:srcCompat="@drawable/ic_fullscreen_black_24dp"
                         android:tint="@color/textColor" />
 
                     <ImageView
@@ -132,11 +128,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:alpha=".75"
                         android:clickable="true"
                         android:onClick="shareTrick"
                         android:padding="8dp"
-                        android:src="@drawable/ic_menu_share_material"
+                        app:srcCompat="@drawable/ic_menu_share_material"
                         android:tint="@color/textColor" />
 
                     <ImageView
@@ -146,10 +141,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginRight="8dp"
-                        android:alpha=".75"
                         android:onClick="openContactDialog"
                         android:padding="8dp"
-                        android:src="@drawable/ic_message_black_24dp"
+                        app:srcCompat="@drawable/ic_message_black_24dp"
                         android:tint="@color/textColor" />
                 </RelativeLayout>
 
@@ -167,14 +161,12 @@
                     android:layout_height="fill_parent"
                     android:layout_gravity="left"
                     android:layout_marginBottom="5dp"
-                    android:alpha=".5"
-                    android:background="@drawable/rounded_corner_shadow"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
                     android:scaleType="centerCrop"
-                    android:text="@string/trick_description"
+                    android:text="Description"
                     android:textColor="#ff000000"
                     android:textSize="16dp" />
 
@@ -195,11 +187,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_gravity="left"
                         android:layout_toStartOf="@+id/space"
-                        android:alpha=".5"
-                        android:background="@drawable/rounded_corner_shadow"
                         android:padding="4dp"
                         android:scaleType="centerCrop"
-                        android:text="WJR Level: "
                         android:textColor="#ff000000"
                         android:textSize="16dp" />
 
@@ -213,8 +202,6 @@
                         android:layout_alignTop="@+id/level_label"
                         android:layout_gravity="left"
                         android:layout_toEndOf="@+id/space"
-                        android:alpha=".5"
-                        android:background="@drawable/rounded_corner_shadow"
                         android:padding="4dp"
                         android:scaleType="centerCrop"
                         android:text="IRSF Level:"
@@ -228,7 +215,7 @@
                         android:layout_alignBottom="@+id/level_label"
                         android:layout_alignParentTop="true"
                         android:layout_alignRight="@+id/level_label"
-                        android:src="@drawable/ic_check_black_24dp"
+                        app:srcCompat="@drawable/ic_check_black_24dp"
                         android:tint="#ffd740"
                         android:visibility="gone" />
 
@@ -239,7 +226,7 @@
                         android:layout_alignBottom="@+id/fisac_level"
                         android:layout_alignParentTop="true"
                         android:layout_alignRight="@+id/fisac_level"
-                        android:src="@drawable/ic_check_black_24dp"
+                        app:srcCompat="@drawable/ic_check_black_24dp"
                         android:tint="#ffd740"
                         android:visibility="invisible" />
 
@@ -250,7 +237,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_toStartOf="@+id/fisac_verified"
                         android:onClick="expandFisacLevel"
-                        android:src="@drawable/ic_menu_moreoverflow_material"
+                        app:srcCompat="@drawable/ic_menu_moreoverflow_material"
                         android:tint="#616161"
                         android:visibility="invisible" />
 
@@ -275,8 +262,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
                     android:layout_marginBottom="5dp"
-                    android:alpha=".5"
-                    android:background="@drawable/rounded_corner_shadow"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"

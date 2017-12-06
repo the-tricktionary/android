@@ -50,7 +50,7 @@ public class ContactActivity extends BaseActivity {
         expandableListDetail = ExpandableListData.getData();
         h = new Handler();
         h.postDelayed(r, delay);
-        setGlobalActionBarTitle("Contact");
+        setGlobalActionBarTitle(getString(R.string.title_activity_contact));
 
     }
     @Override
@@ -110,27 +110,26 @@ public class ContactActivity extends BaseActivity {
     }
     public void newReply(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(ContactActivity.this); //new alert dialog
-        builder.setTitle("Submit reply"); //dialog title
+        builder.setTitle(R.string.contact_submit_reply); //dialog title
         LayoutInflater inflater = (LayoutInflater)ContactActivity.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
         final View textBoxes=inflater.inflate(R.layout.new_reply,null); //custom layout file now a view object
         builder.setView(textBoxes); //set view to custom layout
         // Set up the buttons
         final EditText name = (EditText)textBoxes.findViewById(R.id.name_text);
         final EditText reply = (EditText)textBoxes.findViewById(R.id.reply_text);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //prompt user for name
 
                 FirebaseDatabase fb=FirebaseDatabase.getInstance();
                 DatabaseReference myRef=fb.getReference("contact").child(mAuth.getCurrentUser().getUid());
-                Log.d("Contact","currentId="+currentId+" replyIndex="+replyIndex);
                 myRef.child(currentId)
                         .child("replies")
                         .child(""+replyIndex)
                         .setValue(new Reply(name.getText().toString(),
                                   reply.getText().toString()));
-                Toast.makeText(ContactActivity.this, "Thanks for the reply!",
+                Toast.makeText(ContactActivity.this, R.string.contact_reply_toast,
                         Toast.LENGTH_SHORT).show();
                 populateData();
 
@@ -139,7 +138,7 @@ public class ContactActivity extends BaseActivity {
 
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

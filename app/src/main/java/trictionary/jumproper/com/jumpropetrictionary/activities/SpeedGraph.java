@@ -129,12 +129,12 @@ public class SpeedGraph extends BaseActivity {
         authButton=(Button)findViewById(R.id.auth_button);
         if((mAuth.getCurrentUser()==null)||(mAuth.getCurrentUser().getEmail()==null)){
             currentUser.setVisibility(View.INVISIBLE);
-            authButton.setText("Sign In");
+            authButton.setText(R.string.sign_in);
         }
         else{
             currentUser.setVisibility(View.VISIBLE);
             currentUser.setText(mAuth.getCurrentUser().getEmail().toString());
-            authButton.setText("Sign Out");
+            authButton.setText(R.string.sign_out);
         }
 
         if(loadingData){
@@ -302,7 +302,7 @@ public class SpeedGraph extends BaseActivity {
                 values.add(new Entry(100 * (1 / ((float) scrubbedTimes.get(j) - (float) scrubbedTimes.get(j - 1))), j - 1));
             }
 
-            LineDataSet set = new LineDataSet(values, "Jumps per second");
+            LineDataSet set = new LineDataSet(values, getString(R.string.speed_jumps_per_second));
             set.setDrawCubic(true);
             set.setDrawFilled(true);
             set.setDrawValues(false);
@@ -380,7 +380,6 @@ public class SpeedGraph extends BaseActivity {
         double currentJumpsPerSec=0;
         for(int j=1;j<list.size();j++){
             currentJumpsPerSec=100*(1/((double)list.get(j)-(double)list.get(j-1)));
-            System.out.println("Average / Current "+avgJumpsPerSec + " / " + currentJumpsPerSec + "from "+list.get(j));
             if (avgJumpsPerSec/currentJumpsPerSec > 1.5){
                 misses++;
             }
@@ -405,16 +404,16 @@ public class SpeedGraph extends BaseActivity {
     public void saveData(View v){
         if(mAuth.getCurrentUser()==null){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-            mBuilder.setTitle("Profile");
-            mBuilder.setMessage("You must sign in to save and view speed scores.");
-            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+            mBuilder.setTitle(R.string.title_activity_profile);
+            mBuilder.setMessage(R.string.speed_sign_in);
+            mBuilder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent=new Intent(SpeedGraph.this,SignIn.class);
                     startActivity(intent);
                 }
             });
-            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            mBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();
@@ -427,12 +426,12 @@ public class SpeedGraph extends BaseActivity {
             final DatabaseReference myRef = fb.getReference("speed").child("scores");
             myRef.child(mAuth.getCurrentUser().getUid().toString());
             AlertDialog.Builder builder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
-            builder.setTitle("Save Score"); //dialog title
+            builder.setTitle(R.string.speed_save_data); //dialog title
             LayoutInflater inflater = (LayoutInflater) SpeedGraph.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
             final View textBoxes = inflater.inflate(R.layout.score_info_dialog, null); //custom layout file now a view object
             builder.setView(textBoxes); //set view to custom layout
             // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //prompt user for name
@@ -444,7 +443,7 @@ public class SpeedGraph extends BaseActivity {
                     data.setEventFromString(Speed.currentEvent.getName());
                     formatData();
                     Toast.makeText(getApplicationContext(),
-                            "Saved Data for " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
+                            getString(R.string.speed_saved_data_for) + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT)
                             .show();
                     Intent intent = new Intent(SpeedGraph.this, SpeedDataSelect.class);
                     startActivity(intent);
@@ -452,7 +451,7 @@ public class SpeedGraph extends BaseActivity {
 
                 }
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -516,16 +515,16 @@ public class SpeedGraph extends BaseActivity {
 
         if(mAuth.getCurrentUser()==null){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-            mBuilder.setTitle("Profile");
-            mBuilder.setMessage("You must sign in to save and view speed scores.");
-            mBuilder.setPositiveButton("Sign In", new DialogInterface.OnClickListener() {
+            mBuilder.setTitle(R.string.title_activity_profile);
+            mBuilder.setMessage(R.string.speed_sign_in);
+            mBuilder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent=new Intent(SpeedGraph.this,SignIn.class);
                     startActivity(intent);
                 }
             });
-            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            mBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();
@@ -551,8 +550,6 @@ public class SpeedGraph extends BaseActivity {
         myRef.child(mAuth.getCurrentUser().getUid().toString()).child(finalDate).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("Children of "+dataSnapshot.getValue());
-
                 GenericTypeIndicator<SpeedData> sd = new GenericTypeIndicator<SpeedData>() {
 
                 };
@@ -584,7 +581,7 @@ public class SpeedGraph extends BaseActivity {
 
     public void editData(View v){
         editDialogBuilder = new AlertDialog.Builder(SpeedGraph.this); //new alert dialog
-        editDialogBuilder.setTitle("Edit Score"); //dialog title
+        editDialogBuilder.setTitle(R.string.speed_edit_score); //dialog title
         LayoutInflater inflater = (LayoutInflater)SpeedGraph.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
         final View textBoxes=inflater.inflate(R.layout.edit_score_dialog,null); //custom layout file now a view object
         final EditText name = (EditText)textBoxes.findViewById(R.id.edit_score_name);
@@ -592,7 +589,7 @@ public class SpeedGraph extends BaseActivity {
         name.setText(data.getName());
         editDialogBuilder.setView(textBoxes); //set view to custom layout
         // Set up the buttons
-        editDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        editDialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //prompt user for name
@@ -604,7 +601,7 @@ public class SpeedGraph extends BaseActivity {
 
             }
         });
-        editDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        editDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -629,7 +626,7 @@ public class SpeedGraph extends BaseActivity {
         finish();
         startActivity(intent);
         Toast.makeText(getApplicationContext(),
-                "Deleted score", Toast.LENGTH_SHORT)
+                R.string.speed_deleted_score, Toast.LENGTH_SHORT)
                 .show();
     }
     public void noDontDelete(View v){
@@ -640,12 +637,12 @@ public class SpeedGraph extends BaseActivity {
     public void beginAuth(View v){
         if(mAuth.getCurrentUser()==null){
             signInButtonClick(signInButton);
-            authButton.setText("Sign Out");
+            authButton.setText(R.string.sign_out);
 
         }
         else{
             userSignOut(v);
-            authButton.setText("Sign In");
+            authButton.setText(R.string.sign_in);
             currentUser.setVisibility(View.INVISIBLE);
         }
     }

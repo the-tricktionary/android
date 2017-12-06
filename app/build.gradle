@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 android {
     compileSdkVersion 26
-    buildToolsVersion "$buildSdkVersion" //check for newest
+    buildToolsVersion '26.0.2' //check for newest
     defaultConfig {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 19
@@ -10,7 +10,7 @@ android {
         versionCode 40
         versionName "3.10"
         multiDexEnabled false
-        //vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     signingConfigs {

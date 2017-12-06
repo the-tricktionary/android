@@ -12,14 +12,12 @@ import java.util.List;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
-import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktionary.DASHES;
-
 /**
  * Created by jumpr on 3/11/2017.
  */
 
 public class TrickListAdapter extends ArrayAdapter<Trick> {
-    private final String[]ignoredStrings={"Multiples","Power","Manipulation","Releases",DASHES};
+    private String[]ignoredStrings=new String[5];
     private int color;
     private boolean completedColor=true;
 
@@ -38,7 +36,6 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View v = convertView;
 
         if (v == null) {
@@ -46,7 +43,7 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.trick_list_layout, null);
         }
-
+        ignoredStrings = v.getContext().getResources().getStringArray(R.array.ignored_strings);
         Trick mTrick = getItem(position);
         ((TextView) v).setText(mTrick.getName());
         for(int j = 0;j<ignoredStrings.length;j++){
