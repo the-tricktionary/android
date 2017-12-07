@@ -207,7 +207,7 @@
                 android:alpha=".75"
                 android:onClick="startSearch"
                 android:padding="16dp"
-                android:src="@drawable/ic_search_api_material"
+                app:srcCompat="@drawable/ic_search_api_material"
                 android:layout_alignStart="@+id/imageView31" />
 
             <ImageView
@@ -220,7 +220,7 @@
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:onClick="submitTrick"
                 android:padding="16dp"
-                android:src="@drawable/ic_file_upload_black_24dp"
+                app:srcCompat="@drawable/ic_file_upload_black_24dp"
                 android:tint="@color/white" />
 
             <TextView
@@ -265,7 +265,7 @@
                 android:onClick="viewStats"
                 android:padding="16dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_assessment_black_24dp"
+                app:srcCompat="@drawable/ic_assessment_black_24dp"
                 android:tint="@color/white" />
 
             <ImageView
@@ -277,7 +277,7 @@
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:onClick="viewProfile"
                 android:padding="16dp"
-                android:src="@drawable/ic_account_circle_black_24dp"
+                app:srcCompat="@drawable/ic_account_circle_black_24dp"
                 android:tint="@color/white" />
 
             <ImageView
@@ -292,7 +292,7 @@
                 android:alpha=".5"
                 android:onClick="openSettings"
                 android:padding="16dp"
-                android:src="@drawable/ic_settings_black_48dp" />
+                app:srcCompat="@drawable/ic_settings_black_48dp" />
 
         </RelativeLayout>
     </ScrollView>

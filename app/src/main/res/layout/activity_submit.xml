@@ -59,7 +59,7 @@
             android:id="@+id/imageView32"
             android:layout_below="@+id/textView25"
             android:layout_alignStart="@+id/textView25"
-            android:src="@android:drawable/ic_menu_gallery"
+            app:srcCompat="@android:drawable/ic_menu_gallery"
             android:layout_alignEnd="@+id/textView25"
             android:padding="10dp"
             android:onClick="selectVideo" />
@@ -70,7 +70,7 @@
             android:id="@+id/imageView33"
             android:layout_below="@+id/textView24"
             android:layout_alignStart="@+id/textView24"
-            android:src="@android:drawable/ic_menu_camera"
+            app:srcCompat="@android:drawable/ic_menu_camera"
             android:layout_alignEnd="@+id/textView24"
             android:padding="10dp"
             android:onClick="recordVideo" />
@@ -202,7 +202,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_clear_material"
+        app:srcCompat="@drawable/ic_clear_material"
         android:layout_above="@+id/video_metadata"
         android:layout_alignParentEnd="true"
         android:padding="10dp"

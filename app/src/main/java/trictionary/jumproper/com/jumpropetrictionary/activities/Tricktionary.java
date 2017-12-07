@@ -41,6 +41,7 @@ public class Tricktionary extends BaseActivity{
     private ArrayList<ArrayList<Trick>> completedTricks;
     private FirebaseAuth mAuth;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private String[]trickTypes;
 
     public static final String DASHES="";
     @Override
@@ -49,6 +50,7 @@ public class Tricktionary extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tricktionary);
         setupWindowAnimations();
+        trickTypes = getResources().getStringArray(R.array.trick_types);
         tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
         completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
         mAuth = ((GlobalData) this.getApplication()).getmAuth();
@@ -92,6 +94,10 @@ public class Tricktionary extends BaseActivity{
                     });
                     builder.show();
                     showCompletedTricks.setChecked(true);
+                }
+                if(tricktionary==null){
+                    showCompletedTricks.setChecked(!isChecked);
+                    return;
                 }
                 else {
                     if (isChecked) {
@@ -200,7 +206,7 @@ public class Tricktionary extends BaseActivity{
             for(Trick mTrick:tricktionary.get(j)) {
                 if (mTrick.isChecklist()) {
                     Log.d("Tricks",mTrick.getName());
-                } else if (mTrick.getType().equals(getString(R.string.basics))) {
+                } else if (mTrick.getType().equals(trickTypes[0])) {
                     basicsList.add(mTrick);
                 } else if (mTrick.getDifficulty() == 1) {
                     level1List.add(mTrick);
@@ -268,28 +274,28 @@ public class Tricktionary extends BaseActivity{
         Collections.sort(list, ((GlobalData) this.getApplication()).getCompareName());
         Collections.reverse(list);
 
-        sortedTricks.add(0,new Trick(getString(R.string.releases)));
-        sortedTricks.add(0,new Trick(getString(R.string.manipulation)));
-        sortedTricks.add(0,new Trick(getString(R.string.power)));
-        sortedTricks.add(0,new Trick(getString(R.string.multiples)));
+        sortedTricks.add(0,new Trick(trickTypes[4]));
+        sortedTricks.add(0,new Trick(trickTypes[3]));
+        sortedTricks.add(0,new Trick(trickTypes[2]));
+        sortedTricks.add(0,new Trick(trickTypes[1]));
         for(int j=0;j<list.size();j++){
 
-            if(list.get(j).getType().equals(getString(R.string.multiples))){
+            if(list.get(j).getType().equals(trickTypes[1])){
                 sortedTricks.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals(getString(R.string.power))){
+            else if(list.get(j).getType().equals(trickTypes[2])){
                 sortedTricks.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals(getString(R.string.manipulation))){
+            else if(list.get(j).getType().equals(trickTypes[3])){
                 sortedTricks.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(list.get(j).getType().equals(getString(R.string.releases))){
+            else if(list.get(j).getType().equals(trickTypes[4])){
                 sortedTricks.add(releases+1,list.get(j));
             }
 
@@ -304,7 +310,7 @@ public class Tricktionary extends BaseActivity{
         ArrayList<Trick> sortedTricks= new ArrayList<>();
         for(int j=0;j<list.size();j++){
             sortedTricks.add(list.get(j));
-            if(list.get(j).getName().equals(getString(R.string.multiples))){
+            if(list.get(j).getName().equals(trickTypes[1])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(" "));
@@ -315,7 +321,7 @@ public class Tricktionary extends BaseActivity{
 
 
             }
-            if(list.get(j).getName().equals(getString(R.string.power))){
+            if(list.get(j).getName().equals(trickTypes[2])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(" "));
@@ -325,7 +331,7 @@ public class Tricktionary extends BaseActivity{
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals(getString(R.string.manipulation))){
+            if(list.get(j).getName().equals(trickTypes[3])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(" "));
@@ -335,7 +341,7 @@ public class Tricktionary extends BaseActivity{
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals(getString(R.string.releases))){
+            if(list.get(j).getName().equals(trickTypes[4])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(" "));

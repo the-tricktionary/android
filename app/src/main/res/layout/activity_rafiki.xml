@@ -33,7 +33,7 @@
                     android:background="@color/white"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/rafiki_logo" />
+                    app:srcCompat="@drawable/rafiki_logo" />
 
                 <TextView
                     android:id="@+id/rafiki_title"
@@ -73,7 +73,7 @@
                     android:layout_below="@+id/rafiki_meaning"
                     android:layout_centerHorizontal="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/rafiki_1" />
+                    app:srcCompat="@drawable/rafiki_1" />
 
                 <ImageView
                     android:id="@+id/rafiki_2"
@@ -81,7 +81,7 @@
                     android:layout_height="200dp"
                     android:layout_below="@+id/rafiki_description"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/rafiki_2" />
+                    app:srcCompat="@drawable/rafiki_2" />
 
                 <ImageView
                     android:id="@+id/rafiki_3"
@@ -89,7 +89,7 @@
                     android:layout_height="200dp"
                     android:layout_below="@+id/textView14"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/rafiki_3" />
+                    app:srcCompat="@drawable/rafiki_3" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -134,7 +134,7 @@
                     android:layout_below="@+id/rafiki_3"
                     android:layout_margin="16dp"
                     android:onClick="sendEmail"
-                    android:src="@android:drawable/ic_dialog_email"
+                    app:srcCompat="@android:drawable/ic_dialog_email"
                     android:tint="@android:color/black" />
 
                 <ImageView
@@ -145,7 +145,7 @@
                     android:layout_below="@+id/rafiki_3"
                     android:layout_margin="16dp"
                     android:onClick="openFacebook"
-                    android:src="@drawable/ic_public_black_24dp" />
+                    app:srcCompat="@drawable/ic_public_black_24dp" />
 
             </RelativeLayout>
         </ScrollView>

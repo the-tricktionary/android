@@ -39,6 +39,7 @@ public class Profile extends BaseActivity {
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private FirebaseAuth mAuth;
+    private String[]trickTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class Profile extends BaseActivity {
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        trickTypes = getResources().getStringArray(R.array.trick_types);
         tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
         completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
 
@@ -146,7 +147,7 @@ public class Profile extends BaseActivity {
             for(Trick mTrick:completedTricks.get(j)) {
                 if (!mTrick.isCompleted()) {
                     j++;
-                } else if (mTrick.getType().equals(getString(R.string.basics))) {
+                } else if (mTrick.getType().equals(trickTypes[0])) {
                     basicsList.add(mTrick);
                 } else if (mTrick.getDifficulty() == 1) {
                     level1List.add(mTrick);
@@ -165,7 +166,7 @@ public class Profile extends BaseActivity {
         final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
         final ArrayList<Trick>level4Sorted=addWhiteSpace(sortTrickList(level4List));
 
-        final String[]ignoredStrings={getString(R.string.multiples),getString(R.string.power),getString(R.string.manipulation),getString(R.string.releases), DASHES};
+        final String[]ignoredStrings={trickTypes[1],trickTypes[2],trickTypes[3],trickTypes[4], DASHES};
 
         final ArrayList[] trickLists = new ArrayList[]{basicsList,
                 level1Sorted,
@@ -209,28 +210,28 @@ public class Profile extends BaseActivity {
         Collections.sort(list, ((GlobalData) this.getApplication()).getCompareName());
         Collections.reverse(list);
 
-        sortedTricks.add(0,new Trick(getString(R.string.releases)));
-        sortedTricks.add(0,new Trick(getString(R.string.manipulation)));
-        sortedTricks.add(0,new Trick(getString(R.string.power)));
-        sortedTricks.add(0,new Trick(getString(R.string.multiples)));
+        sortedTricks.add(0,new Trick(trickTypes[4]));
+        sortedTricks.add(0,new Trick(trickTypes[3]));
+        sortedTricks.add(0,new Trick(trickTypes[2]));
+        sortedTricks.add(0,new Trick(trickTypes[1]));
         for(int j=0;j<list.size();j++){
 
-            if(list.get(j).getType().equals(getString(R.string.multiples))){
+            if(list.get(j).getType().equals(trickTypes[1])){
                 sortedTricks.add(multiples + 1, list.get(j));
                 power++;
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals(getString(R.string.power))){
+            else if(list.get(j).getType().equals(trickTypes[2])){
                 sortedTricks.add(power+1,list.get(j));
                 manipulation++;
                 releases++;
             }
-            else if(list.get(j).getType().equals(getString(R.string.manipulation))){
+            else if(list.get(j).getType().equals(trickTypes[3])){
                 sortedTricks.add(manipulation+1,list.get(j));
                 releases++;
             }
-            else if(list.get(j).getType().equals(getString(R.string.releases))){
+            else if(list.get(j).getType().equals(trickTypes[4])){
                 sortedTricks.add(releases+1,list.get(j));
             }
 
@@ -245,7 +246,7 @@ public class Profile extends BaseActivity {
         ArrayList<Trick> sortedTricks= new ArrayList<>();
         for(int j=0;j<list.size();j++){
             sortedTricks.add(list.get(j));
-            if(list.get(j).getName().equals(getString(R.string.multiples))){
+            if(list.get(j).getName().equals(trickTypes[1])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -256,7 +257,7 @@ public class Profile extends BaseActivity {
 
 
             }
-            if(list.get(j).getName().equals(getString(R.string.power))){
+            if(list.get(j).getName().equals(trickTypes[2])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -266,7 +267,7 @@ public class Profile extends BaseActivity {
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals(getString(R.string.manipulation))){
+            if(list.get(j).getName().equals(trickTypes[3])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
@@ -276,7 +277,7 @@ public class Profile extends BaseActivity {
                 sortedTricks.add(index+2,new Trick(DASHES));
 
             }
-            if(list.get(j).getName().equals(getString(R.string.releases))){
+            if(list.get(j).getName().equals(trickTypes[4])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
                     sortedTricks.add(index,new Trick(""));
