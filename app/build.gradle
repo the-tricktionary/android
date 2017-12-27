@@ -57,7 +57,7 @@ dependencies {
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
     compile "com.google.firebase:firebase-storage:$firebaseVersion"
     compile "com.google.firebase:firebase-perf:$firebaseVersion"
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar'){
         transitive = true
     }
     //other
@@ -66,7 +66,7 @@ dependencies {
     compile "com.android.support:support-v4:$buildSdkVersion"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/YouTubeAndroidPlayerApi.jar')
-    compile files('libs/Graphs.jar')
+    //compile files('libs/Graphs.jar')
     compile 'org.apache.commons:commons-collections4:4.1'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'

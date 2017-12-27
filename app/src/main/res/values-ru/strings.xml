@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="lang_code">ru</string>
+  <string-array name="languages">
+    <item>Dansk</item>
+    <item>Deutsch</item>
+    <item>English</item>
+    <item>Español</item>
+    <item>русский</item>
+    <item>Svenska</item>
+  </string-array>
+
+  <!-- Private/Untranslatable strings -->
+  <string name="app_name" translatable="false">Tricktionary</string>
+  <string name="app_label" translatable="false">Jump Rope Tricktionary</string>
+  <string name="google_sign_in_auth_id" translatable="false">1048157266079-6m9smvmrrs2vagok5b973dqe7cvcf3e9.apps.googleusercontent.com</string>
+  <string-array name="pref_sync_frequency_values" translatable="false">
+    <item>15</item>
+    <item>30</item>
+    <item>60</item>
+    <item>180</item>
+    <item>360</item>
+    <item>-1</item>
+  </string-array>
+  <string name="pref_title_system_sync_settings" translatable="false">System sync settings</string>
+  <string name="pref_header_notifications" translatable="false">Notifications</string>
+  <string name="logo_transition" translatable="false">36420</string>
+  <string name="tricktionary_transition" translatable="false">42036</string>
+  <string-array name="speed_event_abbreviations" translatable="false">
+    <item>srst</item>
+    <item>srss</item>
+    <item>srsp</item>
+    <item>srfs</item>
+    <item>ddts</item>
+    <item>srps</item>
+    <item>srss</item>
+    <item>ddfs</item>
+  </string-array>
+  <string-array name="trick_types" translatable="false">
+    <item>@string/basics</item>
+    <item>@string/multiples</item>
+    <item>@string/power</item>
+    <item>@string/manipulation</item>
+    <item>@string/releases</item>
+    <item>@string/impossible</item>
+  </string-array>
+
+
+  <!-- Translable strings that has been translated -->
+  <string name="action_settings">Настройки</string>
+  <string name="auto_play_videos">Автовоспроизведение</string>
+  <string name="avg_tricks">Среднее количество трюков на пользователя</string>
+  <string name="basics">Базовые</string>
+  <string name="cancel">Отмена</string>
+  <string name="completed">Завершен</string>
+  <string name="completed_tricks">Завершенные трюки</string>
+  <string name="completed_tricks_dialogue">Tricktionary позволяет сохранить информацию о завершенных трюках. Для этого необходимо зарегистрироваться</string>
+  <string name="contact_drawer_description">Смотреть ваши отзывы</string>
+  <string name="contact_emails">Отправлять ответы на почту</string>
+  <string name="contact_general_submitted">Отзыв принят, спасибо!</string>
+  <string name="contact_in">в</string>
+  <string name="contact_incorrect_level">Предполагаемый уровень</string>
+  <string name="contact_incorrect_level_submit">Заявка на некорректный уровень принята, спасибо!</string>
+  <string name="contact_level_range">(1-6)</string>
+  <string name="contact_message">Пожалуйста предоставьте больше информации</string>
+  <string name="contact_more_info">Предоставьте пожалуйста больше информации</string>
+  <string name="contact_name_hint">Ваше имя (не обязательно)</string>
+  <string name="contact_reply">Ваш ответ</string>
+  <string name="contact_reply_toast">Спасибо за отзыв!</string>
+  <string name="contact_sign_in_prompt">Вы должны войти, чтобы отправлять сообщения и получать ответ</string>
+  <string name="contact_submit_reply">Отправить сообщение</string>
+  <string-array name="contact_types">
+    <item>Общий</item>
+    <item>Неверный уровень</item>
+    <item>Неверное название</item>
+    <item>Некорректное описание</item>
+  </string-array>
+  <string name="continue_button">Продолжить</string>
+  <string name="error_player">Ошибка инициализации YoutubePlayer</string>
+  <string name="federation_official">Официальная федерация</string>
+  <string name="fisac_level">IRSF уровень</string>
+  <string name="home_page">Главная страница</string>
+  <string-array name="ignored_strings">
+    <item>Мультипрыжки</item>
+    <item>Силовые</item>
+    <item>Манипуляции</item>
+    <item>Броски</item>
+  </string-array>
+  <string name="impossible">Невозможно</string>
+  <string name="instagram">Инстаграм</string>
+  <string name="internet_dialog">Приложению необходим интернет для загрузки информации о трюке. Это делается один раз, после чего вся информация хранится на вашем устройстве</string>
+  <string name="internet_dialog2">Пожалуйста подключитесь к интернету, чтобы скачать информацию о трюках. Это займет пару секунд</string>
+  <string name="judge">Судья</string>
+  <string name="language">Язык</string>
+  <string name="level_1">Уровень 1</string>
+  <string name="level_2">Уровень 2</string>
+  <string name="level_3">Уровень 3</string>
+  <string name="level_4">Уровень 4</string>
+  <string name="main_activity_feedback_prompt">Отправить отзыв</string>
+  <string name="manipulation">Манипуляции</string>
+  <string name="max_tricks">Максимум трюков у пользователя</string>
+  <string name="multiples">Мультипрыжки</string>
+  <string name="next_tricks">Следующие трюки</string>
+  <string name="no">Нет</string>
+  <string name="ok">Ок</string>
+  <string-array name="organizations">
+    <item>WJR</item>
+    <item>FISAC-IRSF</item>
+  </string-array>
+  <string-array name="player_styles">
+    <item>Минимум</item>
+    <item>Chromeless</item>
+    <item>Базовый</item>
+  </string-array>
+  <string name="power">Силовые</string>
+  <string name="prereqs">Упражнения</string>
+  <string name="profile_go_to_settings">Перейти в настройки</string>
+  <string name="profile_public">Публичный профиль</string>
+  <string name="profile_public_prompt">Вы должны перевести свой профиль в публичный, чтобы поделиться</string>
+  <string name="profile_share">Мой профиль</string>
+  <string name="profile_share_with">Поделиться профилем</string>
+  <string name="profile_sign_in">Вы должны войти, чтобы создать профиль</string>
+  <string name="public_profile">Публичный профиль</string>
+  <string name="public_profile_instructions">Это позволяет делиться своим профилем с другими</string>
+  <string name="public_profile_title">Публичный профиль</string>
+  <string name="releases">Броски</string>
+  <string name="remove">Удалить</string>
+  <string name="search_hint">Поиск</string>
+  <string name="settings_drawer_description">Язык, видео и настройки</string>
+  <string name="share_prompt">Поделиться ссылкой на трюк</string>
+  <string name="show_breaks">пауз между соревнованиями</string>
+  <string name="show_drawer_description">Распределить равномерно</string>
+  <string name="show_event_move_instructions">Нажмите на текст, чтобы передвинуть</string>
+  <string-array name="show_events">
+    <item>Соло</item>
+    <item>Парные</item>
+    <item>Даблдач соло</item>
+    <item>Даблдач парные</item>
+    <item>Китайское колесо</item>
+    <item>Тройное колесо</item>
+    <item>Другое</item>
+  </string-array>
+  <string name="show_list">Список имён</string>
+  <string name="show_main_instructions">Выберите имена скипперов, участвующих в мероприятии</string>
+  <string name="show_min">Каждый скиппер имеет минимум</string>
+  <string name="show_new_event">Новое событие</string>
+  <string name="show_remove_event">Удалить событие</string>
+  <string name="show_remove_prompt">Вы действительно хотите удалить</string>
+  <string name="show_sorted">Сортированная программа</string>
+  <string name="show_swap_prompt">Какое соревнование должно быть следующим?</string>
+  <string name="show_writer_instructions">Введите имена скипперов, участвующих в программе, через запятую</string>
+  <string name="sign_in">Войти</string>
+  <string name="sign_in_failed">Вход не выполнен</string>
+  <string name="sign_out">Выход</string>
+  <string name="signed_in_as">Войти как</string>
+  <string name="signing_in">Войти</string>
+  <string name="speed_anon">Анонимный</string>
+  <string name="speed_custom">Выборочно</string>
+  <string name="speed_data_drawer_description">Храните ваши результаты</string>
+  <string name="speed_delete_prompt">Удалить? Вы уверены?</string>
+  <string name="speed_deleted_score">Удалить результаты</string>
+  <string name="speed_drawer_description">Кликер для соревнований</string>
+  <string name="speed_duration">Продолжительность</string>
+  <string name="speed_edit_score">Редактировать название либо удалить навсегда</string>
+  <string name="speed_event_select">Выбрать мероприятие</string>
+  <string name="speed_first_name">Имя</string>
+  <string name="speed_instructions">Выберите вид соревнований или продолжительность, затем нажмите Старт или начните считать, чтобы запустить таймер</string>
+  <string name="speed_jumps_avg">Прыжки в секунду (среднее)</string>
+  <string name="speed_jumps_lost">Пропущенные прыжки</string>
+  <string name="speed_jumps_max">Прыжки в секунду (Макс)</string>
+  <string name="speed_jumps_per_second">Прыжки в секунду</string>
+  <string name="speed_last_name">Фамилия</string>
+  <string name="speed_load_data">Загрузить результат</string>
+  <string name="speed_minutes">Минуты</string>
+  <string name="speed_misses">Допущено ошибок</string>
+  <string name="speed_new_name">Введите название</string>
+  <string name="speed_no_miss_score">Итоговый результат</string>
+  <string name="speed_save_data">Сохранить результат</string>
+  <string name="speed_save_prompt">**Пожалуйста сохраняйте данные только если они соответствуют действительности **</string>
+  <string name="speed_saved_data_for">Результаты сохранены для</string>
+  <string name="speed_score">Результат</string>
+  <string name="speed_score_name_prompt">Введите название для этой записи. Его можно изменить или удалить в любое время</string>
+  <string name="speed_seconds">Секунды</string>
+  <string name="speed_sign_in">Вы должны войти, чтобы сохранять результаты</string>
+  <string name="speed_start_button">Старт</string>
+  <string name="speed_timer">Счётчик скорости</string>
+  <string name="start_button">Старт</string>
+  <string name="stats_sign_in">Вы должны войти, чтобы просматривать статистику</string>
+  <string name="submit_button">Отправить</string>
+  <string name="submit_camera_needed">Извините, необходима камера, чтобы отправить трюк!</string>
+  <string name="submit_drawer_description">Присылайте свои трюки</string>
+  <string name="submit_from_gallery">Из Галереи</string>
+  <string name="submit_instructions">Вы можете отправить видео через приложение Tricktionary либо через нашу страницу в инстаграме @jumpropetricktionary - видео может быть с любым трюком, есть он в базе или нет, и не должно превышать 100мб. Пожалуйста снимайте его горизонтально, со штатива. Старайтесь найти однотонный фон, контрастирующий с цветом скакалки.</string>
+  <string name="submit_please_enter_name">Введите название. Остальные поля заполнять не обязательно</string>
+  <string name="submit_record_video">Записать видео</string>
+  <string name="submit_select_video">Выберите видео</string>
+  <string name="submit_select_video_toast">Сначала выберите видео</string>
+  <string name="submit_starting_upload_toast">Начинаем загрузку. Вы можете наблюдать за прогрессом в строке уведомлений</string>
+  <string name="submit_thanks">Спасибо вам за участие! Мы рассмотрим заявку в ближайшее время</string>
+  <string name="submit_trick_description">Описание</string>
+  <string name="submit_trick_description_hint">Имя в Инстаграме</string>
+  <string name="submit_trick_level">Уровень</string>
+  <string name="submit_trick_name">Название трюка</string>
+  <string name="submit_trick_name_hint">Имя (обязательно)</string>
+  <string name="submit_trick_optional">(дополнительно)</string>
+  <string name="submit_upload_complete">Загрузка завершена, спасибо!</string>
+  <string name="submit_upload_failed">Извините, в данный момент ваше видео не может быть загружено</string>
+  <string name="submit_upload_in_progress">Загрузка идёт</string>
+  <string name="submit_uploading">Трюк загружается</string>
+  <string name="submit_video_too_large">Извините, видео слишком большое. Максимальный размер 100мб</string>
+  <string name="title_activity_contact">Контакты</string>
+  <string name="title_activity_profile">Профиль</string>
+  <string name="title_activity_settings">Настройки</string>
+  <string name="title_activity_show">Редактор программы соревнований</string>
+  <string name="title_activity_speed">Скорость</string>
+  <string name="title_activity_speed_graph">Результаты</string>
+  <string name="title_activity_stats">Статистика</string>
+  <string name="title_activity_submit">Отправить</string>
+  <string name="title_activity_tricktionary">Tricktionary</string>
+  <string name="total_tricks">Всего трюков</string>
+  <string name="trick_failed_to_load_toast">Упс, кажется что-то пошло не так!</string>
+  <string name="trick_none">Пусто</string>
+  <string name="tricktionary_show_completed">Показывать завершенные трюки</string>
+  <string name="verification_on">на</string>
+  <string name="verification_sub_0">Трюк проверен</string>
+  <string name="verification_title">Уровень проверки</string>
+  <string name="video_player_style">Стиль плеера</string>
+  <string name="web">Сайт</string>
+  <string name="wjr_level">WJR уровень</string>
+  <string name="yes">Да</string>
+  <string name="youtube_style_chromeless">Chromeless</string>
+  <string name="youtube_style_minimal">Минимум</string>
+
+
+  <!-- Translatable strings that haven't been translated -->
+  <string-array name="tricktypes">
+    <item>Basics</item>
+    <item>Multiples</item>
+    <item>Power</item>
+    <item>Manipulation</item>
+    <item>Releases</item>
+    <item>Impossible</item>
+  </string-array>
+
+</resources>
