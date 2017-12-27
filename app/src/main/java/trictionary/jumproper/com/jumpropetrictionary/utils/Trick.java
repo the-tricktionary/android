@@ -98,6 +98,7 @@ public class Trick extends FirebaseInstanceIdService {
         id1=mId1;
     }
     public Trick(String myName,String myDescription,int myDifficulty,int myIndex,String myType, String myVideoCode, Trick[]myPrereqs, String mFisacLevel, String mWjrLevel,int mId1){
+
         name=myName;
         description=myDescription;
         difficulty=myDifficulty;

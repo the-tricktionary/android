@@ -94,8 +94,9 @@ public class Tricktionary extends BaseActivity{
                     });
                     builder.show();
                     showCompletedTricks.setChecked(true);
+                    return;
                 }
-                if(tricktionary==null){
+                else if(tricktionary==null){
                     showCompletedTricks.setChecked(!isChecked);
                     return;
                 }
