@@ -244,4 +244,11 @@
         <item>ddfs</item>
     </string-array>
 
+    <string-array name="language_abbreviations">
+        <item>en</item>
+        <item>de</item>
+        <item>sv</item>
+        <item>ru</item>
+    </string-array>
+
 </resources>

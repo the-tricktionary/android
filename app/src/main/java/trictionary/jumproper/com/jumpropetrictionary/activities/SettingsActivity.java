@@ -4,7 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
@@ -42,6 +48,7 @@ public class SettingsActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private boolean languageChanged=false;
     private static SharedPreferences settings;
+    private String[] langs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,7 @@ public class SettingsActivity extends BaseActivity {
         mAuth=FirebaseAuth.getInstance();
 
         settings = ((GlobalData) this.getApplication()).getSettings();
+        langs = getResources().getStringArray(R.array.language_abbreviations);
         settings=getSharedPreferences(PREFS_NAME,0);
         autoPlay=settings.getBoolean(AUTO_PLAY_SETTING,true);
         stylePref=settings.getString(PLAYER_STYLE_SETTING,getString(R.string.youtube_style_minimal));
@@ -112,6 +120,7 @@ public class SettingsActivity extends BaseActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         stylePref = adapterView.getItemAtPosition(i).toString();
+
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PLAYER_STYLE_SETTING, stylePref);
                         editor.commit();
@@ -132,6 +141,7 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
+                setLocale(new Locale(langs[i]));
                 if(languageChanged) {
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                     startActivity(intent);
@@ -258,5 +268,19 @@ public class SettingsActivity extends BaseActivity {
     }
     public void mainMenu(View v){
         finish();
+    }
+    @SuppressWarnings("deprecation")
+    private void setLocale(Locale locale){
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            configuration.setLocale(locale);
+            getApplicationContext().createConfigurationContext(configuration);
+        }
+        else{
+            configuration.locale=locale;
+            resources.updateConfiguration(configuration,displayMetrics);
+        }
     }
 }
