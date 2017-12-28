@@ -10,41 +10,6 @@
     <item>Svenska</item>
   </string-array>
 
-  <!-- Private/Untranslatable strings -->
-  <string name="app_name" translatable="false">Tricktionary</string>
-  <string name="app_label" translatable="false">Jump Rope Tricktionary</string>
-  <string name="google_sign_in_auth_id" translatable="false">1048157266079-6m9smvmrrs2vagok5b973dqe7cvcf3e9.apps.googleusercontent.com</string>
-  <string-array name="pref_sync_frequency_values" translatable="false">
-    <item>15</item>
-    <item>30</item>
-    <item>60</item>
-    <item>180</item>
-    <item>360</item>
-    <item>-1</item>
-  </string-array>
-  <string name="pref_title_system_sync_settings" translatable="false">System sync settings</string>
-  <string name="pref_header_notifications" translatable="false">Notifications</string>
-  <string name="logo_transition" translatable="false">36420</string>
-  <string name="tricktionary_transition" translatable="false">42036</string>
-  <string-array name="speed_event_abbreviations" translatable="false">
-    <item>srst</item>
-    <item>srss</item>
-    <item>srsp</item>
-    <item>srfs</item>
-    <item>ddts</item>
-    <item>srps</item>
-    <item>srss</item>
-    <item>ddfs</item>
-  </string-array>
-  <string-array name="trick_types" translatable="false">
-    <item>@string/basics</item>
-    <item>@string/multiples</item>
-    <item>@string/power</item>
-    <item>@string/manipulation</item>
-    <item>@string/releases</item>
-    <item>@string/impossible</item>
-  </string-array>
-
 
   <!-- Translable strings that has been translated -->
 
@@ -83,13 +48,6 @@
   <string name="federation_official">federation official</string>
   <string name="fisac_level">IRSF Level:</string>
   <string name="home_page">Home page</string>
-  <string-array name="ignored_strings">
-    <item>Multiples</item>
-    <item>Power</item>
-    <item>Manipulation</item>
-    <item>Releases</item>
-    <item></item>
-  </string-array>
   <string name="impossible">Impossible</string>
   <string name="instagram">Instagram</string>
   <string name="internet_dialog">This app needs to connect to the internet to download trick information.  This is only done one time whenever tricks are added, after that the info is stored on your device.</string>
