@@ -43,11 +43,11 @@ public class TrickListAdapter extends ArrayAdapter<Trick> {
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.trick_list_layout, null);
         }
-        ignoredStrings = v.getContext().getResources().getStringArray(R.array.ignored_strings);
+        ignoredStrings = v.getContext().getResources().getStringArray(R.array.trick_types);
         Trick mTrick = getItem(position);
         ((TextView) v).setText(mTrick.getName());
         for(int j = 0;j<ignoredStrings.length;j++){
-            if(mTrick.getName().equals(ignoredStrings[j])){
+            if(mTrick.getName().equals(ignoredStrings[j]) || mTrick.getName().equals("")){
                 color = getContext().getResources().getColor(R.color.colorPrimary); // Material Red
                 v.setBackgroundColor(color);
                 v.setClickable(false);

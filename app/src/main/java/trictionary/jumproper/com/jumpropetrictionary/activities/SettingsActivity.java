@@ -141,7 +141,7 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
-                setLocale(new Locale(langs[i]));
+                ((GlobalData) getApplication()).setLocale(new Locale(langs[i]));
                 if(languageChanged) {
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                     startActivity(intent);
@@ -268,19 +268,5 @@ public class SettingsActivity extends BaseActivity {
     }
     public void mainMenu(View v){
         finish();
-    }
-    @SuppressWarnings("deprecation")
-    private void setLocale(Locale locale){
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-            configuration.setLocale(locale);
-            getApplicationContext().createConfigurationContext(configuration);
-        }
-        else{
-            configuration.locale=locale;
-            resources.updateConfiguration(configuration,displayMetrics);
-        }
     }
 }

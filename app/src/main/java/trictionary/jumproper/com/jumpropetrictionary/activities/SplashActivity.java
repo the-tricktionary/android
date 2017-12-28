@@ -100,7 +100,7 @@ public class SplashActivity extends AppCompatActivity {
                                     description = trick.child("i18n").child("de").child("description").getValue().toString();
                                     id1 = Integer.parseInt(trick.child("id1").getValue().toString());
                                     id0 = Integer.parseInt(level.child("level").getValue().toString());
-                                    type = trick.child("type").getValue().toString();
+                                    type = setType(trick.child("type").getValue().toString());
                                     video = trick.child("video").getValue().toString();
                                     fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
                                     wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
@@ -128,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
                                     description = trick.child("i18n").child("sv").child("description").getValue().toString();
                                     id1 = Integer.parseInt(trick.child("id1").getValue().toString());
                                     id0 = Integer.parseInt(level.child("level").getValue().toString());
-                                    type = trick.child("type").getValue().toString();
+                                    type = setType(trick.child("type").getValue().toString());
                                     video = trick.child("video").getValue().toString();
                                     fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
                                     wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
@@ -148,7 +148,7 @@ public class SplashActivity extends AppCompatActivity {
                                     FirebaseCrash.log("Error loading SV trick" + e.getMessage());
                                 }
                             }
-                            else if (SettingsActivity.language.equals("Russian") &&
+                            else if (SettingsActivity.language.equals("русский") &&
                                     trick.child("i18n").child("ru").child("description").getValue() != null &&
                                     trick.child("i18n").child("ru").child("name").getValue() != null) {
                                 try {
@@ -156,7 +156,7 @@ public class SplashActivity extends AppCompatActivity {
                                     description = trick.child("i18n").child("ru").child("description").getValue().toString();
                                     id1 = Integer.parseInt(trick.child("id1").getValue().toString());
                                     id0 = Integer.parseInt(level.child("level").getValue().toString());
-                                    type = trick.child("type").getValue().toString();
+                                    type = setType(trick.child("type").getValue().toString());
                                     video = trick.child("video").getValue().toString();
                                     fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
                                     wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
@@ -183,7 +183,7 @@ public class SplashActivity extends AppCompatActivity {
                                     description = trick.child("description").getValue().toString();
                                     id1 = Integer.parseInt(trick.child("id1").getValue().toString());
                                     id0 = Integer.parseInt(level.child("level").getValue().toString());
-                                    type = trick.child("type").getValue().toString();
+                                    type = setType(trick.child("type").getValue().toString());
                                     video = trick.child("video").getValue().toString();
                                     fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
                                     wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
@@ -211,7 +211,7 @@ public class SplashActivity extends AppCompatActivity {
                                 description = trick.child("description").getValue().toString();
                                 id1 = Integer.parseInt(trick.child("id1").getValue().toString());
                                 id0 = Integer.parseInt(level.child("level").getValue().toString());
-                                type = trick.child("type").getValue().toString();
+                                type = setType(trick.child("type").getValue().toString());
                                 video = trick.child("video").getValue().toString();
                                 fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
                                 wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
@@ -318,6 +318,21 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
         return totalTricks;
+    }
+    public String setType(String enType){
+        switch(enType){
+            case("Basics"):
+                return getString(R.string.basics);
+            case("Multiples"):
+                return getString(R.string.multiples);
+            case("Power"):
+                return getString(R.string.power);
+            case("Releases"):
+                return getString(R.string.releases);
+            case("Impossible"):
+                return getString(R.string.impossible);
+        }
+        return enType;
     }
 
 }

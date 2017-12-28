@@ -247,7 +247,7 @@ public class Tricktionary extends BaseActivity{
                     int itemPosition = position;
                     // ListView Clicked item value
                     MainActivity.currentTrick=(Trick)parent.getItemAtPosition(position);
-                    if(MainActivity.currentTrick.getDescription()==null){
+                    if(MainActivity.currentTrick==null){
                         return;
                     }
                     else {
@@ -314,7 +314,7 @@ public class Tricktionary extends BaseActivity{
             if(list.get(j).getName().equals(trickTypes[1])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(" "));
+                    sortedTricks.add(index,new Trick("  "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));

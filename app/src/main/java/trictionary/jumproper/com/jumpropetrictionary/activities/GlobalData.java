@@ -2,11 +2,16 @@ package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
+import android.util.DisplayMetrics;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 
@@ -98,5 +103,20 @@ public class GlobalData extends Application {
 
     public void setCompareName(Comparator<Trick> compareName) {
         this.compareName = compareName;
+    }
+
+    @SuppressWarnings("deprecation")
+    public void setLocale(Locale locale){
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            configuration.setLocale(locale);
+            getApplicationContext().createConfigurationContext(configuration);
+        }
+        else{
+            configuration.locale=locale;
+            resources.updateConfiguration(configuration,displayMetrics);
+        }
     }
 }

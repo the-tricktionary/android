@@ -166,7 +166,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             finish();
         }
 
-        if(currentTrick==null){
+        if(currentTrick==null || currentTrick.getName()==null){
             finish();
         }
         //initialize YouTube view object

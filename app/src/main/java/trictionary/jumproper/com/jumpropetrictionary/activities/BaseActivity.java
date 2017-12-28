@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
@@ -55,6 +56,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         mAuth = ((GlobalData) this.getApplication()).getmAuth();
+        if(SettingsActivity.language!=null) {
+            ((GlobalData) getApplication()).setLocale(new Locale(SettingsActivity.language));
+        }
     }
     private void selectItemFromDrawer(int position) {
         mDrawerList.setItemChecked(position, true);

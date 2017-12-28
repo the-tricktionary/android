@@ -44,7 +44,7 @@
     <item>@string/releases</item>
     <item>@string/impossible</item>
   </string-array>
-  <string-array name="language_abbreviations">
+  <string-array name="language_abbreviations" translatable="false">
     <item>en</item>
     <item>de</item>
     <item>sv</item>
@@ -88,13 +88,6 @@
   <string name="federation_official">federation official</string>
   <string name="fisac_level">IRSF Level:</string>
   <string name="home_page">Home page</string>
-  <string-array name="ignored_strings">
-    <item>Multiples</item>
-    <item>Power</item>
-    <item>Manipulation</item>
-    <item>Releases</item>
-    <item></item>
-  </string-array>
   <string name="impossible">Impossible</string>
   <string name="instagram">Instagram</string>
   <string name="internet_dialog">This app needs to connect to the internet to download trick information.  This is only done one time whenever tricks are added, after that the info is stored on your device.</string>
