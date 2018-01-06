@@ -76,6 +76,7 @@ public class SplashActivity extends AppCompatActivity {
             offline=false;
         }
         DatabaseReference myRef=fb.getReference("tricks");
+        myRef.keepSynced(true);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -149,7 +150,7 @@ public class SplashActivity extends AppCompatActivity {
                                     FirebaseCrash.log("Error loading SV trick" + e.getMessage());
                                 }
                             }
-                            else if (SettingsActivity.language.equals("русский") &&
+                            else if (SettingsActivity.language.equals("русский") || (SettingsActivity.language.equals("Russian")) &&
                                     trick.child("i18n").child("ru").child("description").getValue() != null &&
                                     trick.child("i18n").child("ru").child("name").getValue() != null) {
                                 try {
