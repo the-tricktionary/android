@@ -122,9 +122,9 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     @AddTrace(name = "mainActivityOnCreateTrace")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         //required for setSupportActionBar
         appCompatActivity=new AppCompatActivity();
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(R.layout.main_activity_toolbar_layout);
         //initialize auth object
         mAuth = FirebaseAuth.getInstance();
@@ -465,8 +465,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         if (errorReason.isUserRecoverableError()) {
             errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
         } else {
-            String errorMessage = String.format(
-                    getString(R.string.error_player), errorReason.toString());
+            String errorMessage = errorReason.toString();
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
     }

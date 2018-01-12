@@ -189,9 +189,12 @@
   <string name="yes">Да</string>
   <string name="youtube_style_chromeless">Chromeless</string>
   <string name="youtube_style_minimal">Минимум</string>
+    <string name="view_another_profile_dialog">Enter a valid user ID to view a different profile.</string>
+    <string name="user_id">User ID</string>
+    <string name="no_profile_toast">Sorry, no profile found matching that ID</string>
 
 
-  <!-- Translatable strings that haven't been translated -->
+    <!-- Translatable strings that haven't been translated -->
   <string-array name="tricktypes">
     <item>Basics</item>
     <item>Multiples</item>

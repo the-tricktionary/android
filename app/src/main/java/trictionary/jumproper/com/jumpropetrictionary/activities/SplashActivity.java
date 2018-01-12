@@ -263,8 +263,6 @@ public class SplashActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot id0:dataSnapshot.getChildren()){
                         for(DataSnapshot id1:id0.getChildren()){
-                            Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
-                            Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
                             if(Integer.parseInt(id0.getKey())<0){
                                 Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
                                 Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());

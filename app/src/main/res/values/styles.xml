@@ -25,9 +25,7 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button.Borderless.Small">
-        <item name="android:alpha" format="float" type="dimen">0.75</item>
-        <item name="android:background">@drawable/rounded_corner_shadow</item>
+    <style name="RobotoButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/textColor</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>

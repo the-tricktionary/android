@@ -181,12 +181,22 @@
             android:alpha=".25"
             android:background="@android:color/black" />
 
+        <Button
+            android:id="@+id/view_another_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_name"
+            android:layout_centerHorizontal="true"
+            android:padding="8dp"
+            android:text="View Another Profile"
+            android:textSize="14sp" />
+
         <RelativeLayout
             android:id="@+id/stats_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/profile_name"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/view_another_profile"
             android:paddingBottom="8dp"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"

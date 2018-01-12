@@ -1,13 +1,18 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -34,12 +39,15 @@ import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktion
 public class Profile extends BaseActivity {
     private TextView profileName;
     private ImageView profileImage;
+    private Button viewOtherProfile;
     private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks;
     private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count;
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private FirebaseAuth mAuth;
     private String[]trickTypes;
+    private String uId="";
+    private String imageURL="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,60 @@ public class Profile extends BaseActivity {
 
         profileName = (TextView)findViewById(R.id.profile_name);
         profileName.setText(mAuth.getCurrentUser().getDisplayName());
+        if(mAuth.getCurrentUser()!=null) {
+            uId = mAuth.getCurrentUser().getUid();
+            if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
+                imageURL = mAuth.getCurrentUser().getPhotoUrl().toString();
+            }
+        }
+        viewOtherProfile = (Button)findViewById(R.id.view_another_profile);
+        viewOtherProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this); //new alert dialog
+                //builder.setTitle("Submit reply"); //dialog title
+                LayoutInflater inflater = (LayoutInflater)Profile.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+                final View textBoxes=inflater.inflate(R.layout.view_another_profile_dialog,null); //custom layout file now a view object
+                final EditText uIdText = (EditText)textBoxes.findViewById(R.id.user_id_text);
+                builder.setView(textBoxes); //set view to custom layout
+                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        uId = uIdText.getText().toString();
+                        Log.e("Profile",uId);
+                        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+                        DatabaseReference myRef=fb.getReference("users").child(uId).child("profile");
+                        myRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.e("Profile",dataSnapshot.getKey());
+                                String firstName = dataSnapshot.child("name").child("0").getValue().toString();
+                                String lastName = dataSnapshot.child("name").child("1").getValue().toString();
+                                profileName.setText(firstName + " " + lastName);
+                                imageURL = dataSnapshot.child("image").getValue().toString();
+                                Log.e("Profile",imageURL);
+                                Log.e("Profile",firstName);
+                                getProfileTricks();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("Database Error",databaseError.getMessage());
+                                Toast.makeText(Profile.this, R.string.no_profile_toast,Toast.LENGTH_SHORT);
+                            }
+                        });
+                        dialog.cancel();
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
         profileImage = (ImageView)findViewById(R.id.profile_image);
 
         numTricks=(TextView)findViewById(R.id.num_tricks_profile);
@@ -63,39 +125,42 @@ public class Profile extends BaseActivity {
         numLevel3Tricks=(TextView)findViewById(R.id.num_level_3_tricks_profile);
         numLevel4Tricks=(TextView)findViewById(R.id.num_level_4_tricks_profile);
 
-        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-        DatabaseReference myRef=fb.getReference("checklist").child(mAuth.getCurrentUser().getUid());
+        loadProfile();
+    }
+    public void loadProfile(){
+        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = fb.getReference("checklist").child(uId);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                numTricksCount=0;
-                numLevel1Count=0;
-                numLevel2Count=0;
-                numLevel3Count=0;
-                numLevel4Count=0;
-                    for(DataSnapshot id0:dataSnapshot.getChildren()) {
-                        for (DataSnapshot id1 : id0.getChildren()) {
-                            if (Integer.parseInt(id0.getKey().toString()) == 0 && id1.getValue().toString().equals("true")) {
-                                numLevel1Count++;
-                            }
-                            if (Integer.parseInt(id0.getKey().toString()) == 1 && id1.getValue().toString().equals("true")) {
-                                numLevel2Count++;
-                            }
-                            if (Integer.parseInt(id0.getKey().toString()) == 2 && id1.getValue().toString().equals("true")) {
-                                numLevel3Count++;
-                            }
-                            if (Integer.parseInt(id0.getKey().toString()) == 3 && id1.getValue().toString().equals("true")) {
-                                numLevel4Count++;
-                            }
-                            if (id1.getValue().toString().equals("true"))
-                                numTricksCount++;
+                numTricksCount = 0;
+                numLevel1Count = 0;
+                numLevel2Count = 0;
+                numLevel3Count = 0;
+                numLevel4Count = 0;
+                for (DataSnapshot id0 : dataSnapshot.getChildren()) {
+                    for (DataSnapshot id1 : id0.getChildren()) {
+                        if (Integer.parseInt(id0.getKey().toString()) == 0 && id1.getValue().toString().equals("true")) {
+                            numLevel1Count++;
                         }
+                        if (Integer.parseInt(id0.getKey().toString()) == 1 && id1.getValue().toString().equals("true")) {
+                            numLevel2Count++;
+                        }
+                        if (Integer.parseInt(id0.getKey().toString()) == 2 && id1.getValue().toString().equals("true")) {
+                            numLevel3Count++;
+                        }
+                        if (Integer.parseInt(id0.getKey().toString()) == 3 && id1.getValue().toString().equals("true")) {
+                            numLevel4Count++;
+                        }
+                        if (id1.getValue().toString().equals("true"))
+                            numTricksCount++;
                     }
-                numTricks.setText(""+numTricksCount);
-                numLevel1Tricks.setText(""+numLevel1Count);
-                numLevel2Tricks.setText(""+numLevel2Count);
-                numLevel3Tricks.setText(""+numLevel3Count);
-                numLevel4Tricks.setText(""+numLevel4Count);
+                }
+                numTricks.setText("" + numTricksCount);
+                numLevel1Tricks.setText("" + numLevel1Count);
+                numLevel2Tricks.setText("" + numLevel2Count);
+                numLevel3Tricks.setText("" + numLevel3Count);
+                numLevel4Tricks.setText("" + numLevel4Count);
             }
 
             @Override
@@ -104,10 +169,10 @@ public class Profile extends BaseActivity {
             }
         });
 
-        DownloadImageTask downloadImage=new DownloadImageTask(mAuth,profileImage);
+        DownloadImageTask downloadImage = new DownloadImageTask(mAuth, profileImage);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
-                downloadImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+            if (mAuth.getCurrentUser().getPhotoUrl() != null) {
+                downloadImage.execute(imageURL);
             }
         }
         populateLists();
@@ -309,7 +374,7 @@ public class Profile extends BaseActivity {
                     getString(R.string.profile_share));
 
             //build the body of the message to be shared
-            String shareMessage = "https://the-tricktionary.com/profile/" + mAuth.getCurrentUser().getUid();
+            String shareMessage = "https://the-tricktionary.com/profile/" + uId + "\n\nUser ID: "+ uId;
 
             //add the message
             shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
@@ -337,6 +402,56 @@ public class Profile extends BaseActivity {
                 }
             });
             mBuilder.show();
+        }
+    }
+
+    public void getProfileTricks(){
+        completedTricks = new ArrayList<>();
+        Log.e("checklist", uId);
+        if(uId.length()>0 && tricktionary.size()>0) {
+            FirebaseDatabase fb=FirebaseDatabase.getInstance();
+            DatabaseReference checklist=fb.getReference("checklist").child(uId);
+            checklist.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    long levels = dataSnapshot.getChildrenCount();
+                    for(int j=0;j<levels;j++){
+                        completedTricks.add(new ArrayList<Trick>());
+                    }
+                    for(DataSnapshot id0:dataSnapshot.getChildren()){
+                        for(DataSnapshot id1:id0.getChildren()){
+                            if(Integer.parseInt(id0.getKey())<0){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else if(Integer.parseInt(id0.getKey())>=  tricktionary.size()){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else if(Integer.parseInt(id1.getKey())>=  tricktionary.get(Integer.parseInt(id0.getKey())).size()){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else {
+                                tricktionary.get(Integer.parseInt(id0.getKey()))
+                                        .get(Integer.parseInt(id1.getKey()))
+                                        .setCompleted(true);
+                                completedTricks.get(Integer.parseInt(id0.getKey()))
+                                        .add(tricktionary.get(Integer.parseInt(id0.getKey()))
+                                                .get(Integer.parseInt(id1.getKey())));
+                            }
+                        }
+                    }
+                    loadProfile();
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
+                }
+            });
+        }
+        else{
+
         }
     }
 

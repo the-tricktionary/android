@@ -112,7 +112,7 @@
                         android:typeface="normal"
                         android:visibility="gone" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/view_full_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                         app:srcCompat="@drawable/ic_fullscreen_black_24dp"
                         android:tint="@color/textColor" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                         app:srcCompat="@drawable/ic_menu_share_material"
                         android:tint="@color/textColor" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageView22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -151,8 +151,7 @@
                     android:id="@+id/youtube_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:alpha="1" />
+                    android:layout_marginBottom="10dp" />
 
 
                 <TextView
@@ -209,7 +208,7 @@
                         android:textColor="#ff000000"
                         android:textSize="16sp" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/wjr_verified"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -220,7 +219,7 @@
                         android:tint="#ffd740"
                         android:visibility="gone" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/fisac_verified"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -231,7 +230,7 @@
                         android:tint="#ffd740"
                         android:visibility="invisible" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/fisac_expand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
