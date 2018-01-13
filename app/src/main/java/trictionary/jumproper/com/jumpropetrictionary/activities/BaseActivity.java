@@ -33,12 +33,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.show.Names;
+import trictionary.jumproper.com.jumpropetrictionary.utils.MyFirebaseInstanceIDService;
 
 public class BaseActivity extends AppCompatActivity {
     private DrawerLayout fullView;
@@ -57,8 +61,10 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startService(new Intent(this, MyFirebaseInstanceIDService.class));
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         mAuth = ((GlobalData) this.getApplication()).getmAuth();
+        sendRegistrationToServer(FirebaseInstanceId.getInstance().getToken());
     }
     @Override
     protected void onStart() {
@@ -74,6 +80,14 @@ public class BaseActivity extends AppCompatActivity {
 
             mCurrentLocale = locale;
             recreate();
+        }
+    }
+    private void sendRegistrationToServer(String token) {
+        if(mAuth.getCurrentUser()!=null) {
+            FirebaseDatabase fb=FirebaseDatabase.getInstance();
+            DatabaseReference myRef=fb.getReference("users").child(mAuth.getCurrentUser().getUid()).child("fcm").child("android");
+            Log.d("FCM", "Refreshed token: " + token);
+            myRef.setValue(token);
         }
     }
     public static Locale getLocale(Context context){

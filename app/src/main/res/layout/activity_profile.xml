@@ -188,7 +188,7 @@
             android:layout_below="@+id/profile_name"
             android:layout_centerHorizontal="true"
             android:padding="8dp"
-            android:text="View Another Profile"
+            android:text="Friends"
             android:textSize="14sp" />
 
         <RelativeLayout

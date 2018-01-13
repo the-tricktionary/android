@@ -16,12 +16,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
+import trictionary.jumproper.com.jumpropetrictionary.utils.MyFirebaseInstanceIDService;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 
 /**

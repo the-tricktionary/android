@@ -240,7 +240,7 @@
   <string name="yes">Yes</string>
   <string name="youtube_style_chromeless">Chromeless</string>
   <string name="youtube_style_minimal">Minimal</string>
-    <string name="view_another_profile_dialog">Enter a valid user ID to view a different profile.</string>
+    <string name="view_another_profile_dialog">Enter a valid user ID or select from the list to view a different profile.</string>
     <string name="user_id">User ID</string>
     <string name="no_profile_toast">Sorry, no profile found matching that ID</string>
 
