@@ -28,7 +28,7 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
  * Created by jumpr on 8/15/2017.
  */
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
@@ -150,7 +150,35 @@ public class SplashActivity extends BaseActivity {
                                     FirebaseCrash.log("Error loading SV trick" + e.getMessage());
                                 }
                             }
-                            else if (SettingsActivity.language.equals("русский") || (SettingsActivity.language.equals("Russian")) &&
+                            else if (SettingsActivity.language.equals("Dansk") &&
+                                    trick.child("i18n").child("da").child("description").getValue() != null &&
+                                    trick.child("i18n").child("da").child("name").getValue() != null) {
+                                try {
+                                    name = trick.child("i18n").child("da").child("name").getValue().toString();
+                                    description = trick.child("i18n").child("da").child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = setType(trick.child("type").getValue().toString());
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                } catch (Exception e) {
+                                    FirebaseCrash.log("Error loading SV trick" + e.getMessage());
+                                }
+                            }
+                            else if ((SettingsActivity.language.equals("русский") || (SettingsActivity.language.equals("Russian"))) &&
                                     trick.child("i18n").child("ru").child("description").getValue() != null &&
                                     trick.child("i18n").child("ru").child("name").getValue() != null) {
                                 try {
@@ -176,6 +204,7 @@ public class SplashActivity extends BaseActivity {
                                     index++;
                                 }
                                 catch(Exception e){
+                                    Log.e("RU trick", e.getMessage());
                                     FirebaseCrash.log("Error loading RU trick" + e.getMessage());
                                 }
                             }
@@ -314,6 +343,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
                 return;
             }
         });
@@ -327,6 +357,8 @@ public class SplashActivity extends BaseActivity {
                 return getString(R.string.multiples);
             case("Power"):
                 return getString(R.string.power);
+            case("Manipulation"):
+                return getString(R.string.manipulation);
             case("Releases"):
                 return getString(R.string.releases);
             case("Impossible"):

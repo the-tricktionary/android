@@ -194,7 +194,9 @@ public class BaseActivity extends AppCompatActivity {
         mNavItems.add(new NavItem(getString(R.string.title_activity_contact),getString(R.string.contact_drawer_description),R.drawable.ic_message_black_24dp,ContactActivity.class));
         mNavItems.add(new NavItem(getString(R.string.title_activity_show), getString(R.string.show_drawer_description), R.drawable.ic_assignment_black_24dp, Names.class));
         mNavItems.add(new NavItem(getString(R.string.title_activity_settings), getString(R.string.settings_drawer_description), R.drawable.ic_settings_black_48dp, SettingsActivity.class));
-        mNavItems.add(new NavItem(getString(R.string.sign_out), "", R.drawable.ic_account_circle_black_24dp, Tricktionary.class));
+        if(mAuth.getCurrentUser()!=null) {
+            mNavItems.add(new NavItem(getString(R.string.sign_out), "", R.drawable.ic_account_circle_black_24dp, Tricktionary.class));
+        }
 
         mDrawerPane = (RelativeLayout) mDrawerLayout.findViewById(R.id.drawerPane);
         mDrawerList = (ListView) mDrawerLayout.findViewById(R.id.navList);

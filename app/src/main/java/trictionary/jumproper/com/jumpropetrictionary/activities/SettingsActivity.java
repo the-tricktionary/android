@@ -60,7 +60,7 @@ public class SettingsActivity extends BaseActivity {
         settings=getSharedPreferences(PREFS_NAME,0);
         autoPlay=settings.getBoolean(AUTO_PLAY_SETTING,true);
         stylePref=settings.getString(PLAYER_STYLE_SETTING,getString(R.string.youtube_style_minimal));
-        language=settings.getString(LANGUAGE_SETTING,getResources().getStringArray(R.array.languages)[0]);
+        language=settings.getString(LANGUAGE_SETTING,"English");
         publicProfile=settings.getBoolean(PUBLIC_PROFILE_SETTING,false);
         publicSpeed=settings.getBoolean(PUBLIC_SPEED_SETTING,false);
         publicTricks=settings.getBoolean(PUBLIC_TRICK_SETTING,false);
