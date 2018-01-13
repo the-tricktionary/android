@@ -141,7 +141,7 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SettingsActivity.setLanguage(adapterView.getItemAtPosition(i).toString());
-                ((GlobalData) getApplication()).setLocale(new Locale(langs[i]));
+                ((GlobalData) getApplication()).setLocale();
                 if(languageChanged) {
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                     startActivity(intent);

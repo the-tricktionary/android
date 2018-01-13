@@ -28,7 +28,7 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
  * Created by jumpr on 8/15/2017.
  */
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
@@ -95,7 +95,7 @@ public class SplashActivity extends AppCompatActivity {
                 for(DataSnapshot level:dataSnapshot.getChildren()){
                     for(DataSnapshot trick:level.child("subs").getChildren()){
                         if(settings.getString(SettingsActivity.LANGUAGE_SETTING,null)!=null) {
-                            SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,null);
+                            SettingsActivity.language=settings.getString(SettingsActivity.LANGUAGE_SETTING,"English");
                             if (SettingsActivity.language.equals("Deutsch") && trick.child("i18n").child("de").getValue() != null) {
                                 try {
                                     name = trick.child("i18n").child("de").child("name").getValue().toString();

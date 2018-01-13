@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -14,6 +15,8 @@ import java.util.Comparator;
 import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
+
+import static trictionary.jumproper.com.jumpropetrictionary.activities.BaseActivity.getLocale;
 
 /**
  * Created by jumpr_000 on 8/15/2017.
@@ -26,6 +29,7 @@ public class GlobalData extends Application {
     private String uId = "";
     private SharedPreferences settings;
     private int totalTricks;
+    private Locale mLocale;
     public Comparator<Trick> compareName;
 
     @Override
@@ -100,23 +104,32 @@ public class GlobalData extends Application {
             }
         };
     }
+    public Locale getmLocale() {
+        return mLocale;
+    }
+
+    public void setmLocale(Locale mLocale) {
+        this.mLocale = mLocale;
+    }
 
     public void setCompareName(Comparator<Trick> compareName) {
         this.compareName = compareName;
     }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setLocale();
+    }
 
     @SuppressWarnings("deprecation")
-    public void setLocale(Locale locale){
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+    public void setLocale(){
+        final Resources resources = getResources();
+        final Configuration configuration = resources.getConfiguration();
+        final Locale locale = getLocale(this);
+        Log.e("Locale",locale.getDisplayLanguage());
+        if (!configuration.locale.equals(locale)) {
             configuration.setLocale(locale);
-            getApplicationContext().createConfigurationContext(configuration);
-        }
-        else{
-            configuration.locale=locale;
-            resources.updateConfiguration(configuration,displayMetrics);
+            resources.updateConfiguration(configuration, null);
         }
     }
 }

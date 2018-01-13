@@ -5,10 +5,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -45,6 +47,7 @@ public class BaseActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ImageView avatar;
     private TextView profileName,profileDescription;
+    private Locale mCurrentLocale;
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -56,9 +59,47 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         mAuth = ((GlobalData) this.getApplication()).getmAuth();
-        if(SettingsActivity.language!=null) {
-            ((GlobalData) getApplication()).setLocale(new Locale(SettingsActivity.language));
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mCurrentLocale = getResources().getConfiguration().locale;
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Locale locale = getLocale(this);
+        ((GlobalData) getApplication()).setLocale();
+        if (!locale.equals(mCurrentLocale)) {
+
+            mCurrentLocale = locale;
+            recreate();
         }
+    }
+    public static Locale getLocale(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingsActivity.PREFS_NAME,0);
+        Locale locale;
+        String lang = sharedPreferences.getString(SettingsActivity.LANGUAGE_SETTING, "English");
+        Log.e("Locale","sharedPrefs: "+lang);
+        switch (lang) {
+            case "Dansk":
+                lang = "da";
+                break;
+            case "Deutsch":
+                lang = "de";
+                break;
+            case "Español":
+                lang = "es";
+                break;
+            case "русский":
+                lang = "ru";
+                break;
+            case "Svenska":
+                lang = "sv";
+                break;
+        }
+        locale = new Locale(lang);
+        return locale;
     }
     private void selectItemFromDrawer(int position) {
         mDrawerList.setItemChecked(position, true);

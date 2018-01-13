@@ -314,7 +314,7 @@ public class Profile extends BaseActivity {
             if(list.get(j).getName().equals(trickTypes[1])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
@@ -325,7 +325,7 @@ public class Profile extends BaseActivity {
             if(list.get(j).getName().equals(trickTypes[2])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
@@ -335,7 +335,7 @@ public class Profile extends BaseActivity {
             if(list.get(j).getName().equals(trickTypes[3])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));
@@ -345,7 +345,7 @@ public class Profile extends BaseActivity {
             if(list.get(j).getName().equals(trickTypes[4])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick(""));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));

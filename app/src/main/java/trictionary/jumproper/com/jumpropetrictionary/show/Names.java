@@ -60,7 +60,9 @@ public class Names extends BaseActivity {
         for (int j = 0; j < input.length(); j++) {
             if (input.charAt(j) == ',') {
                 if ((input.charAt(pos) == ' ') || (input.charAt(pos) == ',')) {
-                    names.add(input.substring(pos + 1, j));
+                    if(pos<input.length()) {
+                        names.add(input.substring(pos + 1, j));
+                    }
                 } else {
                     names.add(input.substring(pos, j));
                 }
