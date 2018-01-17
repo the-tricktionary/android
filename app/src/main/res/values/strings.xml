@@ -251,10 +251,13 @@
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="password">Password</string>
     <string name="last_name">Last Name</string>
+  <string name="already_have_account">I already have an account</string>
+  <string name="sign_up">Sign Up</string>
+  <string name="create_account">Create an account</string>
+  <string name="blank_fields_toast">One or more fields is blank, all are required</string>
 
 
-    <!-- Translatable strings that haven't been translated -->
+  <!-- Translatable strings that haven't been translated -->
 
 </resources>
