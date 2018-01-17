@@ -203,5 +203,14 @@
     <string name="view_another_profile_dialog">Enter a valid user ID to view a different profile.</string>
   <string name="user_id">User ID</string>
     <string name="no_profile_toast">Sorry, no profile found matching that ID</string>
+    <string name="my_friends">My Friends</string>
+    <string name="approve_request">Approve Request</string>
+    <string name="or">or</string>
+    <string name="use_phone">Use phone number instead</string>
+    <string name="first_name">First Name</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="last_name">Last Name</string>
 
 </resources>

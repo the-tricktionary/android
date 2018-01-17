@@ -187,8 +187,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_name"
             android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
             android:padding="8dp"
-            android:text="Friends"
+            android:text="@string/my_friends"
             android:textSize="14sp" />
 
         <RelativeLayout

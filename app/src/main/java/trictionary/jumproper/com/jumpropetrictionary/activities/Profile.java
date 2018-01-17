@@ -1,22 +1,17 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,13 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
-import trictionary.jumproper.com.jumpropetrictionary.speed.SpeedDataSelect;
 import trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask;
-import trictionary.jumproper.com.jumpropetrictionary.utils.Friend;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
@@ -53,8 +45,6 @@ public class Profile extends BaseActivity {
     private String[]trickTypes;
     private String uId="";
     private String imageURL="";
-    private int friendCount=0;
-    private ArrayList<Friend> friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,66 +70,7 @@ public class Profile extends BaseActivity {
         viewOtherProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this); //new alert dialog
-                //builder.setTitle("Submit reply"); //dialog title
-                LayoutInflater inflater = (LayoutInflater)Profile.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
-                final View textBoxes=inflater.inflate(R.layout.view_another_profile_dialog,null); //custom layout file now a view object
-                final EditText uIdText = (EditText)textBoxes.findViewById(R.id.user_id_text);
-                //initialize and populate friends list
-                final ListView profilelistView = (ListView)textBoxes.findViewById(R.id.profile_listview);
-                friends = new ArrayList<>();
-                FirebaseDatabase fb=FirebaseDatabase.getInstance();
-                DatabaseReference myRef=fb.getReference("users").child(uId).child("profile").child("friends");
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChildren()){
-                            friendCount = (int) dataSnapshot.getChildrenCount();
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                builder.setView(textBoxes); //set view to custom layout
-                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        uId = uIdText.getText().toString();
-                        Log.e("Profile",uId);
-                        FirebaseDatabase fb=FirebaseDatabase.getInstance();
-                        final DatabaseReference myRef=fb.getReference("users").child(uId).child("profile");
-                        myRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.e("Profile",dataSnapshot.getKey());
-                                String firstName = dataSnapshot.child("name").child("0").getValue().toString();
-                                String lastName = dataSnapshot.child("name").child("1").getValue().toString();
-                                profileName.setText(firstName + " " + lastName);
-                                imageURL = dataSnapshot.child("image").getValue().toString();
-                                Log.e("Profile",imageURL);
-                                Log.e("Profile",firstName);
-                                getProfileTricks();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.e("Database Error",databaseError.getMessage());
-                                Toast.makeText(Profile.this, R.string.no_profile_toast,Toast.LENGTH_SHORT);
-                            }
-                        });
-                        dialog.cancel();
-                    }
-                });
-                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
             }
         });
         profileImage = (ImageView)findViewById(R.id.profile_image);

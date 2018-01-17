@@ -21,7 +21,7 @@ android {
             keyPassword 'the-tricktionary'
         }
     }
-    lintOptions{
+    lintOptions {
         disable 'MissingTranslation'
     }
     buildTypes {
@@ -58,7 +58,7 @@ dependencies {
     compile "com.google.firebase:firebase-storage:$firebaseVersion"
     compile "com.google.firebase:firebase-perf:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar'){
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
     //other

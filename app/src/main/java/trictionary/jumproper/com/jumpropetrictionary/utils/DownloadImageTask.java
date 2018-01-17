@@ -26,6 +26,9 @@ public class DownloadImageTask extends AsyncTask<String, Void, ImageView> {
         this.mAuth = mAuth;
         this.current = current;
     }
+    public DownloadImageTask(ImageView current) {
+        this.current = current;
+    }
 
     protected ImageView doInBackground(String... urls) {
         String urldisplay = urls[0];

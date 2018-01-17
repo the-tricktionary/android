@@ -24,10 +24,4 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="51dp" />
 
-    <ListView
-        android:id="@+id/profile_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/user_id_text" />
 </RelativeLayout>

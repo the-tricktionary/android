@@ -113,12 +113,15 @@
             android:label="@string/title_activity_profile" />
         <activity android:name=".activities.BaseActivity" />
 
-        <service android:name=".utils.MyFirebaseInstanceIDService"
+        <service
+            android:name=".utils.MyFirebaseInstanceIDService"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".activities.Friends"></activity>
     </application>
 
 </manifest>
