@@ -172,44 +172,7 @@ public class SignIn extends BaseActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                // Sign in success, update UI with the signed-in user's information
-                                                Log.d("Auth", "createUserWithEmail:success");
-                                                FirebaseUser user = mAuth.getCurrentUser();
-                                                Toast.makeText(SignIn.this, R.string.signed_in_as + mAuth.getCurrentUser().getEmail(),
-                                                        Toast.LENGTH_SHORT).show();
-                                                FirebaseDatabase fb = FirebaseDatabase.getInstance();
-                                                final DatabaseReference myRef = fb.getReference("users");
-                                                if (mAuth.getCurrentUser().getPhotoUrl() != null) {
-                                                    myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
-                                                }
-                                                name[0] = firstName.getText().toString();
-                                                name[1] = lastName.getText().toString();
-                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
-                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("email").setValue(mAuth.getCurrentUser().getEmail());
-                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString());
-                                                lang = "en"; //by default
-                                                switch (lang) {
-                                                    case "Dansk":
-                                                        lang = "da";
-                                                        break;
-                                                    case "Deutsch":
-                                                        lang = "de";
-                                                        break;
-                                                    case "Español":
-                                                        lang = "es";
-                                                        break;
-                                                    case "русский":
-                                                        lang = "ru";
-                                                        break;
-                                                    case "Svenska":
-                                                        lang = "sv";
-                                                        break;
-                                                }
-                                                myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
-                                                Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                                                startActivity(intent);
-                                                finish();
+                                                finishSignIn();
                                             } else {
                                                 // If sign in fails, display a message to the user.
                                                 Log.w("Auth", "createUserWithEmail:failure", task.getException());
@@ -333,6 +296,10 @@ public class SignIn extends BaseActivity {
         }
     }
     public void checkUsername(final String username){
+        if(username.length()>20){
+            Toast.makeText(getApplicationContext(), "Sorry usernames must be less than 20 characters.",Toast.LENGTH_SHORT);
+            usernameTaken = true;
+        }
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
         final DatabaseReference usernamesRef = fb.getReference("usernames");
         usernamesRef.addValueEventListener(new ValueEventListener() {
@@ -438,45 +405,7 @@ public class SignIn extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Auth", "signInWithCredential:success");
-
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Auth", "createUserWithEmail:success");
-                            Toast.makeText(SignIn.this, R.string.signed_in_as + username.getText().toString(),
-                                    Toast.LENGTH_SHORT).show();
-
-                            FirebaseDatabase fb=FirebaseDatabase.getInstance();
-                            final DatabaseReference myRef=fb.getReference("users");
-                            if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
-                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
-                            }
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString());
-
-                            lang = "en"; //by default
-                            switch (lang) {
-                                case "Dansk":
-                                    lang = "da";
-                                    break;
-                                case "Deutsch":
-                                    lang = "de";
-                                    break;
-                                case "Español":
-                                    lang = "es";
-                                    break;
-                                case "русский":
-                                    lang = "ru";
-                                    break;
-                                case "Svenska":
-                                    lang = "sv";
-                                    break;
-                            }
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
-                            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                            startActivity(intent);
-                            finish();
+                            finishSignIn();
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -492,6 +421,47 @@ public class SignIn extends BaseActivity {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         Log.e("Auth","Intent: "+signInIntent.toString());
         startActivityForResult(signInIntent,RC_SIGN_IN);
+    }
+    public void finishSignIn(){
+        // Sign in success, update UI with the signed-in user's information
+        Log.d("Auth", "signInWithCredential:success");
+
+        // Sign in success, update UI with the signed-in user's information
+        Log.d("Auth", "createUserWithEmail:success");
+        Toast.makeText(SignIn.this, R.string.signed_in_as + username.getText().toString(),
+                Toast.LENGTH_SHORT).show();
+
+        FirebaseDatabase fb=FirebaseDatabase.getInstance();
+        final DatabaseReference myRef=fb.getReference("users");
+        if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
+            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
+        }
+        myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
+        myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
+        myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString().toLowerCase());
+
+        lang = "en"; //by default
+        switch (lang) {
+            case "Dansk":
+                lang = "da";
+                break;
+            case "Deutsch":
+                lang = "de";
+                break;
+            case "Español":
+                lang = "es";
+                break;
+            case "русский":
+                lang = "ru";
+                break;
+            case "Svenska":
+                lang = "sv";
+                break;
+        }
+        myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
+        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+        startActivity(intent);
+        finish();
     }
     public void userSignOut(View v){
         FirebaseAuth.getInstance().signOut();
@@ -525,42 +495,7 @@ public class SignIn extends BaseActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
-                            String displayName = mAuth.getCurrentUser().getDisplayName();
-                            name[0]=displayName.substring(0,displayName.indexOf(' '));
-                            name[1]=displayName.substring(displayName.indexOf(' ')+1);
-                            Toast.makeText(SignIn.this, "Signed in as "+username.getText().toString(),
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseDatabase fb=FirebaseDatabase.getInstance();
-                            final DatabaseReference myRef=fb.getReference("users");
-                            if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
-                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
-                            }
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString());
-
-                            lang = "en"; //by default
-                            switch (lang) {
-                                case "Dansk":
-                                    lang = "da";
-                                    break;
-                                case "Deutsch":
-                                    lang = "de";
-                                    break;
-                                case "Español":
-                                    lang = "es";
-                                    break;
-                                case "русский":
-                                    lang = "ru";
-                                    break;
-                                case "Svenska":
-                                    lang = "sv";
-                                    break;
-                            }
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
-                            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                            startActivity(intent);
-                            finish();
+                            finishSignIn();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
