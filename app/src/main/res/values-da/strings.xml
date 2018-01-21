@@ -217,5 +217,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="create_account">Create an account</string>
     <string name="blank_fields_toast">One or more fields is blank, all are required</string>
+    <string name="could_not_verify">Sorry, could not verify.</string>
+    <string name="username_error">There was an error checking your username, try again later.</string>
+    <string name="verify_phone_code">Verification code</string>
+    <string name="verify">Verify</string>
+    <string name="google_sign_in">Sign in with Google</string>
 
 </resources>

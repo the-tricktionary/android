@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -37,8 +38,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,9 +59,15 @@ public class SignIn extends BaseActivity {
     private String lang;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private boolean haveAccount=false;
+    private boolean haveAccount = false;
+    private boolean usernameTaken = false;
     private String[] name= new String[2];
-    private EditText username, firstName, lastName, email, password;
+    private String userEmail, uId;
+    private EditText username, firstName, lastName, email, password, verify;
+    private TextView orText;
+    private CheckBox usePhone;
+    private ImageButton googleButton;
+    private Button signIn, haveAccountButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +84,12 @@ public class SignIn extends BaseActivity {
         lastName = (EditText)textBoxes.findViewById(R.id.last_name);
         email = (EditText)textBoxes.findViewById(R.id.email);
         password = (EditText)textBoxes.findViewById(R.id.password);
-        final CheckBox usePhone = (CheckBox)textBoxes.findViewById(R.id.use_phone_number);
-        final ImageButton googleButton = (ImageButton)textBoxes.findViewById(R.id.google_sign_in);
-        final Button signIn = (Button)textBoxes.findViewById(R.id.sign_in_no_google);
-        final Button haveAccountButton = (Button)textBoxes.findViewById(R.id.already_have_account);
+        verify = (EditText)textBoxes.findViewById(R.id.verify_code);
+        usePhone = (CheckBox)textBoxes.findViewById(R.id.use_phone_number);
+        googleButton = (ImageButton)textBoxes.findViewById(R.id.google_sign_in);
+        signIn = (Button)textBoxes.findViewById(R.id.sign_in_no_google);
+        haveAccountButton = (Button)textBoxes.findViewById(R.id.already_have_account);
+        orText = (TextView)textBoxes.findViewById(R.id.or_sign_in);
         usePhone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -98,15 +110,15 @@ public class SignIn extends BaseActivity {
                     haveAccount = false;
                     firstName.setVisibility(View.VISIBLE);
                     lastName.setVisibility(View.VISIBLE);
+                    username.setVisibility(View.VISIBLE);
                     haveAccountButton.setText(R.string.already_have_account);
-                    usePhone.setVisibility(View.VISIBLE);
                     signIn.setText(R.string.sign_up);
                 }
                 else {
                     haveAccount = true;
                     firstName.setVisibility(View.GONE);
                     lastName.setVisibility(View.GONE);
-                    usePhone.setVisibility(View.GONE);
+                    username.setVisibility(View.GONE);
                     haveAccountButton.setText(R.string.create_account);
                     signIn.setText(R.string.sign_in);
                 }
@@ -115,7 +127,22 @@ public class SignIn extends BaseActivity {
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                firstName.setVisibility(View.GONE);
+                lastName.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                usePhone.setVisibility(View.GONE);
+                googleButton.setVisibility(View.GONE);
+                orText.setVisibility(View.GONE);
+                haveAccountButton.setVisibility(View.GONE);
+                signIn.setText(R.string.google_sign_in);
+                signIn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        signIn();
+                    }
+                });
+
             }
         });
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -131,122 +158,105 @@ public class SignIn extends BaseActivity {
                         Toast.makeText(getApplicationContext(), R.string.blank_fields_toast, Toast.LENGTH_SHORT).show();
                     }
                     else if (usePhone.isChecked()) {
+                        checkUsername(username.getText().toString());
                         name[0] = firstName.getText().toString();
                         name[1] = lastName.getText().toString();
-                        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                            @Override
-                            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                                // This callback will be invoked in two situations:
-                                // 1 - Instant verification. In some cases the phone number can be instantly
-                                //     verified without needing to send or enter a verification code.
-                                // 2 - Auto-retrieval. On some devices Google Play services can automatically
-                                //     detect the incoming verification SMS and perform verification without
-                                //     user action.
-                                Log.d("Auth", "onVerificationCompleted:" + phoneAuthCredential);
-
-                                signInWithPhoneAuthCredential(phoneAuthCredential);
-                            }
-
-                            @Override
-                            public void onVerificationFailed(FirebaseException e) {
-                                // This callback is invoked in an invalid request for verification is made,
-                                // for instance if the the phone number format is not valid.
-                                Log.w("Auth", "onVerificationFailed", e);
-
-                                if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                    // Invalid request
-                                    // ...
-                                } else if (e instanceof FirebaseTooManyRequestsException) {
-                                    // The SMS quota for the project has been exceeded
-                                    // ...
-                                }
-
-                                // Show a message and update the UI
-                                // ...
-                            }
-
-                            @Override
-                            public void onCodeSent(String verificationId,
-                                                   PhoneAuthProvider.ForceResendingToken token) {
-                                // The SMS verification code has been sent to the provided phone number, we
-                                // now need to ask the user to enter the code and then construct a credential
-                                // by combining the code with a verification ID.
-                                Log.d("Auth", "onCodeSent:" + verificationId);
-
-                                // Save verification ID and resending token so we can use them later
-                                mVerificationId = verificationId;
-                                mResendToken = token;
-
-                                // ...
-                            }
-                        };
-                        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                                email.getText().toString(),        // Phone number to verify
-                                60,                 // Timeout duration
-                                TimeUnit.SECONDS,   // Unit of timeout
-                                SignIn.this,               // Activity (for callback binding)
-                                mCallbacks);        // OnVerificationStateChangedCallbacks
+                        if(!usernameTaken) {
+                            checkPhoneNumber();
+                        }
                     } else {
-                        mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                                .addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Log.d("Auth", "createUserWithEmail:success");
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            Toast.makeText(SignIn.this, "Signed in as " + mAuth.getCurrentUser().getEmail(),
-                                                    Toast.LENGTH_SHORT).show();
-                                            FirebaseDatabase fb = FirebaseDatabase.getInstance();
-                                            final DatabaseReference myRef = fb.getReference("users");
-                                            if (mAuth.getCurrentUser().getPhotoUrl() != null) {
-                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
-                                            }
-                                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
-                                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-                                            myRef.child(mAuth.getCurrentUser().getUid()).child("username").setValue(username.getText().toString());
-                                            lang = "en"; //by default
-                                            switch (lang) {
-                                                case "Dansk":
-                                                    lang = "da";
-                                                    break;
-                                                case "Deutsch":
-                                                    lang = "de";
-                                                    break;
-                                                case "Español":
-                                                    lang = "es";
-                                                    break;
-                                                case "русский":
-                                                    lang = "ru";
-                                                    break;
-                                                case "Svenska":
-                                                    lang = "sv";
-                                                    break;
-                                            }
-                                            myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
-                                            final DatabaseReference usernamesRef = fb.getReference("usernames");
-                                            usernamesRef.child(username.getText().toString()).setValue(mAuth.getCurrentUser().getUid());
-                                            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w("Auth", "createUserWithEmail:failure", task.getException());
-                                            Toast.makeText(SignIn.this, "Authentication failed.",
-                                                    Toast.LENGTH_SHORT).show();
+                        checkUsername(username.getText().toString());
+                        if(!usernameTaken) {
+                            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                                    .addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                // Sign in success, update UI with the signed-in user's information
+                                                Log.d("Auth", "createUserWithEmail:success");
+                                                FirebaseUser user = mAuth.getCurrentUser();
+                                                Toast.makeText(SignIn.this, R.string.signed_in_as + mAuth.getCurrentUser().getEmail(),
+                                                        Toast.LENGTH_SHORT).show();
+                                                FirebaseDatabase fb = FirebaseDatabase.getInstance();
+                                                final DatabaseReference myRef = fb.getReference("users");
+                                                if (mAuth.getCurrentUser().getPhotoUrl() != null) {
+                                                    myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("image").setValue(mAuth.getCurrentUser().getPhotoUrl().toString());
+                                                }
+                                                name[0] = firstName.getText().toString();
+                                                name[1] = lastName.getText().toString();
+                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
+                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
+                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("email").setValue(mAuth.getCurrentUser().getEmail());
+                                                myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString());
+                                                lang = "en"; //by default
+                                                switch (lang) {
+                                                    case "Dansk":
+                                                        lang = "da";
+                                                        break;
+                                                    case "Deutsch":
+                                                        lang = "de";
+                                                        break;
+                                                    case "Español":
+                                                        lang = "es";
+                                                        break;
+                                                    case "русский":
+                                                        lang = "ru";
+                                                        break;
+                                                    case "Svenska":
+                                                        lang = "sv";
+                                                        break;
+                                                }
+                                                myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
+                                                Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                // If sign in fails, display a message to the user.
+                                                Log.w("Auth", "createUserWithEmail:failure", task.getException());
+                                                Toast.makeText(SignIn.this, "Authentication failed." + task.getException().getMessage(),
+                                                        Toast.LENGTH_SHORT).show();
 
+                                            }
+
+                                            // ...
                                         }
-
-                                        // ...
-                                    }
-                                });
+                                    });
+                        }
                     }
                 }
                 else {
                     if(email.getText().toString().length()==0 ||
-                            username.getText().toString().length()==0 ||
                             password.getText().toString().length()==0){
                         Toast.makeText(getApplicationContext(), R.string.blank_fields_toast, Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        if(usePhone.isChecked()){
+                            checkPhoneNumber();
+                        }
+                        else {
+                            FirebaseDatabase fb = FirebaseDatabase.getInstance();
+                            userEmail = email.getText().toString();
+                            mAuth.signInWithEmailAndPassword(userEmail, password.getText().toString())
+                                    .addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                // Sign in success, update UI with the signed-in user's information
+                                                Log.d("Auth", "signInWithEmail:success");
+                                                Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                // If sign in fails, display a message to the user.
+                                                Log.w("Auth", "signInWithEmail:failure", task.getException());
+                                                Toast.makeText(SignIn.this, "Authentication failed.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            // ...
+                                        }
+                                    });
+                        }
                     }
                 }
             }
@@ -322,6 +332,99 @@ public class SignIn extends BaseActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+    public void checkUsername(final String username){
+        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        final DatabaseReference usernamesRef = fb.getReference("usernames");
+        usernamesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(username)){
+                    Toast.makeText(getApplicationContext(), "Sorry that username is taken.",Toast.LENGTH_SHORT);
+                    usernameTaken = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), R.string.username_error,Toast.LENGTH_LONG);
+                usernameTaken = true;
+            }
+        });
+    }
+    public void checkPhoneNumber(){
+        firstName.setVisibility(View.GONE);
+        lastName.setVisibility(View.GONE);
+        username.setVisibility(View.GONE);
+        email.setVisibility(View.GONE);
+        password.setVisibility(View.GONE);
+        orText.setVisibility(View.GONE);
+        usePhone.setVisibility(View.GONE);
+        signIn.setText(R.string.verify);
+        haveAccountButton.setVisibility(View.GONE);
+        verify.setVisibility(View.VISIBLE);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, verify.getText().toString());
+                signInWithPhoneAuthCredential(credential);
+            }
+        });
+        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                // This callback will be invoked in two situations:
+                // 1 - Instant verification. In some cases the phone number can be instantly
+                //     verified without needing to send or enter a verification code.
+                // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                //     detect the incoming verification SMS and perform verification without
+                //     user action.
+                Log.d("Auth", "onVerificationCompleted:" + phoneAuthCredential);
+
+                signInWithPhoneAuthCredential(phoneAuthCredential);
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                // This callback is invoked in an invalid request for verification is made,
+                // for instance if the the phone number format is not valid.
+                Log.w("Auth", "onVerificationFailed", e);
+                Toast.makeText(getApplicationContext(), R.string.could_not_verify, Toast.LENGTH_SHORT).show();
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    // Invalid request
+                    // ...
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+                    // ...
+                }
+
+                // Show a message and update the UI
+                // ...
+            }
+
+            @Override
+            public void onCodeSent(String verificationId,
+                                   PhoneAuthProvider.ForceResendingToken token) {
+                // The SMS verification code has been sent to the provided phone number, we
+                // now need to ask the user to enter the code and then construct a credential
+                // by combining the code with a verification ID.
+                Log.d("Auth", "onCodeSent:" + verificationId);
+
+                // Save verification ID and resending token so we can use them later
+                mVerificationId = verificationId;
+                mResendToken = token;
+
+                // ...
+            }
+        };
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                email.getText().toString(),        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                SignIn.this,               // Activity (for callback binding)
+                mCallbacks);        // OnVerificationStateChangedCallbacks
+
+    }
     public void signInButtonClick(View v){
         switch (v.getId()) {
             case R.id.sign_in_button:
@@ -340,8 +443,9 @@ public class SignIn extends BaseActivity {
 
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Auth", "createUserWithEmail:success");
-                            Toast.makeText(SignIn.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
+                            Toast.makeText(SignIn.this, R.string.signed_in_as + username.getText().toString(),
                                     Toast.LENGTH_SHORT).show();
+
                             FirebaseDatabase fb=FirebaseDatabase.getInstance();
                             final DatabaseReference myRef=fb.getReference("users");
                             if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
@@ -349,7 +453,8 @@ public class SignIn extends BaseActivity {
                             }
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("username").setValue(username.getText().toString());
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString());
+
                             lang = "en"; //by default
                             switch (lang) {
                                 case "Dansk":
@@ -369,8 +474,6 @@ public class SignIn extends BaseActivity {
                                     break;
                             }
                             myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
-                            final DatabaseReference usernamesRef = fb.getReference("usernames");
-                            usernamesRef.child(username.getText().toString()).setValue(mAuth.getCurrentUser().getUid());
                             Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                             startActivity(intent);
                             finish();
@@ -425,7 +528,7 @@ public class SignIn extends BaseActivity {
                             String displayName = mAuth.getCurrentUser().getDisplayName();
                             name[0]=displayName.substring(0,displayName.indexOf(' '));
                             name[1]=displayName.substring(displayName.indexOf(' ')+1);
-                            Toast.makeText(SignIn.this, "Signed in as "+mAuth.getCurrentUser().getEmail(),
+                            Toast.makeText(SignIn.this, "Signed in as "+username.getText().toString(),
                                     Toast.LENGTH_SHORT).show();
                             FirebaseDatabase fb=FirebaseDatabase.getInstance();
                             final DatabaseReference myRef=fb.getReference("users");
@@ -434,7 +537,8 @@ public class SignIn extends BaseActivity {
                             }
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
                             myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("username").setValue(username.getText().toString());
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString());
+
                             lang = "en"; //by default
                             switch (lang) {
                                 case "Dansk":
@@ -454,8 +558,6 @@ public class SignIn extends BaseActivity {
                                     break;
                             }
                             myRef.child(mAuth.getCurrentUser().getUid()).child("lang").setValue(lang);
-                            final DatabaseReference usernamesRef = fb.getReference("usernames");
-                            usernamesRef.child(username.getText().toString()).setValue(mAuth.getCurrentUser().getUid());
                             Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                             startActivity(intent);
                             finish();
