@@ -70,7 +70,8 @@ public class Profile extends BaseActivity {
         viewOtherProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), Friends.class);
+                startActivity(intent);
             }
         });
         profileImage = (ImageView)findViewById(R.id.profile_image);
