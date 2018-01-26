@@ -17,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -184,84 +183,86 @@ public class Tricktionary extends BaseActivity{
 
     public void populateLists(){
 
-
-        final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view);
-        final ArrayList<Trick> basicsList = new ArrayList<Trick>();
-
-        final MyGridView level1GridView = (MyGridView) findViewById(R.id.level_1_grid_view);
-        final ArrayList<Trick> level1List = new ArrayList<Trick>();
-
-        final MyGridView level2GridView = (MyGridView) findViewById(R.id.level_2_grid_view);
-        final ArrayList<Trick> level2List = new ArrayList<Trick>();
-
-        final MyGridView level3GridView = (MyGridView) findViewById(R.id.level_3_grid_view);
-        final ArrayList<Trick> level3List = new ArrayList<Trick>();
-
-        final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
-        final ArrayList<Trick> level4List = new ArrayList<Trick>();
-
-        if(tricktionary.size()==0){
+        if(tricktionary==null){
             return;
         }
-        for(int j=0;j<tricktionary.size();j++){
-            for(Trick mTrick:tricktionary.get(j)) {
-                if (mTrick.isChecklist()) {
-                    Log.d("Tricks",mTrick.getName());
-                } else if (mTrick.getType().equals(trickTypes[0])) {
-                    basicsList.add(mTrick);
-                } else if (mTrick.getDifficulty() == 1) {
-                    level1List.add(mTrick);
-                } else if (mTrick.getDifficulty() == 2) {
-                    level2List.add(mTrick);
-                } else if (mTrick.getDifficulty() == 3) {
-                    level3List.add(mTrick);
-                } else if (mTrick.getDifficulty() == 4) {
-                    level4List.add(mTrick);
+        else {
+            final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view);
+            final ArrayList<Trick> basicsList = new ArrayList<Trick>();
+
+            final MyGridView level1GridView = (MyGridView) findViewById(R.id.level_1_grid_view);
+            final ArrayList<Trick> level1List = new ArrayList<Trick>();
+
+            final MyGridView level2GridView = (MyGridView) findViewById(R.id.level_2_grid_view);
+            final ArrayList<Trick> level2List = new ArrayList<Trick>();
+
+            final MyGridView level3GridView = (MyGridView) findViewById(R.id.level_3_grid_view);
+            final ArrayList<Trick> level3List = new ArrayList<Trick>();
+
+            final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
+            final ArrayList<Trick> level4List = new ArrayList<Trick>();
+
+            if (tricktionary.size() == 0) {
+                return;
+            }
+            for (int j = 0; j < tricktionary.size(); j++) {
+                for (Trick mTrick : tricktionary.get(j)) {
+                    if (mTrick.isChecklist()) {
+                        Log.d("Tricks", mTrick.getName());
+                    } else if (mTrick.getType().equals(trickTypes[0])) {
+                        basicsList.add(mTrick);
+                    } else if (mTrick.getDifficulty() == 1) {
+                        level1List.add(mTrick);
+                    } else if (mTrick.getDifficulty() == 2) {
+                        level2List.add(mTrick);
+                    } else if (mTrick.getDifficulty() == 3) {
+                        level3List.add(mTrick);
+                    } else if (mTrick.getDifficulty() == 4) {
+                        level4List.add(mTrick);
+                    }
                 }
             }
-        }
-        Collections.sort(basicsList,((GlobalData) this.getApplication()).getCompareName());
-        final ArrayList<Trick>level1Sorted=addWhiteSpace(sortTrickList(level1List));
-        final ArrayList<Trick>level2Sorted=addWhiteSpace(sortTrickList(level2List));
-        final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
-        final ArrayList<Trick>level4Sorted=addWhiteSpace(sortTrickList(level4List));
-        final ArrayList[] trickLists = new ArrayList[]{basicsList,
-                level1Sorted,
-                level2Sorted,
-                level3Sorted,
-                level4Sorted};
+            Collections.sort(basicsList, ((GlobalData) this.getApplication()).getCompareName());
+            final ArrayList<Trick> level1Sorted = addWhiteSpace(sortTrickList(level1List));
+            final ArrayList<Trick> level2Sorted = addWhiteSpace(sortTrickList(level2List));
+            final ArrayList<Trick> level3Sorted = addWhiteSpace(sortTrickList(level3List));
+            final ArrayList<Trick> level4Sorted = addWhiteSpace(sortTrickList(level4List));
+            final ArrayList[] trickLists = new ArrayList[]{basicsList,
+                    level1Sorted,
+                    level2Sorted,
+                    level3Sorted,
+                    level4Sorted};
 
-        final MyGridView[] trickListGridViews= new MyGridView[]{basicsGridView,
-                level1GridView,
-                level2GridView,
-                level3GridView,
-                level4GridView};
+            final MyGridView[] trickListGridViews = new MyGridView[]{basicsGridView,
+                    level1GridView,
+                    level2GridView,
+                    level3GridView,
+                    level4GridView};
 
-        for(int j=0;j<trickListGridViews.length;j++){
-            trickListGridViews[j].setAdapter(new TrickListAdapter(this, R.layout.trick_list_layout, trickLists[j]));
-            trickListGridViews[j].setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    // ListView Clicked item index
-                    int itemPosition = position;
-                    // ListView Clicked item value
-                    MainActivity.currentTrick=(Trick)parent.getItemAtPosition(position);
-                    if(MainActivity.currentTrick==null){
-                        return;
+            for (int j = 0; j < trickListGridViews.length; j++) {
+                trickListGridViews[j].setAdapter(new TrickListAdapter(this, R.layout.trick_list_layout, trickLists[j]));
+                trickListGridViews[j].setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        // ListView Clicked item index
+                        int itemPosition = position;
+                        // ListView Clicked item value
+                        MainActivity.currentTrick = (Trick) parent.getItemAtPosition(position);
+                        if (MainActivity.currentTrick == null) {
+                            return;
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            // Show Alert
+                            Toast.makeText(getApplicationContext(),
+                                    MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
-                    else {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        // Show Alert
-                        Toast.makeText(getApplicationContext(),
-                                MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
-                                .show();
-                    }
-                }
-            });
+                });
+            }
         }
-        ((ScrollView)findViewById(R.id.scrollView3)).smoothScrollTo(0,0);
     }
 
 

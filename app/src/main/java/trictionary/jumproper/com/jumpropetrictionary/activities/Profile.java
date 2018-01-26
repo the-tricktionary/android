@@ -73,8 +73,7 @@ public class Profile extends BaseActivity {
                 //Intent intent = new Intent(getApplicationContext(), Friends.class);
                 //startActivity(intent);
                 AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
-                builder.setTitle(R.string.friends);
-                builder.setMessage(R.string.coming_soon);
+                builder.setTitle(R.string.coming_soon);
                 builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
