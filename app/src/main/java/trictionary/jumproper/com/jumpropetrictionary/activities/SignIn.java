@@ -172,6 +172,13 @@ public class SignIn extends BaseActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
+                                                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        Toast.makeText(SignIn.this, getString(R.string.verification_email) + task.getException().getMessage(),
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
                                                 finishSignIn();
                                             } else {
                                                 // If sign in fails, display a message to the user.

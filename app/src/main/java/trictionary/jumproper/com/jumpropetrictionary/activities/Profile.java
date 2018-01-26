@@ -70,8 +70,18 @@ public class Profile extends BaseActivity {
         viewOtherProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Friends.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getApplicationContext(), Friends.class);
+                //startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
+                builder.setTitle(R.string.friends);
+                builder.setMessage(R.string.coming_soon);
+                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
             }
         });
         profileImage = (ImageView)findViewById(R.id.profile_image);
