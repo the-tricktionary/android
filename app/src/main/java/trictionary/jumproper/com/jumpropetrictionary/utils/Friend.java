@@ -12,7 +12,7 @@ public class Friend {
 
     public Friend(){
         this.uId = "";
-        this.name[0] = "Guest";
+        this.name[0] = "Anon";
         this.name[1] = "";
         this.imageUrl = "";
         this.approved = false;

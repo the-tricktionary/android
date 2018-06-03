@@ -175,7 +175,7 @@ public class SignIn extends BaseActivity {
                                                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        Toast.makeText(SignIn.this, getString(R.string.verification_email) + task.getException().getMessage(),
+                                                        Toast.makeText(SignIn.this, getString(R.string.verification_email),
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
@@ -445,7 +445,9 @@ public class SignIn extends BaseActivity {
         }
         myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
         myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-        myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString().toLowerCase());
+        if (username.getText().toString().length()>0) {
+            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString().toLowerCase());
+        }
 
         lang = "en"; //by default
         switch (lang) {

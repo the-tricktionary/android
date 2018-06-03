@@ -1,16 +1,21 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +33,7 @@ import java.util.Collections;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask;
+import trictionary.jumproper.com.jumpropetrictionary.utils.FriendRequestListAdapter;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
@@ -45,6 +51,9 @@ public class Profile extends BaseActivity {
     private String[]trickTypes;
     private String uId="";
     private String imageURL="";
+    private boolean usernameTaken;
+    ArrayList<String> friendUsernames = new ArrayList<>();
+    ArrayList<String> friendRequests = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,15 +81,66 @@ public class Profile extends BaseActivity {
             public void onClick(View view) {
                 //Intent intent = new Intent(getApplicationContext(), Friends.class);
                 //startActivity(intent);
-                AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
-                builder.setTitle(R.string.coming_soon);
-                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                FirebaseDatabase fb = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = fb.getReference("users").child(uId).child("profile");
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild("username")){ //user has set a username
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
+                            LayoutInflater inflater = (LayoutInflater)Profile.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+                            final View textBoxes=inflater.inflate(R.layout.friends_dialog,null); //custom layout file now a view object
+                            final EditText friendUsername = (EditText)textBoxes.findViewById(R.id.friend_username_field);
+                            TextView friendRequestsHeader = (TextView)textBoxes.findViewById(R.id.friend_requests_header);
+                            ListView friendsList = (ListView) textBoxes.findViewById(R.id.friends_list);
+                            ListView friendRequestsList = (ListView) textBoxes.findViewById(R.id.friend_requests_list);
+                            populateFriendsList(friendsList);
+                            populateFriendRequestsList(friendRequestsList,friendRequestsHeader);
+                            Button addFriendButton = (Button)textBoxes.findViewById(R.id.add_friend_button);
+                            addFriendButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    addFriend(friendUsername.getText().toString(),friendUsername);
+                                }
+                            });
+                            builder.setView(textBoxes);
+                            builder.setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            builder.show();
+                        }
+                        else{ //user has no username
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
+                            LayoutInflater inflater = (LayoutInflater)Profile.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
+                            final View textBoxes=inflater.inflate(R.layout.create_username_dialog,null); //custom layout file now a view object
+                            final EditText usernameField = (EditText)textBoxes.findViewById(R.id.set_username_field);
+                            builder.setTitle(R.string.create_username);
+                            builder.setView(textBoxes);
+                            builder.setPositiveButton(getString(R.string.create_username), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    checkUsername(usernameField.getText().toString());
+                                    if(!usernameTaken){
+                                        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+                                        fb.getReference("users").child(uId).child("profile").child("username").setValue(usernameField.getText().toString().toLowerCase());
+                                        dialog.cancel();
+                                        viewOtherProfile.performClick();
+                                    }
+
+                                }
+                            });
+                            builder.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
-                builder.show();
             }
         });
         profileImage = (ImageView)findViewById(R.id.profile_image);
@@ -91,11 +151,129 @@ public class Profile extends BaseActivity {
         numLevel3Tricks=(TextView)findViewById(R.id.num_level_3_tricks_profile);
         numLevel4Tricks=(TextView)findViewById(R.id.num_level_4_tricks_profile);
 
-        loadProfile();
+        loadProfile(uId);
     }
-    public void loadProfile(){
+    public void addFriend(String username, EditText usernameField){
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = fb.getReference("checklist").child(uId);
+        DatabaseReference myRef = fb.getReference("users").child(uId).child("friends").child(username).child("mutual");
+        myRef.setValue(false);
+        usernameField.setText("");
+        Toast.makeText(Profile.this, "Request sent to " + username,
+                Toast.LENGTH_SHORT).show();
+    }
+    public void populateFriendRequestsList(final ListView listView, final TextView header) {
+        friendRequests.clear();
+        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = fb.getReference("users").child(uId).child("friendrequests");
+        final DatabaseReference friendsRef = fb.getReference("users").child(uId);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Friends list", dataSnapshot.getChildren().toString());
+                for (DataSnapshot friend : dataSnapshot.getChildren()) {
+                    Log.e("Friends list", friend.getKey());
+                    Log.e("Friends list", friend.getValue().toString());
+                    friendRequests.add(friend.child("username").getValue().toString());
+                }
+                if(friendRequests.size() == 0){
+                    header.setVisibility(View.GONE);
+                    listView.setVisibility(View.GONE);
+                }
+                FriendRequestListAdapter adapter = new FriendRequestListAdapter(Profile.this,
+                        R.layout.friend_request_list_item, friendRequests, friendsRef);
+                // Assign adapter to ListView
+                listView.setAdapter(adapter);
+                // ListView Item Click Listener
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+                        // ListView Clicked item index
+                        int itemPosition = position;
+                        Toast.makeText(getApplicationContext(),
+                                friendRequests.get(position), Toast.LENGTH_LONG)
+                                .show();
+
+                    }
+
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                return;
+            }
+        });
+    }
+    public void checkUsername(final String username){
+        if(username.length()>20){
+            Toast.makeText(getApplicationContext(), "Sorry usernames must be less than 20 characters.",Toast.LENGTH_SHORT);
+            usernameTaken = true;
+        }
+        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        final DatabaseReference usernamesRef = fb.getReference("usernames");
+        usernamesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(username)){
+                    Toast.makeText(getApplicationContext(), "Sorry that username is taken.",Toast.LENGTH_SHORT);
+                    usernameTaken = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), R.string.username_error,Toast.LENGTH_LONG);
+                usernameTaken = true;
+            }
+        });
+    }
+    public void populateFriendsList(final ListView listView) {
+        friendUsernames.clear();
+        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = fb.getReference("users").child(uId).child("friends");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Friends list", dataSnapshot.getChildren().toString());
+                for (DataSnapshot friend : dataSnapshot.getChildren()) {
+                    Log.e("Friends list", friend.getKey());
+                    Log.e("Friends list", friend.getValue().toString());
+                    if (friend.child("mutual").getValue().toString().equals("true")) {
+                        String friendUsername = friend.child("username").getValue().toString();
+                        friendUsernames.add(friendUsername);
+                    }
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Profile.this,
+                        android.R.layout.simple_list_item_1, android.R.id.text1, friendUsernames);
+                // Assign adapter to ListView
+                listView.setAdapter(adapter);
+                // ListView Item Click Listener
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+
+                        Toast.makeText(getApplicationContext(),
+                                friendUsernames.get(position), Toast.LENGTH_LONG)
+                                .show();
+
+                    }
+
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                return;
+            }
+        });
+    }
+    public void loadProfile(String mUid){
+        FirebaseDatabase fb = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = fb.getReference("checklist").child(mUid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -408,7 +586,7 @@ public class Profile extends BaseActivity {
                             }
                         }
                     }
-                    loadProfile();
+                    loadProfile(uId);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
