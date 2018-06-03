@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,7 +32,9 @@ import java.util.Collections;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 import trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView;
 import trictionary.jumproper.com.jumpropetrictionary.utils.DownloadImageTask;
+import trictionary.jumproper.com.jumpropetrictionary.utils.Friend;
 import trictionary.jumproper.com.jumpropetrictionary.utils.FriendRequestListAdapter;
+import trictionary.jumproper.com.jumpropetrictionary.utils.FriendsListAdapter;
 import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
@@ -52,6 +53,7 @@ public class Profile extends BaseActivity {
     private String uId="";
     private String imageURL="";
     private boolean usernameTaken;
+    ArrayList<Friend> friends = new ArrayList<>();
     ArrayList<String> friendUsernames = new ArrayList<>();
     ArrayList<String> friendRequests = new ArrayList<>();
 
@@ -83,7 +85,7 @@ public class Profile extends BaseActivity {
                 //startActivity(intent);
                 FirebaseDatabase fb = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = fb.getReference("users").child(uId).child("profile");
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild("username")){ //user has set a username
@@ -230,7 +232,7 @@ public class Profile extends BaseActivity {
         });
     }
     public void populateFriendsList(final ListView listView) {
-        friendUsernames.clear();
+        friends.clear();
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = fb.getReference("users").child(uId).child("friends");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -242,11 +244,12 @@ public class Profile extends BaseActivity {
                     Log.e("Friends list", friend.getValue().toString());
                     if (friend.child("mutual").getValue().toString().equals("true")) {
                         String friendUsername = friend.child("username").getValue().toString();
-                        friendUsernames.add(friendUsername);
+                        Friend f = new Friend(friendUsername);
+                        friends.add(f);
                     }
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Profile.this,
-                        android.R.layout.simple_list_item_1, android.R.id.text1, friendUsernames);
+                FriendsListAdapter adapter = new FriendsListAdapter(Profile.this,
+                        R.layout.friend_list_item, friends);
                 // Assign adapter to ListView
                 listView.setAdapter(adapter);
                 // ListView Item Click Listener
@@ -255,10 +258,8 @@ public class Profile extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-
-
                         Toast.makeText(getApplicationContext(),
-                                friendUsernames.get(position), Toast.LENGTH_LONG)
+                                friends.get(position).getUsername(), Toast.LENGTH_LONG)
                                 .show();
 
                     }

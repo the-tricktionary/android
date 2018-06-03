@@ -16,13 +16,14 @@
                 android:id="@+id/textView28"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="4dp"
                 android:padding="8dp"
                 android:text="My Friends:" />
 
             <ListView
                 android:id="@+id/friends_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="256dp"
                 android:padding="16dp">
 
             </ListView>
@@ -31,6 +32,7 @@
                 android:id="@+id/friend_requests_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="4dp"
                 android:padding="8dp"
                 android:text="Friend Requests:" />
 
@@ -46,6 +48,7 @@
                 android:id="@+id/add_friend_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="4dp"
                 android:padding="8dp"
                 android:text="@string/add_friend_text" />
 
@@ -63,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:elevation="4dp"
                 android:text="Add Friend" />
 
         </LinearLayout>

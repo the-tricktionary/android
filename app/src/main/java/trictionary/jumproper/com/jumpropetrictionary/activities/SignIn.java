@@ -504,6 +504,9 @@ public class SignIn extends BaseActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
+                            String dispName = mAuth.getCurrentUser().getDisplayName();
+                            name[0] = dispName.substring(0,dispName.indexOf(" "));
+                            name[1] = dispName.substring(dispName.indexOf(" "));
                             finishSignIn();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds

@@ -59,6 +59,19 @@ public class FriendRequestListAdapter extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View view) {
                     friends.child("friends").child(p).child("mutual").setValue(false);
+                    FirebaseDatabase fb = FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef = fb.getReference("usernames").child(p);
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            friends.child("friendrequests").child(dataSnapshot.getValue().toString()).removeValue();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     Toast.makeText(getContext(),
                             "Accepted request from "+p, Toast.LENGTH_LONG)
                             .show();
@@ -91,6 +104,6 @@ public class FriendRequestListAdapter extends ArrayAdapter<String> {
 
     }
 
-    
+
 
 }
