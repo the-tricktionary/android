@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +41,14 @@ import static trictionary.jumproper.com.jumpropetrictionary.activities.Tricktion
 
 public class Profile extends BaseActivity {
     private TextView profileName;
-    private ImageView profileImage;
+    private ImageView profileImage,shareProfile;
     private Button viewOtherProfile;
-    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks;
+    private int levels;
+    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,profileUsername;
     private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count;
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
+    private ArrayList<ArrayList<Trick>> friendsCompletedTricks;
     private FirebaseAuth mAuth;
     private String[]trickTypes;
     private String uId="";
@@ -56,20 +57,21 @@ public class Profile extends BaseActivity {
     ArrayList<Friend> friends = new ArrayList<>();
     ArrayList<String> friendUsernames = new ArrayList<>();
     ArrayList<String> friendRequests = new ArrayList<>();
+    AlertDialog friendsDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         trickTypes = getResources().getStringArray(R.array.trick_types);
-        tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
-        completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
+        tricktionary = (ArrayList<ArrayList<Trick>>)((GlobalData) this.getApplication()).getTricktionary().clone();
+        completedTricks = new ArrayList<ArrayList<Trick>>(((GlobalData) this.getApplication()).getCompletedTricks());
 
         mAuth = ((GlobalData) this.getApplication()).getmAuth();
 
         profileName = (TextView)findViewById(R.id.profile_name);
+        profileUsername = (TextView)findViewById(R.id.profile_username);
+        profileUsername.setText(((GlobalData) this.getApplication()).getUsername());
         profileName.setText(mAuth.getCurrentUser().getDisplayName());
         if(mAuth.getCurrentUser()!=null) {
             uId = mAuth.getCurrentUser().getUid();
@@ -89,6 +91,7 @@ public class Profile extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild("username")){ //user has set a username
+
                             AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
                             LayoutInflater inflater = (LayoutInflater)Profile.this.getSystemService (Context.LAYOUT_INFLATER_SERVICE); //needed to display custom layout
                             final View textBoxes=inflater.inflate(R.layout.friends_dialog,null); //custom layout file now a view object
@@ -112,7 +115,7 @@ public class Profile extends BaseActivity {
                                     dialog.cancel();
                                 }
                             });
-                            builder.show();
+                            friendsDialog = builder.show();
                         }
                         else{ //user has no username
                             AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
@@ -146,14 +149,20 @@ public class Profile extends BaseActivity {
             }
         });
         profileImage = (ImageView)findViewById(R.id.profile_image);
+        shareProfile = (ImageView)findViewById(R.id.share_profile);
 
         numTricks=(TextView)findViewById(R.id.num_tricks_profile);
         numLevel1Tricks=(TextView)findViewById(R.id.num_level_1_tricks_profile);
         numLevel2Tricks=(TextView)findViewById(R.id.num_level_2_tricks_profile);
         numLevel3Tricks=(TextView)findViewById(R.id.num_level_3_tricks_profile);
         numLevel4Tricks=(TextView)findViewById(R.id.num_level_4_tricks_profile);
-
-        loadProfile(uId);
+        DownloadImageTask downloadImage = new DownloadImageTask(mAuth, profileImage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            if (mAuth.getCurrentUser().getPhotoUrl() != null) {
+                downloadImage.execute(imageURL);
+            }
+        }
+        loadProfile(uId,completedTricks);
     }
     public void addFriend(String username, EditText usernameField){
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
@@ -164,13 +173,13 @@ public class Profile extends BaseActivity {
                 Toast.LENGTH_SHORT).show();
     }
     public void populateFriendRequestsList(final ListView listView, final TextView header) {
-        friendRequests.clear();
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = fb.getReference("users").child(uId).child("friendrequests");
         final DatabaseReference friendsRef = fb.getReference("users").child(uId);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                friendRequests.clear();
                 Log.e("Friends list", dataSnapshot.getChildren().toString());
                 for (DataSnapshot friend : dataSnapshot.getChildren()) {
                     Log.e("Friends list", friend.getKey());
@@ -232,12 +241,12 @@ public class Profile extends BaseActivity {
         });
     }
     public void populateFriendsList(final ListView listView) {
-        friends.clear();
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = fb.getReference("users").child(uId).child("friends");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                friends.clear();
                 Log.e("Friends list", dataSnapshot.getChildren().toString());
                 for (DataSnapshot friend : dataSnapshot.getChildren()) {
                     Log.e("Friends list", friend.getKey());
@@ -258,10 +267,35 @@ public class Profile extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
+                        Friend f = friends.get(position);
                         Toast.makeText(getApplicationContext(),
-                                friends.get(position).getUsername(), Toast.LENGTH_LONG)
+                                f.getUsername(), Toast.LENGTH_LONG)
                                 .show();
 
+                        friendsCompletedTricks = getCompletedTricks(f.getuId());
+                        if(f.getName()!=null) {
+                            if(f.getName()[0] == null || f.getName()[1] == null){
+                                profileName.setText(f.getUsername());
+                                profileUsername.setText("");
+                            }
+                            else {
+                                profileName.setText(f.getName()[0] + " " + f.getName()[1]);
+                                profileUsername.setText(f.getUsername());
+                            }
+                        }
+                        else{
+                            profileName.setText(f.getUsername());
+                            profileUsername.setText("");
+                        }
+                        DownloadImageTask downloadImage = new DownloadImageTask(mAuth, profileImage);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE && f.getImageUrl() != null) {
+                            downloadImage.execute(f.getImageUrl());
+                        }
+                        else{
+                            profileImage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                        shareProfile.setVisibility(View.INVISIBLE);
+                        friendsDialog.cancel();
                     }
 
                 });
@@ -272,7 +306,7 @@ public class Profile extends BaseActivity {
             }
         });
     }
-    public void loadProfile(String mUid){
+    public void loadProfile(String mUid, ArrayList<ArrayList<Trick>> completedTricks){
         FirebaseDatabase fb = FirebaseDatabase.getInstance();
         DatabaseReference myRef = fb.getReference("checklist").child(mUid);
         myRef.addValueEventListener(new ValueEventListener() {
@@ -313,14 +347,7 @@ public class Profile extends BaseActivity {
 
             }
         });
-
-        DownloadImageTask downloadImage = new DownloadImageTask(mAuth, profileImage);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            if (mAuth.getCurrentUser().getPhotoUrl() != null) {
-                downloadImage.execute(imageURL);
-            }
-        }
-        populateLists();
+        populateLists(completedTricks);
     }
     @Override
     public void onPostCreate(Bundle savedInstanceState){
@@ -335,7 +362,59 @@ public class Profile extends BaseActivity {
     public void onPause(){
         super.onPause();
     }
-    public void populateLists(){
+
+    public ArrayList<ArrayList<Trick>> getCompletedTricks(final String mUid){
+        Log.e("checklist", mUid);
+        final ArrayList<ArrayList<Trick>> completedTricks = new ArrayList<>();
+        levels = ((GlobalData) Profile.this.getApplication()).getLevels();
+        if(mUid.length()>0 && tricktionary.size()>0) {
+            FirebaseDatabase fb=FirebaseDatabase.getInstance();
+            DatabaseReference checklist=fb.getReference("checklist").child(mUid);
+            for(int j=0;j<levels;j++){
+                completedTricks.add(new ArrayList<Trick>());
+            }
+            checklist.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot id0:dataSnapshot.getChildren()){
+                        for(DataSnapshot id1:id0.getChildren()){
+                            if(Integer.parseInt(id0.getKey())<0){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else if(Integer.parseInt(id0.getKey())>=  tricktionary.size()){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else if(Integer.parseInt(id1.getKey())>=  tricktionary.get(Integer.parseInt(id0.getKey())).size()){
+                                Log.e("Checklist id0 :(",id0.getKey()+":"+id0.getValue());
+                                Log.e("Checklist id1 :(",id1.getKey()+":"+id1.getValue());
+                            }
+                            else {
+                                Log.e("Checklist",tricktionary.get(Integer.parseInt(id0.getKey()))
+                                        .get(Integer.parseInt(id1.getKey())).getName());
+                                /**
+                                tricktionary.get(Integer.parseInt(id0.getKey()))
+                                        .get(Integer.parseInt(id1.getKey()))
+                                        .setCompleted(true);
+                                 **/
+                                completedTricks.get(Integer.parseInt(id0.getKey()))
+                                        .add(tricktionary.get(Integer.parseInt(id0.getKey()))
+                                                .get(Integer.parseInt(id1.getKey())));
+                            }
+                        }
+                    }
+                    loadProfile(mUid,completedTricks);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("checklist", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
+                }
+            });
+        }
+        return completedTricks;
+    }
+    public void populateLists(ArrayList<ArrayList<Trick>> completedTricks){
 
 
         final MyGridView basicsGridView = (MyGridView) findViewById(R.id.basics_grid_view_profile);
@@ -355,9 +434,9 @@ public class Profile extends BaseActivity {
 
         for(int j=0;j<completedTricks.size();j++){
             for(Trick mTrick:completedTricks.get(j)) {
-                if (!mTrick.isCompleted()) {
-                    j++;
-                } else if (mTrick.getType().equals(trickTypes[0])) {
+                //if (!mTrick.isCompleted()) {
+                //    j++;
+                if (mTrick.getType().equals(trickTypes[0])) {
                     basicsList.add(mTrick);
                 } else if (mTrick.getDifficulty() == 1) {
                     level1List.add(mTrick);
@@ -367,6 +446,9 @@ public class Profile extends BaseActivity {
                     level3List.add(mTrick);
                 } else if (mTrick.getDifficulty() == 4) {
                     level4List.add(mTrick);
+                }
+                else{
+                    j++;
                 }
             }
         }
@@ -587,7 +669,7 @@ public class Profile extends BaseActivity {
                             }
                         }
                     }
-                    loadProfile(uId);
+                    loadProfile(uId,completedTricks);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {

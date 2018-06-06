@@ -17,6 +17,7 @@
             android:layout_alignBottom="@+id/friend_username"
             android:layout_toStartOf="@+id/confirm_friend_request"
             android:padding="8dp"
+            android:tint="#000000"
             app:srcCompat="@drawable/ic_clear_material"
             tools:layout_editor_absoluteX="362dp"
             tools:layout_editor_absoluteY="0dp" />
@@ -27,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/deny_friend_request"
             android:layout_alignParentEnd="true"
-            android:alpha=".75"
             android:padding="8dp"
             app:srcCompat="@drawable/ic_check_black_24dp"
             tools:layout_editor_absoluteX="362dp"

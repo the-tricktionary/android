@@ -34,6 +34,7 @@ public class SplashActivity extends AppCompatActivity {
     private String uId="";
     private Trick mTrick;
     private int totalTricks;
+    private String username;
     private FirebaseAuth mAuth;
     private static boolean offline=true;
     private SharedPreferences settings;
@@ -58,14 +59,39 @@ public class SplashActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_splash);
         tricktionary = getTricktionaryData();
+
         mAuth = FirebaseAuth.getInstance();
         settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
         int totalTricks = getTotalTricks();
         if(mAuth.getCurrentUser()!=null) {
             uId = mAuth.getCurrentUser().getUid();
         }
+        setUsername();
         ((GlobalData) this.getApplication()).setTotalTricks(totalTricks);
         ((GlobalData) this.getApplication()).setSettings(settings);
+    }
+    public void setUsername(){
+        if(mAuth.getCurrentUser()!=null) {
+            FirebaseDatabase fb = FirebaseDatabase.getInstance();
+            DatabaseReference checklist = fb.getReference("users").child(uId).child("profile");
+            checklist.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChild("username")){
+                        if(dataSnapshot.child("username").getValue().toString().length() > 0){
+                            username = dataSnapshot.child("username").getValue().toString();
+                            ((GlobalData) getApplication()).setUsername(username);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("username", databaseError.getMessage().toString() + " : " + databaseError.getDetails());
+                    return;
+                }
+            });
+        }
     }
     public ArrayList<ArrayList<Trick>> getTricktionaryData(){
         tricktionary =new ArrayList<>();
@@ -80,6 +106,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 levels = dataSnapshot.getChildrenCount();
+                ((GlobalData) SplashActivity.this.getApplication()).setLevels((int)levels);
                 for(int j=0;j<levels;j++){
                     tricktionary.add(new ArrayList<Trick>());
                 }
@@ -279,7 +306,6 @@ public class SplashActivity extends AppCompatActivity {
         return tricktionary;
     }
     public void fillCompletedTricks(){
-        Log.e("checklist", uId);
         if(uId.length()>0 && tricktionary.size()>0) {
             FirebaseDatabase fb=FirebaseDatabase.getInstance();
             DatabaseReference checklist=fb.getReference("checklist").child(uId);
@@ -336,7 +362,6 @@ public class SplashActivity extends AppCompatActivity {
         checklist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e("Totals",dataSnapshot.getKey().toString()+"  "+dataSnapshot.getValue().toString());
                 totalTricks = Integer.parseInt(dataSnapshot.getValue().toString());
             }
 

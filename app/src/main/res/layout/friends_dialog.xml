@@ -23,7 +23,7 @@
             <ListView
                 android:id="@+id/friends_list"
                 android:layout_width="match_parent"
-                android:layout_height="256dp"
+                android:layout_height="128dp"
                 android:padding="16dp">
 
             </ListView>
@@ -39,7 +39,7 @@
             <ListView
                 android:id="@+id/friend_requests_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="128dp"
                 android:padding="16dp">
 
             </ListView>

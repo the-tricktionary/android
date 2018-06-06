@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +25,8 @@ public class GlobalData extends Application {
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private String uId = "";
+    private String username;
+    private int levels;
     private SharedPreferences settings;
     private int totalTricks;
     private Locale mLocale;
@@ -96,6 +96,14 @@ public class GlobalData extends Application {
         this.totalTricks = totalTricks;
     }
 
+    public int getLevels() {
+        return levels;
+    }
+
+    public void setLevels(int levels) {
+        this.levels = levels;
+    }
+
     public Comparator<Trick> getCompareName() {
         return new Comparator<Trick>() {
             @Override
@@ -110,6 +118,16 @@ public class GlobalData extends Application {
 
     public void setmLocale(Locale mLocale) {
         this.mLocale = mLocale;
+    }
+
+    public String getUsername() {
+        Log.e("Getting username",username);
+        return username;
+    }
+
+    public void setUsername(String username) {
+        Log.e("username",username);
+        this.username = username;
     }
 
     public void setCompareName(Comparator<Trick> compareName) {
