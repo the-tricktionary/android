@@ -25,7 +25,7 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`curl "%url%"`) DO (
 )
 
 ECHO downloading langs
-curl --create-dirs -o "app\src\main\res\values-#1\strings.xml" "%url%{%langs%}"
+curl --create-dirs -v -H 'Cache-Control: no-cache' -o "app\src\main\res\values-#1\strings.xml" "%url%{%langs%}"
 
 ECHO Moving en to base
 MOVE /y "app\src\main\res\values-en\strings.xml" "app\src\main\res\values\strings.xml"

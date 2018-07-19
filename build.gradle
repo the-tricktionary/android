@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        google()
          maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
@@ -25,8 +26,8 @@ allprojects {
         }
     }
     project.ext {
-        firebaseVersion="11.2.0" //String
-        buildSdkVersion="26.0.1"
+        firebaseVersion="11.6.0" //String
+        buildSdkVersion="26.0.2"
     }
 }
 

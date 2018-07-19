@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JumpRopeTrictionary.iml" filepath="$PROJECT_DIR$/JumpRopeTrictionary.iml" />
+      <module fileurl="file://C:\Users\jumpr\StudioProjects\android\JumpRopeTrictionary.iml" filepath="C:\Users\jumpr\StudioProjects\android\JumpRopeTrictionary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
       <module fileurl="file://C:\Users\jumpr_000\AndroidStudioProjects\JumpRopeTrictionary\android.iml" filepath="C:\Users\jumpr_000\AndroidStudioProjects\JumpRopeTrictionary\android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mpchartlib/mpchartlib.iml" filepath="$PROJECT_DIR$/mpchartlib/mpchartlib.iml" />
