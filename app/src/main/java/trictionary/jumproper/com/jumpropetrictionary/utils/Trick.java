@@ -242,7 +242,7 @@ public class Trick extends FirebaseInstanceIdService {
         ArrayList<Integer>id1s=new ArrayList<>();
         ArrayList<String> names=new ArrayList<>();
         for(DataSnapshot prereq:trick.child("prerequisites").getChildren()){
-            if(prereq.hasChild("id0")&&prereq.hasChild("id1")) {
+            if(prereq.hasChild("id0")&&prereq.hasChild("id1")&&prereq.hasChild("name")) {
                 id0s.add(Integer.parseInt(prereq.child("id0").getValue().toString()));
                 id1s.add(Integer.parseInt(prereq.child("id1").getValue().toString()));
                 names.add(prereq.child("name").getValue().toString());

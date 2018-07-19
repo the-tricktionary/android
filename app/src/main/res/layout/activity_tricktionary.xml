@@ -184,8 +184,42 @@
                 android:drawSelectorOnTop="true"
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
-                android:padding="8dp" />
+                android:padding="8dp" >
+            </trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView>
+            <TextView
+                android:id="@+id/level_5_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="false"
+                android:layout_below="@+id/level_4_grid_view"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner_shadow_red"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/level_5"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
 
+            <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
+                android:id="@+id/level_5_grid_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/level_5_title"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corner_shadow"
+                android:drawSelectorOnTop="true"
+                android:numColumns="3"
+                android:padding="8dp"
+                android:stretchMode="columnWidth" />
 
             <ProgressBar
                 android:id="@+id/loading_tricks"

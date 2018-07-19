@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.perf.metrics.AddTrace;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
@@ -200,6 +201,9 @@ public class Tricktionary extends BaseActivity{
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view);
         final ArrayList<Trick> level4List = new ArrayList<Trick>();
 
+        final MyGridView level5GridView = (MyGridView) findViewById(R.id.level_5_grid_view);
+        final ArrayList<Trick> level5List = new ArrayList<Trick>();
+
         if(tricktionary.size()==0){
             return;
         }
@@ -217,6 +221,8 @@ public class Tricktionary extends BaseActivity{
                     level3List.add(mTrick);
                 } else if (mTrick.getDifficulty() == 4) {
                     level4List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 5) {
+                    level5List.add(mTrick);
                 }
             }
         }
@@ -225,17 +231,20 @@ public class Tricktionary extends BaseActivity{
         final ArrayList<Trick>level2Sorted=addWhiteSpace(sortTrickList(level2List));
         final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
         final ArrayList<Trick>level4Sorted=addWhiteSpace(sortTrickList(level4List));
+        final ArrayList<Trick>level5Sorted=addWhiteSpace(sortTrickList(level5List));
         final ArrayList[] trickLists = new ArrayList[]{basicsList,
                 level1Sorted,
                 level2Sorted,
                 level3Sorted,
-                level4Sorted};
+                level4Sorted,
+                level5Sorted};
 
         final MyGridView[] trickListGridViews= new MyGridView[]{basicsGridView,
                 level1GridView,
                 level2GridView,
                 level3GridView,
-                level4GridView};
+                level4GridView,
+                level5GridView};
 
         for(int j=0;j<trickListGridViews.length;j++){
             trickListGridViews[j].setAdapter(new TrickListAdapter(this, R.layout.trick_list_layout, trickLists[j]));
@@ -248,6 +257,9 @@ public class Tricktionary extends BaseActivity{
                     // ListView Clicked item value
                     MainActivity.currentTrick=(Trick)parent.getItemAtPosition(position);
                     if(MainActivity.currentTrick==null){
+                        return;
+                    }
+                    else if(((String)parent.getItemAtPosition(position)).equals(" ")){
                         return;
                     }
                     else {
@@ -274,11 +286,11 @@ public class Tricktionary extends BaseActivity{
         int releases=3;
         Collections.sort(list, ((GlobalData) this.getApplication()).getCompareName());
         Collections.reverse(list);
-
         sortedTricks.add(0,new Trick(trickTypes[4]));
         sortedTricks.add(0,new Trick(trickTypes[3]));
         sortedTricks.add(0,new Trick(trickTypes[2]));
         sortedTricks.add(0,new Trick(trickTypes[1]));
+        //sortedTricks.add(0,new Trick(trickTypes[0]));
         for(int j=0;j<list.size();j++){
 
             if(list.get(j).getType().equals(trickTypes[1])){
@@ -314,7 +326,7 @@ public class Tricktionary extends BaseActivity{
             if(list.get(j).getName().equals(trickTypes[1])){
                 index=sortedTricks.size()-1;
                 while(index%3>0){
-                    sortedTricks.add(index,new Trick("  "));
+                    sortedTricks.add(index,new Trick(" "));
                     index++;
                 }
                 sortedTricks.add(index,new Trick(DASHES));

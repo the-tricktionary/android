@@ -38,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
     private Trick mTrick;
     private int totalTricks;
     private FirebaseAuth mAuth;
+    private String name;
     private static boolean offline=true;
     private SharedPreferences settings;
     private long levels;
@@ -87,7 +88,7 @@ public class SplashActivity extends AppCompatActivity {
                     tricktionary.add(new ArrayList<Trick>());
                 }
                 int index=0;
-                String name;
+                //String name;
                 String description;
                 int id0,id1;
                 String type;
@@ -262,6 +263,9 @@ public class SplashActivity extends AppCompatActivity {
                                 index++;
                             }
                             catch(Exception e){
+                                if (name != null){
+                                    Log.e("Trick error: " + name, e.getMessage());
+                                }
                                 FirebaseCrash.log("Error loading EN trick" + e.getMessage());
                                 Log.e("Trick error", e.getMessage());
                             }

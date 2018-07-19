@@ -261,6 +261,7 @@
     <string name="verify_phone_code">Verification code</string>
     <string name="verify">Verify</string>
     <string name="google_sign_in">Sign in with Google</string>
+    <string name="level_5">Impossible</string>
 
 
     <!-- Translatable strings that haven't been translated -->
