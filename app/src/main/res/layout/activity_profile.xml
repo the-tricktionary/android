@@ -126,22 +126,22 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="8dp" />
 
-        <TextView
-            android:id="@+id/level_4_title_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:layout_below="@+id/level_3_grid_view_profile"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_corner_shadow_red"
-            android:padding="8dp"
-            android:text="@string/level_4"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/level_4_title_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/level_3_grid_view_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_corner_shadow_red"
+        android:padding="8dp"
+        android:text="@string/level_4"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
     <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
         android:id="@+id/level_4_grid_view_profile"
@@ -156,6 +156,37 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="8dp"
         android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+
+        <TextView
+            android:id="@+id/level_5_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/level_4_grid_view_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow_red"
+            android:padding="8dp"
+            android:text="@string/level_5"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
+            android:id="@+id/level_5_grid_view_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/level_5_title_profile"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_shadow"
+            android:drawSelectorOnTop="true"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp" />
 
         <TextView
             android:id="@+id/profile_name"

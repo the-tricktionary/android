@@ -432,6 +432,9 @@ public class Profile extends BaseActivity {
         final MyGridView level4GridView = (MyGridView) findViewById(R.id.level_4_grid_view_profile);
         final ArrayList<Trick> level4List = new ArrayList<>();
 
+        final MyGridView level5GridView = (MyGridView) findViewById(R.id.level_5_grid_view_profile);
+        final ArrayList<Trick> level5List = new ArrayList<>();
+
         for(int j=0;j<completedTricks.size();j++){
             for(Trick mTrick:completedTricks.get(j)) {
                 //if (!mTrick.isCompleted()) {
@@ -446,6 +449,8 @@ public class Profile extends BaseActivity {
                     level3List.add(mTrick);
                 } else if (mTrick.getDifficulty() == 4) {
                     level4List.add(mTrick);
+                } else if (mTrick.getDifficulty() == 5) {
+                    level5List.add(mTrick);
                 }
                 else{
                     j++;
@@ -464,13 +469,15 @@ public class Profile extends BaseActivity {
                 level1Sorted,
                 level2Sorted,
                 level3Sorted,
-                level4Sorted};
+                level4Sorted,
+                level5List};
 
         final MyGridView[] trickListGridViews= new MyGridView[]{basicsGridView,
                 level1GridView,
                 level2GridView,
                 level3GridView,
-                level4GridView};
+                level4GridView,
+                level5GridView};
 
         for(int j=0;j<trickListGridViews.length;j++){
             trickListGridViews[j].setAdapter(new TrickListAdapter(this, R.layout.trick_list_layout, trickLists[j],false));
@@ -482,12 +489,20 @@ public class Profile extends BaseActivity {
                     int itemPosition = position;
                     // ListView Clicked item value
                     MainActivity.currentTrick=(Trick)parent.getItemAtPosition(position);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    // Show Alert
-                    Toast.makeText(getApplicationContext(),
-                            MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
-                            .show();
+                    if(MainActivity.currentTrick==null){
+                        return;
+                    }
+                    else if((((Trick) parent.getItemAtPosition(position)).getName()).equals(" ")){
+                        return;
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        // Show Alert
+                        Toast.makeText(getApplicationContext(),
+                                MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
+                                .show();
+                    }
                 }
             });
         }

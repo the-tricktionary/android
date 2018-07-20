@@ -231,13 +231,13 @@ public class Tricktionary extends BaseActivity{
         final ArrayList<Trick>level2Sorted=addWhiteSpace(sortTrickList(level2List));
         final ArrayList<Trick>level3Sorted=addWhiteSpace(sortTrickList(level3List));
         final ArrayList<Trick>level4Sorted=addWhiteSpace(sortTrickList(level4List));
-        final ArrayList<Trick>level5Sorted=addWhiteSpace(sortTrickList(level5List));
+        //final ArrayList<Trick>level5Sorted=addWhiteSpace(sortTrickList(level5List));
         final ArrayList[] trickLists = new ArrayList[]{basicsList,
                 level1Sorted,
                 level2Sorted,
                 level3Sorted,
                 level4Sorted,
-                level5Sorted};
+                level5List};
 
         final MyGridView[] trickListGridViews= new MyGridView[]{basicsGridView,
                 level1GridView,
@@ -259,7 +259,7 @@ public class Tricktionary extends BaseActivity{
                     if(MainActivity.currentTrick==null){
                         return;
                     }
-                    else if(((String)parent.getItemAtPosition(position)).equals(" ")){
+                    else if((((Trick) parent.getItemAtPosition(position)).getName()).equals(" ")){
                         return;
                     }
                     else {

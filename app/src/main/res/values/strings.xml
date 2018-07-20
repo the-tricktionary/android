@@ -240,30 +240,36 @@
   <string name="yes">Yes</string>
   <string name="youtube_style_chromeless">Chromeless</string>
   <string name="youtube_style_minimal">Minimal</string>
-    <string name="view_another_profile_dialog">Enter a valid user ID to send a friend request.  Your requests and added friends will appear here.</string>
-    <string name="user_id">User ID</string>
-    <string name="no_profile_toast">Sorry, no profile found matching that ID</string>
+  <string name="view_another_profile_dialog">Enter a valid user ID to send a friend request.  Your requests and added friends will appear here.</string>
+  <string name="user_id">User ID</string>
+  <string name="no_profile_toast">Sorry, no profile found matching that ID</string>
   <string name="my_friends">My Friends</string>
   <string name="approve_request">Approve Request</string>
-    <string name="or">or</string>
-    <string name="use_phone">Use phone number instead</string>
-    <string name="first_name">First Name</string>
-    <string name="username">Username</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="last_name">Last Name</string>
+  <string name="or">or</string>
+  <string name="use_phone">Use phone number instead</string>
+  <string name="first_name">First Name</string>
+  <string name="username">Username</string>
+  <string name="email">Email</string>
+  <string name="password">Password</string>
+  <string name="last_name">Last Name</string>
   <string name="already_have_account">I already have an account</string>
   <string name="sign_up">Sign Up</string>
   <string name="create_account">Create an account</string>
   <string name="blank_fields_toast">One or more fields is blank, all are required</string>
-    <string name="could_not_verify">Sorry, could not verify.</string>
-    <string name="username_error">There was an error checking your username, try again later.</string>
-    <string name="verify_phone_code">Verification code</string>
-    <string name="verify">Verify</string>
-    <string name="google_sign_in">Sign in with Google</string>
-    <string name="level_5">Impossible</string>
+  <string name="could_not_verify">Sorry, could not verify.</string>
+  <string name="username_error">There was an error checking your username, try again later.</string>
+  <string name="verify_phone_code">Verification code</string>
+  <string name="verify">Verify</string>
+  <string name="google_sign_in">Sign in with Google</string>
+  <string name="verification_email">Verification email sent</string>
+  <string name="friends">Friends</string>
+  <string name="coming_soon">Coming soon!</string>
+  <string name="add_friend_text">Add Friend by Username:</string>
+  <string name="username_for_friends">You need a username to add friends.</string>
+  <string name="create_username">Create Username</string>
+  <string name="level_5">Impossible:</string>
 
 
-    <!-- Translatable strings that haven't been translated -->
+  <!-- Translatable strings that haven't been translated -->
 
 </resources>
