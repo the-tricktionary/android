@@ -158,17 +158,16 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
         <TextView
-            android:text="..."
+            android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/profile_name"
-            android:textAlignment="gravity"
+            android:layout_below="@+id/profile_image"
+            android:layout_centerHorizontal="true"
             android:gravity="right"
             android:padding="8dp"
-            android:background="@drawable/rounded_corner_shadow_red"
-            android:textColor="@color/white"
-            android:layout_below="@+id/profile_image"
-            android:layout_centerHorizontal="true" />
+            android:text="..."
+            android:textAlignment="gravity"
+            android:textSize="18sp" />
 
         <View
             android:id="@+id/view"
@@ -185,7 +184,7 @@
             android:id="@+id/view_another_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_name"
+            android:layout_below="@+id/profile_username"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
             android:padding="8dp"
@@ -318,7 +317,7 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/share_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/profile_image"
@@ -326,6 +325,15 @@
             android:onClick="shareProfile"
             android:padding="8dp"
             app:srcCompat="@drawable/ic_menu_share_material" />
+
+        <TextView
+            android:id="@+id/profile_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_name"
+            android:layout_centerHorizontal="true"
+            android:padding="8dp"
+            android:text="..." />
 
     </RelativeLayout>
 </ScrollView>

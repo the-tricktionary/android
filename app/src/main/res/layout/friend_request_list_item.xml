@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/deny_friend_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/friend_username"
+            android:layout_toStartOf="@+id/confirm_friend_request"
+            android:padding="8dp"
+            android:tint="#000000"
+            app:srcCompat="@drawable/ic_clear_material"
+            tools:layout_editor_absoluteX="362dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ImageView
+            android:id="@+id/confirm_friend_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/deny_friend_request"
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_check_black_24dp"
+            tools:layout_editor_absoluteX="362dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/friend_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="TextView" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

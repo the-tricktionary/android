@@ -172,6 +172,13 @@ public class SignIn extends BaseActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
+                                                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        Toast.makeText(SignIn.this, getString(R.string.verification_email),
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
                                                 finishSignIn();
                                             } else {
                                                 // If sign in fails, display a message to the user.
@@ -438,7 +445,9 @@ public class SignIn extends BaseActivity {
         }
         myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("0").setValue(name[0]);
         myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("name").child("1").setValue(name[1]);
-        myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString().toLowerCase());
+        if (username.getText().toString().length()>0) {
+            myRef.child(mAuth.getCurrentUser().getUid()).child("profile").child("username").setValue(username.getText().toString().toLowerCase());
+        }
 
         lang = "en"; //by default
         switch (lang) {
@@ -495,6 +504,9 @@ public class SignIn extends BaseActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
+                            String dispName = mAuth.getCurrentUser().getDisplayName();
+                            name[0] = dispName.substring(0,dispName.indexOf(" "));
+                            name[1] = dispName.substring(dispName.indexOf(" "));
                             finishSignIn();
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds

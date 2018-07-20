@@ -7,8 +7,8 @@ android {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 42
-        versionName "3.12"
+        versionCode 44
+        versionName "3.14"
         multiDexEnabled false
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -59,9 +59,7 @@ dependencies {
     compile "com.google.firebase:firebase-perf:$firebaseVersion"
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
     //compile "com.google.firebase:firebase-admin:5.8.0"
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
-        transitive = true
-    }
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
     //other
     compile "com.android.support:appcompat-v7:$buildSdkVersion"
     compile "com.android.support:design:$buildSdkVersion"

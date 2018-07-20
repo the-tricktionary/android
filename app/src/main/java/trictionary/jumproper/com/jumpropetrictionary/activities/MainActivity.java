@@ -167,6 +167,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         }
 
         if(currentTrick==null || currentTrick.getName()==null){
+            Toast.makeText(this,R.string.trick_failed_to_load_toast,Toast.LENGTH_LONG);
             finish();
         }
         //initialize YouTube view object
