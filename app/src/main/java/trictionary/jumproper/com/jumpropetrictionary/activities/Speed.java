@@ -53,6 +53,7 @@ public class Speed extends AppCompatActivity {
     public static ArrayList<Long> times=new ArrayList<>(); //list of times of jumps in ms for graph
     public static String[] eventAbbreviations={};
     //declaring all timing tracks
+    private MediaPlayer currentPlayer;
     private MediaPlayer time_10, time_15, time_20, time_30, time_45, time_1min, time_2min,
                         time_1x30, time_1x180, time_2x30, time_4x30, time_2x60, time_3x40, time_beep,
 
@@ -152,6 +153,16 @@ public class Speed extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if (getCurrentPlayer() != null){
+            if (getCurrentPlayer().isPlaying()){
+                getCurrentPlayer().stop();
+            }
+        }
     }
     /**
      * whenever the clicker is tapped animate a button press of the clicker and increment the
@@ -267,6 +278,7 @@ public class Speed extends AppCompatActivity {
                     eventTrack=usajr_2x60;
                     eventTrack.start();
                 }
+                setCurrentPlayer(eventTrack);
                 //on completion listener to start the timer and sound the beep after timing track
                 eventTrack.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -555,6 +567,12 @@ public class Speed extends AppCompatActivity {
         return eventName;
     }
 
+    public MediaPlayer getCurrentPlayer(){
+        return currentPlayer;
+    }
+    public void setCurrentPlayer(MediaPlayer mPlayer){
+        currentPlayer = mPlayer;
+    }
 
 
 
