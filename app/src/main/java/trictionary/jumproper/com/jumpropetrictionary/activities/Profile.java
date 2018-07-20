@@ -44,8 +44,8 @@ public class Profile extends BaseActivity {
     private ImageView profileImage,shareProfile;
     private Button viewOtherProfile;
     private int levels;
-    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,profileUsername;
-    private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count;
+    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,numLevel5Tricks,profileUsername;
+    private int numTricksCount,numLevel1Count,numLevel2Count,numLevel3Count,numLevel4Count,numLevel5Count;
     private ArrayList<ArrayList<Trick>> tricktionary;
     private ArrayList<ArrayList<Trick>> completedTricks;
     private ArrayList<ArrayList<Trick>> friendsCompletedTricks;
@@ -156,6 +156,7 @@ public class Profile extends BaseActivity {
         numLevel2Tricks=(TextView)findViewById(R.id.num_level_2_tricks_profile);
         numLevel3Tricks=(TextView)findViewById(R.id.num_level_3_tricks_profile);
         numLevel4Tricks=(TextView)findViewById(R.id.num_level_4_tricks_profile);
+        numLevel5Tricks=(TextView)findViewById(R.id.num_level_5_tricks_profile);
         DownloadImageTask downloadImage = new DownloadImageTask(mAuth, profileImage);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
             if (mAuth.getCurrentUser().getPhotoUrl() != null) {
@@ -317,6 +318,7 @@ public class Profile extends BaseActivity {
                 numLevel2Count = 0;
                 numLevel3Count = 0;
                 numLevel4Count = 0;
+                numLevel5Count = 0;
                 for (DataSnapshot id0 : dataSnapshot.getChildren()) {
                     for (DataSnapshot id1 : id0.getChildren()) {
                         if (Integer.parseInt(id0.getKey().toString()) == 0 && id1.getValue().toString().equals("true")) {
@@ -331,6 +333,9 @@ public class Profile extends BaseActivity {
                         if (Integer.parseInt(id0.getKey().toString()) == 3 && id1.getValue().toString().equals("true")) {
                             numLevel4Count++;
                         }
+                        if (Integer.parseInt(id0.getKey().toString()) == 4 && id1.getValue().toString().equals("true")) {
+                            numLevel5Count++;
+                        }
                         if (id1.getValue().toString().equals("true"))
                             numTricksCount++;
                     }
@@ -340,6 +345,7 @@ public class Profile extends BaseActivity {
                 numLevel2Tricks.setText("" + numLevel2Count);
                 numLevel3Tricks.setText("" + numLevel3Count);
                 numLevel4Tricks.setText("" + numLevel4Count);
+                numLevel5Tricks.setText("" + numLevel5Count);
             }
 
             @Override

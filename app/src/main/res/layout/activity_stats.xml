@@ -71,6 +71,18 @@
                 android:layout_alignBaseline="@+id/level_4_tricks_mastered"
                 android:text="0"
                 android:textAlignment="viewEnd" />
+
+            <TextView
+                android:id="@+id/num_level_5_tricks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/level_5_tricks_mastered"
+                android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,6 +141,15 @@
                 android:text="@string/level_4" />
 
             <TextView
+                android:id="@+id/level_5_tricks_mastered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/level_4_tricks_mastered"
+                android:layout_marginTop="16dp"
+                android:gravity="bottom"
+                android:text="@string/level_5" />
+
+            <TextView
                 android:id="@+id/tricks_mastered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,7 +164,7 @@
                 android:id="@+id/average_tricks_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/level_4_tricks_mastered"
+                android:layout_below="@+id/level_5_tricks_mastered"
                 android:layout_marginTop="16dp"
                 android:gravity="bottom"
                 android:text="@string/avg_tricks" />

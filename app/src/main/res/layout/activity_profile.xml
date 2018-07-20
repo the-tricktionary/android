@@ -283,6 +283,16 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/num_level_5_tricks_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/level_5_tricks_mastered_profile"
+                android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <TextView
                 android:id="@+id/level_1_tricks_mastered_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -320,6 +330,16 @@
                 android:layout_below="@+id/level_3_tricks_mastered_profile"
                 android:padding="4dp"
                 android:text="@string/level_4"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/level_5_tricks_mastered_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/level_4_tricks_mastered_profile"
+                android:padding="4dp"
+                android:text="@string/level_5"
                 android:textSize="12sp" />
 
             <TextView

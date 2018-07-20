@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
 public class Stats extends BaseActivity {
-    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,averageTricks,maxTricks;
+    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,numLevel5Tricks,averageTricks,maxTricks;
     private FirebaseAuth mAuth;
 
 
@@ -31,6 +31,7 @@ public class Stats extends BaseActivity {
         numLevel2Tricks = (TextView) findViewById(R.id.num_level_2_tricks);
         numLevel3Tricks = (TextView) findViewById(R.id.num_level_3_tricks);
         numLevel4Tricks = (TextView) findViewById(R.id.num_level_4_tricks);
+        numLevel5Tricks = (TextView) findViewById(R.id.num_level_5_tricks);
         averageTricks = (TextView) findViewById(R.id.average_tricks);
         maxTricks = (TextView) findViewById(R.id.max_tricks);
 
@@ -45,6 +46,7 @@ public class Stats extends BaseActivity {
                 numLevel2Tricks.setText("" + dataSnapshot.child("1").getValue().toString());
                 numLevel3Tricks.setText("" + dataSnapshot.child("2").getValue().toString());
                 numLevel4Tricks.setText("" + dataSnapshot.child("3").getValue().toString());
+                numLevel5Tricks.setText("" + dataSnapshot.child("4").getValue().toString());
                 averageTricks.setText("" + (dataSnapshot.child("avg").getValue().toString()));
                 maxTricks.setText("" + dataSnapshot.child("max").getValue().toString());
             }

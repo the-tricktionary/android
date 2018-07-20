@@ -121,7 +121,6 @@ public class GlobalData extends Application {
     }
 
     public String getUsername() {
-        Log.e("Getting username",username);
         return username;
     }
 
