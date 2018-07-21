@@ -987,7 +987,7 @@ return;
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
-                            Toast.makeText(MainActivity.this, getString(R.string.signed_in_as)+mAuth.getCurrentUser().getEmail()+", you may now submit feedback.",
+                            Toast.makeText(MainActivity.this, "Signed in, you may now submit feedback",
                                     Toast.LENGTH_SHORT).show();
                             if(signInButton!=null) {
                                 signInButton.setVisibility(View.GONE);

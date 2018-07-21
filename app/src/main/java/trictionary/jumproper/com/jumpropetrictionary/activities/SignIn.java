@@ -139,6 +139,8 @@ public class SignIn extends BaseActivity {
                 signIn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        view.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Signing in...",Toast.LENGTH_SHORT);
                         signIn();
                     }
                 });
@@ -402,6 +404,8 @@ public class SignIn extends BaseActivity {
     public void signInButtonClick(View v){
         switch (v.getId()) {
             case R.id.sign_in_button:
+                v.setVisibility(View.GONE);
+                Toast.makeText(this,"Signing in...",Toast.LENGTH_SHORT);
                 signIn();
                 break;
         }
@@ -504,10 +508,15 @@ public class SignIn extends BaseActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Auth", "signInWithCredential:onComplete:" + task.isSuccessful());
                         if(task.isComplete()){
-                            String dispName = mAuth.getCurrentUser().getDisplayName();
-                            name[0] = dispName.substring(0,dispName.indexOf(" "));
-                            name[1] = dispName.substring(dispName.indexOf(" "));
-                            finishSignIn();
+                            if(mAuth.getCurrentUser()!=null) {
+                                String dispName = mAuth.getCurrentUser().getDisplayName();
+                                name[0] = dispName.substring(0, dispName.indexOf(" "));
+                                name[1] = dispName.substring(dispName.indexOf(" "));
+                                finishSignIn();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Something went wrong, try again.", Toast.LENGTH_LONG);
+                            }
                         }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
