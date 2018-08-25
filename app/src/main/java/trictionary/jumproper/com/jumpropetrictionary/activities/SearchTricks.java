@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -34,6 +39,24 @@ public class SearchTricks extends BaseActivity {
         searchBar = (EditText)findViewById(R.id.editText);
         searchBar.addTextChangedListener(searchQuery);
 
+        MobileAds.initialize(this, "ca-app-pub-2959515976305980~3811712667");
+        AdView adView = findViewById(R.id.search_ad);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
+                .build();
+        adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.e("Ad", "Loaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.e("Ad", "Could not load error: " + errorCode);
+            }
+        });
 
 
     }

@@ -43,9 +43,7 @@ public class Stats extends BaseActivity {
         maxTricks = (TextView) findViewById(R.id.max_tricks);
 
         MobileAds.initialize(this, "ca-app-pub-2959515976305980~3811712667");
-        AdView adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId("ca-app-pub-2959515976305980/7302163690");
+        AdView adView = findViewById(R.id.stats_ad);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
                 .build();

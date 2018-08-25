@@ -129,6 +129,25 @@ public class Tricktionary extends BaseActivity{
         });
     }
 
+    public void randomTrick(View v){
+        int level = (int)(Math.random() * tricktionary.size());
+        MainActivity.currentTrick=(Trick)tricktionary.get(level).get((int)(Math.random() * tricktionary.get(level).size()));
+        if(MainActivity.currentTrick==null){
+            return;
+        }
+        else if((MainActivity.currentTrick.getName()).equals(" ")){
+            return;
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            // Show Alert
+            Toast.makeText(getApplicationContext(),
+                    MainActivity.currentTrick.getName(), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
     @Override
     public void onStart(){
         super.onStart();
