@@ -110,6 +110,9 @@ public class BaseActivity extends AppCompatActivity {
             case "Svenska":
                 lang = "sv";
                 break;
+            case "Français":
+                lang = "fr";
+                break;
         }
         locale = new Locale(lang);
         return locale;

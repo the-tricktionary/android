@@ -8,6 +8,7 @@
     <item>Español</item>
     <item>русский</item>
     <item>Svenska</item>
+    <item>Français</item>
   </string-array>
 
   <!-- Private/Untranslatable strings -->
@@ -51,6 +52,7 @@
     <item>ru</item>
     <item>es</item>
     <item>da</item>
+    <item>fr</item>
   </string-array>
 
 

@@ -235,6 +235,36 @@ public class SplashActivity extends AppCompatActivity {
                                     Crashlytics.logException(e);
                                 }
                             }
+                            else if (SettingsActivity.language.equals("Français") &&
+                                    trick.child("i18n").child("fr").child("description").getValue() != null &&
+                                    trick.child("i18n").child("fr").child("name").getValue() != null) {
+                                try {
+                                    name = trick.child("i18n").child("fr").child("name").getValue().toString();
+                                    description = trick.child("i18n").child("fr").child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = setType(trick.child("type").getValue().toString());
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                }
+                                catch(Exception e){
+                                    Log.e("FR trick", e.getMessage());
+                                    Crashlytics.logException(e);
+                                }
+                            }
                             else {
                                 try {
                                     name = trick.child("name").getValue().toString();
