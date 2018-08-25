@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -48,6 +50,18 @@ public class Stats extends BaseActivity {
                 .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
                 .build();
         adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.e("Ad", "Loaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.e("Ad", "Could not load error: " + errorCode);
+            }
+        });
 
 
         final FirebaseDatabase fb = FirebaseDatabase.getInstance();
