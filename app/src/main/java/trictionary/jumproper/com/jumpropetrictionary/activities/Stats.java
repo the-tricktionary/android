@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.ads.MobileAds;
+
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
@@ -34,6 +39,15 @@ public class Stats extends BaseActivity {
         numLevel5Tricks = (TextView) findViewById(R.id.num_level_5_tricks);
         averageTricks = (TextView) findViewById(R.id.average_tricks);
         maxTricks = (TextView) findViewById(R.id.max_tricks);
+
+        MobileAds.initialize(this, "ca-app-pub-2959515976305980~3811712667");
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-2959515976305980/7302163690");
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
+                .build();
+        adView.loadAd(adRequest);
 
 
         final FirebaseDatabase fb = FirebaseDatabase.getInstance();
