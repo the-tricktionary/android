@@ -15,7 +15,7 @@ before_install:
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 - openssl aes-256-cbc -K $encrypted_b0074ce3ce68_key -iv $encrypted_b0074ce3ce68_iv -in developer_key_secret.xml.enc -out app/src/main/res/values/developer_key_secret.xml -d
 install:
-- yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;26.0.2"
+- yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;27.0.3"
 #- yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.0"
 #- yes | android update sdk --no-ui --all --filter extra-android-support
 #- yes | android update sdk --no-ui --all --filter extra-android-m2repository

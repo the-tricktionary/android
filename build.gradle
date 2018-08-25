@@ -7,8 +7,8 @@ buildscript {
          maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.google.gms:google-services:4.1.0'
         classpath 'com.google.firebase:firebase-plugins:1.1.1'
         classpath 'io.fabric.tools:gradle:1.+'
         // NOTE: Do not place your application dependencies here; they belong
@@ -24,10 +24,11 @@ allprojects {
         maven {
             url "https://maven.google.com"
         }
+        google()
     }
     project.ext {
-        firebaseVersion="11.6.0" //String
-        buildSdkVersion="26.0.2"
+        firebaseVersion="16.0.3" //String
+        buildSdkVersion="27.0.3"
     }
 }
 
