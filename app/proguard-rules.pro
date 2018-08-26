@@ -38,3 +38,9 @@
 -dontwarn com.github.mikephil.charting.data.realm.**
 -keep class it.neokree.materialnavigationdrawer.** { *; }
 -dontwarn it.neokree.materialnavigationdrawer.**
+-keep class org.apache.log4j.** { *; }
+-dontwarn org.apache.log4j.**
+-keep class net.xqhs.graphs.** { *; }
+-dontwarn net.xqhs.graphs.**
+-keep class net.xqhs.graphs.** { *; }
+-dontwarn net.xqhs.graphs.**
