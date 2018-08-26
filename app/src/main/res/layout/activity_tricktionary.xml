@@ -16,24 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tricktionary_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_corner_shadow_red"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/title_activity_tricktionary"
-                android:textAlignment="gravity"
-                android:textColor="#ffffff"
-                android:textSize="24sp"
-                android:transitionName="@string/tricktionary_transition" />
-
             <trictionary.jumproper.com.jumpropetrictionary.customviews.MyGridView
                 android:id="@+id/basics_grid_view"
                 android:layout_width="wrap_content"
@@ -234,10 +216,10 @@
                 android:id="@+id/imageView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/tricktionary_title"
+                android:layout_alignBottom="@+id/random_trick"
                 android:layout_alignEnd="@+id/basics_grid_view"
-                android:layout_alignTop="@+id/tricktionary_title"
-                android:layout_toEndOf="@+id/tricktionary_title"
+                android:layout_alignTop="@+id/random_trick"
+                android:layout_toEndOf="@+id/random_trick"
                 android:alpha=".75"
                 android:onClick="startSearch"
                 android:padding="16dp"
@@ -248,14 +230,13 @@
                 android:id="@+id/imageView31"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/checkBox"
+                android:layout_above="@+id/imageView14"
                 android:layout_alignEnd="@+id/basics_title"
-                android:layout_below="@+id/tricktionary_title"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:onClick="submitTrick"
                 android:padding="16dp"
-                app:srcCompat="@drawable/ic_file_upload_black_24dp"
-                android:tint="@color/white" />
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_file_upload_black_24dp" />
 
             <TextView
                 android:id="@+id/basics_title"
@@ -280,7 +261,7 @@
                 style="@style/RobotoCheckBoxStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView3"
+                android:layout_below="@+id/random_trick"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="8dp"
                 android:checked="true"
@@ -293,40 +274,54 @@
                 android:id="@+id/imageView34"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/imageView37"
                 android:layout_alignStart="@+id/basics_title"
-                android:layout_below="@+id/tricktionary_title"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:onClick="viewStats"
                 android:padding="16dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_assessment_black_24dp"
-                android:tint="@color/white" />
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_assessment_black_24dp" />
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tricktionary_title"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/rounded_corner_shadow_red"
                 android:onClick="viewProfile"
                 android:padding="16dp"
-                app:srcCompat="@drawable/ic_account_circle_black_24dp"
-                android:tint="@color/white" />
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
             <ImageView
                 android:id="@+id/imageView37"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/tricktionary_title"
+                android:layout_alignBottom="@+id/random_trick"
                 android:layout_alignEnd="@+id/imageView34"
                 android:layout_alignStart="@+id/basics_grid_view"
-                android:layout_alignTop="@+id/tricktionary_title"
-                android:layout_toStartOf="@+id/tricktionary_title"
+                android:layout_alignTop="@+id/random_trick"
+                android:layout_toStartOf="@+id/random_trick"
                 android:alpha=".5"
                 android:onClick="openSettings"
                 android:padding="16dp"
                 app:srcCompat="@drawable/ic_settings_black_48dp" />
+
+            <ImageView
+                android:id="@+id/random_trick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/imageView3"
+                android:layout_alignStart="@+id/imageView3"
+                android:layout_below="@+id/imageView3"
+                android:layout_centerInParent="false"
+                android:alpha=".5"
+                android:onClick="randomTrick"
+                android:padding="16dp"
+                app:srcCompat="@drawable/dice_multiple" />
 
         </RelativeLayout>
     </ScrollView>

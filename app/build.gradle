@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2' //check for newest
+    compileSdkVersion 27
+    //buildToolsVersion '26.0.2' //check for newest
     defaultConfig {
         applicationId 'trictionary.jumproper.com.jumpropetrictionary'
         minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 45
-        versionName "3.15"
+        targetSdkVersion 27
+        versionCode 46
+        versionName "3.16"
         multiDexEnabled false
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -26,11 +26,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //signingConfig signingConfigs.release
         }
@@ -43,34 +43,33 @@ android {
         exclude 'META-INF/NOTICE'
     }
 
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
     //Google Dependencies
-    compile "com.google.android.gms:play-services-analytics:$firebaseVersion"
-    compile "com.google.android.gms:play-services-auth:$firebaseVersion"
+    implementation "com.google.android.gms:play-services-analytics:$firebaseVersion"
+    implementation "com.google.android.gms:play-services-auth:16.0.0"
     //Firebase Dependencies
-    compile "com.google.firebase:firebase-core:$firebaseVersion"
-    compile "com.google.firebase:firebase-database:$firebaseVersion"
-    compile "com.google.firebase:firebase-auth:$firebaseVersion"
-    compile "com.google.firebase:firebase-crash:$firebaseVersion"
-    compile "com.google.firebase:firebase-messaging:$firebaseVersion"
-    compile "com.google.firebase:firebase-storage:$firebaseVersion"
-    compile "com.google.firebase:firebase-perf:$firebaseVersion"
-    compile "com.google.firebase:firebase-messaging:$firebaseVersion"
-    //compile "com.google.firebase:firebase-admin:5.8.0"
+    implementation "com.google.firebase:firebase-core:$firebaseVersion"
+    implementation "com.google.firebase:firebase-database:16.0.1"
+    implementation "com.google.firebase:firebase-auth:$firebaseVersion"
+    implementation "com.google.firebase:firebase-messaging:17.3.0"
+    implementation "com.google.firebase:firebase-storage:16.0.1"
+    implementation "com.google.firebase:firebase-perf:16.1.0"
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
+    implementation 'com.google.android.gms:play-services-ads:15.0.0'
+
     //other
-    compile "com.android.support:appcompat-v7:$buildSdkVersion"
-    compile "com.android.support:design:$buildSdkVersion"
-    compile "com.android.support:support-v4:$buildSdkVersion"
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
-    //compile files('libs/Graphs.jar')
-    compile 'org.apache.commons:commons-collections4:4.1'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:design:27.0.2"
+    implementation "com.android.support:support-v4:27.0.2"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    //implementation files('libs/Graphs.jar')
+    implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    implementation 'it.neokree:MaterialNavigationDrawer:1.3.3'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 repositories {

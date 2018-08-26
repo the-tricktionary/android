@@ -15,10 +15,12 @@
     <ScrollView
         android:id="@+id/my_tricks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/rounded_corner_shadow"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/adView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:alpha=".75"
-        android:layout_marginTop="16dp">
+        android:background="@drawable/rounded_corner_shadow">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,50 +29,54 @@
             android:padding="16dp">
 
             <TextView
-                android:text="0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:id="@+id/num_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/num_level_1_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_alignBaseline="@+id/level_1_tricks_mastered" />
-            <TextView
-                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/level_1_tricks_mastered"
                 android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/num_level_2_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_alignBaseline="@+id/level_2_tricks_mastered" />
-            <TextView
-                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/level_2_tricks_mastered"
                 android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/num_level_3_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_alignBaseline="@+id/level_3_tricks_mastered" />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/level_3_tricks_mastered"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/num_level_4_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_alignBaseline="@+id/level_4_tricks_mastered"
                 android:text="0"
-                android:textAlignment="viewEnd" />
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/num_level_4_tricks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/level_4_tricks_mastered"
+                android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/num_level_5_tricks"
@@ -84,25 +90,26 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:id="@+id/average_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_alignBaseline="@+id/average_tricks_title"
-                android:text="0"
-                android:textAlignment="viewEnd" />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/average_tricks_title"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/max_tricks"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_alignBaseline="@+id/max_tricks_title"
                 android:text="0"
-                android:textAlignment="viewEnd" />
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/max_tricks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/max_tricks_title"
+                android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/level_1_tricks_mastered"
@@ -179,5 +186,15 @@
                 android:text="@string/max_tricks" />
         </RelativeLayout>
     </ScrollView>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/stats_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2959515976305980/7302163690"></com.google.android.gms.ads.AdView>
+
 
 </RelativeLayout>

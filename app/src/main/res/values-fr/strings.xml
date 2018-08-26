@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="lang_code">fr</string>
+  <!-- Private/Untranslatable strings -->
+  <string name="app_name" translatable="false">Tricktionary</string>
+  <string name="app_label" translatable="false">Jump Rope Tricktionary</string>
+  <string name="google_sign_in_auth_id" translatable="false">1048157266079-6m9smvmrrs2vagok5b973dqe7cvcf3e9.apps.googleusercontent.com</string>
+  <string-array name="pref_sync_frequency_values" translatable="false">
+    <item>15</item>
+    <item>30</item>
+    <item>60</item>
+    <item>180</item>
+    <item>360</item>
+    <item>-1</item>
+  </string-array>
+  <string name="pref_title_system_sync_settings" translatable="false">System sync settings</string>
+  <string name="pref_header_notifications" translatable="false">Notifications</string>
+  <string name="logo_transition" translatable="false">36420</string>
+  <string name="tricktionary_transition" translatable="false">42036</string>
+  <string-array name="speed_event_abbreviations" translatable="false">
+    <item>srst</item>
+    <item>srss</item>
+    <item>srsp</item>
+    <item>srfs</item>
+    <item>ddts</item>
+    <item>srps</item>
+    <item>srss</item>
+    <item>ddfs</item>
+  </string-array>
+  <string-array name="trick_types" translatable="false">
+    <item>@string/basics</item>
+    <item>@string/multiples</item>
+    <item>@string/power</item>
+    <item>@string/manipulation</item>
+    <item>@string/releases</item>
+    <item>@string/impossible</item>
+  </string-array>
+
+
+  <!-- Translable strings that has been translated -->
+  <string name="action_settings">Paramètres</string>
+  <string name="auto_play_videos">Lecture automatique des vidéos:</string>
+  <string name="avg_tricks">Nombre de figures moyen par utilisateur:</string>
+  <string name="basics">Bases</string>
+  <string name="cancel">Annuler</string>
+  <string name="completed">Maitrisé</string>
+  <string name="completed_tricks">Figures complétées</string>
+  <string name="completed_tricks_dialogue">The Tricktionary vous permet maintenant d\'enregistrer les figures que vous maitrisez! Vous devez vous identifier pour utiliser cette fonctionnalités. Les figures maitrisées apparaitront comme ci-dessous.</string>
+  <string name="contact_drawer_description">Voir vos retours</string>
+  <string name="contact_emails">Recevoir les réponses par email</string>
+  <string name="contact_general_submitted">Remarque envoyée, merci!</string>
+  <string name="contact_in">dans</string>
+  <string name="contact_incorrect_level">Niveau théorique:</string>
+  <string name="contact_incorrect_level_submit">Remarque sur un niveau incorrect envoyée, merci!</string>
+  <string name="contact_level_range">(1-6)</string>
+  <string name="contact_message">S\'il vous plait, complétez</string>
+  <string name="contact_more_info">Vous devez fournir plus d\'informations, merci.</string>
+  <string name="contact_name_hint">Votre nom (optionnel)</string>
+  <string name="contact_reply">Votre réponse</string>
+  <string name="contact_reply_toast">Merci pour la réponse!</string>
+  <string name="contact_sign_in_prompt">Vous devez vous identifier pour envoyer et voir les retours, et pour que nous puissions vous répondre.</string>
+  <string name="contact_submit_reply">Envoyer une réponse</string>
+  <string-array name="contact_types">
+    <item>Général</item>
+    <item>Niveau incorrect</item>
+    <item>Nom incorrect</item>
+    <item>Description incorrecte</item>
+  </string-array>
+  <string name="continue_button">Continuer</string>
+  <string name="error_player">Une erreur s\'est produite à l\'initialisation du lecteur Youtube (%1$s)</string>
+  <string name="federation_official">représentant de la fédération</string>
+  <string name="fisac_level">Niveau IRSF:</string>
+  <string name="home_page">Page d\'accueil</string>
+  <string-array name="ignored_strings">
+    <item>Multiples</item>
+    <item>Puissance</item>
+    <item>Manipulation</item>
+    <item>Lâchers</item>
+  </string-array>
+  <string name="impossible">Impossible</string>
+  <string name="instagram">Instagram</string>
+  <string name="internet_dialog">Cette application doit se connecter à Internet pour télécharger les informations sur les figures. Cela est fait une seule fois, lorsque les figures sont ajoutées. Après cela, les informations sont stockées sur votre appareil.</string>
+  <string name="internet_dialog2">Merci de vous connecter à un réseau WiFi ou d\'activer les données mobiles pour télécharger les figures (cela prends moins d\'une seconde, donc pas d\'inquiétude!)</string>
+  <string name="judge">juge</string>
+  <string name="language">Langue:</string>
+  <string name="level_1">Niveau 1</string>
+  <string name="level_2">Niveau 2</string>
+  <string name="level_3">Niveau 3</string>
+  <string name="level_4">Niveau 4</string>
+  <string name="main_activity_feedback_prompt">Envoyer une remarque sur</string>
+  <string name="manipulation">Manipulation</string>
+  <string name="max_tricks">Nombre maximum de figures par utilisateur:</string>
+  <string name="multiples">Multiples</string>
+  <string name="next_tricks">Figures suivantes:</string>
+  <string name="no">Non</string>
+  <string name="ok">Ok</string>
+  <string-array name="organizations">
+    <item>WJR</item>
+    <item>FISAC-IRSF</item>
+  </string-array>
+  <string-array name="player_styles">
+    <item>Minimal</item>
+    <item>Chromeless</item>
+    <item>Par défaut</item>
+  </string-array>
+  <string name="power">Puissance</string>
+  <string name="prereqs">Prérequis:</string>
+  <string name="profile_go_to_settings">Voir les paramètres</string>
+  <string name="profile_public">Profil public</string>
+  <string name="profile_public_prompt">Vous devez rendre votre profil public pour partager</string>
+  <string name="profile_share">Mon profil Tricktionary</string>
+  <string name="profile_share_with">Partagez votre profil avec:</string>
+  <string name="profile_sign_in">Vous devez vous connecter pour avoir un profil.</string>
+  <string name="public_profile">Profil public:</string>
+  <string name="public_profile_instructions">Vous pourrez partager votre profil avec d\'autres personnes</string>
+  <string name="public_profile_title">Profil public</string>
+  <string name="releases">Lâchés</string>
+  <string name="remove">Retirer</string>
+  <string name="search_hint">Rechercher dans le Tricktionary</string>
+  <string name="settings_drawer_description">Paramètres de langue, de vidéo et de profil</string>
+  <string name="share_prompt">Partager un lien vers cette figure avec:</string>
+  <string name="show_breaks">Pauses entre les évènements.</string>
+  <string name="show_drawer_description">Répartir les routines</string>
+  <string name="show_event_move_instructions">Touchez un évènement pour le déplacer</string>
+  <string-array name="show_events">
+    <item>Individuels:</item>
+    <item>Paires:</item>
+    <item>Individuels Double Duch:</item>
+    <item>Paires Double Duch:</item>
+    <item>Roues:</item>
+    <item>Trois roues:</item>
+    <item>Autres:</item>
+  </string-array>
+  <string name="show_list">Liste des noms</string>
+  <string name="show_main_instructions">Sélectionnez le nom des participants à l\'évenement listés ci-dessous</string>
+  <string name="show_min">Chaque sauteur a un minimum de</string>
+  <string name="show_new_event">Nouvel évènement</string>
+  <string name="show_remove_event">Retirer l\'évènement</string>
+  <string name="show_remove_prompt">Voulez-vous le retirer</string>
+  <string name="show_sorted">Spectacle trié</string>
+  <string name="show_swap_prompt">Après quel évènement celui-ci doit-il intervenir?</string>
+  <string name="show_writer_instructions">Entrez les noms des participants, séparés par des virgules.</string>
+  <string name="sign_in">S\'identifier</string>
+  <string name="sign_in_failed">Connexion échouée</string>
+  <string name="sign_out">Déconnexion</string>
+  <string name="signed_in_as">Connecté en tant que</string>
+  <string name="signing_in">Connection...</string>
+  <string name="speed_anon">Anonyme</string>
+  <string name="speed_custom">Personnaliser</string>
+  <string name="speed_data_drawer_description">Enregistrez vos scores de rapidité</string>
+  <string name="speed_delete_prompt">Supprimer? Êtes-vous sûr ?</string>
+  <string name="speed_deleted_score">Score supprimé</string>
+  <string name="speed_duration">Durée:</string>
+  <string name="speed_edit_score">Editer le nom pour ce score ou le supprimer définitivement.</string>
+  <string name="speed_event_select">Selectionnez l\'événement</string>
+  <string name="speed_first_name">Prénom</string>
+  <string name="speed_instructions">Sélectionnez un évènement ou une durée puis appuyez sur Démarrer pour lancer le chrono, ou compter le premier saut pour lancer le chrono</string>
+  <string name="speed_jumps_avg">Sauts par seconde (moyenne):</string>
+  <string name="speed_jumps_lost">Sauts ratés:</string>
+  <string name="speed_jumps_max">Sauts par seconde (Max):</string>
+  <string name="speed_jumps_per_second">Sauts par seconde</string>
+  <string name="speed_last_name">Nom</string>
+  <string name="speed_load_data">Charger le score</string>
+  <string name="speed_minutes">Minutes</string>
+  <string name="speed_misses">Estimation des ratés:</string>
+  <string name="speed_new_name">Entrer un nouveau nom</string>
+  <string name="speed_no_miss_score">Score estimé (sans ratés)</string>
+  <string name="speed_save_data">Enregistrer le score</string>
+  <string name="speed_save_prompt"></string>
+  <string name="speed_saved_data_for">Données enregistrées pour</string>
+  <string name="speed_score">Score:</string>
+  <string name="speed_score_name_prompt">Entrez un nom pour ce score (ex: nom du sauteur ou de l\'équipe) pour y accéder plus tard. Il peut être modifié ou supprimé à tout moment.</string>
+  <string name="speed_seconds">Secondes</string>
+  <string name="speed_sign_in">Vous devez vous identifier pour enregistrer et voir vos scores de vitesse</string>
+  <string name="speed_start_button">Démarrer</string>
+  <string name="speed_timer">Compteur de vitesse</string>
+  <string name="start_button">Démarrer</string>
+  <string name="stats_sign_in">Vous devez vous identifier pour accéder à votre profil et enregistrer vos statistiques sur les figures</string>
+  <string name="submit_button">Soumettre</string>
+  <string name="submit_camera_needed">Désolé, vous devez avoir une caméra pour envoyer une figure!</string>
+  <string name="submit_drawer_description">Envoyez vos figures</string>
+  <string name="submit_from_gallery">A partir de la gallerie</string>
+  <string name="submit_instructions">-Vous pouvez soumettre des vidéos, soit d\'une figure unique à inclure dans le Tricktionnaire, soit une vidéo à présenter sur notre page Instagram @jumpropetricktionary - Les vidéos peuvent être de n\'importe quelle figure, que la figure fasse partie du Tricktionnaire ou non. -Merci d\'enregistrer vos vidéos au format paysage -Vos vidéos ne peuvent pas dépasser 100 Mo -Si vous êtes en mesure d\'enregistrer au ralenti c\'est mieux! -S\'il vous plaît garder votre enregistrement aussi stable que possible ou configurez votre appareil photo -Essayez de trouver un arrière-plan uni qui contraste avec la couleur de votre corde</string>
+  <string name="submit_please_enter_name">Entrez un nom. Les autres champs sont optionnels</string>
+  <string name="submit_record_video">Enregistrer une vidéo</string>
+  <string name="submit_select_video">Sélectionner la vidéo</string>
+  <string name="submit_select_video_toast">Vous devez sélectionner une vidéo d\'abord.</string>
+  <string name="submit_starting_upload_toast">Début de l\'envoi. Vous pouvez suivre la progression dans la barre de notification.</string>
+  <string name="submit_thanks">Merci pour votre participation! Nous la validerons dès que possible!</string>
+  <string name="submit_trick_description">Description</string>
+  <string name="submit_trick_description_hint">Ajoutez votre compte Instagram pour être présenté!</string>
+  <string name="submit_trick_level">Niveau</string>
+  <string name="submit_trick_name">Nom de la figure</string>
+  <string name="submit_trick_name_hint">Nom (Requis)</string>
+  <string name="submit_trick_optional">(Optionnel)</string>
+  <string name="submit_upload_complete">Envoi terminé, merci!</string>
+  <string name="submit_upload_failed">Désolé, votre vidéo n\'a pas pu être envoyée.</string>
+  <string name="submit_upload_in_progress">Envoi en cours...</string>
+  <string name="submit_uploading">Envoi de la figure</string>
+  <string name="submit_video_too_large">Désolé, cette vidéo est trop grande. La taille maximum est 100Mb, et votre vidéo fait</string>
+  <string name="title_activity_contact">Contact</string>
+  <string name="title_activity_profile">Profil</string>
+  <string name="title_activity_settings">Paramètres</string>
+  <string name="title_activity_show">Afficher l\'auteur</string>
+  <string name="title_activity_speed">Vitesse</string>
+  <string name="title_activity_speed_graph">Vitesse des données</string>
+  <string name="title_activity_stats">Stats</string>
+  <string name="title_activity_submit">Envoyer</string>
+  <string name="title_activity_tricktionary">Tricktionary</string>
+  <string name="total_tricks">Total Figures</string>
+  <string name="trick_failed_to_load_toast">Oups, quelque chose n\'a pas fonctionné en chargeant cette figure!</string>
+  <string name="trick_none">Aucun</string>
+  <string name="tricktionary_show_completed">Afficher les figures complétées</string>
+  <string name="verification_on">sur</string>
+  <string name="verification_sub_0">Cette figure a été vérifiée par un</string>
+  <string name="verification_title">Vérification du niveau</string>
+  <string name="video_player_style">Style du lecteur vidéo</string>
+  <string name="web">Web</string>
+  <string name="wjr_level">Niveau WJR:</string>
+  <string name="yes">Oui</string>
+  <string name="youtube_style_chromeless">Chromeless</string>
+  <string name="youtube_style_minimal">Minimum</string>
+
+
+  <!-- Translatable strings that haven\'t been translated -->
+  <string name="speed_drawer_description">Click speed events</string>
+  <string-array name="tricktypes">
+    <item>Basics</item>
+    <item>Multiples</item>
+    <item>Power</item>
+    <item>Manipulation</item>
+    <item>Releases</item>
+    <item>Impossible</item>
+  </string-array>
+
+</resources>

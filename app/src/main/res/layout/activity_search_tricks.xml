@@ -32,12 +32,12 @@
         android:id="@+id/listview"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/search_ad"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/rounded_corner_shadow"
+        android:layout_below="@+id/editText"
         android:alpha=".75"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:layout_alignTop="@+id/scrollView2" />
+        android:background="@drawable/rounded_corner_shadow"
+        android:padding="5dp" />
 
     <EditText
         android:id="@+id/editText"
@@ -48,16 +48,26 @@
         android:hint="@string/search_hint" />
 
     <ImageView
+        android:id="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/search"
         android:layout_alignBottom="@+id/editText"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-        android:onClick="searchButtonPressed"
-        android:clickable="true"
-        android:alpha=".75"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/editText"
-        android:layout_alignParentTop="true" />
+        android:alpha=".75"
+        android:clickable="true"
+        android:onClick="searchButtonPressed"
+        android:padding="8dp"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/search_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2959515976305980/7302163690"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

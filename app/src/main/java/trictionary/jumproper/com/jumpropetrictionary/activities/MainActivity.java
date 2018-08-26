@@ -54,7 +54,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -161,7 +160,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             }
         }
         else{
-            FirebaseCrash.log("Error in MainActivity, currentTrick was null");
             Toast.makeText(this,R.string.trick_failed_to_load_toast,Toast.LENGTH_LONG);
             finish();
         }
@@ -391,9 +389,6 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
                     youTubePlayer.setFullscreen(true);
                     youTubePlayer.setPlayerStyle(PlayerStyle.DEFAULT);
                 }
-                else{
-                    FirebaseCrash.log("Crash on MainActivity: Youtube player null when attempting fullscreen");
-                }
             }
         });
     }
@@ -610,7 +605,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             });
         }
         catch(Exception e){
-            FirebaseCrash.log("Error viewing prereqs "+e.getMessage());
+            Log.e("Prereqs","Error viewing prereqs "+e.getMessage());
         }
     }
     public void setNextTricks(){
@@ -668,7 +663,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             });
         }
         catch(Exception e){
-            FirebaseCrash.log("Error viewing next tricks "+e.getMessage());
+            Log.e("Next tricks","Error viewing next tricks "+e.getMessage());
         }
 
     }

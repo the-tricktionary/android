@@ -9,8 +9,8 @@ import android.transition.Fade;
 import android.util.Log;
 import android.view.Window;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -147,7 +147,7 @@ public class SplashActivity extends AppCompatActivity {
                                     index++;
                                 }
                                 catch(Exception e){
-                                    FirebaseCrash.log("Error loading DE trick" + e.getMessage());
+                                    Crashlytics.logException(e);
                                 }
                             } else if (SettingsActivity.language.equals("Svenska") &&
                                     trick.child("i18n").child("sv").child("description").getValue() != null &&
@@ -174,7 +174,7 @@ public class SplashActivity extends AppCompatActivity {
                                     tricktionary.get(mTrick.getId0()).add(mTrick);
                                     index++;
                                 } catch (Exception e) {
-                                    FirebaseCrash.log("Error loading SV trick" + e.getMessage());
+                                    Crashlytics.logException(e);
                                 }
                             }
                             else if (SettingsActivity.language.equals("Dansk") &&
@@ -202,7 +202,7 @@ public class SplashActivity extends AppCompatActivity {
                                     tricktionary.get(mTrick.getId0()).add(mTrick);
                                     index++;
                                 } catch (Exception e) {
-                                    FirebaseCrash.log("Error loading SV trick" + e.getMessage());
+                                    Crashlytics.logException(e);
                                 }
                             }
                             else if ((SettingsActivity.language.equals("русский") || (SettingsActivity.language.equals("Russian"))) &&
@@ -232,7 +232,37 @@ public class SplashActivity extends AppCompatActivity {
                                 }
                                 catch(Exception e){
                                     Log.e("RU trick", e.getMessage());
-                                    FirebaseCrash.log("Error loading RU trick" + e.getMessage());
+                                    Crashlytics.logException(e);
+                                }
+                            }
+                            else if (SettingsActivity.language.equals("Français") &&
+                                    trick.child("i18n").child("fr").child("description").getValue() != null &&
+                                    trick.child("i18n").child("fr").child("name").getValue() != null) {
+                                try {
+                                    name = trick.child("i18n").child("fr").child("name").getValue().toString();
+                                    description = trick.child("i18n").child("fr").child("description").getValue().toString();
+                                    id1 = Integer.parseInt(trick.child("id1").getValue().toString());
+                                    id0 = Integer.parseInt(level.child("level").getValue().toString());
+                                    type = setType(trick.child("type").getValue().toString());
+                                    video = trick.child("video").getValue().toString();
+                                    fisacLevel = trick.child("levels").child("irsf").child("level").getValue().toString();
+                                    wjrLevel = trick.child("levels").child("wjr").child("level").getValue().toString();
+                                    mTrick = new Trick(name,
+                                            description,
+                                            id0,
+                                            index,
+                                            type,
+                                            video,
+                                            fisacLevel,
+                                            wjrLevel,
+                                            id1);
+                                    mTrick.setPrereqIds(trick);
+                                    tricktionary.get(mTrick.getId0()).add(mTrick);
+                                    index++;
+                                }
+                                catch(Exception e){
+                                    Log.e("FR trick", e.getMessage());
+                                    Crashlytics.logException(e);
                                 }
                             }
                             else {
@@ -259,7 +289,7 @@ public class SplashActivity extends AppCompatActivity {
                                     index++;
                                 }
                                 catch(Exception e){
-                                    FirebaseCrash.log("Error loading EN trick" + e.getMessage());
+                                    Crashlytics.logException(e);
                                 }
                             }
                         }
@@ -290,7 +320,7 @@ public class SplashActivity extends AppCompatActivity {
                                 if (name != null){
                                     Log.e("Trick error: " + name, e.getMessage());
                                 }
-                                FirebaseCrash.log("Error loading EN trick" + e.getMessage());
+                                Crashlytics.logException(e);
                                 Log.e("Trick error", e.getMessage());
                             }
                         }
