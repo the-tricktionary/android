@@ -270,8 +270,9 @@
   <string name="username_for_friends">You need a username to add friends.</string>
   <string name="create_username">Create Username</string>
   <string name="level_5">Impossible:</string>
+    <string name="total_users_title">Total Users:</string>
 
 
-  <!-- Translatable strings that haven't been translated -->
+    <!-- Translatable strings that haven't been translated -->
 
 </resources>

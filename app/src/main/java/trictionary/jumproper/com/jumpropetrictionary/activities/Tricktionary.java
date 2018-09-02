@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.perf.metrics.AddTrace;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
@@ -130,8 +129,21 @@ public class Tricktionary extends BaseActivity{
     }
 
     public void randomTrick(View v){
-        int level = (int)(Math.random() * tricktionary.size());
-        MainActivity.currentTrick=(Trick)tricktionary.get(level).get((int)(Math.random() * tricktionary.get(level).size()));
+        int size = 0;
+        for (int i = 0; i < tricktionary.size(); i ++){
+            size += tricktionary.get(i).size();
+        }
+        int index = (int)(Math.random() * size);
+        int prevSize = 0;
+        for (int i = 0; i < tricktionary.size(); i ++){
+            if (Math.abs(prevSize - index) < tricktionary.get(i).size()){
+                Log.e("Random", "" + index + ", " + prevSize);
+                MainActivity.currentTrick=(Trick)tricktionary.get(i).get(Math.abs(prevSize - index));
+            }
+            prevSize += tricktionary.get(i).size();
+
+        }
+
         if(MainActivity.currentTrick==null){
             return;
         }

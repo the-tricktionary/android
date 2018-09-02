@@ -32,10 +32,32 @@
                 android:id="@+id/num_tricks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tricks_mastered"
+                android:layout_alignBottom="@+id/tricks_mastered"
                 android:layout_alignParentEnd="true"
                 android:text="0"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/num_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="0"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/total_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/num_users"
+                android:layout_alignBottom="@+id/num_users"
+                android:layout_alignParentStart="true"
+                android:foregroundGravity="bottom"
+                android:text="@string/total_users_title"
+                android:textAlignment="gravity" />
 
             <TextView
                 android:id="@+id/num_level_1_tricks"
@@ -160,12 +182,10 @@
                 android:id="@+id/tricks_mastered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/num_tricks"
-                android:layout_alignBottom="@+id/num_tricks"
-                android:layout_alignParentStart="true"
-                android:foregroundGravity="bottom"
-                android:text="@string/total_tricks"
-                android:textAlignment="gravity" />
+                android:layout_below="@+id/total_users"
+                android:layout_marginTop="16dp"
+                android:gravity="bottom"
+                android:text="@string/total_tricks" />
 
             <TextView
                 android:id="@+id/average_tricks_title"

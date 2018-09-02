@@ -4,27 +4,27 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.android.gms.ads.MobileAds;
-
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
 public class Stats extends BaseActivity {
-    private TextView numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,numLevel5Tricks,averageTricks,maxTricks;
+    private TextView numUsers, numTricks,numLevel1Tricks,numLevel2Tricks,numLevel3Tricks,numLevel4Tricks,numLevel5Tricks,averageTricks,maxTricks;
     private FirebaseAuth mAuth;
 
 
@@ -33,6 +33,7 @@ public class Stats extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
         mAuth = FirebaseAuth.getInstance();
+        numUsers = (TextView) findViewById(R.id.num_users);
         numTricks = (TextView) findViewById(R.id.num_tricks);
         numLevel1Tricks = (TextView) findViewById(R.id.num_level_1_tricks);
         numLevel2Tricks = (TextView) findViewById(R.id.num_level_2_tricks);
@@ -79,7 +80,21 @@ public class Stats extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Could not load data at this time.  Please make sure you have an internet connection.", Toast.LENGTH_LONG).show();
+            }
+        });
 
+        DatabaseReference users = fb.getReference("users");
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                numUsers.setText("" + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Users", databaseError.getMessage() +  databaseError.getDetails());
+                Toast.makeText(getApplicationContext(), "Could not load data at this time.  Please make sure you have an internet connection.", Toast.LENGTH_LONG).show();
             }
         });
     }
