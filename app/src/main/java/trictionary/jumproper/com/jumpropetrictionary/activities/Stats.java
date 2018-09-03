@@ -84,11 +84,11 @@ public class Stats extends BaseActivity {
             }
         });
 
-        DatabaseReference users = fb.getReference("users");
+        DatabaseReference users = fb.getReference("stats").child("users");
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                numUsers.setText("" + dataSnapshot.getChildrenCount());
+                numUsers.setText("" + dataSnapshot.child("registered").getValue().toString());
             }
 
             @Override

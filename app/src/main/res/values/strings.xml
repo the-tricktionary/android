@@ -221,7 +221,7 @@
   <string name="title_activity_stats">Stats</string>
   <string name="title_activity_submit">Submit</string>
   <string name="title_activity_tricktionary">Tricktionary</string>
-  <string name="total_tricks">Total Tricks</string>
+  <string name="total_tricks">Completed Tricks</string>
   <string name="trick_failed_to_load_toast">Oops, something went wrong loading that trick!</string>
   <string name="trick_none">None</string>
   <string name="tricktionary_show_completed">Show Completed Tricks</string>
@@ -270,7 +270,7 @@
   <string name="username_for_friends">You need a username to add friends.</string>
   <string name="create_username">Create Username</string>
   <string name="level_5">Impossible:</string>
-    <string name="total_users_title">Total Users:</string>
+    <string name="total_users_title">Registered Users:</string>
 
 
     <!-- Translatable strings that haven't been translated -->

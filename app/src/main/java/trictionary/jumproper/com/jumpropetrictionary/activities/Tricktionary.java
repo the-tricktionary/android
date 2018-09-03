@@ -4,9 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +19,9 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.perf.metrics.AddTrace;
@@ -33,6 +35,7 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 import trictionary.jumproper.com.jumpropetrictionary.utils.TrickListAdapter;
 
 
+
 public class Tricktionary extends BaseActivity{
     private ProgressBar loadingTricks;
     private FrameLayout tricktionaryLayout;
@@ -42,6 +45,10 @@ public class Tricktionary extends BaseActivity{
     private FirebaseAuth mAuth;
     private FirebaseAnalytics mFirebaseAnalytics;
     private String[]trickTypes;
+    private final String RANDOM_TRICKS = "Random";
+    private int randomTricks;
+    private InterstitialAd mInterstitialAd;
+
 
     public static final String DASHES="";
     @Override
@@ -49,7 +56,9 @@ public class Tricktionary extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tricktionary);
-        setupWindowAnimations();
+
+        MobileAds.initialize(this, "ca-app-pub-2959515976305980~3811712667");
+
         trickTypes = getResources().getStringArray(R.array.trick_types);
         tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
         completedTricks = ((GlobalData) this.getApplication()).getCompletedTricks();
@@ -126,9 +135,22 @@ public class Tricktionary extends BaseActivity{
                 }
             }
         });
+        SharedPreferences settings = ((GlobalData) this.getApplication()).getSettings();
+        randomTricks = settings.getInt(RANDOM_TRICKS,0);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-2959515976305980/4123407956");
     }
 
     public void randomTrick(View v){
+        SharedPreferences settings = ((GlobalData) this.getApplication()).getSettings();
+        randomTricks = settings.getInt(RANDOM_TRICKS,0);
+        SharedPreferences.Editor editor = settings.edit();
+        randomTricks++;
+        editor.putInt(RANDOM_TRICKS,randomTricks);
+        editor.commit();
+        if (randomTricks > 5){
+            mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D").build());
+        }
         int size = 0;
         for (int i = 0; i < tricktionary.size(); i ++){
             size += tricktionary.get(i).size();
@@ -165,20 +187,24 @@ public class Tricktionary extends BaseActivity{
         super.onStart();
     }
 
-    private void setupWindowAnimations() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Fade fade = new Fade();
-            fade.setDuration(100);
-            getWindow().setAllowEnterTransitionOverlap(true);
-            getWindow().setAllowReturnTransitionOverlap(true);
-            getWindow().setEnterTransition(fade);
-        }
-    }
 
     @Override
     public void onResume(){
         super.onResume();
         if(tricktionary!=null) {
+            Log.e("Ads", "random " + randomTricks);
+            if (randomTricks > 5){
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                    SharedPreferences settings = ((GlobalData) this.getApplication()).getSettings();
+                    SharedPreferences.Editor editor = settings.edit();
+                    randomTricks = 0;
+                    editor.putInt(RANDOM_TRICKS,randomTricks);
+                    editor.commit();
+                } else {
+                    Log.d("Ads", "The interstitial wasn't loaded yet.");
+                }
+            }
             if (showCompletedTricks.isChecked()) {
                 for (int j = 0; j < tricktionary.size(); j++) {
                     for(Trick mTrick:tricktionary.get(j)) {
