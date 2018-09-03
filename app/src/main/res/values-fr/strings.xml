@@ -36,12 +36,6 @@
   <string name="federation_official">représentant de la fédération</string>
   <string name="fisac_level">Niveau IRSF:</string>
   <string name="home_page">Page d\'accueil</string>
-  <string-array name="ignored_strings">
-    <item>Multiples</item>
-    <item>Puissance</item>
-    <item>Manipulation</item>
-    <item>Lâchers</item>
-  </string-array>
   <string name="impossible">Impossible</string>
   <string name="instagram">Instagram</string>
   <string name="internet_dialog">Cette application doit se connecter à Internet pour télécharger les informations sur les figures. Cela est fait une seule fois, lorsque les figures sont ajoutées. Après cela, les informations sont stockées sur votre appareil.</string>
