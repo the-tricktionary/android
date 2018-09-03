@@ -137,8 +137,14 @@ public class Tricktionary extends BaseActivity{
         });
         SharedPreferences settings = ((GlobalData) this.getApplication()).getSettings();
         randomTricks = settings.getInt(RANDOM_TRICKS,0);
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-2959515976305980/4123407956");
+        if (randomTricks > 5){
+            randomTricks = 5;
+        }
+        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        if (ads) {
+            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId("ca-app-pub-2959515976305980/4123407956");
+        }
     }
 
     public void randomTrick(View v){
@@ -149,7 +155,10 @@ public class Tricktionary extends BaseActivity{
         editor.putInt(RANDOM_TRICKS,randomTricks);
         editor.commit();
         if (randomTricks > 5){
-            mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D").build());
+            boolean ads = ((GlobalData) this.getApplication()).getAds();
+            if (ads) {
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D").build());
+            }
         }
         int size = 0;
         for (int i = 0; i < tricktionary.size(); i ++){
@@ -191,16 +200,23 @@ public class Tricktionary extends BaseActivity{
     @Override
     public void onResume(){
         super.onResume();
+        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        if (mInterstitialAd == null) {
+            mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId("ca-app-pub-2959515976305980/4123407956");
+        }
         if(tricktionary!=null) {
             Log.e("Ads", "random " + randomTricks);
             if (randomTricks > 5){
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                    SharedPreferences settings = ((GlobalData) this.getApplication()).getSettings();
-                    SharedPreferences.Editor editor = settings.edit();
-                    randomTricks = 0;
-                    editor.putInt(RANDOM_TRICKS,randomTricks);
-                    editor.commit();
+                if (ads) {
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                        SharedPreferences settings = ((GlobalData) this.getApplication()).getSettings();
+                        SharedPreferences.Editor editor = settings.edit();
+                        randomTricks = 0;
+                        editor.putInt(RANDOM_TRICKS,randomTricks);
+                        editor.commit();
+                    }
                 } else {
                     Log.d("Ads", "The interstitial wasn't loaded yet.");
                 }

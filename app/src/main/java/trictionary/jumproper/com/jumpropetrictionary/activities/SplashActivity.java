@@ -70,6 +70,8 @@ public class SplashActivity extends AppCompatActivity {
         setUsername();
         ((GlobalData) this.getApplication()).setTotalTricks(totalTricks);
         ((GlobalData) this.getApplication()).setSettings(settings);
+        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        Log.e("Ads", "" + ads);
     }
     public void setUsername(){
         if(mAuth.getCurrentUser()!=null) {

@@ -29,6 +29,7 @@ public class GlobalData extends Application {
     private int levels;
     private SharedPreferences settings;
     private int totalTricks;
+    private boolean ads;
     private Locale mLocale;
     public Comparator<Trick> compareName;
 
@@ -127,6 +128,18 @@ public class GlobalData extends Application {
     public void setUsername(String username) {
         Log.e("username",username);
         this.username = username;
+    }
+
+    public void setAds(boolean ads){
+        this.ads = ads;
+        SharedPreferences.Editor editor = getSettings().edit();
+        editor.putBoolean("Ads",ads);
+        editor.commit();
+    }
+
+    public boolean getAds(){
+        this.ads = getSettings().getBoolean("Ads", true);
+        return ads;
     }
 
     public void setCompareName(Comparator<Trick> compareName) {

@@ -218,13 +218,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/random_trick"
                 android:layout_alignEnd="@+id/basics_grid_view"
+                android:layout_alignStart="@+id/imageView31"
                 android:layout_alignTop="@+id/random_trick"
                 android:layout_toEndOf="@+id/random_trick"
                 android:alpha=".75"
                 android:onClick="startSearch"
                 android:padding="16dp"
-                app:srcCompat="@drawable/ic_search_api_material"
-                android:layout_alignStart="@+id/imageView31" />
+                app:srcCompat="@drawable/ic_search_api_material" />
 
             <ImageView
                 android:id="@+id/imageView31"
@@ -232,10 +232,9 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/imageView14"
                 android:layout_alignEnd="@+id/basics_title"
-                android:background="@drawable/rounded_corner_shadow_red"
+                android:alpha=".75"
                 android:onClick="submitTrick"
                 android:padding="16dp"
-                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_file_upload_black_24dp" />
 
             <TextView
@@ -276,11 +275,10 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/imageView37"
                 android:layout_alignStart="@+id/basics_title"
-                android:background="@drawable/rounded_corner_shadow_red"
+                android:alpha=".75"
                 android:onClick="viewStats"
                 android:padding="16dp"
                 android:scaleType="fitCenter"
-                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_assessment_black_24dp" />
 
             <ImageView
@@ -289,11 +287,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/rounded_corner_shadow_red"
+                android:layout_marginTop="16dp"
+                android:alpha=".75"
                 android:onClick="viewProfile"
                 android:padding="16dp"
-                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
             <ImageView
@@ -305,7 +302,7 @@
                 android:layout_alignStart="@+id/basics_grid_view"
                 android:layout_alignTop="@+id/random_trick"
                 android:layout_toStartOf="@+id/random_trick"
-                android:alpha=".5"
+                android:alpha=".75"
                 android:onClick="openSettings"
                 android:padding="16dp"
                 app:srcCompat="@drawable/ic_settings_black_48dp" />
@@ -318,7 +315,7 @@
                 android:layout_alignStart="@+id/imageView3"
                 android:layout_below="@+id/imageView3"
                 android:layout_centerInParent="false"
-                android:alpha=".5"
+                android:alpha=".75"
                 android:onClick="randomTrick"
                 android:padding="16dp"
                 app:srcCompat="@drawable/dice_multiple" />

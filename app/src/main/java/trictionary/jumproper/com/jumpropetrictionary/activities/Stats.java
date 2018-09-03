@@ -48,19 +48,22 @@ public class Stats extends BaseActivity {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
                 .build();
-        adView.loadAd(adRequest);
+        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        if (ads) {
+            adView.loadAd(adRequest);
 
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Log.e("Ad", "Loaded");
-            }
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Log.e("Ad", "Loaded");
+                }
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Log.e("Ad", "Could not load error: " + errorCode);
-            }
-        });
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.e("Ad", "Could not load error: " + errorCode);
+                }
+            });
+        }
 
 
         final FirebaseDatabase fb = FirebaseDatabase.getInstance();

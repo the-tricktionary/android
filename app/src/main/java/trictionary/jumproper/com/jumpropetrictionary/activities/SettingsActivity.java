@@ -4,11 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,14 +13,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Locale;
 
 import trictionary.jumproper.com.jumpropetrictionary.R;
 
@@ -42,7 +41,7 @@ public class SettingsActivity extends BaseActivity {
     public static boolean publicProfile;
     public static boolean publicSpeed;
     public static boolean publicTricks;
-    private CheckBox autoPlayCheck,publicProfileCheck,publicSpeedCheck,publicTricksCheck;
+    private CheckBox autoPlayCheck,publicProfileCheck,publicSpeedCheck,publicTricksCheck, adsCheck;
     private Spinner playerStyleSpinner;
     private Spinner languageSpinner;
     private FirebaseAuth mAuth;
@@ -71,12 +70,38 @@ public class SettingsActivity extends BaseActivity {
         publicSpeedCheck.setChecked(publicSpeed);
         publicTricksCheck=(CheckBox)findViewById(R.id.public_tricks);
         publicSpeedCheck.setChecked(publicTricks);
+        adsCheck = (CheckBox)findViewById(R.id.ads_checkbox);
+        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        adsCheck.setChecked(ads);
         playerStyleSpinner=(Spinner)findViewById(R.id.video_player_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.player_styles, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         playerStyleSpinner.setAdapter(adapter);
         playerStyleSpinner.setSelection(adapter.getPosition(stylePref));
+
+        MobileAds.initialize(this, "ca-app-pub-2959515976305980~3811712667");
+        AdView adView = findViewById(R.id.settings_ad);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
+                .build();
+        if (ads) {
+            adView.loadAd(adRequest);
+
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Log.e("Ad", "Loaded");
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.e("Ad", "Could not load error: " + errorCode);
+                }
+            });
+        }
+
+
         if(mAuth.getCurrentUser()!=null) {
             FirebaseDatabase fb = FirebaseDatabase.getInstance();
             DatabaseReference myRef = fb.getReference("users").child(mAuth.getCurrentUser().getUid()).child("profile");
@@ -155,6 +180,12 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
+            }
+        });
+        adsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                ((GlobalData) getApplication()).setAds(b);
             }
         });
         publicProfileCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

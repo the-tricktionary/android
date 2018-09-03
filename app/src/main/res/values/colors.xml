@@ -14,4 +14,5 @@
     <color name="white">#ffffff</color>
     <color name="material_drawer_accent">#ffffff</color>
     <color name="material_drawer_primary_icon">#8affffff</color>
+    <color name="black">#000000</color>
 </resources>

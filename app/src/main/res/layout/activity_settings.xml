@@ -11,156 +11,206 @@
     tools:context="trictionary.jumproper.com.jumpropetrictionary.activities.SettingsActivity"
     android:background="@drawable/background">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/settings_ad"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/settings_ad"
+            android:layout_alignParentStart="true"
+            android:background="#8ce8e8e8">
+
+            <TextView
+                android:id="@+id/auto_play_videos_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/view3"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:padding="16dp"
+                android:text="@string/auto_play_videos"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/video_player_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/video_player_style_title"
+                android:layout_alignParentEnd="false"
+                android:layout_alignTop="@+id/video_player_style_title"
+                android:layout_marginLeft="16dp"
+                android:layout_toEndOf="@+id/video_player_style_title"
+                android:padding="8dp" />
+
+            <Spinner
+                android:id="@+id/language_settings_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/language_title"
+                android:layout_alignParentEnd="false"
+                android:layout_alignTop="@+id/language_title"
+                android:layout_marginLeft="16dp"
+                android:layout_toEndOf="@+id/video_player_style_title"
+                android:padding="8dp" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="false"
+                android:layout_margin="16dp"
+                android:alpha=".5"
+                android:background="@color/textColor" />
+
+            <CheckBox
+                android:id="@+id/public_profile_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/profile_title"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/language_settings_spinner"
+                android:checked="false"
+                android:onClick="changeAutoPlay"
+                android:padding="8dp"
+                android:textSize="20dp" />
+
+            <CheckBox
+                android:id="@+id/auto_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/auto_play_videos_title"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/auto_play_videos_title"
+                android:checked="false"
+                android:onClick="changeAutoPlay"
+                android:padding="8dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/profile_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/language_title"
+                android:layout_toStartOf="@+id/language_settings_spinner"
+                android:padding="16dp"
+                android:text="@string/public_profile"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/language_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/video_player_style_title"
+                android:layout_below="@+id/video_player_style_title"
+                android:layout_marginTop="16dp"
+                android:layout_toStartOf="@+id/language_settings_spinner"
+                android:padding="16dp"
+                android:text="@string/language"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/video_player_style_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/view3"
+                android:layout_alignStart="@+id/auto_play_videos_title"
+                android:layout_below="@+id/auto_play_videos_title"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                android:text="@string/video_player_style"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/public_profile_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/public_tricks"
+                android:layout_alignEnd="@+id/view3"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/profile_title"
+                android:paddingLeft="16dp"
+                android:text="This will allow you to share your profile with anyone"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/public_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/public_profile_checkbox"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:paddingRight="16dp"
+                android:text="@string/title_activity_speed"
+                android:textAlignment="viewStart"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <CheckBox
+                android:id="@+id/public_tricks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/public_speed"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:paddingRight="16dp"
+                android:text="@string/completed_tricks"
+                android:textAlignment="viewStart"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <CheckBox
+                android:id="@+id/ads_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/public_tricks"
+                android:checked="true"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/ads_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_below="@+id/public_profile_description"
+                android:padding="16dp"
+                android:text="Ads:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentStart="false"
+                android:layout_alignRight="@+id/public_profile_description"
+                android:layout_below="@+id/ads_label"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:text="Ads support the developer but can be turned off at any time"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/settings_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#8ce8e8e8">
-
-        <TextView
-            android:id="@+id/auto_play_videos_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/view3"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:text="@string/auto_play_videos"
-            android:textSize="16sp" />
-
-        <Spinner
-            android:id="@+id/video_player_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/video_player_style_title"
-            android:layout_alignParentEnd="false"
-            android:layout_alignTop="@+id/video_player_style_title"
-            android:layout_marginLeft="16dp"
-            android:layout_toEndOf="@+id/video_player_style_title"
-            android:padding="8dp" />
-
-        <Spinner
-            android:id="@+id/language_settings_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/language_title"
-            android:layout_alignParentEnd="false"
-            android:layout_alignTop="@+id/language_title"
-            android:layout_marginLeft="16dp"
-            android:layout_toEndOf="@+id/video_player_style_title"
-            android:padding="8dp" />
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="false"
-            android:layout_margin="16dp"
-            android:alpha=".5"
-            android:background="@color/textColor"
-            android:id="@+id/view3" />
-
-        <CheckBox
-            android:id="@+id/public_profile_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/profile_title"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/language_settings_spinner"
-            android:checked="false"
-            android:onClick="changeAutoPlay"
-            android:padding="8dp"
-            android:textSize="20dp" />
-
-        <CheckBox
-            android:id="@+id/auto_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/auto_play_videos_title"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/auto_play_videos_title"
-            android:checked="false"
-            android:onClick="changeAutoPlay"
-            android:padding="8dp"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/profile_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/language_title"
-            android:layout_toStartOf="@+id/language_settings_spinner"
-            android:padding="16dp"
-            android:text="@string/public_profile"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/language_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/video_player_style_title"
-            android:layout_below="@+id/video_player_style_title"
-            android:layout_marginTop="16dp"
-            android:layout_toStartOf="@+id/language_settings_spinner"
-            android:padding="16dp"
-            android:text="@string/language"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/video_player_style_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/view3"
-            android:layout_alignStart="@+id/auto_play_videos_title"
-            android:layout_below="@+id/auto_play_videos_title"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:text="@string/video_player_style"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/public_tricks"
-            android:layout_alignEnd="@+id/view3"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/profile_title"
-            android:paddingLeft="16dp"
-            android:text="This will allow you to share your profile with anyone"
-            android:textSize="12sp" />
-
-        <CheckBox
-            android:id="@+id/public_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/public_profile_checkbox"
-            android:button="@null"
-            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:paddingRight="16dp"
-            android:text="@string/title_activity_speed"
-            android:textAlignment="viewStart"
-            android:textSize="12sp"
-            android:visibility="invisible" />
-
-        <CheckBox
-            android:id="@+id/public_tricks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/public_speed"
-            android:button="@null"
-            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:paddingRight="16dp"
-            android:text="@string/completed_tricks"
-            android:textAlignment="viewStart"
-            android:textSize="12sp"
-            android:visibility="invisible" />
-
-    </RelativeLayout>
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2959515976305980/5758518282"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>
