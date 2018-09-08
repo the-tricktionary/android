@@ -17,6 +17,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,12 +48,14 @@ public class SettingsActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private boolean languageChanged=false;
     private static SharedPreferences settings;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private String[] langs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         mAuth=FirebaseAuth.getInstance();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         settings = ((GlobalData) this.getApplication()).getSettings();
         langs = getResources().getStringArray(R.array.language_abbreviations);
@@ -191,6 +194,12 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 ((GlobalData) getApplication()).setAds(b);
+                Bundle bundle = new Bundle();
+                bundle.putString("ads_setting", "" + b);
+                if(mAuth.getCurrentUser()!=null){
+                    bundle.putString("user", mAuth.getCurrentUser().getUid());
+                }
+                mFirebaseAnalytics.logEvent("set_ads", bundle);
             }
         });
         publicProfileCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
