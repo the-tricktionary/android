@@ -141,7 +141,12 @@ public class Tricktionary extends BaseActivity{
             if (randomTricks > 5) {
                 randomTricks = 5;
             }
-            boolean ads = ((GlobalData) this.getApplication()).getAds();
+            boolean ads = true;
+            try {
+                ads = ((GlobalData) this.getApplication()).getAds();
+            } catch (Exception e){
+                ads = true;
+            }
             if (ads) {
                 mInterstitialAd = new InterstitialAd(this);
                 mInterstitialAd.setAdUnitId("ca-app-pub-2959515976305980/4123407956");
@@ -158,7 +163,12 @@ public class Tricktionary extends BaseActivity{
             editor.putInt(RANDOM_TRICKS, randomTricks);
             editor.commit();
             if (randomTricks > 5) {
-                boolean ads = ((GlobalData) this.getApplication()).getAds();
+                boolean ads = true;
+                try {
+                    ads = ((GlobalData) this.getApplication()).getAds();
+                } catch (Exception e){
+                    ads = true;
+                }
                 if (ads) {
                     mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D").build());
                 }
@@ -204,7 +214,13 @@ public class Tricktionary extends BaseActivity{
     @Override
     public void onResume(){
         super.onResume();
-        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        boolean ads = true;
+        try {
+            ads = ((GlobalData) this.getApplication()).getAds();
+        } catch (Exception e){
+            ads = true;
+        }
+
         if (mInterstitialAd == null) {
             mInterstitialAd = new InterstitialAd(this);
             mInterstitialAd.setAdUnitId("ca-app-pub-2959515976305980/4123407956");

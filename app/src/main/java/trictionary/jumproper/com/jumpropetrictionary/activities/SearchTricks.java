@@ -44,7 +44,12 @@ public class SearchTricks extends BaseActivity {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("2CC2625EB00F3EB58B6E5BC0B53C5A1D")
                 .build();
-        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        boolean ads = true;
+        try {
+            ads = ((GlobalData) this.getApplication()).getAds();
+        } catch (Exception e){
+            ads = true;
+        }
         if (ads) {
             adView.loadAd(adRequest);
 

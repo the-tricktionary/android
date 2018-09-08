@@ -71,7 +71,12 @@ public class SettingsActivity extends BaseActivity {
         publicTricksCheck=(CheckBox)findViewById(R.id.public_tricks);
         publicSpeedCheck.setChecked(publicTricks);
         adsCheck = (CheckBox)findViewById(R.id.ads_checkbox);
-        boolean ads = ((GlobalData) this.getApplication()).getAds();
+        boolean ads = true;
+        try {
+            ads = ((GlobalData) this.getApplication()).getAds();
+        } catch (Exception e){
+            ads = true;
+        }
         adsCheck.setChecked(ads);
         playerStyleSpinner=(Spinner)findViewById(R.id.video_player_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

@@ -51,7 +51,7 @@
   <string name="impossible">Impossible</string>
   <string name="instagram">Instagram</string>
   <string name="internet_dialog">This app needs to connect to the internet to download trick information.  This is only done one time whenever tricks are added, after that the info is stored on your device.</string>
-  <string name="internet_dialog2">Please connect to a WiFi network or enable your mobile data to download the tricks (it takes less than a second to download so don&apos;t worry!)</string>
+  <string name="internet_dialog2">Please connect to a WiFi network or enable your mobile data to download the tricks (it takes less than a second to download so don\'t worry!)</string>
   <string name="judge">judge</string>
   <string name="language">Language:</string>
   <string name="level_1">Level 1:</string>
@@ -141,7 +141,7 @@
   <string name="speed_save_prompt">**Please only save your data if it comes from actually clicking a speed event**</string>
   <string name="speed_saved_data_for">Saved Data for</string>
   <string name="speed_score">Score:</string>
-  <string name="speed_score_name_prompt">Enter a name for this score (i.e a jumper&apos;s name or a team) so you can access it later.  This can be changed or deleted at any time.</string>
+  <string name="speed_score_name_prompt">Enter a name for this score (i.e a jumper\'s name or a team) so you can access it later.  This can be changed or deleted at any time.</string>
   <string name="speed_seconds">Seconds</string>
   <string name="speed_sign_in">You must sign in to save and view speed scores.</string>
   <string name="speed_start_button">Start</string>
