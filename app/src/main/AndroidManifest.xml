@@ -23,10 +23,10 @@
         android:allowBackup="true"
         android:configChanges="locale|orientation"
         android:icon="@drawable/icon_alpha"
-        tools:replace="android:allowBackup"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -118,7 +118,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.Friends"></activity>
+        <activity android:name=".activities.Friends" />
+        <activity android:name=".activities.TrickNetwork"></activity>
     </application>
 
 </manifest>

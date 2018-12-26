@@ -500,7 +500,8 @@ public class Tricktionary extends BaseActivity{
         startActivity(intent);
     }
     public void viewStats(View v){
-        Intent intent = new Intent(this, Stats.class);
+        //TODO change back to stats, not network for testing
+        Intent intent = new Intent(this, TrickNetwork.class);
         startActivity(intent);
     }
     public void viewProfile(View v){
