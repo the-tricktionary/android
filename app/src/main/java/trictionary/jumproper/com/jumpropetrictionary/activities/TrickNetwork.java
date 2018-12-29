@@ -20,7 +20,7 @@ import trictionary.jumproper.com.jumpropetrictionary.utils.Trick;
 public class TrickNetwork extends BaseActivity {
 
     private ArrayList<ArrayList<Trick>> tricktionary;
-    private String rootTrick = "TJ Quad";
+    public static Trick rootTrick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class TrickNetwork extends BaseActivity {
         ArrayList<Pair<String, Integer>> nodes = new ArrayList<>();
         List<String> links= new ArrayList<>();
 
-        graphSingleTrick(nodes, links, 3, 21);
+        graphSingleTrick(nodes, links, rootTrick.getId0(),  rootTrick.getId1());
 
         Forcelayout forcelayout = new Forcelayout(getApplicationContext());
         forcelayout.link()
@@ -48,6 +48,12 @@ public class TrickNetwork extends BaseActivity {
 
         FrameLayout layout = (FrameLayout)findViewById(R.id.force_layout_container);
         layout.addView(forcelayout);
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        this.setBackButton();
     }
 
     private void graphSingleTrick(ArrayList<Pair<String, Integer>> nodes, List<String> links, int id0, int id1){

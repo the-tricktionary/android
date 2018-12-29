@@ -1019,5 +1019,11 @@ return;
         }
     }
 
+    public void viewTrickNetwork(View v){
+        TrickNetwork.rootTrick = currentTrick;
+        Intent intent = new Intent(this, TrickNetwork.class);
+        startActivity(intent);
+    }
+
 
 }
