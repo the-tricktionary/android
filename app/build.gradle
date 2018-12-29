@@ -23,6 +23,7 @@ android {
     }
     lintOptions {
         disable 'MissingTranslation'
+        abortOnError false
     }
     buildTypes {
         release {

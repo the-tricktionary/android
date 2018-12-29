@@ -33,6 +33,7 @@
     public static final ** CREATOR;
 }
 
+-keepattributes *Annotation*,SourceFile,LineNumberTable
 
 -keep class com.github.mikephil.charting.data.realm.** { *; }
 -dontwarn com.github.mikephil.charting.data.realm.**
