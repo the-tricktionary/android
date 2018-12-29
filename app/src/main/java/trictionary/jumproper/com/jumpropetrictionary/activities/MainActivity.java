@@ -571,7 +571,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             ArrayList<String> prereqs=new ArrayList<>();
             prereqs.add(getString(R.string.prereqs));
             if (currentTrick.getPrereqs().length > 0) {
-                for (int j = 0; j < currentTrick.getPrereqs().length; j++) {
+                for (int j = 0; j < currentTrick.getPrereqsId0().length; j++) {
                     prereqs.add(tricktionary.get(currentTrick.getPrereqsId0()[j]).get(currentTrick.getPrereqsId1()[j]).getName());
                 }
             }

@@ -1,14 +1,10 @@
 package trictionary.jumproper.com.jumpropetrictionary.activities;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-
-import com.otaliastudios.zoom.ZoomLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +21,7 @@ public class TrickNetwork extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trick_network2);
+        setContentView(R.layout.activity_trick_network);
 
         tricktionary = ((GlobalData) this.getApplication()).getTricktionary();
         ArrayList<Pair<String, Integer>> nodes = new ArrayList<>();
