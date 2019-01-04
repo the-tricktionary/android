@@ -56,7 +56,7 @@ public class TrickNetwork extends BaseActivity {
         Trick root = tricktionary.get(id0).get(id1);
         addTrick(root, nodes);
         if (root.getPrereqsId0().length > 0 && root.getPrereqsId1().length > 0) {
-            for (int i = 0; i < root.getPrereqsId0().length; i++) {
+            for (int i = 0; i < root.getPrereqsId1().length; i++) {
                 Trick prereq = tricktionary.get(root.getPrereqsId0()[i]).get(root.getPrereqsId1()[i]);
                 links.add(root.getName() + "-" + prereq.getName());
                 graphSingleTrick(nodes, links, prereq.getId0(), prereq.getId1());
@@ -65,29 +65,21 @@ public class TrickNetwork extends BaseActivity {
     }
 
     private void addTrick(Trick trick, ArrayList<Pair<String, Integer>> nodes){
-        int typeRes = 0;
-        switch (trick.type.toLowerCase()) {
-            case ("basics"):
-                typeRes = R.drawable.basics_node;
-                break;
-            case ("manipulation"):
-                typeRes = R.drawable.manipulation_node;
-                break;
-            case ("power"):
-                typeRes = R.drawable.power_node;
-                break;
-            case ("multiples"):
-                typeRes = R.drawable.multiples_node;
-                break;
-            case ("releases"):
-                typeRes = R.drawable.releases_node;
-                break;
-            case ("impossible"):
-                typeRes = R.drawable.impossible_node;
-                break;
-            default:
-                break;
-        }
+        int typeRes;
+        Log.e("Trick type", trick.getType() + " ?= " + getResources().getString(R.string.basics));
+        if (trick.getType().toLowerCase().equals(getResources().getString(R.string.basics).toLowerCase()))
+            typeRes = R.drawable.basics_node;
+        else if (trick.getType().toLowerCase().equals(getResources().getString(R.string.manipulation).toLowerCase()))
+            typeRes = R.drawable.manipulation_node;
+        else if (trick.getType().toLowerCase().equals(getResources().getString(R.string.power).toLowerCase()))
+            typeRes = R.drawable.power_node;
+        else if (trick.getType().toLowerCase().equals(getResources().getString(R.string.multiples).toLowerCase()))
+            typeRes = R.drawable.multiples_node;
+        else if (trick.getType().toLowerCase().equals(getResources().getString(R.string.releases).toLowerCase()))
+            typeRes = R.drawable.releases_node;
+        else
+            typeRes = R.drawable.impossible_node;
+
         Pair<String, Integer> nodePair = new Pair<>(trick.name, typeRes);
         if (!nodes.contains(nodePair)) {
             nodes.add(nodePair);

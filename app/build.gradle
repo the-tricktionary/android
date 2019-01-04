@@ -43,8 +43,6 @@ android {
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
     }
-
-    buildToolsVersion '28.0.2'
 }
 
 dependencies {
