@@ -1,7 +1,7 @@
 package trictionary.jumproper.com.jumpropetrictionary.utils;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by jumpr_000 on 4/4/2015.
  */
-public class Trick extends FirebaseInstanceIdService {
+public class Trick extends FirebaseMessagingService {
     //fields
     public String name;
     public String description;

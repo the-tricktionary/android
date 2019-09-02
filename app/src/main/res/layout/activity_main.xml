@@ -114,7 +114,7 @@
                         android:typeface="normal"
                         android:visibility="gone" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/share_trick_option"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                         android:tint="@color/textColor"
                         app:srcCompat="@drawable/ic_menu_share_material" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imageView22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                         android:tint="@color/textColor"
                         app:srcCompat="@drawable/ic_message_black_24dp" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/trick_network_option"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
                         android:tint="@color/textColor"
                         app:srcCompat="@drawable/ic_bubble_chart_black_24dp" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/view_full_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
                         android:textColor="#ff000000"
                         android:textSize="16sp" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/wjr_verified"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                         android:tint="#ffd740"
                         android:visibility="gone" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/fisac_verified"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                         android:tint="#ffd740"
                         android:visibility="invisible" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/fisac_expand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

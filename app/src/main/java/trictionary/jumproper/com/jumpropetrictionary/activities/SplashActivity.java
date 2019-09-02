@@ -4,19 +4,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.Window;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.internal.NonNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -59,10 +67,15 @@ public class SplashActivity extends AppCompatActivity {
             getWindow().setExitTransition(fade);
         }
         setContentView(R.layout.activity_splash);
-        tricktionary = getTricktionaryData();
+        try {
+            tricktionary = getTricktionaryData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mAuth = FirebaseAuth.getInstance();
         settings=getSharedPreferences(SettingsActivity.PREFS_NAME,0);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         int totalTricks = getTotalTricks();
         if(mAuth.getCurrentUser()!=null) {
             uId = mAuth.getCurrentUser().getUid();
@@ -101,8 +114,29 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
     }
-    public ArrayList<ArrayList<Trick>> getTricktionaryData(){
+    public ArrayList<ArrayList<Trick>> getTricktionaryData() throws IOException {
         tricktionary =new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("tricksSR")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Firestore", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w("Firestore", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+
+
+
         FirebaseDatabase fb=FirebaseDatabase.getInstance();
         if(offline) {
             fb.setPersistenceEnabled(true);
