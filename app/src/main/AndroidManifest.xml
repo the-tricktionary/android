@@ -27,6 +27,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2959515976305980~3811712667"/>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
